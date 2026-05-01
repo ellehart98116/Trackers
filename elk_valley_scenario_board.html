@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elk Valley — Scenario Strategy Board</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'DM Mono', monospace;
+  --bg: #f5f4ef;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: rgba(0,0,0,0.09);
+  --border-med: rgba(0,0,0,0.15);
+  --text: #1a1916;
+  --text-2: #6b6a64;
+  --text-3: #a09f99;
+  --accent: #2d4a6b;
+
+  --env-bg: #e8f0f9; --env-bd: #b8cfe8; --env-tx: #1a3358; --env-hl: #3a6fa8;
+  --bio-bg: #e8f2e0; --bio-bd: #b8d99a; --bio-tx: #1a3a12; --bio-hl: #3d7a22;
+  --reg-bg: #faeae4; --reg-bd: #f0b8a0; --reg-tx: #4a1e0e; --reg-hl: #c05030;
+  --ind-bg: #e0f3ec; --ind-bd: #9fd9c0; --ind-tx: #08352a; --ind-hl: #1a8060;
+  --sci-bg: #edecfd; --sci-bd: #c8c4f0; --sci-tx: #28206a; --sci-hl: #5048c0;
+  --xb-bg:  #faecd8; --xb-bd:  #f0c878; --xb-tx:  #422005; --xb-hl:  #c07820;
+
+  --lane-w: 230px;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #181815; --surface: #22221e; --surface2: #2a2a26;
+    --border: rgba(255,255,255,0.08); --border-med: rgba(255,255,255,0.14);
+    --text: #e8e6de; --text-2: #a09e96; --text-3: #6a6860; --accent: #7aaad4;
+    --env-bg: #1a2c44; --env-bd: #2d4a6b; --env-tx: #b5d4f4; --env-hl: #7aaad4;
+    --bio-bg: #162810; --bio-bd: #2e5020; --bio-tx: #b8d98a; --bio-hl: #70b040;
+    --reg-bg: #3a1808; --reg-bd: #6a2c18; --reg-tx: #f0b898; --reg-hl: #e07050;
+    --ind-bg: #082820; --ind-bd: #155040; --ind-tx: #90d8c0; --ind-hl: #40b890;
+    --sci-bg: #20186a; --sci-bd: #3830a8; --sci-tx: #c8c4f0; --sci-hl: #9090e0;
+    --xb-bg:  #3a2208; --xb-bd:  #6a4010; --xb-tx:  #f0c870; --xb-hl:  #e0a030;
+  }
+}
+
+html { font-size: 14px; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.header {
+  padding: 18px 24px 14px;
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--border-med);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header-left { flex: 1; min-width: 200px; }
+.header-title {
+  font-size: 15px; font-weight: 500; color: var(--text);
+  letter-spacing: -.01em; margin-bottom: 2px;
+}
+.header-sub { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+/* ── Buttons ── */
+.btn {
+  font-family: var(--font); font-size: 11.5px; font-weight: 400;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border-med); background: var(--surface);
+  color: var(--text-2); cursor: pointer; transition: all .12s; white-space: nowrap;
+}
+.btn:hover { background: var(--surface2); color: var(--text); border-color: var(--border-med); }
+.btn.primary {
+  background: var(--accent); color: #fff; border-color: transparent;
+}
+.btn.primary:hover { opacity: .88; }
+.btn.danger { color: #c05030; border-color: rgba(192,80,48,.3); }
+.btn.danger:hover { background: rgba(192,80,48,.08); }
+
+/* ── Filter bar ── */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 10px 24px; background: var(--surface);
+  border-bottom: 0.5px solid var(--border);
+}
+.filter-label { font-size: 10.5px; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+.pill {
+  font-size: 10.5px; font-weight: 500; padding: 3px 10px; border-radius: 12px;
+  border: 0.5px solid transparent; cursor: pointer; transition: opacity .12s, filter .12s;
+}
+.pill.off { opacity: .3; filter: grayscale(.6); }
+.pill-env { background: var(--env-bg); border-color: var(--env-bd); color: var(--env-tx); }
+.pill-bio { background: var(--bio-bg); border-color: var(--bio-bd); color: var(--bio-tx); }
+.pill-reg { background: var(--reg-bg); border-color: var(--reg-bd); color: var(--reg-tx); }
+.pill-ind { background: var(--ind-bg); border-color: var(--ind-bd); color: var(--ind-tx); }
+.pill-sci { background: var(--sci-bg); border-color: var(--sci-bd); color: var(--sci-tx); }
+.pill-xb  { background: var(--xb-bg);  border-color: var(--xb-bd);  color: var(--xb-tx);  }
+
+/* ── Summary bar ── */
+.summary-bar {
+  display: flex; gap: 0; border-bottom: 0.5px solid var(--border);
+  background: var(--surface2); overflow-x: auto;
+}
+.sum-card {
+  flex: 1; min-width: 100px; padding: 10px 16px;
+  border-right: 0.5px solid var(--border); text-align: center;
+}
+.sum-card:last-child { border-right: none; }
+.sum-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+.sum-val { font-size: 20px; font-weight: 500; color: var(--text); font-family: var(--mono); }
+
+/* ── Main layout ── */
+.main {
+  display: flex; flex: 1; overflow: hidden; position: relative;
+}
+.board-area {
+  flex: 1; overflow-x: auto; padding: 16px 20px 32px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.board { display: flex; gap: 10px; align-items: flex-start; min-width: max-content; }
+
+/* ── Lanes ── */
+.lane {
+  width: var(--lane-w); flex-shrink: 0; border-radius: var(--radius);
+  background: var(--surface2); border: 0.5px solid var(--border);
+  display: flex; flex-direction: column; min-height: 400px;
+}
+.lane-head {
+  padding: 10px 12px 8px; border-bottom: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+}
+.lane-name { font-size: 11px; font-weight: 500; color: var(--text-2); text-transform: uppercase; letter-spacing: .05em; }
+.lane-count {
+  font-size: 10px; font-family: var(--mono); font-weight: 500;
+  padding: 1px 7px; border-radius: 10px; background: var(--border); color: var(--text-3);
+}
+.lane-drop {
+  flex: 1; padding: 8px; min-height: 60px;
+  border: 1.5px dashed transparent; border-radius: 8px;
+  transition: border-color .12s, background .12s; margin: 4px;
+}
+.lane-drop.drag-over {
+  border-color: var(--border-med); background: var(--surface);
+}
+
+/* ── Tiles ── */
+.tile {
+  border-radius: var(--radius-sm); padding: 9px 11px; margin-bottom: 6px;
+  cursor: grab; border: 0.5px solid transparent; position: relative;
+  transition: box-shadow .12s, opacity .12s; user-select: none;
+}
+.tile:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.tile:active { cursor: grabbing; }
+.tile.dragging { opacity: .35; cursor: grabbing; }
+.tile.t-env { background: var(--env-bg); border-color: var(--env-bd); }
+.tile.t-bio { background: var(--bio-bg); border-color: var(--bio-bd); }
+.tile.t-reg { background: var(--reg-bg); border-color: var(--reg-bd); }
+.tile.t-ind { background: var(--ind-bg); border-color: var(--ind-bd); }
+.tile.t-sci { background: var(--sci-bg); border-color: var(--sci-bd); }
+.tile.t-xb  { background: var(--xb-bg);  border-color: var(--xb-bd);  }
+.tile.flagged { border-width: 1.5px; border-color: #c05030; }
+.tile-track {
+  font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 3px; opacity: .7;
+}
+.tile.t-env .tile-track { color: var(--env-hl); }
+.tile.t-bio .tile-track { color: var(--bio-hl); }
+.tile.t-reg .tile-track { color: var(--reg-hl); }
+.tile.t-ind .tile-track { color: var(--ind-hl); }
+.tile.t-sci .tile-track { color: var(--sci-hl); }
+.tile.t-xb  .tile-track { color: var(--xb-hl);  }
+.tile-title { font-size: 11.5px; font-weight: 500; line-height: 1.35; margin-bottom: 3px; }
+.tile.t-env .tile-title { color: var(--env-tx); }
+.tile.t-bio .tile-title { color: var(--bio-tx); }
+.tile.t-reg .tile-title { color: var(--reg-tx); }
+.tile.t-ind .tile-title { color: var(--ind-tx); }
+.tile.t-sci .tile-title { color: var(--sci-tx); }
+.tile.t-xb  .tile-title { color: var(--xb-tx);  }
+.tile-sub { font-size: 10px; opacity: .75; line-height: 1.4; }
+.tile.t-env .tile-sub { color: var(--env-tx); }
+.tile.t-bio .tile-sub { color: var(--bio-tx); }
+.tile.t-reg .tile-sub { color: var(--reg-tx); }
+.tile.t-ind .tile-sub { color: var(--ind-tx); }
+.tile.t-sci .tile-sub { color: var(--sci-tx); }
+.tile.t-xb  .tile-sub { color: var(--xb-tx);  }
+.tile-footer { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.tile-note-btn {
+  font-size: 9.5px; padding: 2px 7px; border-radius: 4px;
+  border: 0.5px solid currentColor; background: transparent;
+  cursor: pointer; opacity: .55; font-family: var(--font); transition: opacity .1s;
+}
+.tile-note-btn:hover { opacity: 1; }
+.tile.t-env .tile-note-btn { color: var(--env-hl); }
+.tile.t-bio .tile-note-btn { color: var(--bio-hl); }
+.tile.t-reg .tile-note-btn { color: var(--reg-hl); }
+.tile.t-ind .tile-note-btn { color: var(--ind-hl); }
+.tile.t-sci .tile-note-btn { color: var(--sci-hl); }
+.tile.t-xb  .tile-note-btn { color: var(--xb-hl);  }
+.tile-flag-btn {
+  font-size: 12px; background: none; border: none; cursor: pointer;
+  opacity: .35; padding: 0 2px; transition: opacity .1s; line-height: 1; font-family: var(--font);
+}
+.tile-flag-btn:hover { opacity: .8; }
+.tile-flag-btn.on { opacity: 1; color: #c05030; }
+.tile-del-btn {
+  font-size: 11px; background: none; border: none; cursor: pointer;
+  opacity: .25; padding: 0 2px; margin-left: auto; transition: opacity .1s; line-height: 1;
+  color: var(--text-2);
+}
+.tile-del-btn:hover { opacity: .7; color: #c05030; }
+.note-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  flex-shrink: 0; display: none;
+}
+.note-dot.visible { display: block; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 300px; flex-shrink: 0; border-left: 0.5px solid var(--border-med);
+  background: var(--surface); display: flex; flex-direction: column;
+  overflow: hidden; transition: width .2s;
+}
+.sidebar.collapsed { width: 0; border: none; }
+.sidebar-head {
+  padding: 12px 16px; border-bottom: 0.5px solid var(--border);
+  font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 8px;
+}
+.sidebar-head span { flex: 1; color: var(--text); }
+.sidebar-close { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 16px; line-height: 1; padding: 0; }
+.sidebar-tabs { display: flex; border-bottom: 0.5px solid var(--border); }
+.stab {
+  flex: 1; padding: 8px 0; font-size: 11px; text-align: center; cursor: pointer;
+  color: var(--text-3); border-bottom: 2px solid transparent; transition: all .12s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font);
+}
+.stab:hover { color: var(--text); }
+.stab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+.sidebar-body { flex: 1; overflow-y: auto; padding: 14px 16px; }
+.sidebar-body::-webkit-scrollbar { width: 4px; }
+.sidebar-body::-webkit-scrollbar-thumb { background: var(--border-med); border-radius: 2px; }
+
+/* ── Note panel (tile annotation) ── */
+.note-section { margin-bottom: 16px; }
+.note-tile-name {
+  font-size: 11px; font-weight: 500; color: var(--text); margin-bottom: 8px;
+  padding: 6px 10px; background: var(--surface2); border-radius: var(--radius-sm);
+  line-height: 1.35;
+}
+.note-empty { font-size: 11.5px; color: var(--text-3); text-align: center; padding: 32px 0; line-height: 1.6; }
+
+textarea.ta {
+  width: 100%; font-family: var(--font); font-size: 12px;
+  border: 0.5px solid var(--border-med); border-radius: var(--radius-sm);
+  padding: 8px 10px; resize: vertical; min-height: 90px;
+  color: var(--text); background: var(--surface); line-height: 1.55;
+  transition: border-color .12s;
+}
+textarea.ta:focus { outline: none; border-color: var(--accent); }
+.ta-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+/* ── Add tile form ── */
+.add-form { display: flex; flex-direction: column; gap: 10px; }
+.field-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin-bottom: 4px; display: block; }
+input.inp, select.inp, textarea.inp {
+  width: 100%; font-family: var(--font); font-size: 12px;
+  border: 0.5px solid var(--border-med); border-radius: var(--radius-sm);
+  padding: 7px 10px; color: var(--text); background: var(--surface);
+  transition: border-color .12s;
+}
+input.inp:focus, select.inp:focus, textarea.inp:focus { outline: none; border-color: var(--accent); }
+textarea.inp { resize: vertical; min-height: 60px; line-height: 1.5; }
+select.inp { cursor: pointer; }
+
+/* ── Strategy notes ── */
+.strategy-meta { display: flex; flex-direction: column; gap: 12px; }
+.meta-group { display: flex; flex-direction: column; gap: 4px; }
+
+/* ── Modal ── */
+.modal-bg {
+  display: none; position: absolute; inset: 0; background: rgba(0,0,0,.35);
+  z-index: 100; align-items: center; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: var(--radius); padding: 20px 24px;
+  width: 340px; border: 0.5px solid var(--border-med);
+  box-shadow: 0 8px 32px rgba(0,0,0,.18);
+}
+.modal-title { font-size: 13px; font-weight: 500; margin-bottom: 14px; color: var(--text); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+/* ── Dividers / labels ── */
+.section-divider {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-3); margin: 14px 0 6px; padding-bottom: 4px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+/* ── Footer ── */
+.footer {
+  padding: 10px 24px; border-top: 0.5px solid var(--border);
+  background: var(--surface); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.legend { display: flex; gap: 12px; flex-wrap: wrap; flex: 1; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-3); }
+.leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.footer-hint { font-size: 10px; color: var(--text-3); font-family: var(--mono); }
+
+/* ── Print ── */
+@media print {
+  body { background: white; }
+  .header-actions, .filter-bar, .sidebar, .footer, .tile-note-btn, .tile-flag-btn, .tile-del-btn, .btn { display: none !important; }
+  .board { flex-wrap: wrap; min-width: unset; gap: 8px; }
+  .lane { width: 200px; min-height: unset; break-inside: avoid; }
+  .main { overflow: visible; }
+  .board-area { overflow: visible; padding: 12px; }
+  .summary-bar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-title">Elk Valley — scenario strategy board</div>
+    <div class="header-sub">drag tiles between lanes &bull; annotate &bull; flag &bull; export</div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="toggleSidebar()">&#9776; Panel</button>
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+    <button class="btn" onclick="exportTxt()">Export summary</button>
+    <button class="btn primary" onclick="openAddModal()">+ Add tile</button>
+    <button class="btn danger" onclick="confirmReset()">Reset</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Show:</span>
+  <div class="pill pill-env" data-track="env" onclick="toggleFilter(this)">Water / chemistry</div>
+  <div class="pill pill-bio" data-track="bio" onclick="toggleFilter(this)">Ecology / biology</div>
+  <div class="pill pill-reg" data-track="reg" onclick="toggleFilter(this)">Regulation / enforcement</div>
+  <div class="pill pill-ind" data-track="ind" onclick="toggleFilter(this)">Indigenous rights</div>
+  <div class="pill pill-sci" data-track="sci" onclick="toggleFilter(this)">Science / thresholds</div>
+  <div class="pill pill-xb"  data-track="xb"  onclick="toggleFilter(this)">Transboundary / US</div>
+</div>
+
+<div class="summary-bar">
+  <div class="sum-card"><div class="sum-label">Total tiles</div><div class="sum-val" id="sumTotal">0</div></div>
+  <div class="sum-card"><div class="sum-label">Confirmed</div><div class="sum-val" id="sumOccurred">0</div></div>
+  <div class="sum-card"><div class="sum-label">High risk</div><div class="sum-val" id="sumLikely">0</div></div>
+  <div class="sum-card"><div class="sum-label">Flagged</div><div class="sum-val" id="sumFlagged">0</div></div>
+  <div class="sum-card"><div class="sum-label">Annotated</div><div class="sum-val" id="sumNotes">0</div></div>
+  <div class="sum-card"><div class="sum-label">Last saved</div><div class="sum-val" style="font-size:12px" id="sumSaved">—</div></div>
+</div>
+
+<div class="main" id="mainArea">
+
+  <div class="board-area">
+    <div class="board" id="board">
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#3d7a22">Already occurred</span>
+          <span class="lane-count" id="cnt-occurred">0</span>
+        </div>
+        <div class="lane-drop" id="drop-occurred"
+          ondragover="onOver(event)" ondrop="onDrop(event,'occurred')" ondragleave="onLeave(event)"></div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#3a6fa8">Likely / high risk</span>
+          <span class="lane-count" id="cnt-likely">0</span>
+        </div>
+        <div class="lane-drop" id="drop-likely"
+          ondragover="onOver(event)" ondrop="onDrop(event,'likely')" ondragleave="onLeave(event)"></div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#c07820">Possible / monitor</span>
+          <span class="lane-count" id="cnt-possible">0</span>
+        </div>
+        <div class="lane-drop" id="drop-possible"
+          ondragover="onOver(event)" ondrop="onDrop(event,'possible')" ondragleave="onLeave(event)"></div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#888">Low probability</span>
+          <span class="lane-count" id="cnt-low">0</span>
+        </div>
+        <div class="lane-drop" id="drop-low"
+          ondragover="onOver(event)" ondrop="onDrop(event,'low')" ondragleave="onLeave(event)"></div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#c05030">Mitigated / resolved</span>
+          <span class="lane-count" id="cnt-mitigated">0</span>
+        </div>
+        <div class="lane-drop" id="drop-mitigated"
+          ondragover="onOver(event)" ondrop="onDrop(event,'mitigated')" ondragleave="onLeave(event)"></div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-head">
+          <span class="lane-name" style="color:#5048c0">Inbox / triage</span>
+          <span class="lane-count" id="cnt-triage">0</span>
+        </div>
+        <div class="lane-drop" id="drop-triage"
+          ondragover="onOver(event)" ondrop="onDrop(event,'triage')" ondragleave="onLeave(event)"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <span id="sidebarTitle">Panel</span>
+      <button class="sidebar-close" onclick="toggleSidebar()">&#x2715;</button>
+    </div>
+    <div class="sidebar-tabs">
+      <button class="stab active" onclick="switchTab('note', this)">Tile note</button>
+      <button class="stab" onclick="switchTab('strategy', this)">Strategy</button>
+      <button class="stab" onclick="switchTab('add', this)">+ Add tile</button>
+    </div>
+    <div class="sidebar-body" id="sidebarBody"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--env-bg);border:0.5px solid var(--env-bd)"></div>Water/chemistry</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--bio-bg);border:0.5px solid var(--bio-bd)"></div>Ecology/biology</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--reg-bg);border:0.5px solid var(--reg-bd)"></div>Regulation/enforcement</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--ind-bg);border:0.5px solid var(--ind-bd)"></div>Indigenous rights</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--sci-bg);border:0.5px solid var(--sci-bd)"></div>Science/thresholds</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--xb-bg);border:0.5px solid var(--xb-bd)"></div>Transboundary/US</div>
+  </div>
+  <div class="footer-hint">state auto-saved to browser &bull; drag to reorder &bull; flag &#9873; for attorney attention</div>
+</div>
+
+<!-- Add tile modal -->
+<div class="modal-bg" id="addModal" onclick="closeAddModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add custom tile</div>
+    <div class="add-form" id="addForm">
+      <div>
+        <label class="field-label">Track / category</label>
+        <select class="inp" id="newTrack">
+          <option value="reg">Regulation / enforcement</option>
+          <option value="env">Water / chemistry</option>
+          <option value="bio">Ecology / biology</option>
+          <option value="ind">Indigenous rights</option>
+          <option value="sci">Science / thresholds</option>
+          <option value="xb">Transboundary / US</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Title</label>
+        <input class="inp" type="text" id="newTitle" placeholder="Short scenario title..." maxlength="80">
+      </div>
+      <div>
+        <label class="field-label">Description</label>
+        <textarea class="inp" id="newSub" placeholder="Brief description or trigger condition..." rows="3"></textarea>
+      </div>
+      <div>
+        <label class="field-label">Initial lane</label>
+        <select class="inp" id="newLane">
+          <option value="triage">Inbox / triage</option>
+          <option value="occurred">Already occurred</option>
+          <option value="likely">Likely / high risk</option>
+          <option value="possible">Possible / monitor</option>
+          <option value="low">Low probability</option>
+          <option value="mitigated">Mitigated / resolved</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeAddModal()">Cancel</button>
+      <button class="btn primary" onclick="addCustomTile()">Add tile</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'evSBoard_v3';
+const TRACK_LABELS = {
+  env:'Water / chemistry', bio:'Ecology / biology',
+  reg:'Regulation / enforcement', ind:'Indigenous rights',
+  sci:'Science / thresholds', xb:'Transboundary / US'
+};
+const LANE_LABELS = {
+  occurred:'Already occurred', likely:'Likely / high risk',
+  possible:'Possible / monitor', low:'Low probability',
+  mitigated:'Mitigated / resolved', triage:'Inbox / triage'
+};
+
+const DEFAULT_TILES = [
+  {id:'t1',  track:'reg', title:'$60M Fisheries Act penalty (2017)',         sub:'Teck acknowledged deposit of selenium into Elk Valley watershed; $58M directed to Ktunaxa restoration program', lane:'occurred', custom:false},
+  {id:'t2',  track:'reg', title:'$3.6M EVR enforcement (2023)',              sub:'Penalty for delays in water treatment and Se/nitrate exceedances at multiple mine sites', lane:'occurred', custom:false},
+  {id:'t3',  track:'env', title:'CCME guideline exceedances — ongoing',      sub:'Elk Valley tributaries exceeding 1 µg/L Se guideline by 5–20× in monitoring record', lane:'occurred', custom:false},
+  {id:'t4',  track:'bio', title:'Cutthroat trout tissue exceedances',        sub:'Egg and whole-body Se exceed EPA tissue criteria (15.1 / 8.5 µg/g dw) in AEMP data', lane:'occurred', custom:false},
+  {id:'t5',  track:'ind', title:'$58M Ktunaxa restoration fund active',      sub:'Nation-led watershed restoration; fish habitat; Se mitigation; ongoing', lane:'occurred', custom:false},
+  {id:'t6',  track:'xb',  title:'Lake Koocanusa Se increase documented',     sub:'IJC 2020 report confirms transboundary loading trend from Elk Valley', lane:'occurred', custom:false},
+  {id:'t7',  track:'reg', title:'EVR misses 2028 WQP targets',               sub:'Would trigger new Fisheries Act enforcement and possible injunction; major milestone', lane:'likely', custom:false},
+  {id:'t8',  track:'env', title:'Water treatment underperforms at scale',    sub:'Biological Se reduction technology gaps at high-load sites; treatment lag', lane:'likely', custom:false},
+  {id:'t9',  track:'bio', title:'Se tissue trends fail to improve',          sub:'Annual AEMP data shows flat or worsening fish tissue Se despite treatment investment', lane:'likely', custom:false},
+  {id:'t10', track:'xb',  title:'US EPA escalates Kootenai R. response',    sub:'Formal Se criterion enforcement in MT/ID; USFWS involvement; cross-border pressure', lane:'possible', custom:false},
+  {id:'t11', track:'ind', title:'Ktunaxa constitutional challenge',          sub:'Ongoing harm or inadequate consultation triggers s.35 action; expanded rights claim', lane:'possible', custom:false},
+  {id:'t12', track:'xb',  title:'IJC formal reference on Boundary Waters',  sub:'Canada-US formal referral; binational inquiry into transboundary Se loading', lane:'possible', custom:false},
+  {id:'t13', track:'reg', title:'SARA enforcement — cutthroat trout',        sub:'Federal action under SARA s.32 for harm to listed Species at Risk', lane:'possible', custom:false},
+  {id:'t14', track:'bio', title:'Population-level cutthroat decline',        sub:'Recruitment failure documented at watershed scale; triggers emergency Species at Risk response', lane:'possible', custom:false},
+  {id:'t15', track:'xb',  title:'US NRD claim — Kootenai R. trustees',      sub:'CERCLA NRD; USFWS/state trustees assert damages for Se injury to fish in MT/ID', lane:'low', custom:false},
+  {id:'t16', track:'xb',  title:'ESA listing — bull trout / burbot',        sub:'Endangered Species Act adds US federal layer in downstream waters; complicates cross-border response', lane:'low', custom:false},
+  {id:'t17', track:'reg', title:'Criminal prosecution — corporate officers', sub:'Individual liability under Fisheries Act for knowing violations; extreme scenario', lane:'low', custom:false},
+  {id:'t18', track:'ind', title:'UNDRIP-based environmental claim',          sub:'BC DRIPA alignment; Ktunaxa assert right to clean water and fisheries under UNDRIP', lane:'low', custom:false},
+  {id:'t19', track:'sci', title:'Threshold challenged in proceedings',       sub:'Fairbrother/Adams EC thresholds disputed; battle of expert witnesses on dose-response', lane:'triage', custom:false},
+  {id:'t20', track:'sci', title:'New AEMP fish tissue monitoring data',      sub:'Annual AEMP release changes exposure picture; tissue trends up or down alter case posture', lane:'triage', custom:false},
+  {id:'t21', track:'env', title:'Koocanusa Se trend reversal',               sub:'Treatment investment produces measurable decline in reservoir Se; potential defense argument', lane:'triage', custom:false},
+  {id:'t22', track:'sci', title:'SeMet speciation data — Elk River fish',   sub:'Organic Se fraction in trout tissue quantified; strengthens food-web dietary pathway argument', lane:'triage', custom:false},
+  {id:'t23', track:'reg', title:'EVR permit amendment / variance sought',    sub:'Company seeks relaxed interim targets or timeline extension; regulatory negotiation', lane:'triage', custom:false},
+  {id:'t24', track:'ind', title:'Ktunaxa co-management expanded',            sub:'Formalized watershed governance role for Ktunaxa; changes accountability and oversight structure', lane:'triage', custom:false},
+];
+
+let state = {
+  tiles: JSON.parse(JSON.stringify(DEFAULT_TILES)),
+  lanes: {}, notes: {}, flags: {},
+  filter: ['env','bio','reg','ind','sci','xb'],
+  strategyNotes: {general:'', timeline:'', priority:''},
+  sidebarOpen: true, activeTab: 'note', activeTileId: null,
+};
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const saved = JSON.parse(raw);
+    if(saved.tiles) state.tiles = saved.tiles;
+    if(saved.lanes) state.lanes = saved.lanes;
+    if(saved.notes) state.notes = saved.notes;
+    if(saved.flags) state.flags = saved.flags;
+    if(saved.filter) state.filter = saved.filter;
+    if(saved.strategyNotes) state.strategyNotes = saved.strategyNotes;
+  } catch(e){}
+  state.tiles.forEach(t => {
+    if(!state.lanes[t.id]) state.lanes[t.id] = t.lane;
+    if(!state.notes[t.id]) state.notes[t.id] = '';
+    if(state.flags[t.id] === undefined) state.flags[t.id] = false;
+  });
+}
+
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      tiles: state.tiles, lanes: state.lanes, notes: state.notes,
+      flags: state.flags, filter: state.filter, strategyNotes: state.strategyNotes
+    }));
+    const now = new Date();
+    document.getElementById('sumSaved').textContent =
+      now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  } catch(e){}
+}
+
+let dragging = null;
+
+function render(){
+  const lanes = ['occurred','likely','possible','low','mitigated','triage'];
+  lanes.forEach(lane => {
+    const drop = document.getElementById('drop-'+lane);
+    drop.innerHTML = '';
+    const tiles = state.tiles.filter(t => state.lanes[t.id] === lane && state.filter.includes(t.track));
+    tiles.forEach(t => drop.appendChild(makeTile(t)));
+    document.getElementById('cnt-'+lane).textContent = tiles.length;
+  });
+  updateFilterPills();
+  updateSummary();
+  renderSidebar();
+}
+
+function makeTile(t){
+  const div = document.createElement('div');
+  const flagged = state.flags[t.id];
+  const hasNote = state.notes[t.id] && state.notes[t.id].trim();
+  div.className = `tile t-${t.track}${flagged?' flagged':''}`;
+  div.draggable = true;
+  div.dataset.id = t.id;
+
+  div.innerHTML = `
+    <div class="tile-track">${TRACK_LABELS[t.track]||t.track}</div>
+    <div class="tile-title">${esc(t.title)}</div>
+    <div class="tile-sub">${esc(t.sub)}</div>
+    <div class="tile-footer">
+      <button class="tile-note-btn" onclick="openTileNote('${t.id}')">&#9998; note</button>
+      <button class="tile-flag-btn ${flagged?'on':''}" onclick="toggleFlag('${t.id}')" title="Flag for attention">&#9873;</button>
+      <div class="note-dot ${hasNote?'visible':''}" title="Has annotation"></div>
+      ${t.custom ? `<button class="tile-del-btn" onclick="deleteTile('${t.id}')" title="Delete tile">&#x2715;</button>` : ''}
+    </div>`;
+
+  div.addEventListener('dragstart', e => {
+    dragging = t.id; div.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  div.addEventListener('dragend', () => { div.classList.remove('dragging'); dragging = null; });
+  return div;
+}
+
+function esc(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function onOver(e){ e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function onLeave(e){ e.currentTarget.classList.remove('drag-over'); }
+function onDrop(e, lane){
+  e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+  if(dragging){ state.lanes[dragging] = lane; saveState(); render(); }
+}
+
+function toggleFlag(id){
+  state.flags[id] = !state.flags[id]; saveState(); render();
+}
+
+function deleteTile(id){
+  if(!confirm('Delete this custom tile?')) return;
+  state.tiles = state.tiles.filter(t => t.id !== id);
+  delete state.lanes[id]; delete state.notes[id]; delete state.flags[id];
+  if(state.activeTileId === id) state.activeTileId = null;
+  saveState(); render();
+}
+
+function updateSummary(){
+  const visible = state.tiles.filter(t => state.filter.includes(t.track));
+  document.getElementById('sumTotal').textContent = visible.length;
+  document.getElementById('sumOccurred').textContent = visible.filter(t => state.lanes[t.id]==='occurred').length;
+  document.getElementById('sumLikely').textContent = visible.filter(t => state.lanes[t.id]==='likely').length;
+  document.getElementById('sumFlagged').textContent = state.tiles.filter(t => state.flags[t.id]).length;
+  document.getElementById('sumNotes').textContent = state.tiles.filter(t => state.notes[t.id]&&state.notes[t.id].trim()).length;
+}
+
+function updateFilterPills(){
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('off', !state.filter.includes(p.dataset.track));
+  });
+}
+
+function toggleFilter(pill){
+  const track = pill.dataset.track;
+  const idx = state.filter.indexOf(track);
+  if(idx >= 0) state.filter.splice(idx,1);
+  else state.filter.push(track);
+  saveState(); render();
+}
+
+/* ── Sidebar ── */
+function toggleSidebar(){
+  state.sidebarOpen = !state.sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('collapsed', !state.sidebarOpen);
+}
+
+function switchTab(tab, el){
+  state.activeTab = tab;
+  document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderSidebar();
+}
+
+function renderSidebar(){
+  const body = document.getElementById('sidebarBody');
+  if(state.activeTab === 'note') renderNoteTab(body);
+  else if(state.activeTab === 'strategy') renderStrategyTab(body);
+  else renderAddTab(body);
+}
+
+function renderNoteTab(body){
+  if(!state.activeTileId){
+    body.innerHTML = `<div class="note-empty">Click "&#9998; note" on any tile<br>to annotate it here.</div>`;
+    return;
+  }
+  const t = state.tiles.find(x => x.id === state.activeTileId);
+  if(!t){ state.activeTileId = null; renderNoteTab(body); return; }
+  body.innerHTML = `
+    <div class="note-section">
+      <div class="note-tile-name">${esc(t.title)}</div>
+      <div class="field-label" style="margin-bottom:4px;display:block">Strategy annotation</div>
+      <textarea class="ta" id="noteTextarea" placeholder="Add notes, action items, attorney comments, triggers, or 'if this happens, we do X' logic...">${esc(state.notes[t.id]||'')}</textarea>
+      <div class="ta-actions">
+        <button class="btn primary" onclick="saveNote()">Save note</button>
+        <button class="btn" onclick="state.activeTileId=null;renderSidebar()">Clear</button>
+      </div>
+    </div>
+    <div class="section-divider">Tile info</div>
+    <div style="font-size:11px;color:var(--text-2);line-height:1.7">
+      <div><b>Track:</b> ${TRACK_LABELS[t.track]}</div>
+      <div><b>Lane:</b> ${LANE_LABELS[state.lanes[t.id]]||state.lanes[t.id]}</div>
+      <div><b>Flagged:</b> ${state.flags[t.id]?'Yes':'No'}</div>
+      ${t.custom?'<div><b>Type:</b> Custom tile</div>':''}
+    </div>`;
+}
+
+function openTileNote(id){
+  state.activeTileId = id;
+  state.activeTab = 'note';
+  state.sidebarOpen = true;
+  document.getElementById('sidebar').classList.remove('collapsed');
+  document.querySelectorAll('.stab').forEach((t,i) => t.classList.toggle('active', i===0));
+  renderSidebar();
+}
+
+function saveNote(){
+  const ta = document.getElementById('noteTextarea');
+  if(ta && state.activeTileId){
+    state.notes[state.activeTileId] = ta.value;
+    saveState(); render();
+    renderSidebar();
+  }
+}
+
+function renderStrategyTab(body){
+  body.innerHTML = `
+    <div class="strategy-meta">
+      <div class="meta-group">
+        <label class="field-label">General strategy notes</label>
+        <textarea class="ta" id="strat-general" rows="5" placeholder="Overall posture, key arguments, priorities...">${esc(state.strategyNotes.general||'')}</textarea>
+      </div>
+      <div class="meta-group">
+        <label class="field-label">Timeline &amp; key dates</label>
+        <textarea class="ta" id="strat-timeline" rows="4" placeholder="2028 WQP deadline, AEMP data release dates, IJC reporting cycles...">${esc(state.strategyNotes.timeline||'')}</textarea>
+      </div>
+      <div class="meta-group">
+        <label class="field-label">Priority actions</label>
+        <textarea class="ta" id="strat-priority" rows="4" placeholder="What needs to happen next, who owns each item...">${esc(state.strategyNotes.priority||'')}</textarea>
+      </div>
+      <button class="btn primary" style="align-self:flex-start" onclick="saveStrategy()">Save strategy notes</button>
+    </div>`;
+}
+
+function saveStrategy(){
+  state.strategyNotes.general = document.getElementById('strat-general')?.value||'';
+  state.strategyNotes.timeline = document.getElementById('strat-timeline')?.value||'';
+  state.strategyNotes.priority = document.getElementById('strat-priority')?.value||'';
+  saveState();
+  const btn = document.querySelector('#sidebarBody .btn.primary');
+  if(btn){ const orig = btn.textContent; btn.textContent = 'Saved'; setTimeout(()=>btn.textContent=orig, 1400); }
+}
+
+function renderAddTab(body){
+  body.innerHTML = `
+    <div class="add-form">
+      <div>
+        <label class="field-label">Track / category</label>
+        <select class="inp" id="sb-track">
+          <option value="reg">Regulation / enforcement</option>
+          <option value="env">Water / chemistry</option>
+          <option value="bio">Ecology / biology</option>
+          <option value="ind">Indigenous rights</option>
+          <option value="sci">Science / thresholds</option>
+          <option value="xb">Transboundary / US</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Title</label>
+        <input class="inp" type="text" id="sb-title" placeholder="Short scenario title..." maxlength="80">
+      </div>
+      <div>
+        <label class="field-label">Description</label>
+        <textarea class="inp" id="sb-sub" rows="3" placeholder="Brief description or trigger condition..."></textarea>
+      </div>
+      <div>
+        <label class="field-label">Initial lane</label>
+        <select class="inp" id="sb-lane">
+          <option value="triage">Inbox / triage</option>
+          <option value="occurred">Already occurred</option>
+          <option value="likely">Likely / high risk</option>
+          <option value="possible">Possible / monitor</option>
+          <option value="low">Low probability</option>
+          <option value="mitigated">Mitigated / resolved</option>
+        </select>
+      </div>
+      <button class="btn primary" style="align-self:flex-start" onclick="addTileFromSidebar()">Add tile</button>
+    </div>`;
+}
+
+function addTileFromSidebar(){
+  const title = document.getElementById('sb-title')?.value?.trim();
+  if(!title){ alert('Please enter a title.'); return; }
+  const t = {
+    id: 'c'+Date.now(),
+    track: document.getElementById('sb-track').value,
+    title, sub: document.getElementById('sb-sub')?.value?.trim()||'',
+    lane: document.getElementById('sb-lane').value, custom: true
+  };
+  state.tiles.push(t);
+  state.lanes[t.id] = t.lane;
+  state.notes[t.id] = '';
+  state.flags[t.id] = false;
+  saveState(); render();
+  document.getElementById('sb-title').value = '';
+  document.getElementById('sb-sub').value = '';
+  const btn = document.querySelector('#sidebarBody .btn.primary');
+  if(btn){ const o = btn.textContent; btn.textContent = 'Added!'; setTimeout(()=>btn.textContent=o, 1200); }
+}
+
+/* ── Modal ── */
+function openAddModal(){
+  document.getElementById('addModal').classList.add('open');
+  document.getElementById('newTitle').focus();
+}
+function closeAddModal(e){
+  if(!e || e.target === document.getElementById('addModal'))
+    document.getElementById('addModal').classList.remove('open');
+}
+function addCustomTile(){
+  const title = document.getElementById('newTitle').value.trim();
+  if(!title){ alert('Please enter a title.'); return; }
+  const t = {
+    id: 'c'+Date.now(),
+    track: document.getElementById('newTrack').value,
+    title, sub: document.getElementById('newSub').value.trim(),
+    lane: document.getElementById('newLane').value, custom: true
+  };
+  state.tiles.push(t);
+  state.lanes[t.id] = t.lane;
+  state.notes[t.id] = '';
+  state.flags[t.id] = false;
+  document.getElementById('newTitle').value = '';
+  document.getElementById('newSub').value = '';
+  document.getElementById('addModal').classList.remove('open');
+  saveState(); render();
+}
+
+/* ── Reset ── */
+function confirmReset(){
+  if(!confirm('Reset board to default? This will clear all custom tiles, notes, and positions.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.tiles = JSON.parse(JSON.stringify(DEFAULT_TILES));
+  state.lanes = {}; state.notes = {}; state.flags = {};
+  state.filter = ['env','bio','reg','ind','sci','xb'];
+  state.strategyNotes = {general:'',timeline:'',priority:''};
+  state.activeTileId = null;
+  state.tiles.forEach(t => {
+    state.lanes[t.id] = t.lane; state.notes[t.id] = ''; state.flags[t.id] = false;
+  });
+  render();
+}
+
+/* ── Export ── */
+function exportTxt(){
+  const lanes = ['occurred','likely','possible','low','mitigated','triage'];
+  let out = 'ELK VALLEY SCENARIO STRATEGY BOARD\n';
+  out += new Date().toLocaleString() + '\n';
+  out += '='.repeat(50) + '\n\n';
+
+  if(state.strategyNotes.general?.trim()){
+    out += 'GENERAL STRATEGY NOTES\n' + '-'.repeat(30) + '\n' + state.strategyNotes.general.trim() + '\n\n';
+  }
+  if(state.strategyNotes.timeline?.trim()){
+    out += 'TIMELINE & KEY DATES\n' + '-'.repeat(30) + '\n' + state.strategyNotes.timeline.trim() + '\n\n';
+  }
+  if(state.strategyNotes.priority?.trim()){
+    out += 'PRIORITY ACTIONS\n' + '-'.repeat(30) + '\n' + state.strategyNotes.priority.trim() + '\n\n';
+  }
+
+  lanes.forEach(lane => {
+    const tiles = state.tiles.filter(t => state.lanes[t.id] === lane);
+    if(!tiles.length) return;
+    out += (LANE_LABELS[lane]||lane).toUpperCase() + '\n' + '─'.repeat(40) + '\n';
+    tiles.forEach(t => {
+      out += `\n  • [${(TRACK_LABELS[t.track]||t.track).toUpperCase()}] ${t.title}\n`;
+      if(t.sub) out += `    ${t.sub}\n`;
+      if(state.flags[t.id]) out += `    *** FLAGGED FOR ATTENTION ***\n`;
+      if(state.notes[t.id]?.trim()) out += `    Note: ${state.notes[t.id].trim()}\n`;
+    });
+    out += '\n';
+  });
+
+  const blob = new Blob([out], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'elk_valley_scenario_board_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+}
+
+/* ── Init ── */
+loadState();
+state.tiles.forEach(t => {
+  if(!state.lanes[t.id]) state.lanes[t.id] = t.lane;
+  if(!state.notes[t.id]) state.notes[t.id] = '';
+  if(state.flags[t.id] === undefined) state.flags[t.id] = false;
+});
+render();
+</script>
+</body>
+</html>
