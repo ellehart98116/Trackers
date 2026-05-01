@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6PPD-Q &mdash; Literature &amp; Policy Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'IBM Plex Sans',-apple-system,sans-serif;--mono:'IBM Plex Mono',monospace;
+  --bg:#f3f2ee;--surface:#fff;--surface2:#eeedea;--surface3:#e5e4df;
+  --border:rgba(0,0,0,.08);--border-med:rgba(0,0,0,.13);
+  --text:#181815;--text-2:#64635e;--text-3:#9e9d98;
+  --accent:#1a4d2e;--accent-light:#e8f4ec;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#161614;--surface:#1e1e1c;--surface2:#252523;--surface3:#2c2c2a;
+  --border:rgba(255,255,255,.07);--border-med:rgba(255,255,255,.12);
+  --text:#e6e4dc;--text-2:#9e9c94;--text-3:#6a6864;
+  --accent:#6ad898;--accent-light:#1a3828;
+}}
+html{font-size:14px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.hdr{padding:14px 22px 12px;background:var(--surface);border-bottom:.5px solid var(--border-med);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hdr-l{flex:1;min-width:180px}
+.hdr-title{font-size:15px;font-weight:500;letter-spacing:-.01em;margin-bottom:2px}
+.hdr-sub{font-size:10.5px;color:var(--text-3);font-family:var(--mono)}
+.hdr-act{display:flex;gap:7px;flex-wrap:wrap}
+.tabs{display:flex;background:var(--surface);border-bottom:.5px solid var(--border-med);padding:0 22px}
+.tab{font-family:var(--font);font-size:12px;padding:10px 16px;border:none;background:none;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap}
+.tab:hover{color:var(--text-2)}.tab.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+.btn{font-family:var(--font);font-size:11.5px;padding:5px 13px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all .12s;white-space:nowrap}
+.btn:hover{background:var(--surface2);color:var(--text)}
+.btn.pri{background:var(--accent);color:#fff;border-color:transparent;font-weight:500}.btn.pri:hover{opacity:.88}
+.ctrls{padding:9px 22px;background:var(--surface);border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.cl{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+input.srch{font-family:var(--font);font-size:12px;padding:5px 10px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text);width:190px}
+input.srch:focus{outline:none;border-color:var(--accent)}
+select.flt{font-family:var(--font);font-size:11.5px;padding:5px 7px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text-2);cursor:pointer}
+.sumbar{display:flex;background:var(--surface2);border-bottom:.5px solid var(--border);overflow-x:auto}
+.sc{flex:1;min-width:80px;padding:8px 14px;border-right:.5px solid var(--border);text-align:center}
+.sc:last-child{border-right:none}
+.sc-lbl{font-size:9.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.sc-val{font-size:18px;font-weight:500;font-family:var(--mono);color:var(--text)}
+.main{flex:1;overflow:hidden;display:flex}.cnt{flex:1;overflow-y:auto;padding:18px 22px 40px}
+.cnt::-webkit-scrollbar{width:4px}.cnt::-webkit-scrollbar-thumb{background:var(--border-med);border-radius:2px}
+.gh{display:flex;align-items:center;gap:10px;margin:18px 0 7px;padding-bottom:5px;border-bottom:.5px solid var(--border-med)}
+.gh:first-child{margin-top:0}.gd{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.gn{font-size:12px;font-weight:500;color:var(--text)}
+.gc{font-size:10px;font-family:var(--mono);color:var(--text-3);padding:1px 7px;background:var(--surface3);border-radius:10px}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:9px;padding:13px 15px;margin-bottom:7px;position:relative;transition:box-shadow .12s}
+.card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.card.attn{border-left:3px solid #c0392b}.card.cust{border-left:3px solid var(--accent)}
+.ct{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+.ctitle{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;flex:1}
+.cmeta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px;font-size:11px;color:var(--text-2)}
+.cbody{font-size:11.5px;color:var(--text-2);line-height:1.6;margin-bottom:8px}
+.crel{font-size:11px;color:var(--text-2);background:var(--accent-light);border-left:2px solid var(--accent);padding:5px 9px;border-radius:0 4px 4px 0;margin-bottom:8px;line-height:1.5}
+.cbadges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.bdg{font-size:9.5px;font-weight:500;padding:2px 8px;border-radius:3px}.bdg-pill{border-radius:10px}
+.cfoot{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cdate{font-size:10px;font-family:var(--mono);color:var(--text-3);margin-left:auto}
+.cact{display:flex;gap:5px}
+.ib{font-size:12px;background:none;border:none;cursor:pointer;color:var(--text-3);padding:3px 5px;border-radius:4px;transition:all .1s;font-family:var(--font);line-height:1}
+.ib:hover{background:var(--surface2);color:var(--text)}.ib.on{color:#c0392b}.ib.del:hover{color:#c0392b}
+.ulink{font-size:10.5px;color:var(--accent);text-decoration:none;font-family:var(--mono)}
+.ulink:hover{text-decoration:underline}
+.crow{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.cdate-col{width:86px;flex-shrink:0;font-size:10px;font-family:var(--mono);color:var(--text-3);padding-top:3px;text-align:right}
+.cdot{width:9px;height:9px;border-radius:50%;border:2px solid var(--surface);background:var(--accent);flex-shrink:0;margin-top:5px;margin-left:-4px}
+.cdot.high{background:#c0392b}.cdot.med{background:#c07020}.cdot.low{background:#3a7a3a}
+.cline{width:1px;background:var(--border-med);flex-shrink:0;margin-top:6px}
+.cbody2{flex:1;padding-bottom:10px;border-bottom:.5px solid var(--border)}.cbody2:last-child{border-bottom:none}
+.ctitle2{font-size:12.5px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:3px}
+.csub{font-size:11px;color:var(--text-2);line-height:1.5;margin-bottom:4px}
+.cbadges2{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.map-area{padding:16px 0 0}
+.map-hint{font-size:11.5px;color:var(--text-2);line-height:1.6;margin-bottom:12px;padding:10px 14px;background:var(--surface2);border-radius:7px;border:.5px solid var(--border)}
+.map-hint strong{font-weight:500;color:var(--text)}
+.map-tb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#map-svg-wrap{background:var(--surface);border-radius:9px;border:.5px solid var(--border);padding:16px;overflow-x:auto;min-height:280px}
+.map-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--text-3);margin-top:10px}
+.ml{display:flex;align-items:center;gap:5px}.mld{width:10px;height:10px;border-radius:2px}
+.pbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:flex-start;justify-content:flex-end}
+.pbg.open{display:flex}
+.panel{width:430px;height:100vh;background:var(--surface);border-left:.5px solid var(--border-med);overflow-y:auto;display:flex;flex-direction:column}
+.panel::-webkit-scrollbar{width:4px}.panel::-webkit-scrollbar-thumb{background:var(--border-med);border-radius:2px}
+.ph{padding:14px 18px;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--surface);z-index:1}
+.ph-title{font-size:13px;font-weight:500;flex:1}
+.ph-x{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-3);line-height:1;padding:0 3px}
+.pb{padding:16px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.fi{display:flex;flex-direction:column;gap:4px}
+.fil{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);font-weight:500}
+.fih{font-size:10.5px;color:var(--text-3);line-height:1.45}
+input.ff,select.ff,textarea.ff{font-family:var(--font);font-size:12.5px;padding:7px 10px;border:.5px solid var(--border-med);border-radius:6px;background:var(--surface);color:var(--text);transition:border-color .12s}
+input.ff:focus,select.ff:focus,textarea.ff:focus{outline:none;border-color:var(--accent)}
+textarea.ff{resize:vertical;min-height:60px;line-height:1.5}select.ff{cursor:pointer}
+.fr{display:flex;gap:9px}.fr .fi{flex:1}
+.pf{padding:12px 18px;border-top:.5px solid var(--border);display:flex;gap:8px;position:sticky;bottom:0;background:var(--surface)}
+.ckg{display:flex;gap:7px;flex-wrap:wrap}
+.ck{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:11px;color:var(--text-2);padding:3px 8px;border-radius:4px;border:.5px solid var(--border);transition:all .1s;user-select:none}
+.ck input{display:none}
+.ck.on{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.ck.ck-a.on{background:#fdecea;border-color:#f5b8b0;color:#c0392b}
+.ck.ck-w.on{background:#f3ecfd;border-color:#d0aaee;color:#6920b0}
+.ck.ck-e.on{background:#e4f5ed;border-color:#90d0b0;color:#0a6840}
+.ck.ck-o.on{background:#fff3e0;border-color:#ffc870;color:#b05800}
+.empty{text-align:center;padding:60px 20px;color:var(--text-3);font-size:12.5px;line-height:1.7}
+.empty b{font-size:14px;font-weight:500;color:var(--text-2);display:block;margin-bottom:6px}
+@media print{.hdr-act,.tabs,.ctrls,.pbg,.cact,.ib,.btn{display:none!important}body{background:white}.cnt{overflow:visible;padding:12px}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-title">6PPD-Q &mdash; literature &amp; policy tracker</div>
+    <div class="hdr-sub">ecotoxicology &bull; stormwater &bull; aquatic receptors &bull; regulatory responses &bull; tribal rights &bull; influence map</div>
+  </div>
+  <div class="hdr-act">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+    <button class="btn" onclick="exportCSV()">Export CSV</button>
+    <button class="btn" onclick="hardReset()">Reset defaults</button>
+    <button class="btn pri" onclick="openPanel()">+ Add document</button>
+  </div>
+</div>
+<div class="tabs">
+  <button class="tab on" id="tab-cl"  onclick="setTab('cl')">Changelog</button>
+  <button class="tab"    id="tab-gr"  onclick="setTab('gr')">By phase</button>
+  <button class="tab"    id="tab-map" onclick="setTab('map')">Influence map</button>
+</div>
+<div class="ctrls" id="ctrlBar">
+  <span class="cl">Type</span>
+  <select class="flt" id="fType" onchange="renderAll()">
+    <option value="">All types</option>
+    <option value="journal">Peer-reviewed</option>
+    <option value="review">Review / meta-analysis</option>
+    <option value="gov">Government / regulatory</option>
+    <option value="grey">Grey lit / report</option>
+    <option value="tribal">Tribal / Indigenous</option>
+    <option value="policy">Policy / legal</option>
+  </select>
+  <span class="cl">Phase</span>
+  <select class="flt" id="fPhase" onchange="renderAll()">
+    <option value="">All phases</option>
+    <option value="discovery">Phase 1: Discovery (2020-21)</option>
+    <option value="expansion">Phase 2: Expansion (2022-23)</option>
+    <option value="regulatory">Phase 3: Regulatory (2023-25+)</option>
+  </select>
+  <span class="cl">Significance</span>
+  <select class="flt" id="fSig" onchange="renderAll()">
+    <option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option>
+  </select>
+  <span class="cl">Tag</span>
+  <select class="flt" id="fTag" onchange="renderAll()">
+    <option value="">All tags</option>
+    <option value="coho-salmon">Coho salmon</option>
+    <option value="toxicology">Toxicology</option>
+    <option value="stormwater">Stormwater</option>
+    <option value="tire-wear">Tire wear particles</option>
+    <option value="dose-response">Dose-response</option>
+    <option value="multi-species">Multi-species</option>
+    <option value="occurrence">Occurrence / monitoring</option>
+    <option value="regulation">Regulation</option>
+    <option value="tribal-rights">Tribal rights</option>
+    <option value="alternatives">Alternatives</option>
+    <option value="green-infra">Green infrastructure</option>
+    <option value="review">Review / synthesis</option>
+  </select>
+  <span class="cl">Access</span>
+  <select class="flt" id="fAcc" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="wiley">Wiley / BW sub</option>
+    <option value="est">ES&amp;T sub</option>
+    <option value="oa">Open access</option>
+  </select>
+  <span class="cl">Flag</span>
+  <select class="flt" id="fAttn" onchange="renderAll()">
+    <option value="">All</option><option value="yes">Attorney flag only</option>
+  </select>
+  <input class="srch" type="search" id="srch" placeholder="Search titles, authors, notes&hellip;" oninput="renderAll()">
+</div>
+<div class="sumbar">
+  <div class="sc"><div class="sc-lbl">Total</div><div class="sc-val" id="sTotal">0</div></div>
+  <div class="sc"><div class="sc-lbl">Peer-reviewed</div><div class="sc-val" id="sJrn">0</div></div>
+  <div class="sc"><div class="sc-lbl">Reviews</div><div class="sc-val" id="sRev">0</div></div>
+  <div class="sc"><div class="sc-lbl">Gov / policy</div><div class="sc-val" id="sGov">0</div></div>
+  <div class="sc"><div class="sc-lbl">Wiley / BW</div><div class="sc-val" style="color:#6920b0" id="sWiley">0</div></div>
+  <div class="sc"><div class="sc-lbl">ES&amp;T sub</div><div class="sc-val" style="color:#0a6840" id="sEst">0</div></div>
+  <div class="sc"><div class="sc-lbl">Open access</div><div class="sc-val" style="color:#b05800" id="sOa">0</div></div>
+  <div class="sc"><div class="sc-lbl">Atty flagged</div><div class="sc-val" style="color:#c0392b" id="sAttn">0</div></div>
+  <div class="sc"><div class="sc-lbl">Last saved</div><div class="sc-val" style="font-size:11px" id="sSaved">&mdash;</div></div>
+</div>
+<div class="main"><div class="cnt" id="cnt"></div></div>
+<div class="pbg" id="pbg" onclick="closeBg(event)">
+ <div class="panel" onclick="event.stopPropagation()">
+  <div class="ph"><div class="ph-title" id="pTitle">Add document</div><button class="ph-x" onclick="closePanel()">&#x2715;</button></div>
+  <div class="pb">
+    <div class="fi"><label class="fil">Source type</label>
+      <select class="ff" id="pType">
+        <option value="journal">Peer-reviewed journal article</option>
+        <option value="review">Review article / meta-analysis</option>
+        <option value="gov">Government / regulatory document</option>
+        <option value="grey">Grey literature / technical report</option>
+        <option value="tribal">Tribal / Indigenous document</option>
+        <option value="policy">Policy / legal document</option>
+      </select>
+    </div>
+    <div class="fi"><label class="fil">Title</label><input class="ff" type="text" id="pTitle2" placeholder="Full document or article title&hellip;"></div>
+    <div class="fr">
+      <div class="fi"><label class="fil">Author(s)</label><input class="ff" type="text" id="pAuthor" placeholder="Last, F. et al."></div>
+      <div class="fi" style="max-width:78px"><label class="fil">Year</label><input class="ff" type="text" id="pYear" placeholder="2025" maxlength="4"></div>
+    </div>
+    <div class="fi"><label class="fil">Journal / publisher / issuing body</label><input class="ff" type="text" id="pJournal" placeholder="e.g. Science, Environ. Sci. Technol., US EPA&hellip;"></div>
+    <div class="fi"><label class="fil">URL / DOI</label><input class="ff" type="text" id="pUrl" placeholder="https://&hellip; or doi:10.xxxx/&hellip;"></div>
+    <div class="fi"><label class="fil">Phase</label>
+      <select class="ff" id="pPhase">
+        <option value="discovery">Phase 1: Discovery (2020-2021)</option>
+        <option value="expansion">Phase 2: Expansion (2022-2023)</option>
+        <option value="regulatory">Phase 3: Regulatory (2023-present)</option>
+      </select>
+    </div>
+    <div class="fi"><label class="fil">Access type</label>
+      <div class="ckg">
+        <label class="ck ck-w" onclick="tck(this)"><input type="checkbox" value="wiley">Wiley / Blackwell sub</label>
+        <label class="ck ck-e" onclick="tck(this)"><input type="checkbox" value="est">ES&amp;T sub</label>
+        <label class="ck ck-o" onclick="tck(this)"><input type="checkbox" value="oa">Open access</label>
+      </div>
+    </div>
+    <div class="fi"><label class="fil">What changed / key finding</label>
+      <div class="fih">New version, updated data, new findings, or why you are logging this entry now.</div>
+      <textarea class="ff" id="pChange" rows="3" placeholder="e.g. Revised LC50 for coho using commercial standard; prior values biased high&hellip;"></textarea>
+    </div>
+    <div class="fi"><label class="fil">Significance &amp; policy relevance</label>
+      <textarea class="ff" id="pRel" rows="2" placeholder="e.g. Revised thresholds affect EPA screening value; directly cited in ANPRM&hellip;"></textarea>
+    </div>
+    <div class="fi"><label class="fil">Significance</label>
+      <select class="ff" id="pSig">
+        <option value="high">High &mdash; directly material</option>
+        <option value="med">Medium &mdash; relevant context</option>
+        <option value="low">Low &mdash; background awareness</option>
+      </select>
+    </div>
+    <div class="fi"><label class="fil">Tags</label>
+      <div class="ckg">
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="coho-salmon">Coho salmon</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="toxicology">Toxicology</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="stormwater">Stormwater</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="tire-wear">Tire wear particles</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="dose-response">Dose-response</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="multi-species">Multi-species</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="occurrence">Occurrence / monitoring</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="regulation">Regulation</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="tribal-rights">Tribal rights</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="alternatives">Alternatives</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="green-infra">Green infrastructure</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="review">Review / synthesis</label>
+      </div>
+    </div>
+    <div class="fi"><label class="fil">Builds on / influenced by</label>
+      <div class="fih">Hold Ctrl/Cmd to select multiple. Arrows flow FROM these documents TO this one in the influence map.</div>
+      <select class="ff" id="pInf" multiple style="min-height:88px;font-size:11px"></select>
+    </div>
+    <div class="fi"><label class="fil">Attorney flag</label>
+      <div class="ckg"><label class="ck ck-a" onclick="tck(this)"><input type="checkbox" value="attn">&#9873; Flag for attorney review</label></div>
+    </div>
+    <div class="fi"><label class="fil">Date added to tracker</label>
+      <div class="fih">When you logged this entry &mdash; publication year captured above.</div>
+      <input class="ff" type="date" id="pDate">
+    </div>
+  </div>
+  <div class="pf">
+    <button class="btn pri" onclick="saveDoc()">Save</button>
+    <button class="btn" onclick="closePanel()">Cancel</button>
+    <button class="btn" id="pDel" style="display:none;margin-left:auto;color:#c0392b" onclick="delDoc()">Delete</button>
+  </div>
+ </div>
+</div>
+<script>
+const SK='6ppdT1';
+const TM={
+  journal:{lbl:'Peer-reviewed',c:'#1e4d7a',bg:'#e6f0fb',bd:'#b5d0ef'},
+  review: {lbl:'Review / meta-analysis',c:'#4a1e6a',bg:'#f0e8fa',bd:'#c8a8e8'},
+  gov:    {lbl:'Government',c:'#1a5c32',bg:'#e6f4ec',bd:'#a8d8b8'},
+  grey:   {lbl:'Grey lit',c:'#6b4c1a',bg:'#faf0e0',bd:'#e8cfa0'},
+  tribal: {lbl:'Tribal / Indigenous',c:'#0f5448',bg:'#e2f4f0',bd:'#9ed8cc'},
+  policy: {lbl:'Policy / legal',c:'#5a1a1a',bg:'#faeaea',bd:'#e8a8a8'},
+};
+const TC={'coho-salmon':'#1a5c32','toxicology':'#1e4d7a','stormwater':'#0f5448','tire-wear':'#6b4c1a','dose-response':'#4a1e6a','multi-species':'#1e4d7a','occurrence':'#3a5a1a','regulation':'#5a1a1a','tribal-rights':'#0f5448','alternatives':'#3a3a1a','green-infra':'#1a5c32','review':'#4a1e6a'};
+const TB={'coho-salmon':'#e6f4ec','toxicology':'#e6f0fb','stormwater':'#e2f4f0','tire-wear':'#faf0e0','dose-response':'#f0e8fa','multi-species':'#e6f0fb','occurrence':'#eaf4e0','regulation':'#faeaea','tribal-rights':'#e2f4f0','alternatives':'#f4f4e0','green-infra':'#e6f4ec','review':'#f0e8fa'};
+const SL={high:'High significance',med:'Medium significance',low:'Low significance'};
+const phaseFills={discovery:'#e6f4ec',expansion:'#e6f0fb',regulatory:'#faeaea'};
+const phaseStrokes={discovery:'#1a5c32',expansion:'#1e4d7a',regulatory:'#5a1a1a'};
+const phaseLabels={discovery:'Phase 1: Discovery (2020\u201321)',expansion:'Phase 2: Expansion (2022\u201323)',regulatory:'Phase 3: Regulatory (2023\u201325+)'};
+
+const DD=[
+{id:'d1',type:'journal',title:'A ubiquitous tire rubber-derived chemical induces acute mortality in coho salmon',author:'Tian Z, Zhao H, Peter KT, et al.',year:'2021',journal:'Science',url:'https://www.science.org/doi/10.1126/science.abd6951',phase:'discovery',change:'Identified 6PPD-Q as the causative agent of urban runoff mortality syndrome in coho salmon. Isolated from tire rubber leachate via bioassay-directed fractionation; coho LC50 ~0.8 microg/L using in-house standard. The foundational discovery paper for the entire field.',relevance:'The paper that started everything. Every downstream study, regulatory action, and tribal petition traces directly to this publication. Cited in the TSCA tribal petition as primary evidence.',sig:'high',tags:['coho-salmon','toxicology','stormwater','tire-wear'],access:[],attn:true,inf:[],date:'2021-01-08',custom:false},
+{id:'d2',type:'journal',title:'Treading water: tire wear particle leachate recreates an urban runoff mortality syndrome in coho but not chum salmon',author:'McIntyre JK, Prat J, Cameron J, et al.',year:'2021',journal:'Environmental Science & Technology',url:'https://pubs.acs.org/doi/10.1021/acs.est.1c03569',phase:'discovery',change:'Demonstrated tire wear particle leachate reproducibly kills coho but not chum salmon in lab settings; confirmed species-specific sensitivity and stormwater as the primary exposure route. Corroborating evidence for Tian et al. identification.',relevance:'Key corroboration; establishes coho-specific vulnerability and tire wear particle pathway; widely cited in EPA regulatory documents and tribal petition.',sig:'high',tags:['coho-salmon','toxicology','tire-wear','stormwater'],access:['est'],attn:false,inf:['d1'],date:'2021-09-07',custom:false},
+{id:'d3',type:'journal',title:'Acute toxicity of tire rubber-derived 6PPD-quinone to freshwater fish and crustacean species',author:'Hiki K, Asahina K, Kato K, Ito K, Yamamoto H',year:'2021',journal:'Environmental Science & Technology Letters',url:'https://pubs.acs.org/doi/10.1021/acs.estlett.1c00453',phase:'discovery',change:'First multi-species toxicity data for 6PPD-Q beyond coho; tested white-spotted char, mummichog, rainbow trout, and crustaceans; established that coho are exceptionally sensitive compared to other species tested.',relevance:'Establishes species-sensitivity hierarchy; supports argument that coho are uniquely at risk; cited in EPA screening value derivation and tribal petition.',sig:'high',tags:['toxicology','multi-species','dose-response'],access:['est'],attn:false,inf:['d1'],date:'2021-08-10',custom:false},
+{id:'d4',type:'journal',title:'6PPD-quinone: revised toxicity assessment and quantification with a commercial standard',author:'Tian Z, Gonzalez M, Rideout CA, et al.',year:'2022',journal:'Environmental Science & Technology Letters',url:'https://pubs.acs.org/doi/10.1021/acs.estlett.1c00910',phase:'expansion',change:'Revised coho LC50 downward to ~95 ng/L using commercial 6PPD-Q standard; prior in-house standards had systematic high bias. Corrected all previous environmental concentration estimates. Critical methodological revision that changed the field.',relevance:'Revised thresholds are lower than originally reported, strengthening the argument that environmental concentrations routinely exceed lethal levels. Directly used in EPA screening value derivation.',sig:'high',tags:['coho-salmon','dose-response','toxicology'],access:['est'],attn:true,inf:['d1','d3'],date:'2022-01-24',custom:false},
+{id:'d5',type:'journal',title:'The tire-derived chemical 6PPD-quinone is lethally toxic to white-spotted char but not to two other salmonid species',author:'Hiki K, Yamamoto H',year:'2022',journal:'Environmental Science & Technology Letters',url:'https://pubs.acs.org/doi/10.1021/acs.estlett.2c00431',phase:'expansion',change:'White-spotted char highly sensitive (LC50 ~0.8 microg/L); rainbow trout and Japanese char not acutely sensitive at tested concentrations. Demonstrates inter-species variation in sensitivity within salmonids.',relevance:'Expands sensitive receptor list beyond coho; relevant to multi-species ERA; cited in tribal petition and EPA review documents.',sig:'high',tags:['toxicology','multi-species','dose-response'],access:['est'],attn:false,inf:['d3','d4'],date:'2022-07-19',custom:false},
+{id:'d6',type:'journal',title:'Acute toxicity of 6PPD-quinone to early life stage juvenile Chinook and coho salmon',author:'Lo BP, Baker TL, Kuo W, et al.',year:'2023',journal:'Environmental Toxicology and Chemistry',url:'https://academic.oup.com/etc/article/42/4/815/7729525',phase:'expansion',change:'Early life stage Chinook and coho exposed to 6PPD-Q; ELS coho LC50 ~95-160 ng/L confirming adult sensitivity; Chinook ELS also sensitive. Expands receptor database for young-of-year life stages relevant to population-level assessment.',relevance:'ELS toxicity data critical for population-level risk; Chinook data adds ESA-listed species dimension beyond coho. Cited in EPA screening value peer review.',sig:'high',tags:['coho-salmon','toxicology','dose-response','multi-species'],access:['wiley'],attn:false,inf:['d4'],date:'2023-04-01',custom:false},
+{id:'d7',type:'journal',title:'Assessment of tire-additive transformation product 6PPD-quinone in urban-impacted watersheds',author:'Peter KT, Tian Z, Wu C, et al.',year:'2022',journal:'ACS ES&T Water',url:'https://pubs.acs.org/doi/10.1021/acsestwater.3c00589',phase:'expansion',change:'6PPD-Q detected in Great Lakes urban watersheds during wet-weather events; concentrations up to 82 ng/L during stormwater runoff; rapid dilution in nearshore waters. Expanded geographic occurrence beyond Pacific Northwest.',relevance:'Demonstrates 6PPD-Q occurrence beyond Pacific Northwest; establishes broader geographic risk to salmonids in Great Lakes and Atlantic watersheds.',sig:'med',tags:['occurrence','stormwater','coho-salmon'],access:['est'],attn:false,inf:['d1','d4'],date:'2022-11-01',custom:false},
+{id:'d8',type:'journal',title:'Tire-derived contaminants 6PPD and 6PPD-Q: analysis, sample handling, and reconnaissance of United States stream exposures',author:'Lane RF, Smalling KL, Bradley PM, et al. (USGS)',year:'2024',journal:'Chemosphere',url:'https://www.sciencedirect.com/science/article/pii/S0045653524017247',phase:'expansion',change:'USGS national reconnaissance: 6PPD-Q detected in 57% of stormwater samples and 45% of urban stream sites nationally; absent from agricultural and forested sites. Established sample handling best practices (glass bottles, PTFE caps, borosilicate filters, stable for 75 days at 5C).',relevance:'First national-scale US occurrence dataset; establishes that 6PPD-Q is a widespread urban stormwater contaminant nationally. Critical for EPA regulatory scope justification.',sig:'high',tags:['occurrence','stormwater','tire-wear'],access:['oa'],attn:false,inf:['d4','d7'],date:'2024-07-11',custom:false},
+{id:'d9',type:'review',title:'Environmental occurrence, influencing factors, and toxic effects of 6PPD-Q: a comprehensive review',author:'Multiple authors',year:'2025',journal:'Environmental Research (PMC open access)',url:'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12655922/',phase:'expansion',change:'Systematic review of 2021-2025 literature; environmental distribution across atmospheric, aquatic, and terrestrial systems; toxicological effects; key influencing factors (precipitation, traffic, sunlight, particle size); proposes source-reduction/process-regulation/end-of-pipe management framework.',relevance:'Current state-of-science synthesis for ERA; identifies key knowledge gaps including long-term fate, bioaccumulation potential, and mitigation effectiveness; directly relevant to TSCA ANPRM information needs.',sig:'high',tags:['review','toxicology','occurrence','stormwater','coho-salmon'],access:['oa'],attn:false,inf:['d1','d4','d5','d8'],date:'2025-01-01',custom:false},
+{id:'d10',type:'review',title:'6PPD-quinone from tyres to streams: ecotoxicology and regulation in the US, UK, and EU',author:'Multiple authors',year:'2026',journal:'Association of Geotechnical & Geoenvironmental Specialists',url:'https://www.ags.org.uk/2026/03/6ppd-quinone-6ppd-q-from-tyres-to-streams-ecotoxicology-and-regulation-in-the-united-states-united-kingdom-and-european-union/',phase:'regulatory',change:'International regulatory comparison: US TSCA evaluations; UK Environment Agency catchment-based monitoring prioritization; EU REACH Annex XV restriction dossier pathway. Reviews mitigation strategies including substitution, tyre reformulation, bioretention, and constructed wetlands.',relevance:'Cross-jurisdictional regulatory comparison; useful for understanding how US trajectory compares internationally; supports urgency argument.',sig:'med',tags:['review','regulation','alternatives','green-infra'],access:['oa'],attn:false,inf:['d9'],date:'2026-03-12',custom:false},
+{id:'d11',type:'tribal',title:'TSCA Section 21 petition to prohibit 6PPD in tires',author:'Yurok Tribe, Port Gamble S\'Klallam Tribe, Puyallup Tribe (via Earthjustice)',year:'2023',journal:'US EPA TSCA Docket',url:'https://www.epa.gov/system/files/documents/2023-08/TSCA%20Section%2021%20Petition%20to%20EPA%20re%206PPD%20in%20tires.pdf',phase:'regulatory',change:'Three Pacific Northwest tribes petitioned EPA under TSCA Section 21 to prohibit manufacturing, processing, use, and distribution of 6PPD in tires; cited treaty rights under Treaty of Point No Point and Medicine Creek Treaty, coho salmon mortality, and lethal concentrations in tribal waterways. Filed August 1, 2023.',relevance:'Landmark tribal rights and environmental justice action that directly triggered the EPA regulatory process. Connects bench science to treaty-protected resources; establishes 6PPD-Q as a tribal treaty rights issue.',sig:'high',tags:['tribal-rights','regulation','coho-salmon'],access:['oa'],attn:true,inf:['d1','d2','d4','d6'],date:'2023-08-01',custom:false},
+{id:'d12',type:'gov',title:'EPA grants tribal petition - TSCA Section 21 decision letter re: 6PPD in tires',author:'US Environmental Protection Agency',year:'2023',journal:'US EPA OPPT',url:'https://www.epa.gov/system/files/documents/2023-11/pet-001845_tsca-21_petition_6ppd_decision_letter_esigned2023.11.2.pdf',phase:'regulatory',change:'EPA granted tribal petition November 2, 2023; found that 6PPD-Q presents lethal hazard to coho at very low concentrations and that it is necessary to initiate TSCA Section 6(a) rulemaking; committed to ANPRM by Fall 2024.',relevance:'Critical regulatory trigger; EPA formally acknowledged unreasonable risk from 6PPD/6PPD-Q to the environment. Initiates the rulemaking process that could result in restriction or ban of 6PPD in tires.',sig:'high',tags:['regulation','tribal-rights','coho-salmon'],access:['oa'],attn:true,inf:['d11','d1','d4'],date:'2023-11-02',custom:false},
+{id:'d13',type:'gov',title:'Draft EPA Method 1634 - detection of 6PPD-quinone in surface water and stormwater',author:'US Environmental Protection Agency',year:'2024',journal:'US EPA Office of Water',url:'https://www.epa.gov/cwa-methods',phase:'regulatory',change:'Draft analytical method published January 30, 2024; enables standardized detection of 6PPD-Q in surface water and stormwater; method detection limit 0.43-0.61 ng/L from one laboratory; enables government agencies, tribes, and researchers to document where and when 6PPD-Q is present.',relevance:'Critical monitoring infrastructure; enables tribes and states to document exceedances of lethal thresholds in their own waters; standardized method needed for any future permit limits or water quality standards.',sig:'high',tags:['occurrence','stormwater','regulation'],access:['oa'],attn:false,inf:['d4','d8','d12'],date:'2024-01-30',custom:false},
+{id:'d14',type:'gov',title:'Acute aquatic life screening value for 6PPD-quinone in freshwater',author:'US Environmental Protection Agency',year:'2024',journal:'US EPA Office of Water',url:'https://www.epa.gov/wqc/acute-6ppd-q-aquatic-life-screening-value-freshwater',phase:'regulatory',change:'EPA finalized acute aquatic life screening value for 6PPD-Q; based on Tian 2021/2022, Lo 2023, and Hiki 2021/2022 toxicity data; underwent independent peer review (ERG, Oct-Nov 2023). Not a formal water quality criterion but a screening tool for states and tribes.',relevance:'First federal aquatic life benchmark for 6PPD-Q; directly derived from foundational science papers; states and tribes can use to evaluate monitoring data and prioritize protective action.',sig:'high',tags:['regulation','toxicology','coho-salmon','dose-response'],access:['oa'],attn:true,inf:['d1','d4','d5','d6','d12'],date:'2024-06-01',custom:false},
+{id:'d15',type:'gov',title:'EPA TSCA Section 6(a) advance notice of proposed rulemaking (ANPRM) for 6PPD and 6PPD-quinone',author:'US Environmental Protection Agency',year:'2024',journal:'Federal Register / US EPA OPPT',url:'https://www.epa.gov/assessing-and-managing-chemicals-under-tsca/advance-notice-proposed-rulemaking-6ppd-and-its',phase:'regulatory',change:'ANPRM published November 14, 2024; solicits information on environmental effects, human health, fate and transport, exposure pathways, bioaccumulation, additional uses of 6PPD, and alternatives. Comment period extended to March 24, 2025. EPA also finalized TSCA 8(d) rule December 2024 requiring manufacturers to report unpublished health and safety studies.',relevance:'The formal regulatory milestone triggered by the tribal petition; opens the record for potential TSCA Section 6(a) rule to restrict or ban 6PPD in tires; TSCA 8(d) rule creates immediate reporting obligations for tire manufacturers.',sig:'high',tags:['regulation','alternatives','tribal-rights'],access:['oa'],attn:true,inf:['d12','d14','d11'],date:'2024-11-14',custom:false},
+{id:'d16',type:'gov',title:'Washington State 6PPD action plan and alternatives assessment',author:'Washington State Department of Ecology',year:'2024',journal:'WA Dept. of Ecology Publication No. 2404053',url:'https://apps.ecology.wa.gov/publications/documents/2404053.pdf',phase:'regulatory',change:'Washington State legislature-funded action plan under Safer Products for Washington statute; 2024 SSB 5931 added 6PPD as a priority chemical; requires alternatives assessment; if safer alternative is feasible, Ecology could restrict sale of tires containing 6PPD. First state to potentially restrict 6PPD in tires.',relevance:'Most advanced state-level regulatory action; Washington as regulatory bellwether; alternatives assessment methodology may inform federal TSCA process.',sig:'high',tags:['regulation','alternatives','stormwater'],access:['oa'],attn:false,inf:['d1','d12'],date:'2024-10-01',custom:false},
+{id:'d17',type:'grey',title:'ITRC tire anti-degradants (6PPD) technical document',author:'Interstate Technology & Regulatory Council (ITRC)',year:'2024',journal:'ITRC',url:'https://6ppd.itrcweb.org/',phase:'regulatory',change:'Comprehensive technical guidance for state, tribal, and local regulators; covers occurrence, analytical methods, toxicity, fate and transport, mitigation strategies; includes state monitoring summaries and international perspectives; accompanied by web-based training course reaching thousands of participants.',relevance:'Primary practitioner guidance document bridging science to regulatory practice; synthesizes current science for stormwater managers and permit writers; widely distributed through EPA-funded training.',sig:'high',tags:['review','regulation','stormwater','green-infra','occurrence'],access:['oa'],attn:false,inf:['d1','d4','d8','d14'],date:'2024-09-01',custom:false},
+{id:'d18',type:'gov',title:'EPA FY2025-2028 6PPD/6PPD-quinone action plan',author:'US Environmental Protection Agency',year:'2024',journal:'US EPA',url:'https://www.epa.gov/system/files/documents/2024-11/epa-fy25-28-action-plan-for-6ppd-and-6ppd-quinone.pdf',phase:'regulatory',change:'Cross-agency EPA action plan coordinating research, monitoring, regulatory action, tribal engagement, and alternatives development through 2028. TSCA 8(d) rule finalized December 2024 requiring manufacturers to report unpublished health/safety studies. Puget Sound Federal Task Force integration included.',relevance:'Defines the full scope of EPA regulatory roadmap through 2028; TSCA 8(d) rule creates immediate data reporting obligations for tire manufacturers; establishes timeline expectations for potential Section 6(a) restriction.',sig:'high',tags:['regulation','alternatives','tribal-rights'],access:['oa'],attn:true,inf:['d12','d15','d14'],date:'2024-11-01',custom:false},
+];
+
+let docs=[], tab='cl', editId=null, mapFilt='all';
+function loadState(){try{const r=localStorage.getItem(SK);docs=r?JSON.parse(r):JSON.parse(JSON.stringify(DD));}catch(e){docs=JSON.parse(JSON.stringify(DD));}}
+function save(){try{localStorage.setItem(SK,JSON.stringify(docs));document.getElementById('sSaved').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+function hardReset(){if(!confirm('Clear all cached changes and reload defaults?'))return;localStorage.removeItem(SK);docs=JSON.parse(JSON.stringify(DD));save();renderAll();}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(s){if(!s)return'';try{return new Date(s+'T12:00:00').toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return s;}}
+function shortUrl(u){try{return new URL(u).hostname.replace('www.','');}catch(e){return u.slice(0,26);}}
+function getFiltered(){
+  const q=(document.getElementById('srch')?.value||'').toLowerCase();
+  const type=document.getElementById('fType')?.value||'';
+  const phase=document.getElementById('fPhase')?.value||'';
+  const sig=document.getElementById('fSig')?.value||'';
+  const tag=document.getElementById('fTag')?.value||'';
+  const attn=document.getElementById('fAttn')?.value||'';
+  const acc=document.getElementById('fAcc')?.value||'';
+  return docs.filter(d=>{
+    if(type&&d.type!==type)return false;
+    if(phase&&d.phase!==phase)return false;
+    if(sig&&d.sig!==sig)return false;
+    if(tag&&!(d.tags||[]).includes(tag))return false;
+    if(attn==='yes'&&!d.attn)return false;
+    if(acc&&!(d.access||[]).includes(acc))return false;
+    if(q){const h=[d.title,d.author,d.journal,d.change,d.relevance,...(d.tags||[])].join(' ').toLowerCase();if(!h.includes(q))return false;}
+    return true;
+  });
+}
+function updSum(){
+  document.getElementById('sTotal').textContent=docs.length;
+  document.getElementById('sJrn').textContent=docs.filter(d=>d.type==='journal').length;
+  document.getElementById('sRev').textContent=docs.filter(d=>d.type==='review').length;
+  document.getElementById('sGov').textContent=docs.filter(d=>d.type==='gov'||d.type==='policy'||d.type==='tribal').length;
+  document.getElementById('sWiley').textContent=docs.filter(d=>(d.access||[]).includes('wiley')).length;
+  document.getElementById('sEst').textContent=docs.filter(d=>(d.access||[]).includes('est')).length;
+  document.getElementById('sOa').textContent=docs.filter(d=>(d.access||[]).includes('oa')).length;
+  document.getElementById('sAttn').textContent=docs.filter(d=>d.attn).length;
+}
+function setTab(t){
+  tab=t;
+  ['cl','gr','map'].forEach(x=>document.getElementById('tab-'+x)?.classList.toggle('on',x===t));
+  document.getElementById('ctrlBar').style.display=(t==='map')?'none':'';
+  renderAll();
+}
+function renderAll(){updSum();const el=document.getElementById('cnt');if(tab==='cl')renderChangelog(el);else if(tab==='gr')renderGrouped(el);else renderMap(el);}
+function accB(d){
+  const a=d.access||[];let h='';
+  if(a.includes('wiley'))h+=`<span class="bdg" style="background:#f3ecfd;color:#6920b0;border:.5px solid #d0aaee">Wiley/BW</span>`;
+  if(a.includes('est'))  h+=`<span class="bdg" style="background:#e4f5ed;color:#0a6840;border:.5px solid #90d0b0">ES&amp;T sub</span>`;
+  if(a.includes('oa'))   h+=`<span class="bdg" style="background:#fff3e0;color:#b05800;border:.5px solid #ffc870">Open access</span>`;
+  return h;
+}
+function tagB(d){return(d.tags||[]).map(t=>`<span class="bdg bdg-pill" style="background:${TB[t]||'#eee'};color:${TC[t]||'#333'}">${t}</span>`).join('');}
+function phaseB(d){
+  const ph=d.phase||'expansion';
+  return `<span class="bdg" style="background:${phaseFills[ph]||'#eee'};color:${phaseStrokes[ph]||'#333'};border:.5px solid ${phaseStrokes[ph]||'#888'}40">${phaseLabels[ph]||ph}</span>`;
+}
+function sigC(s){return s==='high'?'#c0392b':s==='med'?'#c07020':'#3a7a3a';}
+function renderChangelog(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty"><b>No documents match</b>Adjust filters or search.</div>';return;}
+  const sorted=[...list].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  el.innerHTML=sorted.map(d=>{
+    const tm=TM[d.type]||TM.grey;
+    return`<div class="crow">
+      <div class="cdate-col">${d.date?fmtDate(d.date):'&mdash;'}</div>
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="cdot ${d.sig||''}"></div><div class="cline" style="flex:1"></div></div>
+      <div class="cbody2">
+        <div class="ctitle2">${esc(d.title)}</div>
+        <div class="csub">${d.author?esc(d.author):''}${d.year?' ('+esc(d.year)+')':''}${d.journal?' &mdash; <em>'+esc(d.journal)+'</em>':''}</div>
+        ${d.change?`<div class="csub">${esc(d.change)}</div>`:''}
+        <div class="cbadges2">
+          <span class="bdg" style="background:${tm.bg};color:${tm.c};border:.5px solid ${tm.bd}">${tm.lbl}</span>
+          ${phaseB(d)}
+          <span class="bdg" style="background:${d.sig==='high'?'#fdecea':d.sig==='med'?'#fef3e2':'#eaf5ea'};color:${sigC(d.sig)};border:.5px solid ${sigC(d.sig)}40">${SL[d.sig]||'&mdash;'}</span>
+          ${d.attn?'<span class="bdg" style="background:#fdecea;color:#c0392b;border:.5px solid #f5b8b0">&#9873; Attorney</span>':''}
+          ${accB(d)}${tagB(d)}
+          ${d.url?`<a class="ulink" href="${esc(d.url)}" target="_blank">${shortUrl(d.url)}</a>`:''}
+          <button class="ib" onclick="openEdit('${d.id}')">&#9998;</button>
+          ${d.custom?`<button class="ib del" onclick="delDocId('${d.id}')">&#x2715;</button>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderGrouped(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty"><b>No documents match</b>Adjust filters or search.</div>';return;}
+  let html='';
+  ['discovery','expansion','regulatory'].forEach(ph=>{
+    const grp=[...list].filter(d=>d.phase===ph).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    if(!grp.length)return;
+    html+=`<div class="gh"><div class="gd" style="background:${phaseFills[ph]};border:.5px solid ${phaseStrokes[ph]}"></div><div class="gn">${phaseLabels[ph]}</div><div class="gc">${grp.length}</div></div>`;
+    html+=grp.map(d=>{
+      const tm=TM[d.type]||TM.grey;
+      return`<div class="card ${d.attn?'attn':''} ${d.custom?'cust':''}">
+        <div class="ct"><span class="bdg" style="background:${tm.bg};color:${tm.c};border:.5px solid ${tm.bd};margin-top:1px">${tm.lbl}</span><div class="ctitle">${esc(d.title)}</div></div>
+        <div class="cmeta">${d.author?`<span style="font-style:italic">${esc(d.author)}</span>`:''}${d.year?`<span>&middot;</span><span style="font-family:var(--mono);color:var(--text-3)">${esc(d.year)}</span>`:''}${d.journal?`<span>&middot;</span><span>${esc(d.journal)}</span>`:''}</div>
+        ${d.change?`<div class="cbody">${esc(d.change)}</div>`:''}
+        ${d.relevance?`<div class="crel">${esc(d.relevance)}</div>`:''}
+        <div class="cbadges"><span class="bdg" style="background:${d.sig==='high'?'#fdecea':d.sig==='med'?'#fef3e2':'#eaf5ea'};color:${sigC(d.sig)};border:.5px solid ${sigC(d.sig)}40">${SL[d.sig]||'&mdash;'}</span>${d.attn?'<span class="bdg" style="background:#fdecea;color:#c0392b;border:.5px solid #f5b8b0">&#9873; Attorney</span>':''}${accB(d)}${tagB(d)}</div>
+        <div class="cfoot">${d.url?`<a class="ulink" href="${esc(d.url)}" target="_blank">${shortUrl(d.url)}</a>`:''}<span class="cdate">${d.date?fmtDate(d.date):''}</span>
+          <div class="cact">
+            <button class="ib ${d.attn?'on':''}" onclick="togAttn('${d.id}')" title="Toggle attorney flag">&#9873;</button>
+            <button class="ib" onclick="openEdit('${d.id}')">&#9998;</button>
+            ${d.custom?`<button class="ib del" onclick="delDocId('${d.id}')">&#x2715;</button>`:''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  });
+  el.innerHTML=html;
+}
+function renderMap(el){
+  el.innerHTML=`<div class="map-area">
+    <div class="map-hint">
+      Arrows flow <strong>left to right</strong> from earlier foundational papers toward later works that build on them.
+      The diagram shows how bench science translated into policy: <strong>Discovery papers &rarr; Expansion/multi-species studies &rarr; Reviews &rarr; Tribal petition &rarr; EPA regulatory actions.</strong>
+      Node color = phase. Left-edge strip = significance (red=high, amber=medium). Red dot = attorney flagged. Click any node to edit.
+    </div>
+    <div class="map-tb">
+      <span class="cl">Show</span>
+      <select class="flt" id="mfilt" onchange="setMapFilt(this.value)">
+        <option value="all">All documents</option>
+        <option value="sci">Science papers only</option>
+        <option value="sci-rev">Science + reviews</option>
+        <option value="reg">Regulatory track only</option>
+      </select>
+      <button class="btn" onclick="drawMap()">Refresh</button>
+    </div>
+    <div id="map-svg-wrap"></div>
+    <div class="map-leg">
+      <div class="ml"><div class="mld" style="background:#e6f4ec;border:.5px solid #1a5c32"></div>Phase 1: Discovery (2020&ndash;21)</div>
+      <div class="ml"><div class="mld" style="background:#e6f0fb;border:.5px solid #1e4d7a"></div>Phase 2: Expansion (2022&ndash;23)</div>
+      <div class="ml"><div class="mld" style="background:#faeaea;border:.5px solid #5a1a1a"></div>Phase 3: Regulatory (2023&ndash;25+)</div>
+      <div class="ml"><div class="mld" style="background:#f0e8fa;border:.5px solid #4a1e6a"></div>Review / meta-analysis</div>
+      <div class="ml" style="margin-left:8px;font-style:italic">&rarr; = builds on / influences &nbsp;|&nbsp; left strip = significance &nbsp;|&nbsp; &#9679; = attorney flagged</div>
+    </div>
+  </div>`;
+  drawMap();
+}
+function setMapFilt(v){mapFilt=v;drawMap();}
+function drawMap(){
+  const wrap=document.getElementById('map-svg-wrap');
+  if(!wrap)return;
+  let subset=docs;
+  if(mapFilt==='sci') subset=docs.filter(d=>d.type==='journal');
+  if(mapFilt==='sci-rev') subset=docs.filter(d=>d.type==='journal'||d.type==='review');
+  if(mapFilt==='reg') subset=docs.filter(d=>d.type==='gov'||d.type==='tribal'||d.type==='policy'||d.type==='grey'||d.type==='review');
+  const ids=new Set(subset.map(d=>d.id));
+  const edges=[];
+  subset.forEach(d=>(d.inf||[]).forEach(src=>{if(ids.has(src))edges.push({from:src,to:d.id});}));
+  if(!subset.length){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text-3);font-size:12px">No documents in this filter.</div>';return;}
+  const inDeg={};subset.forEach(d=>{inDeg[d.id]=0;});
+  edges.forEach(e=>{if(inDeg[e.to]!==undefined)inDeg[e.to]++;});
+  const col={};
+  const queue=subset.filter(d=>inDeg[d.id]===0).map(d=>d.id);
+  queue.forEach(id=>col[id]=0);
+  const visited=new Set(queue);
+  let head=0;
+  while(head<queue.length){
+    const cur=queue[head++];
+    edges.filter(e=>e.from===cur).forEach(e=>{
+      if(!visited.has(e.to)){visited.add(e.to);queue.push(e.to);}
+      col[e.to]=Math.max(col[e.to]||0,(col[cur]||0)+1);
+    });
+  }
+  subset.forEach(d=>{if(col[d.id]===undefined)col[d.id]=0;});
+  const maxCol=Math.max(0,...Object.values(col));
+  const cols=[];
+  for(let c=0;c<=maxCol;c++){cols.push(subset.filter(d=>col[d.id]===c));}
+  const NW=142,NH=50,HGAP=52,VGAP=11,PAD=18;
+  const colX=cols.map((_,i)=>PAD+i*(NW+HGAP));
+  const totalW=PAD*2+maxCol*(NW+HGAP)+NW;
+  const nodePos={};let totalH=PAD;
+  cols.forEach((c,ci)=>{
+    c.forEach((d,ri)=>{nodePos[d.id]={x:colX[ci],y:PAD+ri*(NH+VGAP)};});
+    totalH=Math.max(totalH,PAD+c.length*(NH+VGAP)+PAD);
+  });
+  const svgNS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(svgNS,'svg');
+  svg.setAttribute('width','100%');
+  svg.setAttribute('viewBox',`0 0 ${totalW} ${totalH}`);
+  svg.style.fontFamily='IBM Plex Sans, sans-serif';
+  const defs=document.createElementNS(svgNS,'defs');
+  const marker=document.createElementNS(svgNS,'marker');
+  marker.setAttribute('id','arr');marker.setAttribute('viewBox','0 0 10 10');
+  marker.setAttribute('refX','9');marker.setAttribute('refY','5');
+  marker.setAttribute('markerWidth','6');marker.setAttribute('markerHeight','6');
+  marker.setAttribute('orient','auto-start-reverse');
+  const ap=document.createElementNS(svgNS,'path');
+  ap.setAttribute('d','M1 1L9 5L1 9');ap.setAttribute('fill','none');
+  ap.setAttribute('stroke','#a0a098');ap.setAttribute('stroke-width','1.5');
+  ap.setAttribute('stroke-linecap','round');ap.setAttribute('stroke-linejoin','round');
+  marker.appendChild(ap);defs.appendChild(marker);svg.appendChild(defs);
+  edges.forEach(e=>{
+    const from=nodePos[e.from],to=nodePos[e.to];if(!from||!to)return;
+    const x1=from.x+NW,y1=from.y+NH/2,x2=to.x,y2=to.y+NH/2,mx=(x1+x2)/2;
+    const path=document.createElementNS(svgNS,'path');
+    path.setAttribute('d',`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+    path.setAttribute('fill','none');path.setAttribute('stroke','#c0bdb5');
+    path.setAttribute('stroke-width','1.2');path.setAttribute('marker-end','url(#arr)');
+    svg.insertBefore(path,svg.firstChild);
+  });
+  const sigColors={high:'#c0392b',med:'#c07020',low:'#3a7a3a'};
+  subset.forEach(d=>{
+    const pos=nodePos[d.id];if(!pos)return;
+    const isReview=d.type==='review';
+    const fill=isReview?'#f0e8fa':(phaseFills[d.phase]||'#eee');
+    const stroke=isReview?'#4a1e6a':(phaseStrokes[d.phase]||'#888');
+    const g=document.createElementNS(svgNS,'g');
+    g.style.cursor='pointer';
+    const rect=document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x',pos.x);rect.setAttribute('y',pos.y);
+    rect.setAttribute('width',NW);rect.setAttribute('height',NH);
+    rect.setAttribute('rx','6');
+    rect.style.fill=fill;rect.style.stroke=stroke;rect.style.strokeWidth='0.5';
+    g.appendChild(rect);
+    const strip=document.createElementNS(svgNS,'rect');
+    strip.setAttribute('x',pos.x);strip.setAttribute('y',pos.y);
+    strip.setAttribute('width','3');strip.setAttribute('height',NH);
+    strip.setAttribute('rx','3');strip.style.fill=sigColors[d.sig]||sigColors.low;
+    g.appendChild(strip);
+    const surname=(d.author||'').split(',')[0].split(' ').pop()||'?';
+    const line1=`${surname} ${d.year||''}`.trim();
+    const t1=document.createElementNS(svgNS,'text');
+    t1.setAttribute('x',pos.x+NW/2+2);t1.setAttribute('y',pos.y+NH/2-7);
+    t1.setAttribute('text-anchor','middle');t1.setAttribute('dominant-baseline','central');
+    t1.setAttribute('font-size','11');t1.setAttribute('font-weight','500');
+    t1.style.fill=stroke;t1.textContent=line1.length>17?line1.slice(0,16)+'\u2026':line1;
+    g.appendChild(t1);
+    const tm=TM[d.type]||TM.grey;
+    const t2=document.createElementNS(svgNS,'text');
+    t2.setAttribute('x',pos.x+NW/2+2);t2.setAttribute('y',pos.y+NH/2+9);
+    t2.setAttribute('text-anchor','middle');t2.setAttribute('dominant-baseline','central');
+    t2.setAttribute('font-size','9');t2.style.fill=stroke;t2.style.opacity='0.65';
+    t2.textContent=tm.lbl;g.appendChild(t2);
+    if(d.attn){
+      const dot=document.createElementNS(svgNS,'circle');
+      dot.setAttribute('cx',pos.x+NW-7);dot.setAttribute('cy',pos.y+7);
+      dot.setAttribute('r','4');dot.style.fill='#c0392b';g.appendChild(dot);
+    }
+    g.addEventListener('click',()=>openEdit(d.id));
+    g.addEventListener('mouseenter',()=>{rect.style.opacity='0.82';});
+    g.addEventListener('mouseleave',()=>{rect.style.opacity='1';});
+    svg.appendChild(g);
+  });
+  wrap.innerHTML='';wrap.appendChild(svg);
+}
+function togAttn(id){const d=docs.find(x=>x.id===id);if(!d)return;d.attn=!d.attn;save();renderAll();}
+function fillInfSel(sel=[]){
+  const el=document.getElementById('pInf');
+  el.innerHTML=docs.map(d=>{
+    const lbl=`${d.year||'?'} \u2014 ${d.title.slice(0,54)}${d.title.length>54?'\u2026':''}`;
+    return`<option value="${d.id}"${sel.includes(d.id)?' selected':''}>${esc(lbl)}</option>`;
+  }).join('');
+}
+function openPanel(){editId=null;resetPanel();fillInfSel();document.getElementById('pTitle').textContent='Add document';document.getElementById('pDel').style.display='none';document.getElementById('pDate').value=new Date().toISOString().slice(0,10);document.getElementById('pbg').classList.add('open');}
+function openEdit(id){editId=id;const d=docs.find(x=>x.id===id);if(!d)return;popPanel(d);fillInfSel(d.inf||[]);document.getElementById('pTitle').textContent='Edit document';document.getElementById('pDel').style.display=d.custom?'':'none';document.getElementById('pbg').classList.add('open');}
+function closePanel(){document.getElementById('pbg').classList.remove('open');editId=null;}
+function closeBg(e){if(e.target===document.getElementById('pbg'))closePanel();}
+function resetPanel(){
+  ['pTitle2','pAuthor','pYear','pJournal','pUrl','pChange','pRel'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('pType').value='journal';document.getElementById('pSig').value='med';
+  document.getElementById('pPhase').value='expansion';document.getElementById('pDate').value='';
+  document.querySelectorAll('.ck').forEach(l=>{l.classList.remove('on');const cb=l.querySelector('input');if(cb)cb.checked=false;});
+}
+function popPanel(d){
+  document.getElementById('pType').value=d.type||'journal';
+  document.getElementById('pTitle2').value=d.title||'';
+  document.getElementById('pAuthor').value=d.author||'';
+  document.getElementById('pYear').value=d.year||'';
+  document.getElementById('pJournal').value=d.journal||'';
+  document.getElementById('pUrl').value=d.url||'';
+  document.getElementById('pChange').value=d.change||'';
+  document.getElementById('pRel').value=d.relevance||'';
+  document.getElementById('pSig').value=d.sig||'med';
+  document.getElementById('pPhase').value=d.phase||'expansion';
+  document.getElementById('pDate').value=d.date||'';
+  document.querySelectorAll('.ck').forEach(l=>{
+    const cb=l.querySelector('input');if(!cb)return;
+    const v=cb.value;
+    const on=v==='attn'?!!d.attn:['wiley','est','oa'].includes(v)?(d.access||[]).includes(v):(d.tags||[]).includes(v);
+    l.classList.toggle('on',on);cb.checked=on;
+  });
+}
+function tck(lbl){lbl.classList.toggle('on');const cb=lbl.querySelector('input');if(cb)cb.checked=lbl.classList.contains('on');}
+function saveDoc(){
+  const title=document.getElementById('pTitle2').value.trim();
+  if(!title){alert('Please enter a title.');return;}
+  const tags=[],access=[];let attn=false;
+  document.querySelectorAll('.ck').forEach(l=>{
+    const cb=l.querySelector('input');if(!cb||!l.classList.contains('on'))return;
+    if(cb.value==='attn')attn=true;
+    else if(['wiley','est','oa'].includes(cb.value))access.push(cb.value);
+    else tags.push(cb.value);
+  });
+  const inf=Array.from(document.getElementById('pInf').selectedOptions).map(o=>o.value);
+  const data={type:document.getElementById('pType').value,title,author:document.getElementById('pAuthor').value.trim(),year:document.getElementById('pYear').value.trim(),journal:document.getElementById('pJournal').value.trim(),url:document.getElementById('pUrl').value.trim(),change:document.getElementById('pChange').value.trim(),relevance:document.getElementById('pRel').value.trim(),sig:document.getElementById('pSig').value,phase:document.getElementById('pPhase').value,tags,access,attn,inf,date:document.getElementById('pDate').value};
+  if(editId){const i=docs.findIndex(x=>x.id===editId);if(i>=0){data.id=editId;data.custom=docs[i].custom;docs[i]={...data};}}
+  else{data.id='c'+Date.now();data.custom=true;docs.unshift(data);}
+  save();closePanel();renderAll();
+}
+function delDoc(){if(editId)delDocId(editId);}
+function delDocId(id){if(!confirm('Delete this document?'))return;docs=docs.filter(x=>x.id!==id);save();closePanel();renderAll();}
+function exportCSV(){
+  const cols=['Title','Author','Year','Journal','Type','Phase','Significance','Tags','Access','Attorney flag','Influence links','Change/Finding','Relevance','URL','Date added'];
+  const rows=docs.map(d=>[d.title,d.author,d.year,d.journal,(TM[d.type]||{lbl:d.type}).lbl,d.phase||'',SL[d.sig]||d.sig,(d.tags||[]).join('; '),(d.access||[]).join('; '),d.attn?'Yes':'No',(d.inf||[]).length,d.change,d.relevance,d.url,d.date].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[cols.join(','),...rows].join('\n');
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:'6ppd_q_tracker_'+new Date().toISOString().slice(0,10)+'.csv'});
+  a.click();
+}
+loadState();renderAll();
+</script>
+</body>
+</html>
