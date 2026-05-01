@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elk Valley — Document &amp; Literature Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'IBM Plex Sans',-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --bg:#f4f3ee;--surface:#fff;--surface2:#eeedea;--surface3:#e6e5e0;
+  --border:rgba(0,0,0,.08);--border-med:rgba(0,0,0,.13);
+  --text:#181815;--text-2:#64635e;--text-3:#9e9d98;
+  --accent:#1e4d7a;--accent-light:#e6f0fb;
+  --cj:#1e4d7a;--cj-bg:#e6f0fb;--cj-bd:#b5d0ef;
+  --cg:#1a5c32;--cg-bg:#e6f4ec;--cg-bd:#a8d8b8;
+  --cr:#6b4c1a;--cr-bg:#faf0e0;--cr-bd:#e8cfa0;
+  --ci:#0f5448;--ci-bg:#e2f4f0;--ci-bd:#9ed8cc;
+  --cp:#4a1e6a;--cp-bg:#f0e8fa;--cp-bd:#c8a8e8;
+  --sh:#c0392b;--sh-bg:#fdecea;--sh-bd:#f5b8b0;
+  --sm:#c07020;--sm-bg:#fef3e2;--sm-bd:#f5d090;
+  --sl:#3a7a3a;--sl-bg:#eaf5ea;--sl-bd:#a8d8a8;
+  --aw:#6920b0;--aw-bg:#f3ecfd;--aw-bd:#d0aaee;
+  --ae:#0a6840;--ae-bg:#e4f5ed;--ae-bd:#90d0b0;
+  --ao:#b05800;--ao-bg:#fff3e0;--ao-bd:#ffc870;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#161614;--surface:#1e1e1c;--surface2:#252523;--surface3:#2c2c2a;
+  --border:rgba(255,255,255,.07);--border-med:rgba(255,255,255,.12);
+  --text:#e6e4dc;--text-2:#9e9c94;--text-3:#6a6864;
+  --accent:#6aaad8;--accent-light:#1a3050;
+  --cj:#6aaad8;--cj-bg:#1a2e48;--cj-bd:#2d4a6b;
+  --cg:#6ad898;--cg-bg:#1a3828;--cg-bd:#2d5a40;
+  --cr:#d8b868;--cr-bg:#382e18;--cr-bd:#5a4828;
+  --ci:#68d8c8;--ci-bg:#183830;--ci-bd:#285a50;
+  --cp:#c898e8;--cp-bg:#301840;--cp-bd:#502868;
+  --sh:#e87060;--sh-bg:#3a1818;--sh-bd:#6a2828;
+  --sm:#e0a840;--sm-bg:#382010;--sm-bd:#6a4020;
+  --sl:#70c870;--sl-bg:#183018;--sl-bd:#285028;
+  --aw:#c090f0;--aw-bg:#2a1848;--aw-bd:#5030a0;
+  --ae:#50d090;--ae-bg:#103028;--ae-bd:#206840;
+  --ao:#f0a840;--ao-bg:#301808;--ao-bd:#804010;
+}}
+html{font-size:14px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.hdr{padding:14px 22px 12px;background:var(--surface);border-bottom:.5px solid var(--border-med);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hdr-l{flex:1;min-width:180px}
+.hdr-title{font-size:15px;font-weight:500;letter-spacing:-.01em;margin-bottom:2px}
+.hdr-sub{font-size:10.5px;color:var(--text-3);font-family:var(--mono)}
+.hdr-act{display:flex;gap:7px;flex-wrap:wrap}
+.tabs{display:flex;background:var(--surface);border-bottom:.5px solid var(--border-med);padding:0 22px}
+.tab{font-family:var(--font);font-size:12px;padding:10px 16px;border:none;background:none;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap}
+.tab:hover{color:var(--text-2)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+.btn{font-family:var(--font);font-size:11.5px;padding:5px 13px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all .12s;white-space:nowrap}
+.btn:hover{background:var(--surface2);color:var(--text)}
+.btn.pri{background:var(--accent);color:#fff;border-color:transparent;font-weight:500}
+.btn.pri:hover{opacity:.88}
+.ctrls{padding:9px 22px;background:var(--surface);border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.cl{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+input.srch{font-family:var(--font);font-size:12px;padding:5px 10px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text);width:190px}
+input.srch:focus{outline:none;border-color:var(--accent)}
+select.flt{font-family:var(--font);font-size:11.5px;padding:5px 7px;border-radius:6px;border:.5px solid var(--border-med);background:var(--surface);color:var(--text-2);cursor:pointer}
+.sumbar{display:flex;background:var(--surface2);border-bottom:.5px solid var(--border);overflow-x:auto}
+.sc{flex:1;min-width:80px;padding:8px 14px;border-right:.5px solid var(--border);text-align:center}
+.sc:last-child{border-right:none}
+.sc-lbl{font-size:9.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.sc-val{font-size:18px;font-weight:500;font-family:var(--mono);color:var(--text)}
+.sc-val.fl{color:var(--sh)}
+.sc-val.ac{color:var(--aw)}
+.main{flex:1;overflow:hidden;display:flex}
+.cnt{flex:1;overflow-y:auto;padding:18px 22px 40px}
+.cnt::-webkit-scrollbar{width:4px}
+.cnt::-webkit-scrollbar-thumb{background:var(--border-med);border-radius:2px}
+.gh{display:flex;align-items:center;gap:10px;margin:18px 0 7px;padding-bottom:5px;border-bottom:.5px solid var(--border-med)}
+.gh:first-child{margin-top:0}
+.gd{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.gn{font-size:12px;font-weight:500;color:var(--text)}
+.gc{font-size:10px;font-family:var(--mono);color:var(--text-3);padding:1px 7px;background:var(--surface3);border-radius:10px}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:9px;padding:13px 15px;margin-bottom:7px;position:relative;transition:box-shadow .12s}
+.card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.card.attn{border-left:3px solid var(--sh)}
+.card.cust{border-left:3px solid var(--accent)}
+.ct{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+.ctitle{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;flex:1}
+.cmeta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px;font-size:11px;color:var(--text-2)}
+.cbody{font-size:11.5px;color:var(--text-2);line-height:1.6;margin-bottom:8px}
+.crel{font-size:11px;color:var(--text-2);background:var(--accent-light);border-left:2px solid var(--accent);padding:5px 9px;border-radius:0 4px 4px 0;margin-bottom:8px;line-height:1.5}
+.cbadges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.bdg{font-size:9.5px;font-weight:500;padding:2px 8px;border-radius:3px}
+.bdg-pill{border-radius:10px}
+.sh{background:var(--sh-bg);color:var(--sh);border:.5px solid var(--sh-bd)}
+.sm{background:var(--sm-bg);color:var(--sm);border:.5px solid var(--sm-bd)}
+.sl{background:var(--sl-bg);color:var(--sl);border:.5px solid var(--sl-bd)}
+.bw{background:var(--aw-bg);color:var(--aw);border:.5px solid var(--aw-bd)}
+.be{background:var(--ae-bg);color:var(--ae);border:.5px solid var(--ae-bd)}
+.bo{background:var(--ao-bg);color:var(--ao);border:.5px solid var(--ao-bd)}
+.cfoot{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cdate{font-size:10px;font-family:var(--mono);color:var(--text-3);margin-left:auto}
+.cact{display:flex;gap:5px}
+.ib{font-size:12px;background:none;border:none;cursor:pointer;color:var(--text-3);padding:3px 5px;border-radius:4px;transition:all .1s;font-family:var(--font);line-height:1}
+.ib:hover{background:var(--surface2);color:var(--text)}
+.ib.on{color:var(--sh)}
+.ib.del:hover{color:var(--sh)}
+.ulink{font-size:10.5px;color:var(--accent);text-decoration:none;font-family:var(--mono)}
+.ulink:hover{text-decoration:underline}
+/* changelog */
+.crow{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.cdate-col{width:86px;flex-shrink:0;font-size:10px;font-family:var(--mono);color:var(--text-3);padding-top:3px;text-align:right}
+.cdot{width:9px;height:9px;border-radius:50%;border:2px solid var(--surface);background:var(--accent);flex-shrink:0;margin-top:5px;margin-left:-4px}
+.cdot.high{background:var(--sh)}
+.cdot.med{background:var(--sm)}
+.cdot.low{background:var(--sl)}
+.cline{width:1px;background:var(--border-med);flex-shrink:0;margin-top:6px}
+.cbody2{flex:1;padding-bottom:10px;border-bottom:.5px solid var(--border)}
+.cbody2:last-child{border-bottom:none}
+.ctitle2{font-size:12.5px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:3px}
+.csub{font-size:11px;color:var(--text-2);line-height:1.5;margin-bottom:4px}
+.cbadges2{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+/* influence map */
+.map-area{padding:16px 0 0}
+.map-hint{font-size:11.5px;color:var(--text-2);line-height:1.6;margin-bottom:12px;padding:10px 14px;background:var(--surface2);border-radius:7px;border:.5px solid var(--border)}
+.map-tb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#map-svg-wrap{background:var(--surface);border-radius:9px;border:.5px solid var(--border);padding:16px;overflow-x:auto;min-height:280px}
+.map-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--text-3);margin-top:10px}
+.ml{display:flex;align-items:center;gap:5px}
+.mld{width:10px;height:10px;border-radius:2px}
+/* panel */
+.pbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:flex-start;justify-content:flex-end}
+.pbg.open{display:flex}
+.panel{width:430px;height:100vh;background:var(--surface);border-left:.5px solid var(--border-med);overflow-y:auto;display:flex;flex-direction:column}
+.panel::-webkit-scrollbar{width:4px}
+.panel::-webkit-scrollbar-thumb{background:var(--border-med);border-radius:2px}
+.ph{padding:14px 18px;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--surface);z-index:1}
+.ph-title{font-size:13px;font-weight:500;flex:1}
+.ph-x{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-3);line-height:1;padding:0 3px}
+.pb{padding:16px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.fi{display:flex;flex-direction:column;gap:4px}
+.fil{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);font-weight:500}
+.fih{font-size:10.5px;color:var(--text-3);line-height:1.45}
+input.ff,select.ff,textarea.ff{font-family:var(--font);font-size:12.5px;padding:7px 10px;border:.5px solid var(--border-med);border-radius:6px;background:var(--surface);color:var(--text);transition:border-color .12s}
+input.ff:focus,select.ff:focus,textarea.ff:focus{outline:none;border-color:var(--accent)}
+textarea.ff{resize:vertical;min-height:60px;line-height:1.5}
+select.ff{cursor:pointer}
+.fr{display:flex;gap:9px}
+.fr .fi{flex:1}
+.pf{padding:12px 18px;border-top:.5px solid var(--border);display:flex;gap:8px;position:sticky;bottom:0;background:var(--surface)}
+.ckg{display:flex;gap:7px;flex-wrap:wrap}
+.ck{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:11px;color:var(--text-2);padding:3px 8px;border-radius:4px;border:.5px solid var(--border);transition:all .1s;user-select:none}
+.ck input{display:none}
+.ck.on{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.ck.ck-a.on{background:var(--sh-bg);border-color:var(--sh-bd);color:var(--sh)}
+.ck.ck-w.on{background:var(--aw-bg);border-color:var(--aw-bd);color:var(--aw)}
+.ck.ck-e.on{background:var(--ae-bg);border-color:var(--ae-bd);color:var(--ae)}
+.ck.ck-o.on{background:var(--ao-bg);border-color:var(--ao-bd);color:var(--ao)}
+.empty{text-align:center;padding:60px 20px;color:var(--text-3);font-size:12.5px;line-height:1.7}
+.empty b{font-size:14px;font-weight:500;color:var(--text-2);display:block;margin-bottom:6px}
+@media print{.hdr-act,.tabs,.ctrls,.pbg,.cact,.ib,.btn{display:none!important}body{background:white}.cnt{overflow:visible;padding:12px}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-title">Elk Valley — document &amp; literature tracker</div>
+    <div class="hdr-sub">peer-reviewed &bull; government &bull; grey lit &bull; Indigenous &amp; policy &bull; influence map</div>
+  </div>
+  <div class="hdr-act">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+    <button class="btn" onclick="exportCSV()">Export CSV</button>
+    <button class="btn" onclick="hardReset()">Reset defaults</button>
+    <button class="btn pri" onclick="openPanel()">+ Add document</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="tab-cl"  onclick="setTab('cl')">Changelog</button>
+  <button class="tab"    id="tab-gr"  onclick="setTab('gr')">By source type</button>
+  <button class="tab"    id="tab-map" onclick="setTab('map')">Influence map</button>
+</div>
+
+<div class="ctrls" id="ctrlBar">
+  <span class="cl">Type</span>
+  <select class="flt" id="fType" onchange="renderAll()">
+    <option value="">All types</option>
+    <option value="journal">Peer-reviewed</option>
+    <option value="gov">Government</option>
+    <option value="grey">Grey lit</option>
+    <option value="ind">Indigenous</option>
+    <option value="policy">Policy/legal</option>
+  </select>
+  <span class="cl">Significance</span>
+  <select class="flt" id="fSigF" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="high">High</option>
+    <option value="med">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <span class="cl">Access</span>
+  <select class="flt" id="fAcc" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="wiley">Wiley / BW sub</option>
+    <option value="est">ES&amp;T sub</option>
+    <option value="oa">Open access</option>
+  </select>
+  <span class="cl">Tag</span>
+  <select class="flt" id="fTag" onchange="renderAll()">
+    <option value="">All tags</option>
+    <option value="se-toxicology">Se toxicology</option>
+    <option value="food-web">Food web</option>
+    <option value="thresholds">Thresholds</option>
+    <option value="regulation">Regulation</option>
+    <option value="indigenous">Indigenous</option>
+    <option value="transboundary">Transboundary</option>
+    <option value="biology">Biology/ecology</option>
+    <option value="water-quality">Water quality</option>
+  </select>
+  <span class="cl">Flag</span>
+  <select class="flt" id="fAttn" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="yes">Attorney only</option>
+  </select>
+  <input class="srch" type="search" id="srch" placeholder="Search titles, authors, notes…" oninput="renderAll()">
+</div>
+
+<div class="sumbar">
+  <div class="sc"><div class="sc-lbl">Total</div><div class="sc-val" id="sTotal">0</div></div>
+  <div class="sc"><div class="sc-lbl">Peer-reviewed</div><div class="sc-val" id="sJrn">0</div></div>
+  <div class="sc"><div class="sc-lbl">Gov / policy</div><div class="sc-val" id="sGov">0</div></div>
+  <div class="sc"><div class="sc-lbl">Wiley / BW</div><div class="sc-val" style="color:#6920b0" id="sWiley">0</div></div>
+  <div class="sc"><div class="sc-lbl">ES&amp;T sub</div><div class="sc-val" style="color:#0a6840" id="sEst">0</div></div>
+  <div class="sc"><div class="sc-lbl">Open access</div><div class="sc-val" style="color:#b05800" id="sOa">0</div></div>
+  <div class="sc"><div class="sc-lbl">Atty flagged</div><div class="sc-val fl" id="sAttn">0</div></div>
+  <div class="sc"><div class="sc-lbl">Last saved</div><div class="sc-val" style="font-size:11px" id="sSaved">—</div></div>
+</div>
+
+<div class="main"><div class="cnt" id="cnt"></div></div>
+
+<!-- panel -->
+<div class="pbg" id="pbg" onclick="closeBg(event)">
+ <div class="panel" onclick="event.stopPropagation()">
+  <div class="ph"><div class="ph-title" id="pTitle">Add document</div><button class="ph-x" onclick="closePanel()">&#x2715;</button></div>
+  <div class="pb">
+    <div class="fi"><label class="fil">Source type</label>
+      <select class="ff" id="pType">
+        <option value="journal">Peer-reviewed journal article</option>
+        <option value="gov">Government / regulatory document</option>
+        <option value="grey">Grey literature / technical report</option>
+        <option value="ind">Indigenous / First Nations document</option>
+        <option value="policy">Policy / legal / treaty document</option>
+      </select>
+    </div>
+    <div class="fi"><label class="fil">Title</label><input class="ff" type="text" id="pTitle2" placeholder="Full document or article title…"></div>
+    <div class="fr">
+      <div class="fi"><label class="fil">Author(s)</label><input class="ff" type="text" id="pAuthor" placeholder="Last, F. et al."></div>
+      <div class="fi" style="max-width:78px"><label class="fil">Year</label><input class="ff" type="text" id="pYear" placeholder="2025" maxlength="4"></div>
+    </div>
+    <div class="fi"><label class="fil">Journal / publisher / issuing body</label><input class="ff" type="text" id="pJournal" placeholder="e.g. Environ. Toxicol. Chem., BC MoE, IJC…"></div>
+    <div class="fi"><label class="fil">URL / DOI</label><input class="ff" type="text" id="pUrl" placeholder="https://… or doi:10.xxxx/…"></div>
+    <div class="fi"><label class="fil">Access type</label>
+      <div class="ckg">
+        <label class="ck ck-w" onclick="tck(this)"><input type="checkbox" value="wiley">Wiley / Blackwell sub</label>
+        <label class="ck ck-e" onclick="tck(this)"><input type="checkbox" value="est">ES&amp;T sub</label>
+        <label class="ck ck-o" onclick="tck(this)"><input type="checkbox" value="oa">Open access</label>
+      </div>
+    </div>
+    <div class="fi"><label class="fil">What changed / key finding</label>
+      <div class="fih">New version, updated data, new findings, or why you are logging this entry now.</div>
+      <textarea class="ff" id="pChange" rows="3" placeholder="e.g. 2024 AEMP data — whole-body Se exceeds EPA criterion in Fording R. cutthroat trout…"></textarea>
+    </div>
+    <div class="fi"><label class="fil">Relevance to Elk Valley</label>
+      <textarea class="ff" id="pRel" rows="2" placeholder="e.g. Updates threshold basis; supports food-web pathway argument…"></textarea>
+    </div>
+    <div class="fi"><label class="fil">Significance</label>
+      <select class="ff" id="pSig">
+        <option value="high">High — directly material</option>
+        <option value="med">Medium — relevant context</option>
+        <option value="low">Low — background awareness</option>
+      </select>
+    </div>
+    <div class="fi"><label class="fil">Tags</label>
+      <div class="ckg" id="tagCks">
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="se-toxicology">Se toxicology</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="food-web">Food web</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="thresholds">Thresholds</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="regulation">Regulation</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="indigenous">Indigenous</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="transboundary">Transboundary</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="biology">Biology/ecology</label>
+        <label class="ck" onclick="tck(this)"><input type="checkbox" value="water-quality">Water quality</label>
+      </div>
+    </div>
+    <div class="fi"><label class="fil">Builds on / influenced by</label>
+      <div class="fih">Hold Ctrl/Cmd to select multiple. These links appear in the influence map.</div>
+      <select class="ff" id="pInf" multiple style="min-height:88px;font-size:11px"></select>
+    </div>
+    <div class="fi"><label class="fil">Attorney flag</label>
+      <div class="ckg"><label class="ck ck-a" onclick="tck(this)"><input type="checkbox" value="attn">&#9873; Flag for attorney review</label></div>
+    </div>
+    <div class="fi"><label class="fil">Date added to tracker</label>
+      <div class="fih">When you logged this entry — publication year is captured above.</div>
+      <input class="ff" type="date" id="pDate">
+    </div>
+  </div>
+  <div class="pf">
+    <button class="btn pri" onclick="saveDoc()">Save</button>
+    <button class="btn" onclick="closePanel()">Cancel</button>
+    <button class="btn" id="pDel" style="display:none;margin-left:auto;color:var(--sh)" onclick="delDoc()">Delete</button>
+  </div>
+ </div>
+</div>
+
+<script>
+const SK='evT6';
+const TM={
+  journal:{lbl:'Peer-reviewed',c:'var(--cj)',bg:'var(--cj-bg)',bd:'var(--cj-bd)'},
+  gov:    {lbl:'Government',   c:'var(--cg)',bg:'var(--cg-bg)',bd:'var(--cg-bd)'},
+  grey:   {lbl:'Grey lit',     c:'var(--cr)',bg:'var(--cr-bg)',bd:'var(--cr-bd)'},
+  ind:    {lbl:'Indigenous',   c:'var(--ci)',bg:'var(--ci-bg)',bd:'var(--ci-bd)'},
+  policy: {lbl:'Policy/legal', c:'var(--cp)',bg:'var(--cp-bg)',bd:'var(--cp-bd)'},
+};
+const TC={'se-toxicology':'#1e4d7a','food-web':'#1a5c32','thresholds':'#4a1e6a','regulation':'#6b4c1a','indigenous':'#0f5448','transboundary':'#5a3a1a','biology':'#2a5a2a','water-quality':'#1a3a6a'};
+const TB={'se-toxicology':'#e6f0fb','food-web':'#e6f4ec','thresholds':'#f0e8fa','regulation':'#faf0e0','indigenous':'#e2f4f0','transboundary':'#faeada','biology':'#eaf4ea','water-quality':'#e8f0fb'};
+const SL={high:'High significance',med:'Medium significance',low:'Low significance'};
+
+const DD=[
+ {id:'d1', type:'journal',title:'Egg selenium concentrations as predictors of avian toxicity',author:'Fairbrother A, Brix KV, Toll JE, McKay S, Adams WJ',year:'1999',journal:'Human and Ecological Risk Assessment',url:'https://www.tandfonline.com/doi/abs/10.1080/10807039.1999.10518930',change:'Proposed avian egg Se thresholds from combined field and lab data; first systematic dose-response framework for birds.',relevance:'Anchor paper for avian egg Se thresholds; basis for bird receptor risk arguments.',sig:'high',tags:['se-toxicology','thresholds'],access:[],attn:true,inf:['d6','d7'],date:'1999-12-01',custom:false},
+ {id:'d2', type:'journal',title:'Egg selenium thresholds for birds: a response to J. Skorupa\'s critique',author:'Fairbrother A, Brix KV, DeForest DK, Adams WJ',year:'2000',journal:'Human and Ecological Risk Assessment',url:'https://www.tandfonline.com/doi/abs/10.1080/10807039.2000.10400480',change:'Defends threshold methodology; addresses field-confounder critique; robustness of EC values discussed.',relevance:'Key methodological defense; directly relevant if thresholds are challenged.',sig:'high',tags:['se-toxicology','thresholds'],access:[],attn:true,inf:['d1'],date:'2000-06-01',custom:false},
+ {id:'d3', type:'journal',title:'Analysis of field and laboratory data to derive selenium toxicity thresholds for birds',author:'Adams WA, Brix KV, Edwards M, Tear LM, DeForest DK, Fairbrother A',year:'2003',journal:'Environmental Toxicology and Chemistry',url:'https://setac.onlinelibrary.wiley.com/doi/10.1897/1551-5028(2003)022<2020:AOFALD>2.0.CO;2',change:'EC10/EC20 modeling of combined field and lab avian Se data; quantified effect concentrations widely cited in regulatory threshold-setting.',relevance:'Core anchor paper; EC10/EC20 values cited in ERA and standard-setting for Elk Valley receptors.',sig:'high',tags:['se-toxicology','thresholds'],access:['wiley'],attn:true,inf:['d1','d2','d6','d7'],date:'2003-09-01',custom:false},
+ {id:'d4', type:'journal',title:'Selenium in aquatic food webs: a critical review',author:'Hamilton SJ',year:'2004',journal:'Science of the Total Environment',url:'https://www.sciencedirect.com/science/article/pii/S0048969718344802',change:'Comprehensive review of Se bioaccumulation; emphasizes dietary pathway over water-column exposure; trophic transfer efficiencies summarized.',relevance:'Supports food-web dietary exposure as primary risk driver; challenges water-column-only interpretation.',sig:'high',tags:['se-toxicology','food-web','biology'],access:[],attn:false,inf:['d5','d6','d7'],date:'2004-07-01',custom:false},
+ {id:'d5', type:'journal',title:'Selenium toxicity to aquatic organisms and the importance of dietary exposure pathways',author:'Lemly AD',year:'2002',journal:'Ecotoxicology and Environmental Safety',url:'https://www.sciencedirect.com/science/article/pii/S0147651302000131',change:'Establishes ecosystem-scale Se conceptual model; tissue residues as primary metric; Se hazard quotient approach; dietary TRVs introduced.',relevance:'Framework for ecosystem-scale injury assessment; supports dietary TRV and tissue-based approach.',sig:'high',tags:['se-toxicology','food-web','thresholds'],access:['wiley'],attn:false,inf:['d6','d7'],date:'2002-01-01',custom:false},
+ {id:'d6', type:'journal',title:'Teratogenicity of selenium in waterfowl: mallard embryo study',author:'Heinz GH, Hoffman DJ, Gold LG',year:'1992',journal:'Environmental Toxicology and Chemistry',url:'https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.5620110417',change:'Controlled mallard feeding studies; maternal transfer of SeMet to eggs; SeMet far more embryotoxic than inorganic Se; foundational dose-response data.',relevance:'Laboratory dose-response basis for avian reproductive toxicity; supports organic Se dietary pathway argument.',sig:'high',tags:['se-toxicology','biology'],access:['wiley'],attn:false,inf:['d7'],date:'1992-04-01',custom:false},
+ {id:'d7', type:'journal',title:'Selenium in aquatic birds at Kesterson Reservoir',author:'Ohlendorf HM, Hoffman DJ, Saiki MK, Aldrich TW',year:'1986',journal:'Science',url:'https://www.jstor.org/stable/1368568',change:'First field documentation of Se-caused reproductive failure in aquatic birds from agricultural drainage; embryo deaths and deformities quantified; egg Se concentrations linked to effects.',relevance:'Kesterson field precedent; demonstrates catastrophic reproductive failure — foundational ecological harm case study.',sig:'high',tags:['se-toxicology','biology'],access:[],attn:false,inf:[],date:'1986-09-05',custom:false},
+ {id:'d8', type:'gov',title:'Aquatic life ambient water quality criteria for selenium — freshwater (2016)',author:'US Environmental Protection Agency',year:'2016',journal:'US EPA Office of Water',url:'https://www.epa.gov/wqc/aquatic-life-criteria-selenium',change:'Tissue-based freshwater Se criterion: 15.1 µg/g dw egg/ovary; 8.5 µg/g dw whole body; 3.1 µg/L lotic. Major paradigm shift from water-column to tissue basis.',relevance:'Applies to Kootenai River (MT/ID); tissue criteria benchmarkable against Elk Valley cutthroat trout AEMP data.',sig:'high',tags:['regulation','water-quality','thresholds'],access:['oa'],attn:true,inf:['d3','d4','d5'],date:'2016-06-30',custom:false},
+ {id:'d9', type:'gov',title:'Canadian water quality guidelines for the protection of aquatic life — selenium',author:'Canadian Council of Ministers of the Environment (CCME)',year:'2009',journal:'CCME',url:'https://ccme.ca/en/res/selenium-en-canadian-water-quality-guidelines-for-the-protection-of-aquatic-life.pdf',change:'CCME guideline: 1 µg/L dissolved Se freshwater aquatic life; routinely exceeded in Elk Valley tributaries by 5–20×; primary Canadian benchmark for Fisheries Act enforcement.',relevance:'Primary Canadian water quality standard; exceedances documented throughout Elk Valley watershed.',sig:'high',tags:['regulation','water-quality'],access:['oa'],attn:false,inf:['d4','d5'],date:'2009-01-01',custom:false},
+ {id:'d10',type:'gov',title:'Elk Valley water quality plan',author:'British Columbia Ministry of Environment',year:'2014',journal:'BC MoE',url:'https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf',change:'BC MoE plan requiring Teck/EVR to meet Se and nitrate objectives by 2028; site-specific WQOs for each mine; adaptive management provisions; basis for ongoing provincial enforcement.',relevance:'Central regulatory compliance document; 2028 deadline is the next major milestone; defines site-specific targets.',sig:'high',tags:['regulation','water-quality'],access:['oa'],attn:true,inf:['d9','d16'],date:'2014-06-01',custom:false},
+ {id:'d11',type:'gov',title:'Koocanusa reservoir water quality monitoring and assessment',author:'International Joint Commission',year:'2020',journal:'IJC',url:'https://www.ijc.org/sites/default/files/2020-12/Koocanusa_Report.pdf',change:'Confirms increasing Se trend in Lake Koocanusa from Elk Valley mine drainage; transboundary loading quantified; basis for cross-border regulatory pressure.',relevance:'Key transboundary evidence linking Elk Valley mines to US-side Se exposure; supports BWT arguments.',sig:'high',tags:['transboundary','water-quality','regulation'],access:['oa'],attn:true,inf:['d14','d18'],date:'2020-12-01',custom:false},
+ {id:'d12',type:'gov',title:'COSEWIC status assessment — westslope cutthroat trout',author:'Committee on the Status of Endangered Wildlife in Canada',year:'2016',journal:'COSEWIC / Environment Canada',url:'https://www.canada.ca/en/environment-climate-change/services/species-risk-public-registry/cosewic-assessments-status-reports/westslope-cutthroat-trout-2016.html',change:'Lists westslope cutthroat trout as a Species at Risk; water quality degradation identified as a population threat; triggers SARA protections and recovery obligations.',relevance:'SARA listing amplifies Fisheries Act exposure; Se-caused reproductive harm to a listed species triggers additional obligations.',sig:'high',tags:['biology','regulation','water-quality'],access:['oa'],attn:false,inf:['d8','d9'],date:'2016-11-01',custom:false},
+ {id:'d13',type:'gov',title:'Selenium priority substances list assessment report',author:'Environment and Climate Change Canada',year:'2017',journal:'Government of Canada',url:'https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/publications/selenium-priority-substance-assessment-report.html',change:'CEPA assessment confirming Se as a priority toxic substance; anthropogenic mobilization pathways and ecotoxicological hazards documented.',relevance:'Federal hazard characterization; supports source-to-impact narrative for Elk Valley.',sig:'med',tags:['regulation','se-toxicology'],access:['oa'],attn:false,inf:['d4','d5','d9'],date:'2017-01-01',custom:false},
+ {id:'d14',type:'grey',title:'Selenium in the Kootenai River basin — water quality and ecological assessment',author:'US Geological Survey',year:'2001',journal:'USGS Water Resources Investigations Report 01-4147',url:'https://pubs.usgs.gov/wri/2001/4147/report.pdf',change:'Documents Se speciation and concentrations in Kootenai River basin; selenate dominant from mine drainage; food-web exposure pathways characterized; US-side baseline data.',relevance:'US baseline Se data for Kootenai watershed; supports transboundary loading documentation.',sig:'med',tags:['water-quality','food-web','transboundary'],access:['oa'],attn:false,inf:['d4','d5'],date:'2001-01-01',custom:false},
+ {id:'d15',type:'ind',title:'Ktunaxa Nation — Elk Valley environmental stewardship program',author:'Ktunaxa Nation Council',year:'2023',journal:'Ktunaxa Nation Council',url:'https://www.ktunaxa.org',change:'Nation-led monitoring and watershed restoration program; funded by $58M from 2017 Fisheries Act penalty; native fish habitat recovery; Se mitigation; co-management framework.',relevance:'Demonstrates Indigenous-led environmental accountability; establishes restoration baseline; co-management precedent.',sig:'high',tags:['indigenous','biology','water-quality'],access:['oa'],attn:false,inf:['d16','d20'],date:'2023-01-01',custom:false},
+ {id:'d16',type:'policy',title:'Fisheries Act, RSC 1985, c F-14',author:'Government of Canada',year:'1985',journal:'Department of Justice Canada',url:'https://laws-lois.justice.gc.ca/eng/acts/f-14/',change:'s.36(3) prohibits deposit of deleterious substances into fish-frequented waters; 2012 amendments updated habitat provisions; basis for 2017 ($60M) and 2023 ($3.6M) Elk Valley enforcement.',relevance:'Primary federal enforcement mechanism for Elk Valley Se discharges.',sig:'high',tags:['regulation'],access:['oa'],attn:false,inf:[],date:'2012-11-25',custom:false},
+ {id:'d17',type:'policy',title:'Species at Risk Act, SC 2002, c 29',author:'Government of Canada',year:'2002',journal:'Department of Justice Canada',url:'https://laws-lois.justice.gc.ca/eng/acts/s-15.3/page-1.html',change:'s.32 prohibits harm to listed species; westslope cutthroat trout SARA listing triggers recovery obligations on Crown and potentially EVR.',relevance:'Stacks on Fisheries Act; adds SARA exposure for Se-caused reproductive harm to listed cutthroat trout.',sig:'high',tags:['regulation','biology'],access:['oa'],attn:true,inf:['d12','d16'],date:'2002-12-12',custom:false},
+ {id:'d18',type:'policy',title:'Boundary Waters Treaty (1909)',author:'International Joint Commission',year:'1909',journal:'IJC / Government of Canada / US Government',url:'https://www.ijc.org/en/bwt',change:'Art. IV prohibits pollution of boundary waters causing injury on either side; IJC Koocanusa monitoring program operates under this authority; binational coordination on Se loading ongoing.',relevance:'Treaty basis for cross-border Se arguments; IJC monitoring flows from this authority.',sig:'high',tags:['transboundary','policy','regulation'],access:['oa'],attn:false,inf:[],date:'1909-01-11',custom:false},
+ {id:'d19',type:'policy',title:'UN Declaration on the Rights of Indigenous Peoples (UNDRIP)',author:'United Nations',year:'2007',journal:'UN General Assembly',url:'https://www.un.org/development/desa/indigenouspeoples/wp-content/uploads/sites/19/2018/11/UNDRIP_E_web.pdf',change:'Canada adopted UNDRIP 2016; BC DRIPA passed 2019 requiring alignment of BC law with UNDRIP including environmental protection of Indigenous territories and waters.',relevance:'Emerging basis for Ktunaxa environmental rights claims; DRIPA makes UNDRIP actionable in BC context.',sig:'med',tags:['indigenous','policy'],access:['oa'],attn:false,inf:[],date:'2019-11-28',custom:false},
+ {id:'d20',type:'policy',title:'Haida Nation v British Columbia (Minister of Forests), 2004 SCC 73',author:'Supreme Court of Canada',year:'2004',journal:'Supreme Court of Canada',url:'https://scc-csc.lexum.com/scc-csc/scc-csc/en/item/2189/index.do',change:'SCC established Crown\'s duty to consult and accommodate Indigenous peoples where Aboriginal rights or title may be affected; foundational for all Ktunaxa consultation obligations.',relevance:'Governs Crown consultation obligations with Ktunaxa; inadequate consultation = constitutional exposure.',sig:'high',tags:['indigenous','policy'],access:['oa'],attn:false,inf:[],date:'2004-11-18',custom:false},
+];
+
+let docs=[], tab='cl', editId=null, mapFilt='all';
+
+function loadState(){
+  try{const r=localStorage.getItem(SK);docs=r?JSON.parse(r):JSON.parse(JSON.stringify(DD));}
+  catch(e){docs=JSON.parse(JSON.stringify(DD));}
+}
+function save(){
+  try{localStorage.setItem(SK,JSON.stringify(docs));document.getElementById('sSaved').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}
+}
+function hardReset(){if(!confirm('Clear all cached changes and reload the default document list?'))return;localStorage.removeItem(SK);docs=JSON.parse(JSON.stringify(DD));save();renderAll();}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(s){if(!s)return'';try{return new Date(s+'T12:00:00').toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return s;}}
+function shortUrl(u){try{return new URL(u).hostname.replace('www.','');}catch(e){return u.slice(0,26);}}
+
+function getFiltered(){
+  const q=(document.getElementById('srch')?.value||'').toLowerCase();
+  const type=document.getElementById('fType')?.value||'';
+  const sig=document.getElementById('fSigF')?.value||'';
+  const tag=document.getElementById('fTag')?.value||'';
+  const attn=document.getElementById('fAttn')?.value||'';
+  const acc=document.getElementById('fAcc')?.value||'';
+  return docs.filter(d=>{
+    if(type&&d.type!==type)return false;
+    if(sig&&d.sig!==sig)return false;
+    if(tag&&!(d.tags||[]).includes(tag))return false;
+    if(attn==='yes'&&!d.attn)return false;
+    if(acc&&!(d.access||[]).includes(acc))return false;
+    if(q){const h=[d.title,d.author,d.journal,d.change,d.relevance,...(d.tags||[])].join(' ').toLowerCase();if(!h.includes(q))return false;}
+    return true;
+  });
+}
+
+function updSum(){
+  document.getElementById('sTotal').textContent=docs.length;
+  document.getElementById('sJrn').textContent=docs.filter(d=>d.type==='journal').length;
+  document.getElementById('sGov').textContent=docs.filter(d=>d.type==='gov'||d.type==='policy').length;
+  document.getElementById('sWiley').textContent=docs.filter(d=>(d.access||[]).includes('wiley')).length;
+  document.getElementById('sEst').textContent=docs.filter(d=>(d.access||[]).includes('est')).length;
+  document.getElementById('sOa').textContent=docs.filter(d=>(d.access||[]).includes('oa')).length;
+  document.getElementById('sAttn').textContent=docs.filter(d=>d.attn).length;
+}
+
+function setTab(t){
+  tab=t;
+  ['cl','gr','map'].forEach(x=>document.getElementById('tab-'+x)?.classList.toggle('on',x===t));
+  document.getElementById('ctrlBar').style.display=(t==='map')?'none':'';
+  renderAll();
+}
+
+function renderAll(){
+  updSum();
+  const el=document.getElementById('cnt');
+  if(tab==='cl')renderChangelog(el);
+  else if(tab==='gr')renderGrouped(el);
+  else renderMap(el);
+}
+
+function accB(d){
+  const a=d.access||[];let h='';
+  if(a.includes('wiley'))h+=`<span class="bdg" style="background:#f3ecfd;color:#6920b0;border:.5px solid #d0aaee">Wiley/BW sub</span>`;
+  if(a.includes('est'))  h+=`<span class="bdg" style="background:#e4f5ed;color:#0a6840;border:.5px solid #90d0b0">ES&amp;T sub</span>`;
+  if(a.includes('oa'))   h+=`<span class="bdg" style="background:#fff3e0;color:#b05800;border:.5px solid #ffc870">Open access</span>`;
+  return h;
+}
+function tagB(d){return(d.tags||[]).map(t=>`<span class="bdg bdg-pill" style="background:${TB[t]||'#eee'};color:${TC[t]||'#333'}">${t}</span>`).join('');}
+function sigC(s){return s==='high'?'sh':s==='med'?'sm':'sl';}
+
+function renderChangelog(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty"><b>No documents match</b>Adjust filters or search.</div>';return;}
+  const sorted=[...list].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  el.innerHTML=sorted.map(d=>{
+    const tm=TM[d.type]||TM.grey;
+    return`<div class="crow">
+      <div class="cdate-col">${d.date?fmtDate(d.date):'—'}</div>
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="cdot ${d.sig||''}"></div><div class="cline" style="flex:1"></div></div>
+      <div class="cbody2">
+        <div class="ctitle2">${esc(d.title)}</div>
+        <div class="csub">${d.author?esc(d.author):''}${d.year?' ('+esc(d.year)+')':''}${d.journal?' — <em>'+esc(d.journal)+'</em>':''}</div>
+        ${d.change?`<div class="csub">${esc(d.change)}</div>`:''}
+        <div class="cbadges2">
+          <span class="bdg" style="background:${tm.bg};color:${tm.c};border:.5px solid ${tm.bd}">${tm.lbl}</span>
+          <span class="bdg ${sigC(d.sig)}">${SL[d.sig]||'—'}</span>
+          ${d.attn?'<span class="bdg sh">&#9873; Attorney</span>':''}
+          ${accB(d)}${tagB(d)}
+          ${d.url?`<a class="ulink" href="${esc(d.url)}" target="_blank">${shortUrl(d.url)}</a>`:''}
+          <button class="ib" onclick="openEdit('${d.id}')">&#9998;</button>
+          ${d.custom?`<button class="ib del" onclick="delDocId('${d.id}')">&#x2715;</button>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderGrouped(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty"><b>No documents match</b>Adjust filters or search.</div>';return;}
+  let html='';
+  ['journal','gov','grey','ind','policy'].forEach(t=>{
+    const grp=[...list].filter(d=>d.type===t).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    if(!grp.length)return;
+    const tm=TM[t];
+    html+=`<div class="gh"><div class="gd" style="background:${tm.bg};border:.5px solid ${tm.bd}"></div><div class="gn">${tm.lbl}</div><div class="gc">${grp.length}</div></div>`;
+    html+=grp.map(d=>`<div class="card ${d.attn?'attn':''} ${d.custom?'cust':''}">
+      <div class="ct"><span class="bdg" style="background:${tm.bg};color:${tm.c};border:.5px solid ${tm.bd};margin-top:1px">${tm.lbl}</span><div class="ctitle">${esc(d.title)}</div></div>
+      <div class="cmeta">${d.author?`<span style="font-style:italic">${esc(d.author)}</span>`:''}${d.year?`<span>·</span><span style="font-family:var(--mono);color:var(--text-3)">${esc(d.year)}</span>`:''}${d.journal?`<span>·</span><span>${esc(d.journal)}</span>`:''}</div>
+      ${d.change?`<div class="cbody">${esc(d.change)}</div>`:''}
+      ${d.relevance?`<div class="crel">${esc(d.relevance)}</div>`:''}
+      <div class="cbadges"><span class="bdg ${sigC(d.sig)}">${SL[d.sig]||'—'}</span>${d.attn?'<span class="bdg sh">&#9873; Attorney</span>':''}${accB(d)}${tagB(d)}</div>
+      <div class="cfoot">${d.url?`<a class="ulink" href="${esc(d.url)}" target="_blank">${shortUrl(d.url)}</a>`:''}<span class="cdate">${d.date?fmtDate(d.date):''}</span>
+        <div class="cact">
+          <button class="ib ${d.attn?'on':''}" onclick="togAttn('${d.id}')" title="Toggle attorney flag">&#9873;</button>
+          <button class="ib" onclick="openEdit('${d.id}')">&#9998;</button>
+          ${d.custom?`<button class="ib del" onclick="delDocId('${d.id}')">&#x2715;</button>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+  });
+  el.innerHTML=html;
+}
+
+/* ── Native SVG influence map ── */
+function renderMap(el){
+  el.innerHTML=`<div class="map-area">
+    <div class="map-hint">Arrows flow left to right from foundational documents toward those that build on them. Science papers connect to the regulatory documents that adopted their thresholds or frameworks. Edit any document and select "Builds on" links to update the diagram.</div>
+    <div class="map-tb">
+      <span class="cl">Show</span>
+      <select class="flt" id="mfilt" onchange="setMapFilt(this.value)">
+        <option value="all">All documents</option>
+        <option value="sci">Science papers only</option>
+        <option value="sci-reg">Science + government</option>
+        <option value="pol">Policy + Indigenous</option>
+      </select>
+      <button class="btn" onclick="drawMap()">Refresh</button>
+    </div>
+    <div id="map-svg-wrap"></div>
+    <div class="map-leg">
+      <div class="ml"><div class="mld" style="background:var(--cj-bg);border:.5px solid var(--cj-bd)"></div>Peer-reviewed</div>
+      <div class="ml"><div class="mld" style="background:var(--cg-bg);border:.5px solid var(--cg-bd)"></div>Government</div>
+      <div class="ml"><div class="mld" style="background:var(--cr-bg);border:.5px solid var(--cr-bd)"></div>Grey lit</div>
+      <div class="ml"><div class="mld" style="background:var(--ci-bg);border:.5px solid var(--ci-bd)"></div>Indigenous</div>
+      <div class="ml"><div class="mld" style="background:var(--cp-bg);border:.5px solid var(--cp-bd)"></div>Policy/legal</div>
+      <div class="ml" style="margin-left:8px;font-style:italic">&#8594; = builds on / influences</div>
+    </div>
+  </div>`;
+  drawMap();
+}
+
+function setMapFilt(v){mapFilt=v;drawMap();}
+
+function drawMap(){
+  const wrap=document.getElementById('map-svg-wrap');
+  if(!wrap)return;
+
+  let subset=docs;
+  if(mapFilt==='sci') subset=docs.filter(d=>d.type==='journal');
+  if(mapFilt==='sci-reg') subset=docs.filter(d=>d.type==='journal'||d.type==='gov'||d.type==='grey');
+  if(mapFilt==='pol') subset=docs.filter(d=>d.type==='ind'||d.type==='policy');
+
+  const ids=new Set(subset.map(d=>d.id));
+
+  // collect all edges
+  const edges=[];
+  subset.forEach(d=>(d.inf||[]).forEach(src=>{if(ids.has(src))edges.push({from:src,to:d.id});}));
+
+  if(!subset.length){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text-3);font-size:12px">No documents in this filter.</div>';return;}
+
+  // ── Layered layout: assign columns by topological depth ──
+  const inDeg={};
+  subset.forEach(d=>{inDeg[d.id]=0;});
+  edges.forEach(e=>{if(inDeg[e.to]!==undefined)inDeg[e.to]++;});
+
+  // BFS to assign depth columns
+  const col={};
+  const queue=subset.filter(d=>inDeg[d.id]===0).map(d=>d.id);
+  queue.forEach(id=>col[id]=0);
+  const visited=new Set(queue);
+  let head=0;
+  while(head<queue.length){
+    const cur=queue[head++];
+    edges.filter(e=>e.from===cur).forEach(e=>{
+      if(!visited.has(e.to)){visited.add(e.to);queue.push(e.to);}
+      col[e.to]=Math.max(col[e.to]||0,(col[cur]||0)+1);
+    });
+  }
+  // any unvisited (isolated or cycle) → col 0
+  subset.forEach(d=>{if(col[d.id]===undefined)col[d.id]=0;});
+
+  const maxCol=Math.max(0,...Object.values(col));
+  const cols=[];
+  for(let c=0;c<=maxCol;c++){cols.push(subset.filter(d=>col[d.id]===c));}
+
+  // layout constants
+  const NW=130,NH=44,HGAP=60,VGAP=14,PAD=20;
+  const colX=cols.map((_,i)=>PAD+i*(NW+HGAP));
+  const totalW=PAD*2+(maxCol)*(NW+HGAP)+NW;
+  const nodePos={};
+  let totalH=PAD;
+  cols.forEach((col,ci)=>{
+    const colH=col.length*(NH+VGAP)-VGAP;
+    col.forEach((d,ri)=>{
+      nodePos[d.id]={x:colX[ci],y:PAD+ri*(NH+VGAP)};
+    });
+    totalH=Math.max(totalH,PAD+col.length*(NH+VGAP)+PAD);
+  });
+
+  // SVG construction
+  const svgNS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(svgNS,'svg');
+  svg.setAttribute('width','100%');
+  svg.setAttribute('viewBox',`0 0 ${totalW} ${totalH}`);
+  svg.style.fontFamily='var(--font)';
+
+  // defs: arrowhead
+  const defs=document.createElementNS(svgNS,'defs');
+  const marker=document.createElementNS(svgNS,'marker');
+  marker.setAttribute('id','arr');marker.setAttribute('viewBox','0 0 10 10');
+  marker.setAttribute('refX','9');marker.setAttribute('refY','5');
+  marker.setAttribute('markerWidth','6');marker.setAttribute('markerHeight','6');
+  marker.setAttribute('orient','auto-start-reverse');
+  const arrowPath=document.createElementNS(svgNS,'path');
+  arrowPath.setAttribute('d','M1 1L9 5L1 9');arrowPath.setAttribute('fill','none');
+  arrowPath.setAttribute('stroke','#8a8980');arrowPath.setAttribute('stroke-width','1.5');
+  arrowPath.setAttribute('stroke-linecap','round');arrowPath.setAttribute('stroke-linejoin','round');
+  marker.appendChild(arrowPath);defs.appendChild(marker);svg.appendChild(defs);
+
+  // draw edges first (behind nodes)
+  edges.forEach(e=>{
+    const from=nodePos[e.from],to=nodePos[e.to];
+    if(!from||!to)return;
+    const x1=from.x+NW, y1=from.y+NH/2;
+    const x2=to.x,      y2=to.y+NH/2;
+    const mx=(x1+x2)/2;
+    const path=document.createElementNS(svgNS,'path');
+    path.setAttribute('d',`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke','#b0afa8');
+    path.setAttribute('stroke-width','1.2');
+    path.setAttribute('marker-end','url(#arr)');
+    svg.appendChild(path);
+  });
+
+  // draw nodes
+  subset.forEach(d=>{
+    const pos=nodePos[d.id];
+    if(!pos)return;
+    const tm=TM[d.type]||TM.grey;
+    const g=document.createElementNS(svgNS,'g');
+    g.style.cursor='pointer';
+    g.setAttribute('title',d.title);
+
+    const rect=document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x',pos.x);rect.setAttribute('y',pos.y);
+    rect.setAttribute('width',NW);rect.setAttribute('height',NH);
+    rect.setAttribute('rx','6');
+    // use inline style so CSS variables resolve
+    rect.style.fill=tm.bg;rect.style.stroke=tm.bd;rect.style.strokeWidth='0.5';
+    g.appendChild(rect);
+
+    // sig indicator strip on left edge
+    const sigColors={high:'#c0392b',med:'#c07020',low:'#3a7a3a'};
+    const strip=document.createElementNS(svgNS,'rect');
+    strip.setAttribute('x',pos.x);strip.setAttribute('y',pos.y);
+    strip.setAttribute('width','3');strip.setAttribute('height',NH);
+    strip.setAttribute('rx','3');
+    strip.style.fill=sigColors[d.sig]||sigColors.low;
+    g.appendChild(strip);
+
+    // author surname + year label
+    const surname=(d.author||'').split(',')[0].split(' ').pop()||'?';
+    const line1=`${surname} ${d.year||''}`.trim();
+    const t1=document.createElementNS(svgNS,'text');
+    t1.setAttribute('x',pos.x+NW/2+2);t1.setAttribute('y',pos.y+NH/2-6);
+    t1.setAttribute('text-anchor','middle');t1.setAttribute('dominant-baseline','central');
+    t1.setAttribute('font-size','11');t1.setAttribute('font-weight','500');
+    t1.style.fill=tm.c;t1.textContent=line1.length>17?line1.slice(0,16)+'…':line1;
+    g.appendChild(t1);
+
+    // type label
+    const t2=document.createElementNS(svgNS,'text');
+    t2.setAttribute('x',pos.x+NW/2+2);t2.setAttribute('y',pos.y+NH/2+9);
+    t2.setAttribute('text-anchor','middle');t2.setAttribute('dominant-baseline','central');
+    t2.setAttribute('font-size','9');
+    t2.style.fill=tm.c;t2.style.opacity='0.7';t2.textContent=tm.lbl;
+    g.appendChild(t2);
+
+    // attn flag dot
+    if(d.attn){
+      const dot=document.createElementNS(svgNS,'circle');
+      dot.setAttribute('cx',pos.x+NW-7);dot.setAttribute('cy',pos.y+7);
+      dot.setAttribute('r','4');dot.style.fill='#c0392b';
+      g.appendChild(dot);
+    }
+
+    g.addEventListener('click',()=>openEdit(d.id));
+    g.addEventListener('mouseenter',()=>{rect.style.opacity='0.85';});
+    g.addEventListener('mouseleave',()=>{rect.style.opacity='1';});
+    svg.appendChild(g);
+  });
+
+  wrap.innerHTML='';
+  wrap.appendChild(svg);
+}
+
+/* ── Toggle attorney flag ── */
+function togAttn(id){const d=docs.find(x=>x.id===id);if(!d)return;d.attn=!d.attn;save();renderAll();}
+
+/* ── Panel ── */
+function fillInfSel(sel=[]){
+  const el=document.getElementById('pInf');
+  el.innerHTML=docs.map(d=>{
+    const lbl=`${d.year||'?'} — ${d.title.slice(0,54)}${d.title.length>54?'…':''}`;
+    return`<option value="${d.id}"${sel.includes(d.id)?' selected':''}>${esc(lbl)}</option>`;
+  }).join('');
+}
+function openPanel(){editId=null;resetPanel();fillInfSel();document.getElementById('pTitle').textContent='Add document';document.getElementById('pDel').style.display='none';document.getElementById('pDate').value=new Date().toISOString().slice(0,10);document.getElementById('pbg').classList.add('open');}
+function openEdit(id){editId=id;const d=docs.find(x=>x.id===id);if(!d)return;popPanel(d);fillInfSel(d.inf||[]);document.getElementById('pTitle').textContent='Edit document';document.getElementById('pDel').style.display=d.custom?'':'none';document.getElementById('pbg').classList.add('open');}
+function closePanel(){document.getElementById('pbg').classList.remove('open');editId=null;}
+function closeBg(e){if(e.target===document.getElementById('pbg'))closePanel();}
+function resetPanel(){
+  ['pTitle2','pAuthor','pYear','pJournal','pUrl','pChange','pRel'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('pType').value='journal';document.getElementById('pSig').value='med';document.getElementById('pDate').value='';
+  document.querySelectorAll('.ck').forEach(l=>{l.classList.remove('on');const cb=l.querySelector('input');if(cb)cb.checked=false;});
+}
+function popPanel(d){
+  document.getElementById('pType').value=d.type||'journal';
+  document.getElementById('pTitle2').value=d.title||'';
+  document.getElementById('pAuthor').value=d.author||'';
+  document.getElementById('pYear').value=d.year||'';
+  document.getElementById('pJournal').value=d.journal||'';
+  document.getElementById('pUrl').value=d.url||'';
+  document.getElementById('pChange').value=d.change||'';
+  document.getElementById('pRel').value=d.relevance||'';
+  document.getElementById('pSig').value=d.sig||'med';
+  document.getElementById('pDate').value=d.date||'';
+  document.querySelectorAll('.ck').forEach(l=>{
+    const cb=l.querySelector('input');if(!cb)return;
+    const v=cb.value;
+    const on=v==='attn'?!!d.attn:['wiley','est','oa'].includes(v)?(d.access||[]).includes(v):(d.tags||[]).includes(v);
+    l.classList.toggle('on',on);cb.checked=on;
+  });
+}
+function tck(lbl){lbl.classList.toggle('on');const cb=lbl.querySelector('input');if(cb)cb.checked=lbl.classList.contains('on');}
+function saveDoc(){
+  const title=document.getElementById('pTitle2').value.trim();
+  if(!title){alert('Please enter a title.');return;}
+  const tags=[],access=[];let attn=false;
+  document.querySelectorAll('.ck').forEach(l=>{
+    const cb=l.querySelector('input');if(!cb||!l.classList.contains('on'))return;
+    if(cb.value==='attn')attn=true;
+    else if(['wiley','est','oa'].includes(cb.value))access.push(cb.value);
+    else tags.push(cb.value);
+  });
+  const inf=Array.from(document.getElementById('pInf').selectedOptions).map(o=>o.value);
+  const data={type:document.getElementById('pType').value,title,author:document.getElementById('pAuthor').value.trim(),year:document.getElementById('pYear').value.trim(),journal:document.getElementById('pJournal').value.trim(),url:document.getElementById('pUrl').value.trim(),change:document.getElementById('pChange').value.trim(),relevance:document.getElementById('pRel').value.trim(),sig:document.getElementById('pSig').value,tags,access,attn,inf,date:document.getElementById('pDate').value};
+  if(editId){const i=docs.findIndex(x=>x.id===editId);if(i>=0){data.id=editId;data.custom=docs[i].custom;docs[i]={...data};}}
+  else{data.id='c'+Date.now();data.custom=true;docs.unshift(data);}
+  save();closePanel();renderAll();
+}
+function delDoc(){if(editId)delDocId(editId);}
+function delDocId(id){if(!confirm('Delete this document?'))return;docs=docs.filter(x=>x.id!==id);save();closePanel();renderAll();}
+
+/* ── Export CSV ── */
+function exportCSV(){
+  const cols=['Title','Author','Year','Journal','Type','Significance','Tags','Access','Attorney flag','Influence links (count)','Change/Finding','Relevance','URL','Date added'];
+  const rows=docs.map(d=>[d.title,d.author,d.year,d.journal,(TM[d.type]||{lbl:d.type}).lbl,SL[d.sig]||d.sig,(d.tags||[]).join('; '),(d.access||[]).join('; '),d.attn?'Yes':'No',(d.inf||[]).length,d.change,d.relevance,d.url,d.date].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[cols.join(','),...rows].join('\n');
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:'elk_valley_tracker_'+new Date().toISOString().slice(0,10)+'.csv'});
+  a.click();
+}
+
+loadState();renderAll();
+</script>
+</body>
+</html>
