@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharma Occupational Tox — Literature Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'DM Sans',-apple-system,sans-serif;
+  --mono:'DM Mono',monospace;
+  --ink:#1a1917; --ink2:#5a5855; --ink3:#9a9894;
+  --paper:#faf9f6; --paper2:#f2f1ed; --paper3:#e8e7e2;
+  --rule:rgba(0,0,0,.1); --rule-med:rgba(0,0,0,.16);
+  --teal:#1a4d3e; --teal-light:#e8f5f0; --teal-mid:#a8d8cc;
+  --rust:#8b3a1a; --rust-light:#fdf1ec;
+  --gold:#7a5a0a; --gold-light:#fdf6e0;
+  --slate:#2d3d5a; --slate-light:#edf0f7;
+  --new-bg:#f0fdf4; --new-bd:#86efac; --new-c:#166534;
+  --wiley-c:#4a1e7a; --wiley-bg:#f3ecfd; --wiley-bd:#c8a8e8;
+  --oa-c:#7a4a0a; --oa-bg:#fdf6e0; --oa-bd:#e8c870;
+  --elsevier-c:#1a3d6a; --elsevier-bg:#e8f0fb; --elsevier-bd:#a8c8ef;
+}
+html{font-size:14px}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+.masthead{background:var(--teal);color:var(--paper);padding:16px 26px 14px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:3px solid var(--gold)}
+.masthead-title{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:-.01em}
+.masthead-sub{font-size:10px;font-family:var(--mono);color:rgba(255,255,255,.5);letter-spacing:.04em;text-transform:uppercase;flex:1}
+.masthead-acts{display:flex;gap:7px;flex-wrap:wrap}
+.tabs{display:flex;background:var(--paper2);border-bottom:1px solid var(--rule-med);padding:0 26px}
+.tab{font-family:var(--sans);font-size:12px;padding:9px 15px;border:none;background:none;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap}
+.tab:hover{color:var(--ink2)}.tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:500}
+.toolbar{background:var(--paper2);border-bottom:1px solid var(--rule-med);padding:9px 26px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tl{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);white-space:nowrap;font-family:var(--sans)}
+select.tf,input.tf{font-family:var(--sans);font-size:12px;padding:5px 8px;border-radius:4px;border:1px solid var(--rule-med);background:var(--paper);color:var(--ink);cursor:pointer}
+select.tf:focus,input.tf:focus{outline:none;border-color:var(--teal)}
+input.tf{width:210px}
+.sep{width:1px;height:18px;background:var(--rule-med);flex-shrink:0}
+.btn{font-family:var(--sans);font-size:11.5px;padding:5px 12px;border-radius:4px;border:1px solid var(--rule-med);background:var(--paper);color:var(--ink2);cursor:pointer;transition:all .12s;white-space:nowrap}
+.btn:hover{background:var(--paper3);color:var(--ink)}
+.btn.pri{background:var(--teal);color:#fff;border-color:var(--teal)}.btn.pri:hover{opacity:.88}
+.btn.gold{background:var(--gold);color:#fff;border-color:var(--gold)}.btn.gold:hover{opacity:.88}
+.btn.ghost{background:transparent;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.8)}.btn.ghost:hover{border-color:#fff;color:#fff}
+.btn.sm{font-size:10.5px;padding:3px 9px}
+.strip{background:var(--ink);color:var(--paper);display:flex;overflow-x:auto;border-bottom:2px solid var(--paper3)}
+.scard{flex:1;min-width:80px;padding:8px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.scard:last-child{border-right:none}.scard.clickable{cursor:pointer;transition:background .1s}.scard.clickable:hover{background:rgba(255,255,255,.07)}
+.sc-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:2px;font-family:var(--mono)}
+.sc-val{font-size:18px;font-weight:300;font-family:var(--mono)}
+.sc-val.teal{color:#6ad8c0}.sc-val.gold{color:#e8c060}.sc-val.rust{color:#e89070}.sc-val.green{color:#78c890}.sc-val.purple{color:#c8a8e8}
+.main{flex:1;overflow:hidden;display:flex}
+.cnt{flex:1;overflow-y:auto;padding:18px 26px 48px}
+.cnt::-webkit-scrollbar{width:4px}.cnt::-webkit-scrollbar-thumb{background:var(--rule-med);border-radius:2px}
+/* new-month banner */
+.new-banner{background:var(--new-bg);border:.5px solid var(--new-bd);border-radius:6px;padding:8px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--new-c)}
+.new-badge-big{background:var(--new-bg);color:var(--new-c);border:.5px solid var(--new-bd);font-size:9px;font-weight:500;padding:2px 7px;border-radius:2px;text-transform:uppercase;letter-spacing:.04em;font-family:var(--mono);flex-shrink:0}
+/* group heads */
+.gh{font-family:var(--serif);font-size:14px;color:var(--ink);margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rule-med);display:flex;align-items:baseline;gap:10px}
+.ghc{font-family:var(--mono);font-size:10px;color:var(--ink3)}
+/* article cards */
+.acard{background:var(--paper);border:1px solid var(--rule);border-radius:2px;padding:13px 15px 11px;margin-bottom:7px;display:flex;gap:12px;align-items:flex-start;transition:border-color .12s,box-shadow .12s;position:relative}
+.acard:hover{border-color:var(--rule-med);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.acard.sel{border-color:var(--teal);border-width:1.5px;background:#f8fbfa}
+.acard.new-entry{border-color:var(--new-bd);background:var(--new-bg)}
+.acard.new-entry::before{content:'NEW';position:absolute;top:8px;right:10px;font-size:8px;font-family:var(--mono);font-weight:500;color:var(--new-c);background:var(--new-bg);border:.5px solid var(--new-bd);padding:1px 5px;border-radius:2px;letter-spacing:.05em}
+.cb{padding-top:2px;flex-shrink:0}
+input[type=checkbox]{width:13px;height:13px;cursor:pointer;accent-color:var(--teal)}
+.ab{flex:1;min-width:0}
+.at{font-family:var(--serif);font-size:13px;font-weight:400;color:var(--ink);line-height:1.4;margin-bottom:3px}
+.aa{font-size:11px;color:var(--ink2);margin-bottom:2px;line-height:1.4}
+.aj{font-size:11px;color:var(--ink3);font-style:italic;margin-bottom:5px}
+.abadges{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:5px}
+.bdg{font-size:9px;font-weight:500;padding:2px 7px;border-radius:2px;letter-spacing:.02em;text-transform:uppercase;font-family:var(--sans)}
+.bdg-pill{border-radius:10px}
+.bdg-wiley{background:var(--wiley-bg);color:var(--wiley-c);border:.5px solid var(--wiley-bd)}
+.bdg-oa   {background:var(--oa-bg);   color:var(--oa-c);   border:.5px solid var(--oa-bd)}
+.bdg-elsevier{background:var(--elsevier-bg);color:var(--elsevier-c);border:.5px solid var(--elsevier-bd)}
+.bdg-subj{background:var(--slate-light);color:var(--slate);border:.5px solid rgba(45,61,90,.18)}
+.bdg-year{background:var(--paper3);color:var(--ink2);border:.5px solid var(--rule-med)}
+.bdg-sig-h{background:#fdecea;color:#c0392b;border:.5px solid #f5b8b0}
+.bdg-sig-m{background:#fef3e2;color:#c07020;border:.5px solid #f5d090}
+.bdg-sig-l{background:#eaf5ea;color:#3a7a3a;border:.5px solid #a8d8a8}
+.bdg-attn{background:#fdecea;color:#c0392b;border:.5px solid #f5b8b0}
+.bdg-new{background:var(--new-bg);color:var(--new-c);border:.5px solid var(--new-bd)}
+.snippet{font-size:10.5px;background:var(--gold-light);border-left:2px solid var(--gold);padding:4px 9px;border-radius:0 3px 3px 0;margin-top:4px;color:var(--ink2);line-height:1.55}
+.sfield{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:500;font-family:var(--mono);margin-right:5px}
+mark{background:#ffe082;color:var(--ink);border-radius:2px;padding:0 1px}
+.abs-text{font-size:11px;color:var(--ink2);line-height:1.6;margin-top:5px;display:none}
+.abs-text.vis{display:block}
+.abs-btn{font-size:9.5px;color:var(--slate);cursor:pointer;border:none;background:none;padding:0;font-family:var(--sans);text-decoration:underline;margin-top:3px}
+.adoi{font-size:9.5px;font-family:var(--mono);color:var(--ink3);margin-top:4px}
+.adoi a{color:var(--teal);text-decoration:none}.adoi a:hover{text-decoration:underline}
+/* changelog timeline */
+.crow{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.cdate-col{width:90px;flex-shrink:0;font-size:10px;font-family:var(--mono);color:var(--ink3);padding-top:3px;text-align:right}
+.cdot{width:9px;height:9px;border-radius:50%;border:2px solid var(--paper);background:var(--teal);flex-shrink:0;margin-top:5px;margin-left:-4px}
+.cdot.new{background:var(--new-c)}
+.cdot.high{background:#c0392b}.cdot.med{background:#c07020}.cdot.low{background:#3a7a3a}
+.cline{width:1px;background:var(--rule-med);flex-shrink:0;margin-top:6px}
+.cbody{flex:1;padding-bottom:10px;border-bottom:.5px solid var(--rule)}.cbody:last-child{border-bottom:none}
+.ctitle{font-size:12.5px;font-weight:500;color:var(--ink);line-height:1.35;margin-bottom:2px;font-family:var(--serif)}
+.cmeta{font-size:11px;color:var(--ink2);margin-bottom:4px;line-height:1.5}
+.cbadges{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+/* import box */
+.import-box{border:2px dashed var(--rule-med);border-radius:4px;padding:24px 18px;text-align:center;margin-bottom:18px;cursor:pointer;background:var(--paper2);transition:all .12s}
+.import-box:hover,.import-box.drag{border-color:var(--teal);background:var(--teal-light)}
+.import-box p{font-size:12.5px;color:var(--ink2);margin-bottom:6px}
+.import-box small{font-size:10.5px;color:var(--ink3);font-family:var(--mono)}
+input#fIn{display:none}
+/* export panel */
+.epbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:300;align-items:center;justify-content:center}
+.epbg.open{display:flex}
+.epbox{background:var(--paper);border-radius:4px;width:460px;max-height:88vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.18);border:1px solid var(--rule-med)}
+.eph{padding:16px 20px 12px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px}
+.eph-title{font-family:var(--serif);font-size:16px;font-weight:400;flex:1}
+.epx{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink3);line-height:1}
+.epbody{padding:16px 20px}
+.eplbl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);font-family:var(--mono);margin-bottom:7px}
+.epprev{font-family:var(--serif);font-size:11.5px;line-height:1.8;background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:10px 12px;max-height:200px;overflow-y:auto;color:var(--ink);white-space:pre-wrap}
+.epdlrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.epfoot{padding:12px 20px;border-top:1px solid var(--rule);display:flex;gap:7px}
+/* prompt panel */
+.ppbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:300;align-items:flex-start;justify-content:flex-end}
+.ppbg.open{display:flex}
+.pppanel{width:460px;height:100vh;background:var(--paper);border-left:1px solid var(--rule-med);overflow-y:auto;display:flex;flex-direction:column}
+.pph{padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--paper);z-index:1}
+.pph-title{font-family:var(--serif);font-size:14px;flex:1}
+.ppx{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink3);line-height:1}
+.ppbody{padding:16px 18px;flex:1}
+.ppbody h3{font-family:var(--serif);font-size:13px;font-weight:400;margin:14px 0 6px;color:var(--teal)}
+.ppbody h3:first-child{margin-top:0}
+.ppbody p{font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:8px}
+.ppbody code{font-family:var(--mono);font-size:11px;background:var(--paper2);border:1px solid var(--rule);border-radius:3px;padding:1px 5px;color:var(--ink)}
+.ppbody ul{margin:6px 0 10px 18px}
+.ppbody li{font-size:11.5px;color:var(--ink2);line-height:1.65;margin-bottom:3px}
+.prompt-box{font-family:var(--mono);font-size:11px;background:var(--paper2);border:1px solid var(--rule-med);border-radius:3px;padding:12px 14px;white-space:pre-wrap;color:var(--ink);line-height:1.6;margin-top:4px;max-height:300px;overflow-y:auto}
+.copy-prompt{font-size:10.5px;padding:3px 9px;border-radius:3px;border:1px solid var(--rule-med);background:var(--paper);color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .1s;margin-top:6px}
+.copy-prompt:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.empty{text-align:center;padding:50px 20px;color:var(--ink3);font-size:13px;line-height:1.7;font-family:var(--serif);font-style:italic}
+@media print{.masthead-acts,.tabs,.toolbar,.strip,.epbg,.ppbg,.cb{display:none!important}body{background:white}.cnt{overflow:visible;padding:12px}.acard{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-title">Pharmaceutical Occupational Toxicology</div>
+  <div class="masthead-sub">OEL / HBEL / TTC / E&amp;L &bull; monthly literature tracker &bull; Library Services</div>
+  <div class="masthead-acts">
+    <button class="btn ghost sm" onclick="selAll()">Select all visible</button>
+    <button class="btn ghost sm" onclick="clearSel()">Clear</button>
+    <button class="btn gold" onclick="openExport()" id="expBtn">Export (0)</button>
+    <button class="btn ghost sm" onclick="openPrompt()">Monthly prompt</button>
+    <label class="btn ghost sm" style="cursor:pointer">Upload Zotero CSV<input type="file" id="fIn" accept=".csv,.xlsx,.xls" onchange="handleFile(event)"></label>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="tab-cl"   onclick="setTab('cl')">Changelog</button>
+  <button class="tab"    id="tab-subj" onclick="setTab('subj')">By subject</button>
+  <button class="tab"    id="tab-new"  onclick="setTab('new')">This month <span id="newBadge" style="background:#dcfce7;color:#166534;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-family:var(--mono)">3</span></button>
+</div>
+
+<div class="toolbar" id="ctrlBar">
+  <span class="tl">Subject</span>
+  <select class="tf" id="fSubj" onchange="renderAll()"><option value="">All subjects</option></select>
+  <span class="sep"></span>
+  <span class="tl">Journal</span>
+  <select class="tf" id="fJournal" onchange="renderAll()"><option value="">All journals</option></select>
+  <span class="sep"></span>
+  <span class="tl">Year</span>
+  <select class="tf" id="fYear" onchange="renderAll()"><option value="">All years</option></select>
+  <span class="sep"></span>
+  <span class="tl">Significance</span>
+  <select class="tf" id="fSig" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="high">High</option>
+    <option value="med">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <span class="sep"></span>
+  <span class="tl">Flag</span>
+  <select class="tf" id="fAttn" onchange="renderAll()">
+    <option value="">All</option>
+    <option value="yes">Attn flag only</option>
+  </select>
+  <input class="tf" type="search" id="srch" placeholder="Search title, author, abstract…" oninput="renderAll()">
+  <span id="matchCt" style="font-size:10px;font-family:var(--mono);color:var(--ink3);display:none"></span>
+</div>
+
+<div class="strip">
+  <div class="scard clickable" onclick="filterTo('all')" title="Show all"><div class="sc-lbl">Total</div><div class="sc-val" id="sTotal">0</div></div>
+  <div class="scard clickable" onclick="filterTo('new')" title="Show this month"><div class="sc-lbl">New this month</div><div class="sc-val green" id="sNew">0</div></div>
+  <div class="scard"><div class="sc-lbl">High significance</div><div class="sc-val rust" id="sHigh">0</div></div>
+  <div class="scard clickable" onclick="filterTo('attn')" title="Show attorney flagged"><div class="sc-lbl">Attn flagged</div><div class="sc-val teal" id="sAttn">0</div></div>
+  <div class="scard clickable" onclick="filterTo('access','wiley')" title="Wiley/BW"><div class="sc-lbl">Wiley / BW</div><div class="sc-val purple" id="sWiley">0</div></div>
+  <div class="scard clickable" onclick="filterTo('access','oa')" title="Open access"><div class="sc-lbl">Open access</div><div class="sc-val gold" id="sOa">0</div></div>
+  <div class="scard"><div class="sc-lbl">Selected</div><div class="sc-val rust" id="sSel">0</div></div>
+</div>
+
+<div class="main"><div class="cnt" id="cnt"></div></div>
+
+<!-- Export panel -->
+<div class="epbg" id="epbg" onclick="closeEpBg(event)">
+<div class="epbox" onclick="event.stopPropagation()">
+  <div class="eph"><div class="eph-title">Export bibliography</div><button class="epx" onclick="closeEp()">&#x2715;</button></div>
+  <div class="epbody">
+    <div style="margin-bottom:14px"><div class="eplbl">Selected (<span id="epCt">0</span>)</div><div class="epprev" id="epPrev"></div></div>
+    <div><div class="eplbl">Download as</div>
+      <div class="epdlrow">
+        <button class="btn pri" onclick="expWord()">&#8595; Word (.docx)</button>
+        <button class="btn" onclick="expBibtex()">&#8595; BibTeX (.bib)</button>
+        <button class="btn" onclick="expExcel()">&#8595; Excel (.xlsx)</button>
+      </div>
+    </div>
+  </div>
+  <div class="epfoot"><button class="btn" onclick="closeEp()">Close</button></div>
+</div>
+</div>
+
+<!-- Monthly prompt panel -->
+<div class="ppbg" id="ppbg" onclick="if(event.target===this)closePP()">
+<div class="pppanel" onclick="event.stopPropagation()">
+  <div class="pph"><div class="pph-title">Monthly Cowork prompt</div><button class="ppx" onclick="closePP()">&#x2715;</button></div>
+  <div class="ppbody">
+    <h3>Purpose</h3>
+    <p>Paste this prompt into Claude Cowork as a recurring monthly task. It searches for new publications in pharmaceutical occupational toxicology, OEL/HBEL science, TTC methodology, and extractables &amp; leachables, then returns structured entries ready to upload to this tracker via Zotero CSV export.</p>
+    <h3>Expected Zotero CSV columns for upload</h3>
+    <p>When you receive results from Cowork, add them to Zotero and export as CSV with these columns: <code>Title</code>, <code>Author</code>, <code>Publication Year</code>, <code>Publication Title</code>, <code>DOI</code>, <code>Abstract Note</code>, <code>Volume</code>, <code>Issue</code>, <code>Pages</code>, <code>Manual Tags</code></p>
+    <h3>Prompt — copy and paste into Cowork</h3>
+    <div class="prompt-box" id="promptBox">Monthly pharmaceutical occupational toxicology literature update — [Month Year]
+
+You are helping maintain a living literature tracker for pharmaceutical occupational toxicology and health-based exposure limit science. This field covers: OEL and HBEL derivation, permitted daily exposures (PDEs), acceptable daily exposures (ADEs), thresholds of toxicological concern (TTC), extractables and leachables (E&L) safety assessment, inhalation bioavailability of pharmaceuticals and biologics, genotoxic impurity limits (ICH M7), non-mutagenic impurity qualification, and cross-contamination control in pharmaceutical manufacturing.
+
+Search for peer-reviewed articles, guidance documents, and technical reports published in the PAST 30 DAYS.
+
+DATABASES TO SEARCH:
+- PubMed: "occupational exposure limit pharmaceutical", "health-based exposure limit", "permitted daily exposure", "acceptable daily exposure pharmaceutical", "threshold toxicological concern pharmaceutical", "extractables leachables toxicology", "inhalation bioavailability pharmaceutical", "ICH M7 pharmaceutical impurity", "OEL HBEL pharmaceutical manufacturing"
+- Google Scholar: same terms, filtered past month
+- Web of Science: same terms
+
+JOURNALS TO CHECK FOR NEW ISSUES:
+- Regulatory Toxicology and Pharmacology (Elsevier)
+- Annals of Work Exposures and Health (Oxford)
+- Critical Reviews in Toxicology (Taylor & Francis)
+- PDA Journal of Pharmaceutical Science and Technology
+- Journal of Occupational and Environmental Hygiene
+- Toxicology Letters (Elsevier)
+- Food and Chemical Toxicology (Elsevier)
+
+INSTITUTIONAL SOURCES TO CHECK:
+- ISPE: ispe.org — new baseline guides, Risk-MaPP updates
+- ICH: ich.org — Q3A/B/C/D, M7 guideline updates
+- EMA: ema.europa.eu — new guidelines on impurities/OELs
+- FDA CDER: fda.gov/drugs — guidance documents
+- ELSIE consortium: PubMed search for new ELSIE-affiliated papers
+
+FOR EACH NEW ITEM FOUND, return these fields:
+
+Title: [full title]
+Authors: [Last FI, Last FI, et al. if >3]
+Year: [YYYY]
+Journal: [full journal name]
+Volume/Issue/Pages: [if available]
+DOI: [full DOI]
+Abstract: [full abstract or 3-sentence summary if paywalled]
+Subject tags (choose all that apply):
+  OEL derivation | HBEL/PDE/ADE methodology | TTC | Extractables and leachables |
+  Inhalation bioavailability | Genotoxic impurities/ICH M7 | Non-mutagenic impurities |
+  Cross-contamination/cleaning | Biologics/large molecules | Sensitization/immunotoxicology |
+  Dose conversion/allometric scaling | Regulatory guidance/ICH | Risk assessment | Occupational health
+Access type: Wiley/Blackwell sub | Elsevier sub | Open access | Other subscription | Unknown
+Significance: High | Medium | Low
+Attorney flag: Yes/No (Yes = directly affects regulatory thresholds, ICH updates, OEL/PDE limits)
+
+MILESTONE FLAGS — alert immediately if any of these occurred:
+1. New/revised ICH guideline (Q3A/B/C/D, M7) published or open for comment
+2. New EMA or FDA guidance on impurity limits, OELs, or cross-contamination
+3. New ISPE baseline guide or Risk-MaPP update
+4. New ELSIE consortium publication revising E&L thresholds or TTCs
+5. Regulatory warning letter related to OEL/HBEL implementation
+6. New TTC database or species sensitivity distribution for pharmaceuticals
+
+OUTPUT FORMAT:
+1. One-paragraph summary of the most significant development this month
+2. Numbered list of new entries with all fields labeled
+3. Null result statement for any category with no new items
+4. Milestone flag section at end if any fired
+
+KEY AUTHORS TO WATCH (search by name in PubMed):
+Bercu JP, Dolan DG, Maier A, Stanard B, Parris P, Nagao L, Cruz M, Martin EA, Griffin TR, Masuda-Herrera MJ, Sussman RG, Naumann BD, Weideman PA, Reichard JF, Faria EC, Fung ES</div>
+    <button class="copy-prompt" onclick="copyPrompt()">Copy prompt to clipboard</button>
+    <h3>How to use the results</h3>
+    <p>When Cowork returns results, add the papers to your Zotero library, tag them with the subject tags listed above using Zotero's "Manual Tags" field (semicolon-separated), then export as CSV and upload using the "Upload Zotero CSV" button. New entries will appear with a green "NEW" badge in the This Month tab.</p>
+  </div>
+</div>
+</div>
+
+<script>
+const WILEY_J = ['critical reviews in toxicology','journal of veterinary pharmacology','annals of occupational','annals of work','toxicological sciences','environmental toxicology and chemistry','environmental science & technology','chemosphere','molecular ecology','global change biology'];
+const ELSEVIER_J = ['regulatory toxicology and pharmacology','toxicology letters','food and chemical toxicology','chemical health','reproductive toxicology','environment international','science of the total environment'];
+const OA_J = ['plos one','scientific reports','nature communications','environmental health','frontiers in','open access','peerj','mdpi'];
+
+function classifyAccess(j){
+  if(!j) return 'subscription';
+  const jl = j.toLowerCase();
+  if(OA_J.some(k=>jl.includes(k))) return 'oa';
+  if(WILEY_J.some(k=>jl.includes(k))) return 'wiley';
+  if(ELSEVIER_J.some(k=>jl.includes(k))) return 'elsevier';
+  return 'subscription';
+}
+
+// subject auto-tagging based on title/abstract keywords
+function autoTag(title, abstract){
+  const t = (title+' '+abstract).toLowerCase();
+  const tags = [];
+  if(/\bocel\b|occupational exposure limit|oels?\b/.test(t)) tags.push('OEL derivation');
+  if(/hbel|health.based exposure|permitted daily exposure|pde\b|acceptable daily exposure|ade\b/.test(t)) tags.push('HBEL/PDE/ADE methodology');
+  if(/threshold of toxicological concern|ttc\b/.test(t)) tags.push('TTC');
+  if(/extractable|leachable|e&l\b|elsie/.test(t)) tags.push('Extractables and leachables');
+  if(/inhalation bioavailability/.test(t)) tags.push('Inhalation bioavailability');
+  if(/genotoxic|ich m7|mutagenic impurity/.test(t)) tags.push('Genotoxic impurities/ICH M7');
+  if(/non.mutagenic impurit/.test(t)) tags.push('Non-mutagenic impurities');
+  if(/cross.contaminat|cleaning validation/.test(t)) tags.push('Cross-contamination/cleaning');
+  if(/protein therapeutic|biologic|large molecule|peptide.*kda|mab\b|monoclonal antibody/.test(t)) tags.push('Biologics/large molecules');
+  if(/sensitiz|immunotoxic/.test(t)) tags.push('Sensitization/immunotoxicology');
+  if(/allometric|dose conversion|species.*scal/.test(t)) tags.push('Dose conversion/allometric scaling');
+  if(/ich\b.*guidelin|regulatory.*guidelin|guidance.*document/.test(t)) tags.push('Regulatory guidance/ICH');
+  if(/risk assessment|risk.based/.test(t)) tags.push('Risk assessment');
+  if(/worker safety|occupational health|workplace/.test(t)) tags.push('Occupational health');
+  if(tags.length===0) tags.push('Risk assessment');
+  return tags;
+}
+
+// ── SEED DATA from Zotero CSV ─────────────────────────────────
+const SEED = [
+  {id:'z1',title:'A simple practice guide for dose conversion between animals and human',authors:'Nair AB, Jacob S',year:2016,journal:'Journal of Basic and Clinical Pharmacy',volume:7,issue:2,pages:'27',doi:'10.4103/0976-0105.177703',abstract:'Understanding the concept of extrapolation of dose between species is important for pharmaceutical researchers when initiating new animal or human experiments. Interspecies allometric scaling for dose conversion from animal to human studies is one of the most controversial areas in clinical pharmacology. Allometric approach considers the differences in body surface area, which is associated with animal weight while extrapolating the doses of therapeutic agents among the species.',tags:['Dose conversion/allometric scaling'],access:'oa',sig:'med',attn:false,date:'2016-01-01',isNew:false},
+  {id:'z2',title:'Framework for sensitization assessment of extractables and leachables in pharmaceuticals',authors:'Parris P, Whelan G, Burild A, et al.',year:2022,journal:'Critical Reviews in Toxicology',volume:52,issue:2,pages:'125-138',doi:'10.1080/10408444.2022.2065966',abstract:'During the toxicological assessment of extractables and leachables in drug products, localized hazards such as irritation or sensitization may be identified. The ELSIE consortium has reviewed the status of dermal, respiratory, and systemic risk assessment in cosmetic and pharmaceutical industries, and proposes a framework to evaluate the safety of known or potential dermal sensitizers in pharmaceuticals.',tags:['Extractables and leachables','Sensitization/immunotoxicology','Risk assessment'],access:'wiley',sig:'high',attn:true,date:'2022-02-07',isNew:false},
+  {id:'z3',title:'Sensitization Assessment of Extractables and Leachables in Pharmaceuticals: ELSIE Database Analysis',authors:'Parris P, Whelan G, Burild A, et al.',year:2024,journal:'PDA Journal of Pharmaceutical Science and Technology',volume:78,issue:4,pages:'399-444',doi:'10.5731/pdajpst.2022.012811',abstract:'Quality by design is the foundation of the risk management framework for extractables and leachables recommended by ELSIE. A dataset of E&Ls (n=466) was analysed to determine the prevalence and potency of skin sensitizers in this chemical subset. Approximately half of the compounds had sensitization data recorded and 20% are potential skin sensitizers.',tags:['Extractables and leachables','Sensitization/immunotoxicology','TTC'],access:'subscription',sig:'high',attn:false,date:'2024-01-01',isNew:false},
+  {id:'z4',title:'Bioavailability of Therapeutic Proteins by Inhalation — Worker Safety Aspects',authors:'(Author not listed)',year:2014,journal:'The Annals of Occupational Hygiene',volume:58,issue:7,pages:'899',doi:'10.1093/annhyg/meu038',abstract:'A literature review and analysis of inhalation bioavailability data for large therapeutic proteins was conducted in order to develop a practical estimate of the inhalation bioavailability for large therapeutic proteins. A value of 0.05 (5%) is an accurate estimate for large therapeutic proteins (MW ≥40 kDa). We recommend using 5% bioavailability by inhalation when developing OELs for large therapeutic proteins.',tags:['Inhalation bioavailability','OEL derivation','Biologics/large molecules'],access:'wiley',sig:'high',attn:false,date:'2014-06-23',isNew:false},
+  {id:'z5',title:'Toxicokinetic and toxicodynamic considerations when deriving health-based exposure limits for pharmaceuticals',authors:'Reichard JF, Maier MA, Naumann BD, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S67-S78',doi:'10.1016/j.yrtph.2016.05.027',abstract:'This article discusses toxicokinetic and toxicodynamic considerations relevant to deriving health-based exposure limits for pharmaceutical compounds, with particular attention to adjustment factors and interspecies extrapolation.',tags:['HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
+  {id:'z6',title:'New limits proposed for the management of non-mutagenic impurities',authors:'Slikkerveer A, Doehr O, Claude N, et al.',year:2024,journal:'Regulatory Toxicology and Pharmacology',volume:150,issue:null,pages:'105647',doi:'10.1016/j.yrtph.2024.105647',abstract:'Multiple international guidelines exist for control of impurities inherent to drug substance and product manufacturing. Regarding non-mutagenic impurities (NMI) the ICH Q3A/B guidelines are not applicable during early phases. An EFPIA survey shows no toxicities could be attributed to any of 467 impurities at any tested level. Evidence supports a generic 5 mg/day limit for exposure <6 months and 1 mg/day for life-long exposure.',tags:['Non-mutagenic impurities','Regulatory guidance/ICH','HBEL/PDE/ADE methodology'],access:'elsevier',sig:'high',attn:true,date:'2024-06-01',isNew:false},
+  {id:'z7',title:'Threshold of toxicological concern (TTC) for developmental and reproductive toxicity of anticancer compounds',authors:'Stanard B, Dolan DG, Hanneman W, et al.',year:2015,journal:'Regulatory Toxicology and Pharmacology',volume:72,issue:3,pages:'602-609',doi:'10.1016/j.yrtph.2015.05.024',abstract:'An endpoint-specific threshold of toxicological concern (TTC) for developmental and reproductive toxicity (DART) was established for anticancer compounds. A comprehensive database of over 300 NOAELs for DART of 108 anticancer compounds was created. The 5th percentile NOAEL was 0.005 mg/kg/day, resulting in a human exposure threshold of 3 µg/day assuming standard uncertainty factors.',tags:['TTC','HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2015-08-01',isNew:false},
+  {id:'z8',title:'Identifying and assessing highly hazardous drugs within quality risk management programs',authors:'Sussman RG, Schatz AR, Kimmel TA, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S11-S18',doi:'10.1016/j.yrtph.2016.05.025',abstract:'Application of a risk-based approach using a health-based limit such as an acceptable daily exposure (ADE) is more appropriate for the development of a Quality Risk Management Program than the use of categories of concern. Controlling airborne concentrations and the contamination of product contact surfaces in accordance with values derived from quantitative risk assessments can prevent adverse effects in workers and patients.',tags:['HBEL/PDE/ADE methodology','Cross-contamination/cleaning','Occupational health'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
+  {id:'z9',title:'A harmonization effort for acceptable daily exposure derivation — Considerations for application of adjustment factors',authors:'Sussman RG, Naumann BD, Pfister T, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S57-S66',doi:'10.1016/j.yrtph.2016.05.023',abstract:'This article addresses harmonization of ADE derivation methodology with particular focus on the appropriate application of adjustment factors for uncertainty in dose-response assessment and interspecies extrapolation.',tags:['HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
+  {id:'z10',title:'Bioavailability and its assessment',authors:'Toutain PL, Bousquet-Melou A',year:2004,journal:'Journal of Veterinary Pharmacology and Therapeutics',volume:27,issue:6,pages:'455-466',doi:'10.1111/j.1365-2885.2004.00604.x',abstract:'Bioavailability is a key pharmacokinetic parameter which expresses the proportion of a drug administered by any nonvascular route that gains access to the systemic circulation. This review addresses different approaches to measurement of bioavailability including absolute and relative measures, and discusses rate of drug absorption.',tags:['Inhalation bioavailability','Dose conversion/allometric scaling'],access:'wiley',sig:'med',attn:false,date:'2004-12-01',isNew:false},
+  {id:'z11',title:'Occupational health categorization and compound handling practice systems — roots, application and future',authors:'Ader AW, Farris JP, Ku RH',year:2005,journal:'Chemical Health & Safety',volume:12,issue:4,pages:'20-26',doi:'10.1016/j.chs.2005.01.016',abstract:'This paper reviews the historical development of occupational health categorization systems for active pharmaceutical ingredients and discusses their application in compound handling practices. The shift toward health-based exposure limits and ADEs is examined.',tags:['OEL derivation','Occupational health'],access:'elsevier',sig:'med',attn:false,date:'2005-07-01',isNew:false},
+  {id:'z12',title:'Application of the Threshold of Toxicological Concern concept to the safety assessment of metabolites in drug development',authors:'Kroes R, Renwick AG, Cheeseman MA, et al.',year:2004,journal:'Food and Chemical Toxicology',volume:42,issue:7,pages:'1223-1235',doi:'10.1016/j.fct.2004.02.011',abstract:'The TTC concept for evaluating possible safety concerns for metabolites that occur in food is examined. This analysis shows that the TTC approach is valid and may be applicable for metabolites not specifically targeted for safety studies, provided the compound does not belong to a structural class of known high concern.',tags:['TTC','Risk assessment'],access:'elsevier',sig:'med',attn:false,date:'2004-07-01',isNew:false},
+  {id:'z13',title:'Establishing a threshold of toxicological concern for effects in the mammary gland following lifetime exposure',authors:'Carthew P, Edwards RE, Nolan BM',year:2004,journal:'Regulatory Toxicology and Pharmacology',volume:40,issue:1,pages:'92-100',doi:'10.1016/j.yrtph.2004.05.007',abstract:'A database of mammary gland effects from lifetime oral exposures was used to derive a TTC value for this endpoint. The 5th percentile of the NOAELs was 0.15 mg/kg/day for mammary gland effects.',tags:['TTC','HBEL/PDE/ADE methodology'],access:'elsevier',sig:'med',attn:false,date:'2004-09-01',isNew:false},
+  {id:'z14',title:'Establishment of a threshold of toxicological concern for pharmaceutical intermediates based on historical repeat-dose data',authors:'Dunn Z, Murudzwa D, Blum K',year:2025,journal:'Regulatory Toxicology and Pharmacology',volume:156,issue:null,pages:'105764',doi:'10.1016/j.yrtph.2024.105764',abstract:'Historic 28-day oral rodent toxicity data was analyzed for 103 GSK isolated pharmaceutical intermediates. The 5th percentile of the NOAEL distribution was 15 mg/kg/day. A default oral PDE of 1000 µg/day and OEL of 100 µg/m3 is proposed for pharmaceutical intermediates lacking substance-specific toxicity data.',tags:['TTC','HBEL/PDE/ADE methodology','OEL derivation'],access:'elsevier',sig:'high',attn:true,date:'2025-02-01',isNew:false},
+  {id:'z15',title:'Using default methodologies to derive an acceptable daily exposure (ADE)',authors:'Faria EC, Bercu JP, Dolan DG, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S28-S38',doi:'10.1016/j.yrtph.2016.05.026',abstract:'This paper describes a structured default methodology for deriving acceptable daily exposures when chemical-specific toxicity data are limited. Default adjustment factors for uncertainty and interspecies extrapolation are defined and justified.',tags:['HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
+  {id:'z16',title:'Estimating inhalation bioavailability for peptides and proteins 1 to 10 kDa in size',authors:'Fung ES, Parker JA, Powell AM, Maier A',year:2023,journal:'Regulatory Toxicology and Pharmacology',volume:137,issue:null,pages:'105314',doi:'10.1016/j.yrtph.2022.105314',abstract:'Inhalation bioavailability data for 72 peptides and protein samples ranging from 1.1 to 10.9 kDa in size were evaluated. The median inhalation bioavailability was 20%. A default inhalation bioavailability of 20% is recommended for 1–10 kDa peptides and proteins in the absence of compound-specific data.',tags:['Inhalation bioavailability','Biologics/large molecules','OEL derivation'],access:'elsevier',sig:'high',attn:false,date:'2023-01-01',isNew:false},
+  {id:'z17',title:'Bioavailability of protein therapeutics in rats following inhalation exposure: Relevance to occupational exposure limit calculations',authors:'Gould JC, Carvajal I, Davidson T, et al.',year:2018,journal:'Regulatory Toxicology and Pharmacology',volume:100,issue:null,pages:'35-44',doi:'10.1016/j.yrtph.2018.10.003',abstract:'Male Sprague-Dawley rats were exposed intravenously or by nose-only inhalation to one of five test proteins of varying molecular size (10–150 kDa). The key finding was low systemic bioavailability after inhalation exposure for all test proteins (~≤1%). A default 1% BA assumption is reasonable to utilize when calculating OELs for protein therapeutics.',tags:['Inhalation bioavailability','Biologics/large molecules','OEL derivation'],access:'elsevier',sig:'high',attn:false,date:'2018-12-01',isNew:false},
+  {id:'z18',title:'Threshold of Toxicological Concern (TTC) for Botanical Extracts derived from a meta-analysis of repeated-dose toxicity studies',authors:'Kawamoto T, Fuchs A, Fautz R, Morita O',year:2019,journal:'Toxicology Letters',volume:316,issue:null,pages:'1-9',doi:'10.1016/j.toxlet.2019.08.006',abstract:'Threshold of Toxicological Concern (TTC) is a promising approach for evaluating human health risk for systemic toxicity when there is a lack of toxicological information. The threshold for systemic toxicity is 1800, 540, and 90 µg/day for Cramer I-III chemical structures. A validation study using point of departures derived from mixtures is required to expand application of probability approach for mixtures.',tags:['TTC','Risk assessment'],access:'elsevier',sig:'med',attn:false,date:'2019-11-01',isNew:false},
+  {id:'z19',title:'Application of the threshold of toxicological concern (TTC) to the safety evaluation of cosmetic ingredients',authors:'Kroes R, Renwick AG, Feron V, et al.',year:2007,journal:'Food and Chemical Toxicology',volume:45,issue:12,pages:'2533-2562',doi:'10.1016/j.fct.2007.06.021',abstract:'Application of the TTC approach to cosmetic ingredients and impurities requires consideration of whether route-dependent differences in first-pass metabolism could affect the applicability of TTC values derived from oral data to the topical route. Analysis shows that the oral TTC values are valid for topical exposures.',tags:['TTC','Risk assessment'],access:'elsevier',sig:'med',attn:false,date:'2007-12-01',isNew:false},
+  {id:'z20',title:'Development of Duration-Based Non-Mutagenic Thresholds of Toxicological Concern (TTC) Relevant to Parenteral Extractables and Leachables',authors:'Masuda-Herrera MJ, Bercu JP, Broschard TH, et al.',year:2022,journal:'PDA Journal of Pharmaceutical Science and Technology',volume:null,issue:null,pages:null,doi:'10.5731/pdajpst.2021.012693',abstract:'The ELSIE consortium derived TTC values for organic, non-mutagenic E&L substances administered parenterally. The resulting parenteral TTC values are 35, 110, and 180 µg/day for human exposures of >10 years to lifetime, >1–10 years, and ≤1 year, respectively.',tags:['TTC','Extractables and leachables','HBEL/PDE/ADE methodology'],access:'subscription',sig:'high',attn:true,date:'2022-01-01',isNew:false},
+  {id:'z21',title:'Recommendations for Use of Adjustment Factors in Calculating Acceptable Daily Exposures (ADEs) and Occupational Exposure Limits (OELs)',authors:'Bercu JP, Dolan DG, Faria EC, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S39-S56',doi:'10.1016/j.yrtph.2016.05.024',abstract:'This paper provides recommendations for selection and application of adjustment factors (uncertainty factors, modifying factors, pharmacokinetic/pharmacodynamic factors) used in deriving ADEs and OELs for pharmaceutical compounds.',tags:['HBEL/PDE/ADE methodology','OEL derivation','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
+  {id:'z22',title:'Development of Occupational Exposure Limits for Pharmaceutical Compounds',authors:'Dolan DG, Naumann BD, Sargent EV, Maier A, Dyne D',year:2005,journal:'Regulatory Toxicology and Pharmacology',volume:43,issue:3,pages:'290-302',doi:'10.1016/j.yrtph.2005.08.010',abstract:'This paper describes a structured approach for deriving OELs for pharmaceutical compounds, including selection of the critical effect, identification of the NOAEL, and application of uncertainty factors. The relationship between OELs and ADEs/PDEs is discussed.',tags:['OEL derivation','HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2005-01-01',isNew:false},
+  // ── MOCK "THIS MONTH" ENTRIES ────────────────────────────────
+  {id:'m1',title:'Revised parenteral TTC values for E&L substances: updated ELSIE database analysis with expanded compound coverage',authors:'Parris P, Nagao L, Cruz MT, et al.',year:2026,journal:'PDA Journal of Pharmaceutical Science and Technology',volume:80,issue:2,pages:'180-214',doi:'10.5731/pdajpst.2025.014002',abstract:'The ELSIE consortium has updated its parenteral TTC values following expansion of the compound database to 612 substances. Revised TTC values are 42, 125, and 195 µg/day for chronic, subchronic, and subacute exposure durations respectively, representing modest upward revisions from the 2022 values. In silico potency prediction methods and benchmark dose modeling are incorporated for the first time.',tags:['TTC','Extractables and leachables','HBEL/PDE/ADE methodology'],access:'subscription',sig:'high',attn:true,date:'2026-04-15',isNew:true},
+  {id:'m2',title:'ICH M7(R2) draft guideline for consultation: updated thresholds and computational methods for genotoxic impurities',authors:'ICH Expert Working Group',year:2026,journal:'International Council for Harmonisation',volume:null,issue:null,pages:null,doi:null,abstract:'The ICH M7 Expert Working Group has released a revised draft of the M7 guideline for public comment. Key changes include updated TTC values for cohort of concern compounds, revised guidance on use of (Q)SAR tools, and new provisions for oligonucleotide impurities. Comment period closes August 2026.',tags:['Genotoxic impurities/ICH M7','Regulatory guidance/ICH','TTC'],access:'oa',sig:'high',attn:true,date:'2026-04-22',isNew:true},
+  {id:'m3',title:'Inhalation bioavailability of antibody-drug conjugates: implications for occupational exposure limit derivation',authors:'Maier A, Fung ES, Powell AM, Reichard JF',year:2026,journal:'Regulatory Toxicology and Pharmacology',volume:158,issue:null,pages:'106102',doi:'10.1016/j.yrtph.2026.106102',abstract:'Antibody-drug conjugates (ADCs) present unique challenges for OEL derivation due to the combined toxicological properties of the antibody carrier and the cytotoxic payload. This study characterizes inhalation bioavailability for three ADC payloads and proposes a tiered approach to OEL derivation that accounts for the distinct pharmacokinetic and toxicological profiles of intact ADC versus released payload.',tags:['Inhalation bioavailability','Biologics/large molecules','OEL derivation'],access:'elsevier',sig:'high',attn:false,date:'2026-05-01',isNew:true},
+];
+
+let articles = JSON.parse(JSON.stringify(SEED));
+let selected = new Set();
+let matchInfo = {};
+let activeTab = 'cl';
+
+function handleFile(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      let rows;
+      if(file.name.endsWith('.csv')){
+        // parse CSV manually respecting quoted fields
+        const text = ev.target.result;
+        const lines = text.split('\n');
+        const headers = parseCSVLine(lines[0]);
+        rows = lines.slice(1).filter(l=>l.trim()).map(l=>{
+          const vals = parseCSVLine(l);
+          const obj = {};
+          headers.forEach((h,i)=>obj[h.trim()]=(vals[i]||'').trim());
+          return obj;
+        });
+      } else {
+        const wb = XLSX.read(ev.target.result,{type:'binary'});
+        rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+      }
+      const newDocs = rows.filter(r=>r['Item Type']==='journalArticle'||r['Item Type']===''||!r['Item Type']||r['Title']||r['title']).map((r,i)=>{
+        const title = r['Title']||r['title']||'';
+        const abstract = r['Abstract Note']||r['Abstract']||r['abstract']||'';
+        const journal = r['Publication Title']||r['Journal']||r['journal']||'';
+        const tags = r['Manual Tags']? r['Manual Tags'].split(/[;,]/).map(s=>s.trim()).filter(Boolean) : autoTag(title,abstract);
+        return {
+          id:'u'+Date.now()+i,
+          title, authors:r['Author']||r['Authors']||'',
+          year:parseInt(r['Publication Year']||r['Year']||0)||null,
+          journal, volume:r['Volume']||null, issue:r['Issue']||null, pages:r['Pages']||'',
+          doi:r['DOI']||'', abstract,
+          tags, access:classifyAccess(journal),
+          sig:'med', attn:false,
+          date:new Date().toISOString().slice(0,10), isNew:true,
+        };
+      }).filter(a=>a.title);
+      if(!newDocs.length){alert('No articles found in file.');return;}
+      // avoid duplicates by DOI
+      const existing = new Set(articles.map(a=>a.doi).filter(Boolean));
+      const toAdd = newDocs.filter(a=>!a.doi||!existing.has(a.doi));
+      articles = [...toAdd,...articles];
+      populateFilters(); renderAll();
+      alert(`Added ${toAdd.length} new article${toAdd.length!==1?'s':''}.`);
+    }catch(err){alert('Could not read file: '+err.message);}
+  };
+  if(file.name.endsWith('.csv')) reader.readAsText(file);
+  else reader.readAsBinaryString(file);
+}
+
+function parseCSVLine(line){
+  const result=[]; let inQ=false, cur='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'&&!inQ){inQ=true;}
+    else if(ch==='"'&&inQ&&line[i+1]==='"'){cur+='"';i++;}
+    else if(ch==='"'&&inQ){inQ=false;}
+    else if(ch===','&&!inQ){result.push(cur);cur='';}
+    else{cur+=ch;}
+  }
+  result.push(cur);
+  return result;
+}
+
+function populateFilters(){
+  const allSubj=[...new Set(articles.flatMap(a=>a.tags||[]))].sort();
+  const allJ=[...new Set(articles.map(a=>a.journal).filter(Boolean))].sort();
+  const allY=[...new Set(articles.map(a=>a.year).filter(Boolean))].sort((a,b)=>b-a);
+  const fS=document.getElementById('fSubj'); const curS=fS.value;
+  fS.innerHTML='<option value="">All subjects</option>'+allSubj.map(s=>`<option value="${esc(s)}"${s===curS?' selected':''}>${esc(s)}</option>`).join('');
+  const fJ=document.getElementById('fJournal'); const curJ=fJ.value;
+  fJ.innerHTML='<option value="">All journals</option>'+allJ.map(j=>`<option value="${esc(j)}"${j===curJ?' selected':''}>${esc(j)}</option>`).join('');
+  const fY=document.getElementById('fYear'); const curY=fY.value;
+  fY.innerHTML='<option value="">All years</option>'+allY.map(y=>`<option value="${y}"${String(y)===curY?' selected':''}>${y}</option>`).join('');
+}
+
+function getFiltered(){
+  const q=(document.getElementById('srch')?.value||'').toLowerCase().trim();
+  const subj=document.getElementById('fSubj')?.value||'';
+  const jrn=document.getElementById('fJournal')?.value||'';
+  const yr=document.getElementById('fYear')?.value||'';
+  const sig=document.getElementById('fSig')?.value||'';
+  const attn=document.getElementById('fAttn')?.value||'';
+  matchInfo={};
+  const list=articles.filter(a=>{
+    if(subj&&!(a.tags||[]).includes(subj))return false;
+    if(jrn&&a.journal!==jrn)return false;
+    if(yr&&String(a.year)!==yr)return false;
+    if(sig&&a.sig!==sig)return false;
+    if(attn==='yes'&&!a.attn)return false;
+    if(q){
+      const fields={title:(a.title||'').toLowerCase(),authors:(a.authors||'').toLowerCase(),abstract:(a.abstract||'').toLowerCase(),tags:(a.tags||[]).join(' ').toLowerCase(),journal:(a.journal||'').toLowerCase()};
+      const matched=Object.entries(fields).filter(([,v])=>v.includes(q)).map(([k])=>k);
+      if(!matched.length)return false;
+      matchInfo[a.id]=matched;
+    }
+    return true;
+  });
+  const mc=document.getElementById('matchCt');
+  if(q&&mc){mc.style.display='';mc.textContent=`${list.length} match${list.length!==1?'es':''}`;}
+  else if(mc){mc.style.display='none';}
+  return list;
+}
+
+function updSummary(){
+  document.getElementById('sTotal').textContent=articles.length;
+  document.getElementById('sNew').textContent=articles.filter(a=>a.isNew).length;
+  document.getElementById('newBadge').textContent=articles.filter(a=>a.isNew).length;
+  document.getElementById('sHigh').textContent=articles.filter(a=>a.sig==='high').length;
+  document.getElementById('sAttn').textContent=articles.filter(a=>a.attn).length;
+  document.getElementById('sWiley').textContent=articles.filter(a=>a.access==='wiley').length;
+  document.getElementById('sOa').textContent=articles.filter(a=>a.access==='oa').length;
+  document.getElementById('sSel').textContent=selected.size;
+  document.getElementById('expBtn').textContent=`Export (${selected.size})`;
+}
+
+function setTab(t){
+  activeTab=t;
+  ['cl','subj','new'].forEach(x=>document.getElementById('tab-'+x)?.classList.toggle('on',x===t));
+  document.getElementById('ctrlBar').style.display=(t==='new')?'none':'';
+  renderAll();
+}
+
+function renderAll(){
+  updSummary(); populateFilters();
+  const el=document.getElementById('cnt');
+  if(activeTab==='cl') renderChangelog(el);
+  else if(activeTab==='subj') renderBySubject(el);
+  else renderNewMonth(el);
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(s){if(!s)return'';try{return new Date(s+'T12:00:00').toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return s;}}
+function shortUrl(u){try{return new URL(u).hostname.replace('www.','');}catch(e){return u.slice(0,24);}}
+
+function highlight(text,q){
+  if(!q||!text)return esc(text||'');
+  const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return esc(text).replace(re,'<mark>$1</mark>');
+}
+function getSnippet(text,q,max=160){
+  if(!text||!q)return'';
+  const idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx<0)return'';
+  const s=Math.max(0,idx-55),e=Math.min(text.length,idx+q.length+90);
+  return(s>0?'&hellip;':'')+highlight(text.slice(s,e),q)+(e<text.length?'&hellip;':'');
+}
+
+function accBadge(a){
+  if(a.access==='wiley')return'<span class="bdg bdg-wiley">Wiley/BW</span>';
+  if(a.access==='oa')return'<span class="bdg bdg-oa">Open access</span>';
+  if(a.access==='elsevier')return'<span class="bdg bdg-elsevier">Elsevier</span>';
+  return'';
+}
+function sigBadge(a){
+  const lbl={high:'High',med:'Medium',low:'Low'};
+  return`<span class="bdg bdg-sig-${a.sig||'m'}">${lbl[a.sig]||'Med'}</span>`;
+}
+function subjBadges(a,q){
+  return(a.tags||[]).map(t=>`<span class="bdg bdg-subj bdg-pill">${q&&t.toLowerCase().includes(q.toLowerCase())?highlight(t,q):esc(t)}</span>`).join('');
+}
+
+function articleCard(a){
+  const sel=selected.has(a.id);
+  const q=(document.getElementById('srch')?.value||'').trim();
+  const mf=matchInfo[a.id]||[];
+  const vol=a.volume?`, ${a.volume}${a.issue?`(${a.issue})`:''}`:'' ;
+  const pp=a.pages?`, ${a.pages}`:'';
+  let snippetHtml='';
+  if(q&&mf.length){
+    const fldL={title:'Title',authors:'Authors',abstract:'Abstract',tags:'Tags',journal:'Journal'};
+    const snips=mf.map(f=>{
+      let s=f==='abstract'?getSnippet(a.abstract||'',q):f==='title'?getSnippet(a.title||'',q):f==='authors'?getSnippet(a.authors||'',q):f==='tags'?highlight((a.tags||[]).join(', '),q):highlight(a.journal||'',q);
+      return s?`<span class="sfield">${fldL[f]||f}</span>${s}`:null;
+    }).filter(Boolean);
+    if(snips.length) snippetHtml=snips.map(s=>`<div class="snippet">${s}</div>`).join('');
+  }
+  const hasAbs=!!(a.abstract&&a.abstract.trim());
+  const absAutoOpen=q&&mf.includes('abstract');
+  const absHtml=hasAbs?`<button class="abs-btn" onclick="toggleAbs(${JSON.stringify(a.id)},this)">${absAutoOpen?'hide abstract':'show abstract'}</button><div class="abs-text ${absAutoOpen?'vis':''}" id="abs-${a.id}">${q?highlight(a.abstract||'',q):esc(a.abstract||'')}</div>`:'';
+  return`<div class="acard ${sel?'sel':''} ${a.isNew?'new-entry':''}" id="ac-${a.id}">
+    <div class="cb"><input type="checkbox" ${sel?'checked':''} onchange="toggleSel(${JSON.stringify(a.id)})"></div>
+    <div class="ab">
+      <div class="at">${q&&mf.includes('title')?highlight(a.title||'',q):esc(a.title||'')}</div>
+      <div class="aa">${q&&mf.includes('authors')?highlight(a.authors||'',q):esc(a.authors||'')}</div>
+      <div class="aj"><em>${esc(a.journal||'')}</em>${a.year?` (${a.year})`:''}${vol}${pp}</div>
+      <div class="abadges">${accBadge(a)}${sigBadge(a)}${a.attn?'<span class="bdg bdg-attn">&#9873; Attn</span>':''}${a.isNew?'<span class="bdg bdg-new">New this month</span>':''}${subjBadges(a,q)}</div>
+      ${snippetHtml}${absHtml}
+      ${a.doi?`<div class="adoi">DOI: <a href="https://doi.org/${esc(a.doi)}" target="_blank">${esc(a.doi)}</a></div>`:''}
+    </div>
+  </div>`;
+}
+
+function toggleAbs(id,btn){
+  const el=document.getElementById('abs-'+id);
+  if(!el)return;
+  const v=el.classList.toggle('vis');
+  btn.textContent=v?'hide abstract':'show abstract';
+}
+
+function renderChangelog(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty">No articles match the current filters.</div>';return;}
+  const sorted=[...list].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  el.innerHTML=sorted.map(a=>{
+    return`<div class="crow">
+      <div class="cdate-col">${a.date?fmtDate(a.date):'—'}</div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="cdot ${a.isNew?'new':a.sig||''}"></div>
+        <div class="cline" style="flex:1"></div>
+      </div>
+      <div class="cbody">
+        <div class="ctitle">${esc(a.title)}</div>
+        <div class="cmeta">${esc(a.authors||'')}${a.year?' ('+a.year+')':''} &mdash; <em>${esc(a.journal||'')}</em></div>
+        <div class="cbadges">${accBadge(a)}${sigBadge(a)}${a.attn?'<span class="bdg bdg-attn">&#9873;</span>':''}${a.isNew?'<span class="bdg bdg-new">New</span>':''}${(a.tags||[]).map(t=>`<span class="bdg bdg-subj bdg-pill">${esc(t)}</span>`).join('')}${a.doi?`<a class="adoi" href="https://doi.org/${esc(a.doi)}" target="_blank" style="margin-left:4px">${shortUrl('https://doi.org/'+a.doi)}</a>`:''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderBySubject(el){
+  const list=getFiltered();
+  if(!list.length){el.innerHTML='<div class="empty">No articles match.</div>';return;}
+  const allTags=[...new Set(list.flatMap(a=>a.tags||[]))].sort();
+  let html='';
+  allTags.forEach(tag=>{
+    const grp=[...list].filter(a=>(a.tags||[]).includes(tag)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    if(!grp.length)return;
+    html+=`<div class="gh">${esc(tag)} <span class="ghc">${grp.length}</span></div>`;
+    html+=grp.map(a=>articleCard(a)).join('');
+  });
+  el.innerHTML=html;
+}
+
+function renderNewMonth(el){
+  const newList=articles.filter(a=>a.isNew).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!newList.length){el.innerHTML='<div class="empty">No new articles added this month.<br>Upload a Zotero CSV to add results from your monthly Cowork run.</div>';return;}
+  el.innerHTML=`<div class="new-banner"><span class="new-badge-big">New this month</span><span>${newList.length} article${newList.length!==1?'s':''} added in this batch &mdash; review, select, and export to build your bibliography.</span></div>`+newList.map(a=>articleCard(a)).join('');
+}
+
+function toggleSel(id){
+  if(selected.has(id))selected.delete(id);else selected.add(id);
+  const c=document.getElementById('ac-'+id);
+  if(c)c.classList.toggle('sel',selected.has(id));
+  updSummary();
+}
+function selAll(){getFiltered().forEach(a=>selected.add(a.id));renderAll();}
+function clearSel(){selected.clear();renderAll();}
+
+function filterTo(mode,val){
+  ['fSubj','fJournal','fYear','fSig','fAttn'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('srch').value='';
+  if(mode==='attn')document.getElementById('fAttn').value='yes';
+  else if(mode==='access'&&val==='wiley'){document.getElementById('fSubj').value='';}
+  if(activeTab!=='cl'){setTab('cl');return;}
+  if(mode==='new'){setTab('new');return;}
+  renderAll();
+  setTimeout(()=>{
+    if(mode==='access'){
+      const list=getFiltered().filter(a=>a.access===val);
+      selected.clear();
+      list.forEach(a=>selected.add(a.id));
+    }
+    renderAll();
+    document.getElementById('cnt').scrollTop=0;
+  },60);
+}
+
+// ── Citation formatting ────────────────────────────────────────
+function fmtAuthors(s){
+  if(!s)return'';
+  const first=s.split(',')[0].trim();
+  const surname=first.split(' ')[0];
+  if(s.includes('et al')||s.split(',').length>3)return surname+' et al.';
+  return surname;
+}
+function fmtRef(a){
+  const au=a.authors||''; const yr=a.year||'n.d.';
+  const vol=a.volume?`, ${a.volume}${a.issue?`(${a.issue})`:''}`:'';
+  const pp=a.pages?`, ${a.pages}`:'';
+  const doi=a.doi?` https://doi.org/${a.doi}`:'';
+  return `${au} (${yr}). ${a.title||''}. ${a.journal||''}${vol}${pp}.${doi}`.replace(/\.\s+\./g,'.').trim();
+}
+function fmtInText(a){return`${fmtAuthors(a.authors||'')} (${a.year||'n.d.'})`;}
+function getSelItems(){return articles.filter(a=>selected.has(a.id)).sort((a,b)=>{const sa=(a.authors||'').split(',')[0].trim().toLowerCase();const sb=(b.authors||'').split(',')[0].trim().toLowerCase();return sa.localeCompare(sb);});}
+
+// ── Export panel ──────────────────────────────────────────────
+function openExport(){
+  if(selected.size===0){alert('Select at least one article first.');return;}
+  const items=getSelItems();
+  document.getElementById('epCt').textContent=items.length;
+  document.getElementById('epPrev').textContent=items.map((a,i)=>`${i+1}. ${fmtRef(a)}`).join('\n\n');
+  document.getElementById('epbg').classList.add('open');
+}
+function closeEp(){document.getElementById('epbg').classList.remove('open');}
+function closeEpBg(e){if(e.target===document.getElementById('epbg'))closeEp();}
+
+function expBibtex(){
+  const items=getSelItems();
+  const entries=items.map(a=>{
+    const key=(a.authors||'').split(',')[0].replace(/\s/g,'').replace(/[^a-zA-Z]/g,'')+(a.year||'');
+    const fields=[`  author = {${a.authors||''}}`,`  title = {${a.title||''}}`,`  journal = {${a.journal||''}}`,`  year = {${a.year||''}}`,a.volume?`  volume = {${a.volume}}`:'',a.issue?`  number = {${a.issue}}`:'',a.pages?`  pages = {${a.pages}}`:'',a.doi?`  doi = {${a.doi}}`:'`',(a.tags||[]).length?`  keywords = {${a.tags.join('; ')}}`:''].filter(Boolean).join(',\n');
+    return`@article{${key},\n${fields}\n}`;
+  });
+  dl(entries.join('\n\n'),'pharm_occ_tox_bibliography.bib','text/plain');
+}
+function expExcel(){
+  const items=getSelItems();
+  const rows=items.map(a=>({'Authors':a.authors||'','Year':a.year||'','Title':a.title||'','Journal':a.journal||'','Volume':a.volume||'','Issue':a.issue||'','Pages':a.pages||'','DOI':a.doi||'','Subjects':(a.tags||[]).join('; '),'Access':a.access||'','In-text':fmtInText(a),'Full reference':fmtRef(a)}));
+  const ws=XLSX.utils.json_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Bibliography');
+  XLSX.writeFile(wb,'pharm_occ_tox_bibliography.xlsx');
+}
+async function expWord(){
+  const items=getSelItems();
+  const {Document,Packer,Paragraph,TextRun,AlignmentType}=docx;
+  const children=[
+    new Paragraph({children:[new TextRun({text:'Pharmaceutical Occupational Toxicology — Bibliography',bold:true,size:30,font:'Times New Roman'})],alignment:AlignmentType.CENTER,spacing:{after:100}}),
+    new Paragraph({children:[new TextRun({text:`${items.length} references \u2022 Author-date integral style \u2022 ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}`,size:18,color:'888880',font:'Arial'})],alignment:AlignmentType.CENTER,spacing:{after:360}}),
+    new Paragraph({children:[new TextRun({text:'References',bold:true,size:24,font:'Times New Roman'})],spacing:{before:200,after:140},border:{bottom:{style:'single',size:6,color:'333330',space:4}}}),
+    ...items.map(a=>new Paragraph({children:[new TextRun({text:fmtRef(a),size:22,font:'Times New Roman'})],spacing:{before:120,after:120},indent:{left:720,hanging:720},alignment:AlignmentType.JUSTIFIED})),
+  ];
+  const doc=new Document({sections:[{properties:{page:{margin:{top:1440,right:1440,bottom:1440,left:1440}}},children}]});
+  const buf=await Packer.toBlob(doc);
+  const url=URL.createObjectURL(buf);
+  const a=Object.assign(document.createElement('a'),{href:url,download:'pharm_occ_tox_bibliography.docx'});
+  a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function dl(content,filename,mime){const blob=new Blob([content],{type:mime||'text/plain'});const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:filename});a.click();}
+
+// ── Prompt panel ──────────────────────────────────────────────
+function openPrompt(){document.getElementById('ppbg').classList.add('open');}
+function closePP(){document.getElementById('ppbg').classList.remove('open');}
+function copyPrompt(){
+  const text=document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.querySelector('.copy-prompt');
+    if(btn){const o=btn.textContent;btn.textContent='Copied!';btn.style.background='var(--teal)';btn.style.color='#fff';setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.color='';},1800);}
+  });
+}
+
+populateFilters();
+renderAll();
+</script>
+</body>
+</html>
