@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selenium in the Elk Valley: Sources, Ecology, and Environmental Response</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --color-text-primary: #1a1a18;
+    --color-text-secondary: #5f5e5a;
+    --color-text-tertiary: #888780;
+    --color-bg: #ffffff;
+    --color-bg-secondary: #f8f7f2;
+    --color-border: rgba(0,0,0,0.12);
+    --color-border-secondary: rgba(0,0,0,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: #e8e6de;
+      --color-text-secondary: #b4b2a9;
+      --color-text-tertiary: #888780;
+      --color-bg: #1c1c1a;
+      --color-bg-secondary: #242422;
+      --color-border: rgba(255,255,255,0.12);
+      --color-border-secondary: rgba(255,255,255,0.07);
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 24px 16px 48px;
+    min-height: 100vh;
+  }
+  .page-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .main-msg {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.65;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+  }
+  .main-msg b { color: var(--color-text-primary); font-weight: 500; }
+  .map-wrap { overflow-x: auto; padding: 4px 0 24px; -webkit-overflow-scrolling: touch; }
+  .map-canvas { display: flex; gap: 0; min-width: 1850px; }
+  .col { display: flex; flex-direction: column; width: 230px; flex-shrink: 0; padding: 0 7px; }
+  .col-head {
+    font-size: 10.5px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--color-text-tertiary); text-align: center;
+    padding: 6px 4px 10px; min-height: 44px; display: flex; align-items: center;
+    justify-content: center; border-bottom: 1.5px solid var(--color-border);
+    margin-bottom: 8px; line-height: 1.35;
+  }
+  .node {
+    border-radius: 8px; padding: 7px 10px; margin-bottom: 5px;
+    cursor: default; font-size: 12px; line-height: 1.45;
+    transition: box-shadow .15s;
+  }
+  .node:hover { box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  .node-title { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+  .node-sub { font-size: 10.5px; opacity: .82; line-height: 1.4; }
+  .cite {
+    display: inline-block; font-size: 9.5px; font-weight: 500;
+    padding: 2px 6px; border-radius: 4px; margin-top: 5px;
+    text-decoration: none; cursor: pointer;
+  }
+  .cite:hover { opacity: .8; text-decoration: underline; }
+  .section-label {
+    font-size: 10px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .05em; opacity: .55; margin: 10px 0 4px; padding-left: 2px;
+  }
+  .divider { height: 1px; background: var(--color-border); margin: 8px 0; }
+  .key-msg {
+    border-radius: 6px; padding: 6px 9px; margin-top: 5px; margin-bottom: 7px;
+    font-size: 10.5px; font-weight: 500; font-style: italic; line-height: 1.45;
+    border-left: 3px solid transparent;
+  }
+  .badge {
+    display: inline-block; font-size: 9px; font-weight: 500;
+    padding: 1px 5px; border-radius: 3px; margin-left: 3px; vertical-align: middle;
+  }
+  /* ── Light mode node colors ── */
+  .n-brown  { background:#FAEEDA; border:.5px solid #BA7517; color:#412402; }
+  .n-brown  .node-title { color:#633806; }
+  .n-brown  .cite { background:#FAC775; color:#412402; }
+  .n-brown.key-msg  { background:#FAC775; color:#412402; border-color:#BA7517; }
+
+  .n-blue   { background:#E6F1FB; border:.5px solid #185FA5; color:#042C53; }
+  .n-blue   .node-title { color:#0C447C; }
+  .n-blue   .cite { background:#B5D4F4; color:#042C53; }
+  .n-blue.key-msg   { background:#B5D4F4; color:#042C53; border-color:#185FA5; }
+
+  .n-green  { background:#EAF3DE; border:.5px solid #3B6D11; color:#173404; }
+  .n-green  .node-title { color:#27500A; }
+  .n-green  .cite { background:#C0DD97; color:#173404; }
+  .n-green.key-msg  { background:#C0DD97; color:#173404; border-color:#3B6D11; }
+
+  .n-red    { background:#FCEBEB; border:.5px solid #A32D2D; color:#501313; }
+  .n-red    .node-title { color:#791F1F; }
+  .n-red    .cite { background:#F7C1C1; color:#501313; }
+  .n-red.key-msg    { background:#F7C1C1; color:#501313; border-color:#A32D2D; }
+
+  .n-purple { background:#EEEDFE; border:.5px solid #534AB7; color:#26215C; }
+  .n-purple .node-title { color:#3C3489; }
+  .n-purple .cite { background:#CECBF6; color:#26215C; }
+  .n-purple.key-msg { background:#CECBF6; color:#26215C; border-color:#534AB7; }
+
+  .n-gray   { background:#F1EFE8; border:.5px solid #5F5E5A; color:#2C2C2A; }
+  .n-gray   .node-title { color:#444441; }
+  .n-gray   .cite { background:#D3D1C7; color:#2C2C2A; }
+  .n-gray.key-msg   { background:#D3D1C7; color:#2C2C2A; border-color:#5F5E5A; }
+
+  .n-teal   { background:#E1F5EE; border:.5px solid #0F6E56; color:#04342C; }
+  .n-teal   .node-title { color:#085041; }
+  .n-teal   .cite { background:#9FE1CB; color:#04342C; }
+  .n-teal.key-msg   { background:#9FE1CB; color:#04342C; border-color:#0F6E56; }
+
+  .n-coral  { background:#FAECE7; border:.5px solid #993C1D; color:#4A1B0C; }
+  .n-coral  .node-title { color:#712B13; }
+  .n-coral  .cite { background:#F5C4B3; color:#4A1B0C; }
+  .n-coral.key-msg  { background:#F5C4B3; color:#4A1B0C; border-color:#993C1D; }
+
+  .badge-lit    { background:#F7C1C1; color:#501313; }
+  .badge-anchor { background:#CECBF6; color:#26215C; }
+
+  /* ── Dark mode overrides ── */
+  @media (prefers-color-scheme: dark) {
+    .n-brown  { background:#412402; border-color:#EF9F27; color:#FAC775; }
+    .n-brown  .node-title { color:#FAEEDA; }
+    .n-brown  .cite { background:#633806; color:#FAC775; }
+    .n-brown.key-msg  { background:#633806; color:#FAEEDA; border-color:#EF9F27; }
+
+    .n-blue   { background:#042C53; border-color:#378ADD; color:#B5D4F4; }
+    .n-blue   .node-title { color:#E6F1FB; }
+    .n-blue   .cite { background:#0C447C; color:#B5D4F4; }
+    .n-blue.key-msg   { background:#0C447C; color:#E6F1FB; border-color:#378ADD; }
+
+    .n-green  { background:#173404; border-color:#639922; color:#C0DD97; }
+    .n-green  .node-title { color:#EAF3DE; }
+    .n-green  .cite { background:#27500A; color:#C0DD97; }
+    .n-green.key-msg  { background:#27500A; color:#EAF3DE; border-color:#639922; }
+
+    .n-red    { background:#501313; border-color:#E24B4A; color:#F7C1C1; }
+    .n-red    .node-title { color:#FCEBEB; }
+    .n-red    .cite { background:#791F1F; color:#F7C1C1; }
+    .n-red.key-msg    { background:#791F1F; color:#FCEBEB; border-color:#E24B4A; }
+
+    .n-purple { background:#26215C; border-color:#7F77DD; color:#CECBF6; }
+    .n-purple .node-title { color:#EEEDFE; }
+    .n-purple .cite { background:#3C3489; color:#CECBF6; }
+    .n-purple.key-msg { background:#3C3489; color:#EEEDFE; border-color:#7F77DD; }
+
+    .n-gray   { background:#2C2C2A; border-color:#888780; color:#D3D1C7; }
+    .n-gray   .node-title { color:#F1EFE8; }
+    .n-gray   .cite { background:#444441; color:#D3D1C7; }
+    .n-gray.key-msg   { background:#444441; color:#F1EFE8; border-color:#888780; }
+
+    .n-teal   { background:#04342C; border-color:#1D9E75; color:#9FE1CB; }
+    .n-teal   .node-title { color:#E1F5EE; }
+    .n-teal   .cite { background:#085041; color:#9FE1CB; }
+    .n-teal.key-msg   { background:#085041; color:#E1F5EE; border-color:#1D9E75; }
+
+    .n-coral  { background:#4A1B0C; border-color:#D85A30; color:#F5C4B3; }
+    .n-coral  .node-title { color:#FAECE7; }
+    .n-coral  .cite { background:#712B13; color:#F5C4B3; }
+    .n-coral.key-msg  { background:#712B13; color:#FAECE7; border-color:#D85A30; }
+
+    .badge-lit    { background:#791F1F; color:#FCEBEB; }
+    .badge-anchor { background:#3C3489; color:#EEEDFE; }
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    padding: 12px 0 0; font-size: 11px; color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border); margin-top: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .legend-note {
+    font-size: 10.5px; color: var(--color-text-tertiary);
+    margin-top: 6px; width: 100%; line-height: 1.5;
+  }
+  .flow-arrow {
+    text-align: center; font-size: 14px; color: var(--color-text-tertiary);
+    margin: 2px 0; line-height: 1;
+  }
+  .print-note {
+    margin-top: 20px; padding: 10px 14px; border-radius: 8px;
+    background: var(--color-bg-secondary); border: 1px solid var(--color-border);
+    font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.6;
+  }
+  .print-note b { color: var(--color-text-primary); font-weight: 500; }
+  @media print {
+    body { padding: 12px; background: white; color: black; }
+    .map-wrap { overflow: visible; }
+    .map-canvas { min-width: unset; flex-wrap: wrap; gap: 12px; }
+    .col { width: 200px; }
+    .print-note { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Selenium in the Elk Valley: sources, ecology, and environmental response</h1>
+<p class="page-subtitle">A systems map tracing Se mobilization from coal mining → environmental chemistry → food-web transfer → biological effects → regulatory response and restoration</p>
+
+<div class="main-msg">
+  The Elk Valley (British Columbia) is one of the most studied examples of selenium loading from coal mining into an aquatic watershed. Coal mining exposes selenium-bearing rock, which leaches into the Fording and Elk Rivers, enters the food web, and accumulates in fish and wildlife. This map traces the full pathway from <b>source to ecological effect to regulatory and restoration response</b>, organized left to right. Cite badges link to primary sources for further reading.
+</div>
+
+<div class="map-wrap">
+<div class="map-canvas">
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 1 — SOURCES & MOBILIZATION
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">① Elk Valley sources &amp; mobilization</div>
+
+  <div class="section-label">Geology &amp; site context</div>
+
+  <div class="node n-brown">
+    <div class="node-title">Coal-bearing formations, Elk Valley</div>
+    <div class="node-sub">Fording River coalfield — selenium naturally elevated in coal seams and overburden; mining exposes and oxidizes Se-bearing rock</div>
+    <a class="cite" href="https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/publications/selenium-priority-substance-assessment-report.html" target="_blank">Environment Canada — Selenium PSL Assessment Report</a>
+  </div>
+
+  <div class="node n-brown">
+    <div class="node-title">Teck Coal / Elk Valley Resources — 5 mines</div>
+    <div class="node-sub">Fording River, Greenhills, Coal Mountain, Line Creek, Elkview — large open-pit operations; majority of Se loading to watershed; now owned by Glencore subsidiary</div>
+    <a class="cite" href="https://www.teck.com/media/Teck_2022_Sustainability_Report.pdf" target="_blank">Teck Sustainability Reports (annual)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Se mobilization pathways</div>
+
+  <div class="node n-brown">
+    <div class="node-title">Waste rock &amp; spoil leachate</div>
+    <div class="node-sub">Oxidation of Se-bearing minerals in waste rock → selenate-rich leachate → direct discharge to tributaries of Fording &amp; Elk Rivers</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC Ministry of Environment — Elk Valley Water Quality Plan (2014)</a>
+  </div>
+
+  <div class="node n-brown">
+    <div class="node-title">Active mine drainage</div>
+    <div class="node-sub">Pit water and contact water management; drainage routed to creeks; historically untreated; treatment infrastructure under construction 2017–present</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC Elk Valley Water Quality Plan (BC MoE, 2014)</a>
+  </div>
+
+  <div class="node n-brown">
+    <div class="node-title">Transboundary transport — Koocanusa Reservoir</div>
+    <div class="node-sub">Elk R. → Lake Koocanusa (MT/BC) → Kootenai R. (MT/ID) → Snake/Columbia basin; cross-border Se loading documented by IJC &amp; USGS</div>
+    <a class="cite" href="https://www.ijc.org/sites/default/files/2020-12/Koocanusa_Report.pdf" target="_blank">IJC Koocanusa Monitoring &amp; Assessment Report (2020)</a>
+  </div>
+
+  <div class="key-msg n-brown">Five open-pit coal mines mobilize selenium from coal-associated rock into the Fording and Elk Rivers — the foundational fact of all Elk Valley litigation</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 2 — ENVIRONMENTAL CHEMISTRY
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">② Se chemistry &amp; water quality</div>
+
+  <div class="section-label">Speciation in Elk Valley waters</div>
+
+  <div class="node n-blue">
+    <div class="node-title">Selenate dominance in mine drainage</div>
+    <div class="node-sub">Oxidized mine drainage → selenate (SeO₄²⁻) dominant; highly mobile; travels to Lake Koocanusa; converted to organic Se by algae/biofilm downstream</div>
+    <a class="cite" href="https://pubs.usgs.gov/wri/2001/4147/report.pdf" target="_blank">USGS WRI 01-4147 — Se speciation, Kootenai R. basin</a>
+  </div>
+
+  <div class="node n-blue">
+    <div class="node-title">Biofilm conversion → selenomethionine</div>
+    <div class="node-sub">Periphyton in Fording/Elk Rivers assimilate selenate → organoselenium (SeMet); primary driver of food-web bioaccumulation; toxicity multiplied</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.5620220819" target="_blank">Lemly 2002 — Se cycling in streams (Environmental Toxicology &amp; Chemistry — verify issue)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Regulatory water quality thresholds</div>
+
+  <div class="node n-blue">
+    <div class="node-title">Canadian water quality guidelines — Se</div>
+    <div class="node-sub">CCME guideline: 1 µg/L (freshwater aquatic life); routinely exceeded in Elk Valley tributaries by 5–20×; basis for Fisheries Act enforcement</div>
+    <a class="cite" href="https://ccme.ca/en/res/selenium-en-canadian-water-quality-guidelines-for-the-protection-of-aquatic-life.pdf" target="_blank">CCME Canadian Water Quality Guidelines — Selenium (2009)</a>
+  </div>
+
+  <div class="node n-blue">
+    <div class="node-title">US EPA freshwater Se criterion (2016)</div>
+    <div class="node-sub">Fish tissue criterion: 15.1 µg/g dw (egg/ovary), 8.5 µg/g dw (whole body); water column: 3.1 µg/L lotic; applied in MT and ID downstream of Elk Valley</div>
+    <a class="cite" href="https://www.epa.gov/wqc/aquatic-life-criteria-selenium" target="_blank">US EPA — Aquatic Life Criteria for Selenium (2016)</a>
+  </div>
+
+  <div class="node n-blue">
+    <div class="node-title">BC provincial WQOs — Elk Valley</div>
+    <div class="node-sub">Site-specific objectives set by BC MoE; Teck / EVR required to meet targets by 2028; enforced through Environmental Management Act permits</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC Elk Valley Water Quality Plan (2014)</a>
+  </div>
+
+  <div class="key-msg n-blue">Water Se concentrations in Elk Valley routinely exceed Canadian and US guidelines — but tissue and food-web data are the stronger litigation evidence</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 3 — FOOD WEB
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">③ Food-web transfer &amp; bioaccumulation</div>
+
+  <div class="node n-green">
+    <div class="node-title">Selenate → biofilm/periphyton uptake</div>
+    <div class="node-sub">Large bioconcentration from water (100–1000×); Se incorporated into algal tissue as SeMet; primary trophic entry point in Fording/Elk Rivers</div>
+    <a class="cite" href="https://www.sciencedirect.com/science/article/pii/S0048969718344802" target="_blank">Hamilton 2004 — Se in aquatic food webs (Science of the Total Environment — verify)</a>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="node n-green">
+    <div class="node-title">Invertebrate bioaccumulation</div>
+    <div class="node-sub">Chironomids, mayflies, stoneflies, amphipods accumulate Se from periphyton; tissue Se 3–10× above food source; primary dietary exposure route for westslope cutthroat trout</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1897/1551-5028%282003%29022%3C2020%3AAOFALD%3E2.0.CO%3B2" target="_blank">Adams et al. 2003 — Environmental Toxicology &amp; Chemistry 22(9):2020–2029</a>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="node n-green">
+    <div class="node-title">Fish dietary Se accumulation</div>
+    <div class="node-sub">Westslope cutthroat trout (Species at Risk) accumulate Se through invertebrate diet; egg Se elevated; larval deformities documented; whole-body Se monitored under EVWQP</div>
+    <a class="cite" href="https://publications.gc.ca/collections/collection_2017/eccc/En14-35-2017-eng.pdf" target="_blank">Environment Canada — Elk Valley aquatic effects monitoring (ECCC)</a>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="node n-green">
+    <div class="node-title">Piscivorous bird exposure</div>
+    <div class="node-sub">Osprey, heron, merganser, bald eagle; dietary Se from contaminated fish; potential egg effects; documented in some Kootenai/Columbia basin assessments</div>
+    <a class="cite" href="https://www.intljournal.com/doi/abs/10.1002/etc.2610" target="_blank">Ohlendorf 2003 — avian Se toxicology review (ETC — verify citation)</a>
+  </div>
+
+  <div class="key-msg n-green">The food-web pathway — water → biofilm → invertebrates → cutthroat trout (Species at Risk) — is the central ecological harm pathway in Elk Valley litigation</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 4 — BIOLOGICAL HARM
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">④ Documented biological harm</div>
+
+  <div class="section-label">Fish — primary litigated receptor</div>
+
+  <div class="node n-red">
+    <div class="node-title">Elevated fish tissue Se — Elk Valley</div>
+    <div class="node-sub">Westslope cutthroat trout whole-body and egg Se regularly exceed EPA tissue criteria (15.1 µg/g dw egg; 8.5 µg/g dw whole body); documented in monitoring reports</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC Elk Valley WQP &amp; annual Teck AEMP monitoring reports</a>
+  </div>
+
+  <div class="node n-red">
+    <div class="node-title">Larval deformities &amp; reproductive failure</div>
+    <div class="node-sub">Spinal, craniofacial, fin deformities in trout larvae; edema; hatch failure; consistent with Se embryotoxicity framework; ecologically significant in a listed species</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1897/1551-5028%282003%29022%3C2020%3AAOFALD%3E2.0.CO%3B2" target="_blank">Adams et al. 2003 — ETC 22(9):2020–2029</a>
+  </div>
+
+  <div class="node n-red">
+    <div class="node-title">Westslope cutthroat trout — Species at Risk</div>
+    <div class="node-sub">Listed under Canada's Species at Risk Act (SARA); Se-caused reproductive harm = potential SARA violation; amplifies Fisheries Act liability; U.S. ESA may apply in MT/ID</div>
+    <a class="cite" href="https://www.canada.ca/en/environment-climate-change/services/species-risk-public-registry/cosewic-assessments-status-reports/westslope-cutthroat-trout-2016.html" target="_blank">COSEWIC — Westslope Cutthroat Trout Status Report (2016)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Aquatic ecosystem</div>
+
+  <div class="node n-red">
+    <div class="node-title">Invertebrate community impairment</div>
+    <div class="node-sub">Reduced invertebrate diversity and abundance in impacted reaches; community shifts documented in AEMP; indirect effect on fish food supply and ecosystem function</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">Teck Aquatic Effects Monitoring Program (annual, 2012–present)</a>
+  </div>
+
+  <div class="node n-red">
+    <div class="node-title">Koocanusa / Kootenai R. exceedances</div>
+    <div class="node-sub">Lake Koocanusa Se has increased markedly over past two decades; documented exceedance of US EPA criterion; IJC monitoring confirms transboundary loading</div>
+    <a class="cite" href="https://www.ijc.org/sites/default/files/2020-12/Koocanusa_Report.pdf" target="_blank">IJC Koocanusa Monitoring &amp; Assessment Report (2020)</a>
+  </div>
+
+  <div class="key-msg n-red">Westslope cutthroat trout is both the primary ecological receptor and a Species at Risk — combining Fisheries Act and SARA exposure in Canadian litigation</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 5 — TOXICOLOGY SCIENCE
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">⑤ Supporting toxicology science</div>
+
+  <div class="section-label">Foundational field evidence</div>
+
+  <div class="node n-purple">
+    <div class="node-title">Kesterson precedent — Ohlendorf et al. 1986–87</div>
+    <div class="node-sub">First documented field case of Se-caused reproductive failure in aquatic birds; established that Se from anthropogenic drainage = legally cognizable ecological harm</div>
+    <a class="cite" href="https://www.jstor.org/stable/1368568" target="_blank">Ohlendorf et al. 1986 — Science 233:1067–1068</a>
+  </div>
+
+  <div class="node n-purple">
+    <div class="node-title">Heinz et al. — dose-response lab evidence</div>
+    <div class="node-sub">Controlled mallard feeding studies; maternal transfer to eggs; SeMet >> inorganic Se toxicity; EC values for embryo mortality; foundational for threshold derivation in litigation</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.5620110417" target="_blank">Heinz et al. 1992 — ETC 11(4):405–408 (verify issue)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Threshold science — avian eggs</div>
+
+  <div class="node n-purple">
+    <div class="node-title">Fairbrother et al. 1999 <span class="badge badge-anchor">ANCHOR</span></div>
+    <div class="node-sub">Egg Se concentrations as predictors of avian toxicity; compiled field/lab data; proposed effect thresholds for birds; widely cited in ecological risk assessment and environmental standard-setting</div>
+    <a class="cite" href="https://www.tandfonline.com/doi/abs/10.1080/10807039.1999.10518930" target="_blank">Fairbrother et al. 1999 — Human &amp; Ecological Risk Assessment 5:1229–1253</a>
+  </div>
+
+  <div class="node n-purple">
+    <div class="node-title">Fairbrother et al. 2000 <span class="badge badge-anchor">ANCHOR</span></div>
+    <div class="node-sub">Defense of threshold methodology vs. Skorupa critique; addresses field confounder concerns; threshold robustness analysis; important methodological reference for Se risk assessment</div>
+    <a class="cite" href="https://www.tandfonline.com/doi/abs/10.1080/10807039.2000.10400480" target="_blank">Fairbrother et al. 2000 — Human &amp; Ecological Risk Assessment 6:203–212</a>
+  </div>
+
+  <div class="node n-purple">
+    <div class="node-title">Adams et al. 2003 <span class="badge badge-anchor">ANCHOR</span></div>
+    <div class="node-sub">EC10/EC20 modeling of field+lab avian Se data; quantified effect concentrations; defensible dose-response framework; widely used in ecological risk assessment and environmental standard development</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1897/1551-5028%282003%29022%3C2020%3AAOFALD%3E2.0.CO%3B2" target="_blank">Adams et al. 2003 — Environmental Toxicology &amp; Chemistry 22(9):2020–2029</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Ecosystem conceptualization</div>
+
+  <div class="node n-purple">
+    <div class="node-title">Lemly — ecosystem Se conceptual framework</div>
+    <div class="node-sub">Food-web based risk assessment; tissue residues as primary metric; dietary TRVs; Se hazard quotient; ecosystem-scale conceptual framework for watershed-level Se assessment</div>
+    <a class="cite" href="https://setac.onlinelibrary.wiley.com/doi/10.1002/etc.5620120408" target="_blank">Lemly 1993 — ETC 12(4) &amp; Lemly 2002 — Ecotoxicology &amp; Environmental Safety (verify)</a>
+  </div>
+
+  <div class="key-msg n-purple">The toxicology literature (Ohlendorf → Heinz → Fairbrother/Adams → Lemly) traces the full causal chain from Se exposure to quantified ecological harm — a foundation for risk assessment and environmental decision-making</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 6 — LEGAL CLAIMS
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">⑥ Policy, regulation &amp; enforcement</div>
+
+  <div class="section-label">Canadian federal — Fisheries Act</div>
+
+  <div class="node n-coral">
+    <div class="node-title">Fisheries Act s. 36(3) — harmful substance</div>
+    <div class="node-sub">Prohibits deposit of deleterious substances into waters frequented by fish; selenium from mine drainage has been assessed under this provision; primary federal environmental protection mechanism</div>
+    <a class="cite" href="https://laws-lois.justice.gc.ca/eng/acts/f-14/" target="_blank">Fisheries Act, RSC 1985, c F-14, s 36(3) (Justice Canada)</a>
+  </div>
+
+  <div class="node n-coral">
+    <div class="node-title">Teck Coal — $60M Fisheries Act penalty (2017)</div>
+    <div class="node-sub">Largest-ever Fisheries Act penalty at the time; acknowledged deposit of selenium into Elk Valley watershed; $58M directed to Ktunaxa Nation-led watershed restoration program</div>
+    <a class="cite" href="https://www.theregional.com/largest-ever-fisheries-act-penalty-will-pay-for-first-nations-led-elk-valley-recovery/" target="_blank">The Regional — Fisheries Act penalty &amp; Ktunaxa restoration fund</a>
+  </div>
+
+  <div class="node n-coral">
+    <div class="node-title">2023 EVR enforcement — $3.6M penalty</div>
+    <div class="node-sub">Penalty for delays in water treatment construction and exceedance of Se/nitrate limits at multiple mine sites; $1.5B+ treatment infrastructure investment committed; ongoing regulatory monitoring</div>
+    <a class="cite" href="https://elkvalleycoal.com" target="_blank">Elk Valley Resources / EVR compliance disclosures; BC MoE enforcement records</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Species at Risk Act</div>
+
+  <div class="node n-coral">
+    <div class="node-title">SARA — westslope cutthroat trout</div>
+    <div class="node-sub">Westslope cutthroat trout listed under SARA; Se-caused reproductive impairment of a listed species triggers additional federal protections and recovery planning obligations</div>
+    <a class="cite" href="https://laws-lois.justice.gc.ca/eng/acts/s-15.3/page-1.html" target="_blank">Species at Risk Act, SC 2002, c 29 (Justice Canada)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Cross-border &amp; transboundary frameworks</div>
+
+  <div class="node n-coral">
+    <div class="node-title">1909 Boundary Waters Treaty — IJC oversight</div>
+    <div class="node-sub">Canada-US treaty framework for shared water bodies; IJC Koocanusa monitoring program documents transboundary Se loading; binational coordination on water quality objectives</div>
+    <a class="cite" href="https://www.ijc.org/en/bwt" target="_blank">International Joint Commission — Boundary Waters Treaty resources</a>
+  </div>
+
+  <div class="node n-coral">
+    <div class="node-title">US water quality — MT, ID downstream waters</div>
+    <div class="node-sub">US EPA freshwater Se criteria apply to Kootenai River reaches in Montana and Idaho; USFWS and state agencies monitor fish tissue; Endangered Species Act (bull trout, burbot) adds federal layer</div>
+    <a class="cite" href="https://www.epa.gov/superfund/natural-resource-damages-cercla" target="_blank">US EPA — Natural Resource Damages under CERCLA</a>
+  </div>
+
+  <div class="key-msg n-coral">The 2017 Fisheries Act penalty and the resulting Ktunaxa Nation restoration fund are among the most significant environmental accountability outcomes in BC mining history</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 7 — INDIGENOUS RIGHTS
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">⑦ Indigenous rights &amp; restoration</div>
+
+  <div class="section-label">Ktunaxa Nation</div>
+
+  <div class="node n-teal">
+    <div class="node-title">Ktunaxa Nation — primary First Nations partner</div>
+    <div class="node-sub">Traditional territory encompasses Elk Valley watershed; fish central to cultural and subsistence practices; Ktunaxa involved in EVWQP development; co-lead on $58M restoration fund</div>
+    <a class="cite" href="https://www.ktunaxa.org" target="_blank">Ktunaxa Nation Council — official website &amp; Elk Valley resources</a>
+  </div>
+
+  <div class="node n-teal">
+    <div class="node-title">Crown duty to consult — s. 35 Constitution Act</div>
+    <div class="node-sub">Section 35 protects Aboriginal rights including fisheries; Crown and industry have consultation obligations with Ktunaxa on decisions affecting their territory and fisheries; foundational to co-management arrangements</div>
+    <a class="cite" href="https://scc-csc.lexum.com/scc-csc/scc-csc/en/item/2189/index.do" target="_blank">Haida Nation v BC [2004] 3 SCR 511 — foundational duty to consult</a>
+  </div>
+
+  <div class="node n-teal">
+    <div class="node-title">UNDRIP — Indigenous environmental rights</div>
+    <div class="node-sub">Canada adopted UNDRIP (2016); BC DRIPA (2019) — BC bound to align laws with UNDRIP; articles on environmental protection of Indigenous lands/waters; emerging legal basis for Ktunaxa claims</div>
+    <a class="cite" href="https://www.un.org/development/desa/indigenouspeoples/wp-content/uploads/sites/19/2018/11/UNDRIP_E_web.pdf" target="_blank">UN Declaration on the Rights of Indigenous Peoples (2007)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Restoration &amp; treaty rights</div>
+
+  <div class="node n-teal">
+    <div class="node-title">$58M Ktunaxa restoration fund</div>
+    <div class="node-sub">From 2017 Fisheries Act fine; Ktunaxa Nation-led; targets native fish habitat, Se mitigation, watershed restoration; first Nations-led environmental fund of this scale in BC</div>
+    <a class="cite" href="https://www.theregional.com/largest-ever-fisheries-act-penalty-will-pay-for-first-nations-led-elk-valley-recovery/" target="_blank">The Regional — Ktunaxa restoration fund details</a>
+  </div>
+
+  <div class="node n-teal">
+    <div class="node-title">Aboriginal fisheries rights — Se harm nexus</div>
+    <div class="node-sub">Harm to fish = harm to constitutionally protected right to fish; Se-caused reproductive failure reduces fish populations available for exercise of rights; substantive legal nexus to injury claim</div>
+    <a class="cite" href="https://scc-csc.lexum.com/scc-csc/scc-csc/en/item/609/index.do" target="_blank">R v Sparrow [1990] 1 SCR 1075 — foundational Aboriginal fisheries rights</a>
+  </div>
+
+  <div class="key-msg n-teal">The Ktunaxa Nation are both a rights-holder and a restoration co-manager — the 2017 outcome set a precedent for Indigenous-led environmental remediation funded by corporate fines</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     COLUMN 8 — REGULATORY & MANAGEMENT
+     ═══════════════════════════════════════════════════ -->
+<div class="col">
+  <div class="col-head">⑧ Regulatory &amp; management response</div>
+
+  <div class="section-label">BC provincial — Elk Valley Water Quality Plan</div>
+
+  <div class="node n-gray">
+    <div class="node-title">Elk Valley Water Quality Plan (2014)</div>
+    <div class="node-sub">BC MoE-required plan; sets Se &amp; nitrate objectives for each mine; requires water treatment, adaptive management, reporting; compliance milestone: 2028 targets; basis for ongoing enforcement</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC Ministry of Environment — Elk Valley WQP (2014)</a>
+  </div>
+
+  <div class="node n-gray">
+    <div class="node-title">Se water treatment — $1.5B+ investment</div>
+    <div class="node-sub">Biological Se reduction (SRB reactors), ion exchange, constructed wetland treatment; Line Creek, Elkview, Fording River facilities; technology still maturing; litigation risk persists if targets not met</div>
+    <a class="cite" href="https://www.teck.com/media/Teck_2022_Sustainability_Report.pdf" target="_blank">Teck / EVR Sustainability Reports — water treatment (annual)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Monitoring frameworks</div>
+
+  <div class="node n-gray">
+    <div class="node-title">Aquatic Effects Monitoring Program (AEMP)</div>
+    <div class="node-sub">Required under Fisheries Act authorizations; fish tissue Se, invertebrate communities, reproductive endpoints; data used in enforcement actions and litigation; annual public reporting</div>
+    <a class="cite" href="https://publications.gc.ca/collections/collection_2017/eccc/En14-35-2017-eng.pdf" target="_blank">Environment &amp; Climate Change Canada — AEMP guidance documents</a>
+  </div>
+
+  <div class="node n-gray">
+    <div class="node-title">IJC Koocanusa monitoring program</div>
+    <div class="node-sub">Canada-US joint monitoring of Lake Koocanusa; Se trends, fish tissue, water column; confirms transboundary loading; data supports Boundary Waters Treaty and US NRD claims</div>
+    <a class="cite" href="https://www.ijc.org/sites/default/files/2020-12/Koocanusa_Report.pdf" target="_blank">IJC — Koocanusa Monitoring &amp; Assessment Report (2020)</a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Adaptive management &amp; outlook</div>
+
+  <div class="node n-gray">
+    <div class="node-title">Ongoing compliance risk — 2028 deadline</div>
+    <div class="node-sub">EVR committed to meeting WQP targets by 2028; ongoing monitoring will determine whether Se concentrations are declining; US EPA/IJC track cross-border trends; Ktunaxa Nation involved in adaptive management oversight</div>
+    <a class="cite" href="https://elkvalleycoal.com" target="_blank">EVR / Glencore compliance disclosures</a>
+  </div>
+
+  <div class="node n-gray">
+    <div class="node-title">Adaptive management pathway</div>
+    <div class="node-sub">Treatment scale-up; biological monitoring triggers; watershed restoration; Ktunaxa co-management; demonstrating improving trends = litigation defense and regulatory good faith</div>
+    <a class="cite" href="https://engage.gov.bc.ca/app/uploads/sites/271/2014/06/Elk-Valley-Water-Quality-Plan.pdf" target="_blank">BC EVWQP adaptive management provisions</a>
+  </div>
+
+  <div class="key-msg n-gray">The 2028 EVWQP compliance milestone is the next major checkpoint for evaluating whether water treatment investment is translating into measurable ecological improvement</div>
+</div>
+
+</div><!-- /map-canvas -->
+</div><!-- /map-wrap -->
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#FAEEDA;border:.5px solid #BA7517"></div>
+    <span>Se sources &amp; mobilization</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#E6F1FB;border:.5px solid #185FA5"></div>
+    <span>Environmental chemistry &amp; water quality</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#EAF3DE;border:.5px solid #3B6D11"></div>
+    <span>Food-web transfer &amp; bioaccumulation</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#FCEBEB;border:.5px solid #A32D2D"></div>
+    <span>Documented ecological injury</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#EEEDFE;border:.5px solid #534AB7"></div>
+    <span>Toxicology science &amp; litigation support literature</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#FAECE7;border:.5px solid #993C1D"></div>
+    <span>Policy, regulation &amp; enforcement outcomes</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#E1F5EE;border:.5px solid #0F6E56"></div>
+    <span>Indigenous rights &amp; restoration</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#F1EFE8;border:.5px solid #5F5E5A"></div>
+    <span>Regulatory response &amp; management</span>
+  </div>
+  <div class="legend-note">
+    <span class="badge badge-anchor" style="vertical-align:middle">ANCHOR</span> = core toxicology/ecology anchor paper &nbsp;|&nbsp;
+    Cite badges open source URLs for further reading.
+    Items marked "(verify)" indicate author/year/topic are reliable but the specific URL or journal details should be confirmed.
+  </div>
+</div>
+
+<div class="print-note">
+  <b>About this map:</b> This reference map traces selenium in the Elk Valley watershed from its geologic and mining sources through environmental chemistry, food-web transfer, and biological effects, to the regulatory and restoration responses that followed. It is designed for horizontal scrolling in a browser. For printing, use landscape orientation. Cite badges link to publicly available sources; confirm currency of any document before relying on it.
+</div>
+
+</body>
+</html>
