@@ -141,6 +141,10 @@ input#fIn{display:none}
 .copy-prompt{font-size:10.5px;padding:3px 9px;border-radius:3px;border:1px solid var(--rule-med);background:var(--paper);color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .1s;margin-top:6px}
 .copy-prompt:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
 .empty{text-align:center;padding:50px 20px;color:var(--ink3);font-size:13px;line-height:1.7;font-family:var(--serif);font-style:italic}
+.sel-toolbar{position:sticky;bottom:0;background:var(--teal);color:#fff;padding:10px 26px;display:none;align-items:center;gap:12px;flex-wrap:wrap;border-top:2px solid var(--gold);z-index:10}
+.sel-toolbar.visible{display:flex}
+.sel-toolbar-ct{font-family:var(--mono);font-size:12px;font-weight:500;flex:1}
+.crow-cb{flex-shrink:0;padding-top:4px}
 @media print{.masthead-acts,.tabs,.toolbar,.strip,.epbg,.ppbg,.cb{display:none!important}body{background:white}.cnt{overflow:visible;padding:12px}.acard{break-inside:avoid}}
 </style>
 </head>
@@ -182,6 +186,17 @@ input#fIn{display:none}
     <option value="low">Low</option>
   </select>
   <span class="sep"></span>
+  <span class="tl">Access</span>
+  <select class="tf" id="fAccess" onchange="renderAll()">
+    <option value="">All access types</option>
+    <option value="integral">⭐ Integral collection (Wiley + ES&T + OA)</option>
+    <option value="wiley">Wiley / Blackwell sub</option>
+    <option value="est">ES&amp;T sub</option>
+    <option value="oa">Open access</option>
+    <option value="elsevier">Elsevier sub</option>
+    <option value="subscription">Other subscription</option>
+  </select>
+  <span class="sep"></span>
   <span class="tl">Flag</span>
   <select class="tf" id="fAttn" onchange="renderAll()">
     <option value="">All</option>
@@ -198,10 +213,18 @@ input#fIn{display:none}
   <div class="scard clickable" onclick="filterTo('attn')" title="Show attorney flagged"><div class="sc-lbl">Attn flagged</div><div class="sc-val teal" id="sAttn">0</div></div>
   <div class="scard clickable" onclick="filterTo('access','wiley')" title="Wiley/BW"><div class="sc-lbl">Wiley / BW</div><div class="sc-val purple" id="sWiley">0</div></div>
   <div class="scard clickable" onclick="filterTo('access','oa')" title="Open access"><div class="sc-lbl">Open access</div><div class="sc-val gold" id="sOa">0</div></div>
+  <div class="scard clickable" onclick="filterTo('access','integral')" title="Integral collection — Wiley, ES&T, and open access" style="border-left:2px solid var(--gold)"><div class="sc-lbl">⭐ Integral</div><div class="sc-val teal" id="sIntegral">0</div></div>
   <div class="scard"><div class="sc-lbl">Selected</div><div class="sc-val rust" id="sSel">0</div></div>
 </div>
 
 <div class="main"><div class="cnt" id="cnt"></div></div>
+
+<div class="sel-toolbar" id="selToolbar">
+  <span class="sel-toolbar-ct"><span id="selToolbarCt">0</span> article<span id="selToolbarPlural">s</span> selected</span>
+  <button class="btn" style="border-color:rgba(255,255,255,.4);color:#fff;background:transparent" onclick="selAll()">Select all visible</button>
+  <button class="btn" style="border-color:rgba(255,255,255,.4);color:#fff;background:transparent" onclick="clearSel()">Clear</button>
+  <button class="btn gold" onclick="openExport()">Export selected</button>
+</div>
 
 <!-- Export panel -->
 <div class="epbg" id="epbg" onclick="closeEpBg(event)">
@@ -359,10 +382,6 @@ const SEED = [
   {id:'z20',title:'Development of Duration-Based Non-Mutagenic Thresholds of Toxicological Concern (TTC) Relevant to Parenteral Extractables and Leachables',authors:'Masuda-Herrera MJ, Bercu JP, Broschard TH, et al.',year:2022,journal:'PDA Journal of Pharmaceutical Science and Technology',volume:null,issue:null,pages:null,doi:'10.5731/pdajpst.2021.012693',abstract:'The ELSIE consortium derived TTC values for organic, non-mutagenic E&L substances administered parenterally. The resulting parenteral TTC values are 35, 110, and 180 µg/day for human exposures of >10 years to lifetime, >1–10 years, and ≤1 year, respectively.',tags:['TTC','Extractables and leachables','HBEL/PDE/ADE methodology'],access:'subscription',sig:'high',attn:true,date:'2022-01-01',isNew:false},
   {id:'z21',title:'Recommendations for Use of Adjustment Factors in Calculating Acceptable Daily Exposures (ADEs) and Occupational Exposure Limits (OELs)',authors:'Bercu JP, Dolan DG, Faria EC, et al.',year:2016,journal:'Regulatory Toxicology and Pharmacology',volume:79,issue:'Suppl',pages:'S39-S56',doi:'10.1016/j.yrtph.2016.05.024',abstract:'This paper provides recommendations for selection and application of adjustment factors (uncertainty factors, modifying factors, pharmacokinetic/pharmacodynamic factors) used in deriving ADEs and OELs for pharmaceutical compounds.',tags:['HBEL/PDE/ADE methodology','OEL derivation','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2016-08-01',isNew:false},
   {id:'z22',title:'Development of Occupational Exposure Limits for Pharmaceutical Compounds',authors:'Dolan DG, Naumann BD, Sargent EV, Maier A, Dyne D',year:2005,journal:'Regulatory Toxicology and Pharmacology',volume:43,issue:3,pages:'290-302',doi:'10.1016/j.yrtph.2005.08.010',abstract:'This paper describes a structured approach for deriving OELs for pharmaceutical compounds, including selection of the critical effect, identification of the NOAEL, and application of uncertainty factors. The relationship between OELs and ADEs/PDEs is discussed.',tags:['OEL derivation','HBEL/PDE/ADE methodology','Risk assessment'],access:'elsevier',sig:'high',attn:true,date:'2005-01-01',isNew:false},
-  // ── MOCK "THIS MONTH" ENTRIES ────────────────────────────────
-  {id:'m1',title:'Revised parenteral TTC values for E&L substances: updated ELSIE database analysis with expanded compound coverage',authors:'Parris P, Nagao L, Cruz MT, et al.',year:2026,journal:'PDA Journal of Pharmaceutical Science and Technology',volume:80,issue:2,pages:'180-214',doi:'10.5731/pdajpst.2025.014002',abstract:'The ELSIE consortium has updated its parenteral TTC values following expansion of the compound database to 612 substances. Revised TTC values are 42, 125, and 195 µg/day for chronic, subchronic, and subacute exposure durations respectively, representing modest upward revisions from the 2022 values. In silico potency prediction methods and benchmark dose modeling are incorporated for the first time.',tags:['TTC','Extractables and leachables','HBEL/PDE/ADE methodology'],access:'subscription',sig:'high',attn:true,date:'2026-04-15',isNew:true},
-  {id:'m2',title:'ICH M7(R2) draft guideline for consultation: updated thresholds and computational methods for genotoxic impurities',authors:'ICH Expert Working Group',year:2026,journal:'International Council for Harmonisation',volume:null,issue:null,pages:null,doi:null,abstract:'The ICH M7 Expert Working Group has released a revised draft of the M7 guideline for public comment. Key changes include updated TTC values for cohort of concern compounds, revised guidance on use of (Q)SAR tools, and new provisions for oligonucleotide impurities. Comment period closes August 2026.',tags:['Genotoxic impurities/ICH M7','Regulatory guidance/ICH','TTC'],access:'oa',sig:'high',attn:true,date:'2026-04-22',isNew:true},
-  {id:'m3',title:'Inhalation bioavailability of antibody-drug conjugates: implications for occupational exposure limit derivation',authors:'Maier A, Fung ES, Powell AM, Reichard JF',year:2026,journal:'Regulatory Toxicology and Pharmacology',volume:158,issue:null,pages:'106102',doi:'10.1016/j.yrtph.2026.106102',abstract:'Antibody-drug conjugates (ADCs) present unique challenges for OEL derivation due to the combined toxicological properties of the antibody carrier and the cytotoxic payload. This study characterizes inhalation bioavailability for three ADC payloads and proposes a tiered approach to OEL derivation that accounts for the distinct pharmacokinetic and toxicological profiles of intact ADC versus released payload.',tags:['Inhalation bioavailability','Biologics/large molecules','OEL derivation'],access:'elsevier',sig:'high',attn:false,date:'2026-05-01',isNew:true},
 ];
 
 let articles = JSON.parse(JSON.stringify(SEED));
@@ -446,6 +465,8 @@ function populateFilters(){
   fY.innerHTML='<option value="">All years</option>'+allY.map(y=>`<option value="${y}"${String(y)===curY?' selected':''}>${y}</option>`).join('');
 }
 
+function isIntegral(a){ return ['wiley','est','oa'].includes(a.access); }
+
 function getFiltered(){
   const q=(document.getElementById('srch')?.value||'').toLowerCase().trim();
   const subj=document.getElementById('fSubj')?.value||'';
@@ -453,6 +474,7 @@ function getFiltered(){
   const yr=document.getElementById('fYear')?.value||'';
   const sig=document.getElementById('fSig')?.value||'';
   const attn=document.getElementById('fAttn')?.value||'';
+  const acc=document.getElementById('fAccess')?.value||'';
   matchInfo={};
   const list=articles.filter(a=>{
     if(subj&&!(a.tags||[]).includes(subj))return false;
@@ -460,6 +482,8 @@ function getFiltered(){
     if(yr&&String(a.year)!==yr)return false;
     if(sig&&a.sig!==sig)return false;
     if(attn==='yes'&&!a.attn)return false;
+    if(acc==='integral'&&!isIntegral(a))return false;
+    else if(acc&&acc!=='integral'&&a.access!==acc)return false;
     if(q){
       const fields={title:(a.title||'').toLowerCase(),authors:(a.authors||'').toLowerCase(),abstract:(a.abstract||'').toLowerCase(),tags:(a.tags||[]).join(' ').toLowerCase(),journal:(a.journal||'').toLowerCase()};
       const matched=Object.entries(fields).filter(([,v])=>v.includes(q)).map(([k])=>k);
@@ -475,15 +499,24 @@ function getFiltered(){
 }
 
 function updSummary(){
+  const newCount=articles.filter(a=>a.isNew).length;
   document.getElementById('sTotal').textContent=articles.length;
-  document.getElementById('sNew').textContent=articles.filter(a=>a.isNew).length;
-  document.getElementById('newBadge').textContent=articles.filter(a=>a.isNew).length;
+  document.getElementById('sNew').textContent=newCount;
+  document.getElementById('newBadge').textContent=newCount;
+  document.getElementById('newBadge').style.display=newCount>0?'':'none';
   document.getElementById('sHigh').textContent=articles.filter(a=>a.sig==='high').length;
   document.getElementById('sAttn').textContent=articles.filter(a=>a.attn).length;
   document.getElementById('sWiley').textContent=articles.filter(a=>a.access==='wiley').length;
   document.getElementById('sOa').textContent=articles.filter(a=>a.access==='oa').length;
+  document.getElementById('sIntegral').textContent=articles.filter(a=>isIntegral(a)).length;
   document.getElementById('sSel').textContent=selected.size;
   document.getElementById('expBtn').textContent=`Export (${selected.size})`;
+  const tb=document.getElementById('selToolbar');
+  const ct=document.getElementById('selToolbarCt');
+  const pl=document.getElementById('selToolbarPlural');
+  if(tb) tb.classList.toggle('visible',selected.size>0);
+  if(ct) ct.textContent=selected.size;
+  if(pl) pl.textContent=selected.size===1?'':'s';
 }
 
 function setTab(t){
@@ -519,10 +552,11 @@ function getSnippet(text,q,max=160){
 }
 
 function accBadge(a){
-  if(a.access==='wiley')return'<span class="bdg bdg-wiley">Wiley/BW</span>';
-  if(a.access==='oa')return'<span class="bdg bdg-oa">Open access</span>';
+  if(a.access==='wiley')   return'<span class="bdg bdg-wiley">Wiley/BW ⭐</span>';
+  if(a.access==='est')     return'<span class="bdg bdg-wiley" style="background:#e4f5ed;color:#0a5a3a;border-color:#88c8a8">ES&amp;T ⭐</span>';
+  if(a.access==='oa')      return'<span class="bdg bdg-oa">Open access ⭐</span>';
   if(a.access==='elsevier')return'<span class="bdg bdg-elsevier">Elsevier</span>';
-  return'';
+  return'<span class="bdg" style="background:var(--paper3);color:var(--ink3);border:.5px solid var(--rule-med)">Subscription</span>';
 }
 function sigBadge(a){
   const lbl={high:'High',med:'Medium',low:'Low'};
@@ -549,9 +583,9 @@ function articleCard(a){
   }
   const hasAbs=!!(a.abstract&&a.abstract.trim());
   const absAutoOpen=q&&mf.includes('abstract');
-  const absHtml=hasAbs?`<button class="abs-btn" onclick="toggleAbs(${JSON.stringify(a.id)},this)">${absAutoOpen?'hide abstract':'show abstract'}</button><div class="abs-text ${absAutoOpen?'vis':''}" id="abs-${a.id}">${q?highlight(a.abstract||'',q):esc(a.abstract||'')}</div>`:'';
+  const absHtml=hasAbs?`<button class="abs-btn" onclick="toggleAbs('${a.id}',this)">${absAutoOpen?'hide abstract':'show abstract'}</button><div class="abs-text ${absAutoOpen?'vis':''}" id="abs-${a.id}">${q?highlight(a.abstract||'',q):esc(a.abstract||'')}</div>`:'';
   return`<div class="acard ${sel?'sel':''} ${a.isNew?'new-entry':''}" id="ac-${a.id}">
-    <div class="cb"><input type="checkbox" ${sel?'checked':''} onchange="toggleSel(${JSON.stringify(a.id)})"></div>
+    <div class="cb"><input type="checkbox" ${sel?'checked':''} onchange="toggleSel('${a.id}')"></div>
     <div class="ab">
       <div class="at">${q&&mf.includes('title')?highlight(a.title||'',q):esc(a.title||'')}</div>
       <div class="aa">${q&&mf.includes('authors')?highlight(a.authors||'',q):esc(a.authors||'')}</div>
@@ -575,16 +609,33 @@ function renderChangelog(el){
   if(!list.length){el.innerHTML='<div class="empty">No articles match the current filters.</div>';return;}
   const sorted=[...list].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   el.innerHTML=sorted.map(a=>{
-    return`<div class="crow">
+    const sel=selected.has(a.id);
+    const q=(document.getElementById('srch')?.value||'').trim();
+    const mf=matchInfo[a.id]||[];
+    let snippetHtml='';
+    if(q&&mf.length){
+      const fldL={title:'Title',authors:'Authors',abstract:'Abstract',tags:'Tags',journal:'Journal'};
+      const snips=mf.map(f=>{
+        let s=f==='abstract'?getSnippet(a.abstract||'',q):f==='title'?getSnippet(a.title||'',q):f==='authors'?getSnippet(a.authors||'',q):f==='tags'?highlight((a.tags||[]).join(', '),q):highlight(a.journal||'',q);
+        return s?`<span class="sfield">${fldL[f]||f}</span>${s}`:null;
+      }).filter(Boolean);
+      if(snips.length)snippetHtml=snips.map(s=>`<div class="snippet">${s}</div>`).join('');
+    }
+    const hasAbs=!!(a.abstract&&a.abstract.trim());
+    const absAutoOpen=q&&mf.includes('abstract');
+    const absHtml=hasAbs?`<button class="abs-btn" onclick="toggleAbs('${a.id}',this)">${absAutoOpen?'hide abstract':'show abstract'}</button><div class="abs-text ${absAutoOpen?'vis':''}" id="abs-${a.id}">${q?highlight(a.abstract||'',q):esc(a.abstract||'')}</div>`:'';
+    return`<div class="crow ${sel?'crow-sel':''}" id="ac-${a.id}" style="${sel?'background:var(--teal-light);border-radius:4px;':''}">
+      <div class="crow-cb"><input type="checkbox" ${sel?'checked':''} onchange="toggleSel('${a.id}')" style="width:13px;height:13px;cursor:pointer;accent-color:var(--teal)"></div>
       <div class="cdate-col">${a.date?fmtDate(a.date):'—'}</div>
       <div style="display:flex;flex-direction:column;align-items:center">
         <div class="cdot ${a.isNew?'new':a.sig||''}"></div>
         <div class="cline" style="flex:1"></div>
       </div>
       <div class="cbody">
-        <div class="ctitle">${esc(a.title)}</div>
-        <div class="cmeta">${esc(a.authors||'')}${a.year?' ('+a.year+')':''} &mdash; <em>${esc(a.journal||'')}</em></div>
-        <div class="cbadges">${accBadge(a)}${sigBadge(a)}${a.attn?'<span class="bdg bdg-attn">&#9873;</span>':''}${a.isNew?'<span class="bdg bdg-new">New</span>':''}${(a.tags||[]).map(t=>`<span class="bdg bdg-subj bdg-pill">${esc(t)}</span>`).join('')}${a.doi?`<a class="adoi" href="https://doi.org/${esc(a.doi)}" target="_blank" style="margin-left:4px">${shortUrl('https://doi.org/'+a.doi)}</a>`:''}</div>
+        <div class="ctitle">${q&&mf.includes('title')?highlight(a.title||'',q):esc(a.title)}</div>
+        <div class="cmeta">${q&&mf.includes('authors')?highlight(a.authors||'',q):esc(a.authors||'')}${a.year?' ('+a.year+')':''} &mdash; <em>${esc(a.journal||'')}</em></div>
+        <div class="cbadges">${accBadge(a)}${sigBadge(a)}${a.attn?'<span class="bdg bdg-attn">&#9873;</span>':''}${(a.tags||[]).map(t=>`<span class="bdg bdg-subj bdg-pill">${esc(t)}</span>`).join('')}${a.doi?`<a class="adoi" href="https://doi.org/${esc(a.doi)}" target="_blank" style="margin-left:4px">${shortUrl('https://doi.org/'+a.doi)}</a>`:''}</div>
+        ${snippetHtml}${absHtml}
       </div>
     </div>`;
   }).join('');
@@ -620,22 +671,14 @@ function selAll(){getFiltered().forEach(a=>selected.add(a.id));renderAll();}
 function clearSel(){selected.clear();renderAll();}
 
 function filterTo(mode,val){
-  ['fSubj','fJournal','fYear','fSig','fAttn'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['fSubj','fJournal','fYear','fSig','fAttn','fAccess'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('srch').value='';
-  if(mode==='attn')document.getElementById('fAttn').value='yes';
-  else if(mode==='access'&&val==='wiley'){document.getElementById('fSubj').value='';}
-  if(activeTab!=='cl'){setTab('cl');return;}
+  if(mode==='attn') document.getElementById('fAttn').value='yes';
+  else if(mode==='access') document.getElementById('fAccess').value=val;
   if(mode==='new'){setTab('new');return;}
+  if(activeTab!=='cl'){setTab('cl');return;}
   renderAll();
-  setTimeout(()=>{
-    if(mode==='access'){
-      const list=getFiltered().filter(a=>a.access===val);
-      selected.clear();
-      list.forEach(a=>selected.add(a.id));
-    }
-    renderAll();
-    document.getElementById('cnt').scrollTop=0;
-  },60);
+  document.getElementById('cnt').scrollTop=0;
 }
 
 // ── Citation formatting ────────────────────────────────────────
