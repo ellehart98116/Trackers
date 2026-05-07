@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Integral — Competitive Intelligence Tracker</title>
+<style>
+  :root {
+    --navy: #002C4B;
+    --navy-2: #003D67;
+    --teal: #007A87;
+    --teal-soft: #2A9DA8;
+    --moss: #4F7C56;
+    --sand: #E8E1D4;
+    --sand-soft: #F5F1EA;
+    --paper: #FBFAF7;
+    --ink: #15212E;
+    --ink-soft: #4A5664;
+    --line: #DCD7CC;
+    --alert: #B33A3A;
+    --new: #D17A22;
+    --good: #4F7C56;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.45;
+    font-size: 14px;
+  }
+  /* ── Header ───────────────────────────── */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, var(--teal) 100%);
+    color: #fff;
+    padding: 28px 40px;
+    border-bottom: 4px solid var(--moss);
+  }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-end; }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .brand-mark {
+    width: 48px; height: 48px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    display: grid; place-items: center;
+    font-family: Georgia, serif;
+    font-size: 28px; font-weight: 700;
+    letter-spacing: -2px;
+  }
+  .brand-name { font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.5px; }
+  .brand-tagline { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.75; margin-top: 2px; }
+  .page-title { font-family: Georgia, serif; font-size: 32px; margin-top: 18px; font-weight: 400; }
+  .updated { font-size: 11px; opacity: 0.7; margin-top: 6px; }
+  .meta { text-align: right; font-size: 12px; opacity: 0.85; }
+  .meta strong { display: block; font-size: 13px; margin-bottom: 2px; }
+
+  /* ── KPI strip ───────────────────────── */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .kpi {
+    background: #fff;
+    padding: 18px 20px;
+  }
+  .kpi-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--ink-soft); margin-bottom: 6px;
+  }
+  .kpi-value { font-family: Georgia, serif; font-size: 30px; color: var(--navy); }
+  .kpi-delta { font-size: 11px; color: var(--moss); margin-top: 3px; }
+  .kpi-delta.warn { color: var(--alert); }
+
+  /* ── Table of Contents ──────────────── */
+  .toc {
+    background: var(--sand-soft);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 40px;
+  }
+  .toc-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .toc-links {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px 16px;
+    font-size: 12px;
+  }
+  .toc-links a {
+    color: var(--navy);
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 1px dotted transparent;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .toc-links a:hover {
+    border-bottom-color: var(--teal);
+    color: var(--teal);
+  }
+  .toc-num {
+    font-family: Georgia, serif;
+    color: var(--teal);
+    font-size: 11px;
+    flex: 0 0 18px;
+  }
+
+  /* ── Layout grid ────────────────────── */
+  main { padding: 28px 40px 60px; max-width: 1480px; margin: 0 auto; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  section.card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--teal);
+    border-radius: 2px;
+    scroll-margin-top: 12px;
+  }
+  section.card.competitors { border-top-color: var(--navy); }
+  section.card.regulatory { border-top-color: var(--alert); }
+  section.card.ebi { border-top-color: var(--moss); }
+  section.card.jdsupra { border-top-color: var(--new); }
+  section.card.confs { border-top-color: var(--teal); }
+  section.card.highlights { border-top-color: var(--new); border-top-width: 4px; }
+  .card-head {
+    padding: 18px 22px 12px;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .card-title {
+    font-family: Georgia, serif;
+    font-size: 18px; color: var(--navy);
+    letter-spacing: 0.3px;
+  }
+  .card-sub {
+    font-size: 11px; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .card-body { padding: 12px 22px 22px; }
+
+  /* ── Items ───────────────────────────── */
+  .item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--sand);
+    display: flex; gap: 14px;
+  }
+  .item:last-child { border-bottom: 0; }
+  .item-date {
+    flex: 0 0 70px;
+    font-size: 11px; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 1px;
+    padding-top: 2px;
+  }
+  .item-body { flex: 1; }
+  .item-title { font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .item-title a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--ink-soft); }
+  .item-meta { font-size: 12px; color: var(--ink-soft); }
+  .item-tag {
+    display: inline-block;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+  .tag-new   { background: var(--new); color: #fff; }
+  .tag-watch { background: var(--navy-2); color: #fff; }
+  .tag-alert { background: var(--alert); color: #fff; }
+  .tag-good  { background: var(--moss); color: #fff; }
+  .tag-soft  { background: var(--sand); color: var(--ink); }
+
+  /* ── Highlights digest ─────────────── */
+  .digest {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    padding: 4px 0;
+  }
+  .digest-block {
+    border-left: 3px solid var(--new);
+    background: var(--sand-soft);
+    padding: 10px 12px;
+  }
+  .digest-block.alert { border-left-color: var(--alert); }
+  .digest-block.good { border-left-color: var(--moss); }
+  .digest-block.watch { border-left-color: var(--navy-2); }
+  .digest-cat {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .digest-headline {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .digest-detail {
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* ── Conferences ────────────────────── */
+  .conf-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--sand);
+    align-items: center;
+  }
+  .conf-row:last-child { border-bottom: 0; }
+  .conf-date {
+    background: var(--sand-soft);
+    border-left: 3px solid var(--teal);
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .conf-month { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); }
+  .conf-day { font-family: Georgia, serif; font-size: 22px; color: var(--navy); }
+  .conf-name { font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .conf-loc { font-size: 12px; color: var(--ink-soft); }
+  .conf-status {
+    text-align: right;
+    font-size: 11px;
+  }
+  .conf-status .who { color: var(--ink-soft); margin-bottom: 3px; }
+  .conf-status .pin { font-weight: 600; color: var(--moss); }
+
+  /* ── Competitors grid ───────────────── */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .comp-card {
+    border: 1px solid var(--line);
+    background: var(--sand-soft);
+    padding: 14px;
+    border-radius: 2px;
+  }
+  .comp-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .comp-name { font-weight: 700; color: var(--navy); font-size: 15px; }
+  .comp-trend { font-size: 11px; color: var(--ink-soft); }
+  .comp-trend.up { color: var(--alert); }
+  .comp-signals { font-size: 12px; }
+  .comp-signal { padding: 4px 0; color: var(--ink-soft); }
+  .comp-signal::before { content: "▸ "; color: var(--teal); }
+  .comp-signal strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Sparkline-like bar ─────────────── */
+  .pulse { display: flex; gap: 3px; align-items: flex-end; height: 28px; margin-top: 8px; }
+  .pulse div { flex: 1; background: var(--teal-soft); border-radius: 1px; opacity: 0.4; }
+  .pulse div.hot { background: var(--alert); opacity: 1; }
+  .pulse div.warm { opacity: 0.85; }
+
+  /* ── Regulatory ─────────────────────── */
+  .reg-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .reg-item:last-child { border-bottom: 0; }
+  .reg-agency {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    color: var(--alert);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .reg-title { font-weight: 600; font-size: 13px; margin-bottom: 3px; }
+  .reg-impact { font-size: 11px; color: var(--ink-soft); font-style: italic; }
+
+  /* ── M&A bar ─────────────────────────── */
+  .ma-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--line);
+    font-size: 12px;
+  }
+  .ma-row:last-child { border-bottom: 0; }
+  .ma-deal { color: var(--ink); }
+  .ma-deal strong { color: var(--navy); }
+  .ma-value { color: var(--moss); font-weight: 600; }
+
+  /* ── Generic data table ─────────────── */
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  table.data th {
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--ink-soft);
+    padding: 8px 6px;
+    border-bottom: 2px solid var(--line);
+    font-weight: 700;
+  }
+  table.data td {
+    padding: 9px 6px;
+    border-bottom: 1px solid var(--sand);
+    vertical-align: top;
+  }
+  table.data tr:last-child td { border-bottom: 0; }
+  table.data .num { text-align: right; font-family: Georgia, serif; color: var(--navy); }
+  table.data .pos { color: var(--moss); font-weight: 600; }
+  table.data .neg { color: var(--alert); font-weight: 600; }
+  table.data .firm { font-weight: 600; color: var(--navy); }
+
+  /* ── AI Visibility bars ─────────────── */
+  .ai-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 60px;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 12px;
+  }
+  .ai-firm { color: var(--ink); font-weight: 600; }
+  .ai-firm.us { color: var(--teal); }
+  .ai-bar {
+    height: 14px;
+    background: var(--sand-soft);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-fill {
+    height: 100%;
+    background: var(--teal-soft);
+  }
+  .ai-fill.us { background: var(--teal); }
+  .ai-pct {
+    text-align: right;
+    font-family: Georgia, serif;
+    color: var(--navy);
+  }
+
+  /* ── Map placeholder ─────────────────── */
+  .geo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .geo-cell {
+    background: var(--sand-soft);
+    padding: 8px;
+    border-radius: 2px;
+    text-align: center;
+    font-size: 11px;
+    border-top: 3px solid var(--line);
+  }
+  .geo-cell.high { border-top-color: var(--moss); }
+  .geo-cell.med  { border-top-color: var(--teal-soft); }
+  .geo-cell.low  { border-top-color: var(--sand); }
+  .geo-region { font-weight: 700; color: var(--navy); display: block; margin-bottom: 2px; }
+  .geo-stat { font-size: 10px; color: var(--ink-soft); }
+
+  /* ── Footer / mock ribbon ───────────── */
+  footer {
+    text-align: center; padding: 30px 20px;
+    background: var(--navy); color: #fff;
+    font-size: 11px; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  footer span { opacity: 0.7; }
+  .ribbon {
+    background: var(--new);
+    color: #fff;
+    text-align: center;
+    padding: 6px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── Section anchor offset ────────── */
+  section[id] { scroll-margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="ribbon">Mockup Preview · Sample Data · Cowork-powered Tracker Concept</div>
+
+<header>
+  <div class="header-row">
+    <div class="brand">
+      <div class="brand-mark">i</div>
+      <div>
+        <div class="brand-name">INTEGRAL</div>
+        <div class="brand-tagline">Science · Strategy · Solutions</div>
+      </div>
+    </div>
+    <div class="meta">
+      <strong>Owner: E. Hartley</strong>
+      Refreshes every Monday 6:00 AM PT
+    </div>
+  </div>
+  <h1 class="page-title">Competitive Intelligence Tracker</h1>
+  <div class="updated">Last refreshed Monday, May 4, 2026 · Next refresh in 6 days</div>
+</header>
+
+<div class="kpis">
+  <div class="kpi">
+    <div class="kpi-label">Competitors Tracked</div>
+    <div class="kpi-value">9</div>
+    <div class="kpi-delta">+1 since Q1</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">New Signals (7 days)</div>
+    <div class="kpi-value">23</div>
+    <div class="kpi-delta">+8 vs. prior week</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Upcoming Conferences</div>
+    <div class="kpi-value">6</div>
+    <div class="kpi-delta">2 with abstracts due</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">EBI Articles (May)</div>
+    <div class="kpi-value">14</div>
+    <div class="kpi-delta">3 flagged for review</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Regulatory Alerts</div>
+    <div class="kpi-value">5</div>
+    <div class="kpi-delta warn">2 high-impact</div>
+  </div>
+</div>
+
+<!-- ── Table of Contents ────────────────────────────── -->
+<nav class="toc">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-links">
+    <a href="#highlights"><span class="toc-num">01</span> This Week's Highlights</a>
+    <a href="#competitors"><span class="toc-num">02</span> Competitor Pulse</a>
+    <a href="#conferences"><span class="toc-num">03</span> Conference Tracker</a>
+    <a href="#ebi"><span class="toc-num">04</span> Environmental Business Intl.</a>
+    <a href="#jdsupra"><span class="toc-num">05</span> JD Supra Environmental</a>
+    <a href="#regulatory"><span class="toc-num">06</span> Regulatory &amp; Policy</a>
+    <a href="#whitespace"><span class="toc-num">07</span> White Space</a>
+    <a href="#talent"><span class="toc-num">08</span> Talent Movement</a>
+    <a href="#rfps"><span class="toc-num">09</span> RFPs &amp; Funding</a>
+    <a href="#standards"><span class="toc-num">10</span> Standards &amp; Committees</a>
+    <a href="#litigation"><span class="toc-num">11</span> Litigation Docket</a>
+    <a href="#publications"><span class="toc-num">12</span> Publications &amp; Citations</a>
+    <a href="#funding"><span class="toc-num">13</span> Federal R&amp;D Funding</a>
+    <a href="#aisearch"><span class="toc-num">14</span> AI Search Visibility</a>
+    <a href="#earnings"><span class="toc-num">15</span> Public Co. Earnings</a>
+    <a href="#clientindustry"><span class="toc-num">16</span> Client Industry Health</a>
+    <a href="#agency"><span class="toc-num">17</span> Agency Leadership</a>
+    <a href="#awards"><span class="toc-num">18</span> Awards &amp; Rankings</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 01: This Week's Highlights -->
+  <section class="card highlights" id="highlights">
+    <div class="card-head">
+      <div class="card-title">01 · This Week's Highlights</div>
+      <div class="card-sub">Auto-curated digest · Items above your alert threshold</div>
+    </div>
+    <div class="card-body">
+      <div class="digest">
+        <div class="digest-block alert">
+          <div class="digest-cat">Regulatory · High Impact</div>
+          <div class="digest-headline">EPA Finalizes PFAS Hazardous Substance Phase 2</div>
+          <div class="digest-detail">Reopens closed sites; CERCLA cost-recovery work expected through 2027.</div>
+        </div>
+        <div class="digest-block">
+          <div class="digest-cat">Competitor · New Move</div>
+          <div class="digest-headline">Geosyntec hired former EPA Region 10 director</div>
+          <div class="digest-detail">Expected to anchor expansion of Pacific NW sediment practice.</div>
+        </div>
+        <div class="digest-block good">
+          <div class="digest-cat">Talent · Win</div>
+          <div class="digest-headline">Dr. Maria Chen joined Integral from Exponent</div>
+          <div class="digest-detail">Strengthens PFAS toxicology bench; 18 peer-reviewed publications.</div>
+        </div>
+        <div class="digest-block watch">
+          <div class="digest-cat">RFP · Strategic</div>
+          <div class="digest-headline">DoD PFAS Investigation IDIQ ($200M ceiling)</div>
+          <div class="digest-detail">Due Jun 20. Teaming options under review with two prime candidates.</div>
+        </div>
+        <div class="digest-block">
+          <div class="digest-cat">Publication · EBI</div>
+          <div class="digest-headline">2026 Top 10 Environmental Firms ranking released</div>
+          <div class="digest-detail">Integral ranked #14 (up from #16). Ramboll, ERM hold top spots.</div>
+        </div>
+        <div class="digest-block alert">
+          <div class="digest-cat">Litigation · Notable</div>
+          <div class="digest-headline">9th Circuit expands NRD liability for legacy sites</div>
+          <div class="digest-detail">Bears on Lower Duwamish &amp; Portland Harbor proceedings.</div>
+        </div>
+        <div class="digest-block watch">
+          <div class="digest-cat">Conference · Action Needed</div>
+          <div class="digest-headline">PFAS Symposium abstracts due July 1</div>
+          <div class="digest-detail">Strategic priority. 3 internal authors confirmed; need topic alignment.</div>
+        </div>
+        <div class="digest-block good">
+          <div class="digest-cat">Funding · Awarded</div>
+          <div class="digest-headline">SERDP grant: PFAS bioavailability in sediments</div>
+          <div class="digest-detail">$1.2M, 3-yr project. Integral as PI; partner with U. of Washington.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 + 03 Competitors + Conferences -->
+  <div class="grid">
+    <section class="card competitors" id="competitors">
+      <div class="card-head">
+        <div class="card-title">02 · Competitor Pulse</div>
+        <div class="card-sub">Last 14 days · 9 firms</div>
+      </div>
+      <div class="card-body">
+        <div class="comp-grid">
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">Ramboll</div>
+              <div class="comp-trend up">▲ activity</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>Hired</strong> 4 PFAS senior scientists in Boston</div>
+              <div class="comp-signal"><strong>Won</strong> WA Dept. of Ecology sediment SoW</div>
+              <div class="comp-signal"><strong>New</strong> ESG &amp; climate risk service line</div>
+            </div>
+            <div class="pulse">
+              <div></div><div class="warm"></div><div></div><div class="hot"></div><div class="warm"></div><div></div><div class="hot"></div><div class="hot"></div><div class="warm"></div><div></div>
+            </div>
+          </div>
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">ERM</div>
+              <div class="comp-trend">— steady</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>Acquired</strong> small NJ litigation support firm</div>
+              <div class="comp-signal"><strong>Published</strong> "PFAS in Drinking Water" white paper</div>
+              <div class="comp-signal"><strong>Speaking</strong> at SETAC NA 2026 (3 sessions)</div>
+            </div>
+            <div class="pulse">
+              <div></div><div class="warm"></div><div class="warm"></div><div></div><div class="warm"></div><div class="hot"></div><div></div><div class="warm"></div><div></div><div></div>
+            </div>
+          </div>
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">Geosyntec</div>
+              <div class="comp-trend up">▲ activity</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>Launched</strong> climate resilience practice</div>
+              <div class="comp-signal"><strong>Hired</strong> former EPA Region 10 director</div>
+              <div class="comp-signal"><strong>RFP</strong> awarded — Lower Duwamish OU</div>
+            </div>
+            <div class="pulse">
+              <div class="warm"></div><div class="hot"></div><div></div><div class="warm"></div><div class="hot"></div><div class="hot"></div><div></div><div class="warm"></div><div class="warm"></div><div></div>
+            </div>
+          </div>
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">Anchor QEA</div>
+              <div class="comp-trend">— steady</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>Opened</strong> new Charleston, SC office</div>
+              <div class="comp-signal"><strong>Publishing</strong> NRD case studies series</div>
+            </div>
+            <div class="pulse">
+              <div></div><div></div><div class="warm"></div><div></div><div></div><div class="warm"></div><div></div><div class="warm"></div><div></div><div></div>
+            </div>
+          </div>
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">Exponent</div>
+              <div class="comp-trend">— steady</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>Expert testimony</strong> in MA PFAS litigation</div>
+              <div class="comp-signal"><strong>Hiring</strong> aggressively in toxicology</div>
+            </div>
+            <div class="pulse">
+              <div class="warm"></div><div></div><div></div><div class="warm"></div><div></div><div class="warm"></div><div></div><div></div><div class="warm"></div><div></div>
+            </div>
+          </div>
+
+          <div class="comp-card">
+            <div class="comp-head">
+              <div class="comp-name">Tetra Tech</div>
+              <div class="comp-trend up">▲ activity</div>
+            </div>
+            <div class="comp-signals">
+              <div class="comp-signal"><strong>$340M</strong> EPA Superfund IDIQ contract</div>
+              <div class="comp-signal"><strong>Earnings</strong> Q1 +12% YoY (water segment)</div>
+            </div>
+            <div class="pulse">
+              <div class="hot"></div><div class="warm"></div><div></div><div class="hot"></div><div></div><div class="hot"></div><div class="warm"></div><div></div><div class="hot"></div><div class="warm"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="card confs" id="conferences">
+      <div class="card-head">
+        <div class="card-title">03 · Conference Tracker</div>
+        <div class="card-sub">Next 6 months</div>
+      </div>
+      <div class="card-body">
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Jun</div><div class="conf-day">22</div></div>
+          <div>
+            <div class="conf-name">A&amp;WMA Annual Conference &amp; Exhibition</div>
+            <div class="conf-loc">Cleveland, OH · Air quality, climate, regulatory</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">3 from Integral attending</div>
+            <div class="pin">2 talks accepted</div>
+          </div>
+        </div>
+
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Sep</div><div class="conf-day">14</div></div>
+          <div>
+            <div class="conf-name">5th International PFAS Symposium</div>
+            <div class="conf-loc">Asheville, NC · Industry's biggest PFAS gathering</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">Abstract due Jul 1</div>
+            <div class="pin">⚑ Strategic priority</div>
+          </div>
+        </div>
+
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Oct</div><div class="conf-day">19</div></div>
+          <div>
+            <div class="conf-name">AEHS East Coast (Soils &amp; Sediments)</div>
+            <div class="conf-loc">Amherst, MA · Sediment, vapor intrusion, PFAS</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">5 from Integral attending</div>
+            <div class="pin">⚑ Sponsor (Silver)</div>
+          </div>
+        </div>
+
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Nov</div><div class="conf-day">02</div></div>
+          <div>
+            <div class="conf-name">SETAC North America 47th Annual</div>
+            <div class="conf-loc">Indianapolis, IN · Toxicology &amp; risk</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">8 from Integral attending</div>
+            <div class="pin">4 platforms · 6 posters</div>
+          </div>
+        </div>
+
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Nov</div><div class="conf-day">17</div></div>
+          <div>
+            <div class="conf-name">NAEP National Conference</div>
+            <div class="conf-loc">Portland, OR · NEPA, ESG, regulatory</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">Abstract deadline open</div>
+            <div class="pin">Watching ERM panel</div>
+          </div>
+        </div>
+
+        <div class="conf-row">
+          <div class="conf-date"><div class="conf-month">Dec</div><div class="conf-day">08</div></div>
+          <div>
+            <div class="conf-name">ACI Environmental Litigation Summit</div>
+            <div class="conf-loc">New York, NY · NRD, CERCLA, PFAS litigation</div>
+          </div>
+          <div class="conf-status">
+            <div class="who">2 attending (litigation team)</div>
+            <div class="pin">Anchor QEA &amp; ERM speaking</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 04 + 05 + 06: EBI + JD Supra + Regulatory -->
+  <div class="grid-3">
+
+    <section class="card ebi" id="ebi">
+      <div class="card-head">
+        <div>
+          <div class="card-title">04 · Environmental Business Intl.</div>
+          <div class="card-sub">Subscriber feed · 14 articles in May</div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="item">
+          <div class="item-date">May 5</div>
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-new">New</span><a href="#">2026 Environmental Industry Outlook: Top 10 Firms</a></div>
+            <div class="item-meta">EBI 2026 Industry Report · Market sizing $90.4B</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">May 1</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">Ramboll's PFAS Strategy Pays Off — Q1 Revenue Up 18%</a></div>
+            <div class="item-meta">Strategic &amp; Market Analysis · Competitor coverage</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 28</div>
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Watch</span><a href="#">Sediment Remediation Market Forecast 2026–2030</a></div>
+            <div class="item-meta">EBI Special Report · CAGR 6.2% projected</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 22</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">M&amp;A Watch: Private Equity in Environmental Consulting</a></div>
+            <div class="item-meta">Q1 deal volume up 22% YoY</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 15</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">Climate Adaptation: Where Consulting Demand is Heading</a></div>
+            <div class="item-meta">5-year demand modeling · Coastal &amp; resilience</div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--line);">
+          <div class="card-sub" style="margin-bottom:8px;">Q1 2026 Industry M&amp;A</div>
+          <div class="ma-row"><span class="ma-deal"><strong>WSP</strong> → POWER Engineers</span><span class="ma-value">$1.78B</span></div>
+          <div class="ma-row"><span class="ma-deal"><strong>Stantec</strong> → Page Southerland Page</span><span class="ma-value">$310M</span></div>
+          <div class="ma-row"><span class="ma-deal"><strong>ERM</strong> → Walsh Environmental</span><span class="ma-value">undisclosed</span></div>
+          <div class="ma-row"><span class="ma-deal"><strong>Tetra Tech</strong> → LS Technologies</span><span class="ma-value">$103M</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card jdsupra" id="jdsupra">
+      <div class="card-head">
+        <div>
+          <div class="card-title">05 · JD Supra Environmental</div>
+          <div class="card-sub">Legal &amp; regulatory · This week</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-date">May 5</div>
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-alert">Hot</span><a href="#">EPA Finalizes PFAS Hazardous Substance Designation Phase 2</a></div>
+            <div class="item-meta">Beveridge &amp; Diamond · CERCLA cost recovery implications</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">May 4</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">9th Circuit Ruling Expands NRD Liability for Legacy Sites</a></div>
+            <div class="item-meta">Marten Law · Bearing on Lower Duwamish, Portland Harbor</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">May 2</div>
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-new">New</span><a href="#">California's New Sediment Quality Objectives — What Changed</a></div>
+            <div class="item-meta">Latham &amp; Watkins · Compliance roadmap</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 30</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">EPA Updates TSCA Risk Evaluation for 1,4-Dioxane</a></div>
+            <div class="item-meta">Bergeson &amp; Campbell · Industry impact analysis</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 28</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">SCOTUS Cert Granted: Maui v. Hawaii Wildlife Sequel</a></div>
+            <div class="item-meta">Hunton Andrews Kurth · CWA point source standards</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 25</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">State AGs Coordinate New PFAS Manufacturer Lawsuits</a></div>
+            <div class="item-meta">Arnold &amp; Porter · 14 states filing in Q2</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-date">Apr 22</div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">Vapor Intrusion: New ASTM Standard Implications</a></div>
+            <div class="item-meta">Goldberg Segalla · Site assessment changes</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card regulatory" id="regulatory">
+      <div class="card-head">
+        <div>
+          <div class="card-title">06 · Regulatory &amp; Policy</div>
+          <div class="card-sub">EPA · State agencies · This quarter</div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="reg-item">
+          <span class="reg-agency">EPA · High Impact</span>
+          <div class="reg-title">PFOA/PFOS MCL — Compliance Deadline 2029</div>
+          <div class="reg-impact">Expands utility &amp; industrial compliance work; impacts active client portfolios in NJ, MI, NC.</div>
+        </div>
+
+        <div class="reg-item">
+          <span class="reg-agency">EPA · High Impact</span>
+          <div class="reg-title">CERCLA Designation — Additional PFAS Compounds</div>
+          <div class="reg-impact">Reopens closed sites; new cost-recovery actions expected through 2027.</div>
+        </div>
+
+        <div class="reg-item">
+          <span class="reg-agency">CA SWRCB</span>
+          <div class="reg-title">Updated Sediment Quality Objectives (Phase III)</div>
+          <div class="reg-impact">Affects active CA harbor &amp; bay clients; new sampling protocols required.</div>
+        </div>
+
+        <div class="reg-item">
+          <span class="reg-agency">WA Ecology</span>
+          <div class="reg-title">MTCA Cleanup Rule Amendments — Public Comment Open</div>
+          <div class="reg-impact">Comment period closes June 14. Integral submitting on bioaccumulation criteria.</div>
+        </div>
+
+        <div class="reg-item">
+          <span class="reg-agency">NY DEC</span>
+          <div class="reg-title">Climate Leadership Act — New Reporting Rules</div>
+          <div class="reg-impact">Affects industrial clients in NY market; ESG disclosure overlap.</div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 07 + 08 + 09: White Space + Talent + RFPs -->
+  <div class="grid-3">
+
+    <section class="card" id="whitespace">
+      <div class="card-head">
+        <div class="card-title">07 · White Space</div>
+        <div class="card-sub">Where Integral leads</div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">NRD &amp; Sediment Litigation Support</div>
+            <div class="item-meta">Differentiator vs. ERM, Ramboll. 12+ active expert engagements.</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">Aquatic Toxicology Bench Strength</div>
+            <div class="item-meta">Only Geosyntec and Exponent compete on PhD density.</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">Tribal &amp; Federal Trustee Practice</div>
+            <div class="item-meta">Underserved by big-five competitors; growth opportunity.</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">Climate Vulnerability for Industrial Sites</div>
+            <div class="item-meta">Emerging — Geosyntec &amp; Ramboll moving fast; defend now.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="talent">
+      <div class="card-head">
+        <div class="card-title">08 · Talent Movement</div>
+        <div class="card-sub">LinkedIn signals · 30 days</div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-good">Joined</span> Dr. Maria Chen → Integral (PFAS Toxicology)</div>
+            <div class="item-meta">Previously Senior Scientist at Exponent</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-alert">Lost</span> J. Patel → Geosyntec (Sr. Geochemist)</div>
+            <div class="item-meta">Tenure: 4 yrs. Backfill open in Seattle.</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Open</span> Ramboll posted 11 PFAS roles (US)</div>
+            <div class="item-meta">Boston, Houston, Portland heavy</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Open</span> ERM hiring NRD economist (DC)</div>
+            <div class="item-meta">First time posting this role publicly</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="rfps">
+      <div class="card-head">
+        <div class="card-title">09 · RFPs &amp; Funding</div>
+        <div class="card-sub">Federal &amp; state opportunities</div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-date">Due Jun 6</div>
+          <div class="item-body">
+            <div class="item-title">EPA R10 — Lower Columbia Sediment SoW</div>
+            <div class="item-meta"><span class="item-tag tag-soft">$8–12M</span> Bidding · Anchor QEA likely</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-date">Due Jun 20</div>
+          <div class="item-body">
+            <div class="item-title">DoD — PFAS Investigation IDIQ (5-yr)</div>
+            <div class="item-meta"><span class="item-tag tag-soft">$200M ceiling</span> Teaming under review</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-date">Due Jul 11</div>
+          <div class="item-body">
+            <div class="item-title">CA DTSC — Sediment SQO Implementation</div>
+            <div class="item-meta"><span class="item-tag tag-soft">$3–5M</span> Sole bid likely vs. Geosyntec</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-date">Watching</div>
+          <div class="item-body">
+            <div class="item-title">DOI — Tribal Trustee Coordination Support</div>
+            <div class="item-meta"><span class="item-tag tag-soft">TBD</span> Pre-solicitation expected Q3</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 10 + 11: Standards + Litigation -->
+  <div class="grid-2">
+
+    <section class="card" id="standards">
+      <div class="card-head">
+        <div class="card-title">10 · Standards &amp; Committees</div>
+        <div class="card-sub">EPA · ASTM · SETAC · ITRC</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Committee / Working Group</th>
+              <th>Topic</th>
+              <th>Integral</th>
+              <th>Competitor seats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="firm">EPA SAB · PFAS Methods</td>
+              <td>Analytical methods 1633/1621</td>
+              <td><span class="item-tag tag-soft">none</span></td>
+              <td>Geosyntec (1) · Exponent (1)</td>
+            </tr>
+            <tr>
+              <td class="firm">ASTM E50.04</td>
+              <td>Sediment characterization</td>
+              <td><span class="item-tag tag-good">2 seats</span></td>
+              <td>Anchor QEA (3) · ERM (1)</td>
+            </tr>
+            <tr>
+              <td class="firm">SETAC NA NRD Group</td>
+              <td>NRD assessment guidance</td>
+              <td><span class="item-tag tag-good">Chair</span></td>
+              <td>Ramboll (1) · ERM (1)</td>
+            </tr>
+            <tr>
+              <td class="firm">ITRC PFAS Team</td>
+              <td>State regulatory coordination</td>
+              <td><span class="item-tag tag-good">3 seats</span></td>
+              <td>Geosyntec (4) · Tetra Tech (2)</td>
+            </tr>
+            <tr>
+              <td class="firm">EPA SAB · Risk Assessment</td>
+              <td>Methodology updates</td>
+              <td><span class="item-tag tag-soft">none</span></td>
+              <td>Exponent (2) · ERM (1)</td>
+            </tr>
+            <tr>
+              <td class="firm">ASTM E47.13</td>
+              <td>Vapor intrusion</td>
+              <td><span class="item-tag tag-good">1 seat</span></td>
+              <td>Geosyntec (2) · Ramboll (1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="litigation">
+      <div class="card-head">
+        <div class="card-title">11 · Litigation Docket</div>
+        <div class="card-sub">PACER &amp; state courts · Active filings</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Case</th>
+              <th>Type</th>
+              <th>Experts retained</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="firm">In re: Aqueous Film-Forming Foam (MDL 2873)</td>
+              <td>PFAS class action</td>
+              <td>Exponent · Ramboll · ERM</td>
+              <td>Discovery</td>
+            </tr>
+            <tr>
+              <td class="firm">State of CA v. 3M et al.</td>
+              <td>PFAS NRD</td>
+              <td><span class="pos">Integral (state)</span></td>
+              <td>Pre-trial</td>
+            </tr>
+            <tr>
+              <td class="firm">Lower Duwamish Waterway Group</td>
+              <td>CERCLA allocation</td>
+              <td>Anchor QEA · Geosyntec</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td class="firm">Portland Harbor Allocation</td>
+              <td>CERCLA allocation</td>
+              <td><span class="pos">Integral (multi-PRP)</span> · ERM</td>
+              <td>Allocation phase</td>
+            </tr>
+            <tr>
+              <td class="firm">Maui Wildlife Federation v. EPA (rem.)</td>
+              <td>CWA point source</td>
+              <td>Exponent</td>
+              <td>SCOTUS cert granted</td>
+            </tr>
+            <tr>
+              <td class="firm">NJ DEP v. Solvay</td>
+              <td>PFAS NRD &amp; cleanup</td>
+              <td><span class="pos">Integral (state)</span> · Geosyntec (def.)</td>
+              <td>Trial Q4 2026</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="card-sub" style="margin-top:14px;">7 cases adding Integral as expert in last 90 days · 3 contacted in last 14 days</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 12 + 13: Publications + Funding -->
+  <div class="grid-2">
+
+    <section class="card" id="publications">
+      <div class="card-head">
+        <div class="card-title">12 · Publications &amp; Citations</div>
+        <div class="card-sub">Peer-reviewed · Last 12 months</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Firm</th>
+              <th class="num">Papers</th>
+              <th class="num">Citations</th>
+              <th>Top journal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="firm">Exponent</td>
+              <td class="num">87</td>
+              <td class="num">1,420</td>
+              <td>ES&amp;T</td>
+            </tr>
+            <tr>
+              <td class="firm">Ramboll</td>
+              <td class="num">62</td>
+              <td class="num">980</td>
+              <td>Chemosphere</td>
+            </tr>
+            <tr style="background: var(--sand-soft);">
+              <td class="firm">Integral</td>
+              <td class="num">54 <span class="pos">+9</span></td>
+              <td class="num">874 <span class="pos">+18%</span></td>
+              <td>IEAM</td>
+            </tr>
+            <tr>
+              <td class="firm">Geosyntec</td>
+              <td class="num">48</td>
+              <td class="num">720</td>
+              <td>J. Contam. Hydrol.</td>
+            </tr>
+            <tr>
+              <td class="firm">ERM</td>
+              <td class="num">31</td>
+              <td class="num">410</td>
+              <td>Env. Pollution</td>
+            </tr>
+            <tr>
+              <td class="firm">Anchor QEA</td>
+              <td class="num">22</td>
+              <td class="num">290</td>
+              <td>IEAM</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="card-sub" style="margin-top:14px; margin-bottom:6px;">Integral's notable May papers</div>
+        <div class="item" style="padding:8px 0;">
+          <div class="item-body">
+            <div class="item-title">PFAS bioaccumulation in estuarine sediments</div>
+            <div class="item-meta">ES&amp;T · 4 Integral co-authors · Open access</div>
+          </div>
+        </div>
+        <div class="item" style="padding:8px 0;">
+          <div class="item-body">
+            <div class="item-title">Probabilistic NRD assessment framework</div>
+            <div class="item-meta">IEAM · Cited in 2 active litigation filings</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="funding">
+      <div class="card-head">
+        <div class="card-title">13 · Federal R&amp;D Funding</div>
+        <div class="card-sub">SERDP · ESTCP · EPA STAR · NIEHS</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Award</th>
+              <th>Program</th>
+              <th class="num">Amount</th>
+              <th>PI / Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: var(--sand-soft);">
+              <td class="firm">PFAS bioavailability in sediments</td>
+              <td>SERDP ER25-A2</td>
+              <td class="num">$1.2M</td>
+              <td><span class="pos">Integral (PI)</span></td>
+            </tr>
+            <tr>
+              <td class="firm">In-situ remediation field demo</td>
+              <td>ESTCP ER25-B7</td>
+              <td class="num">$2.4M</td>
+              <td>Geosyntec</td>
+            </tr>
+            <tr>
+              <td class="firm">Tribal community PFAS exposure</td>
+              <td>NIEHS Superfund Center</td>
+              <td class="num">$3.8M</td>
+              <td>U. of Washington (Integral co-I)</td>
+            </tr>
+            <tr>
+              <td class="firm">Climate &amp; sediment transport modeling</td>
+              <td>EPA STAR</td>
+              <td class="num">$800K</td>
+              <td>Anchor QEA</td>
+            </tr>
+            <tr>
+              <td class="firm">Vapor intrusion at large sites</td>
+              <td>SERDP ER24-D3</td>
+              <td class="num">$1.5M</td>
+              <td>Ramboll</td>
+            </tr>
+            <tr>
+              <td class="firm">Aquatic tox. method development</td>
+              <td>EPA STAR</td>
+              <td class="num">$650K</td>
+              <td>Exponent</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="card-sub" style="margin-top:14px;">Open solicitations — SERDP FY27 statement of need due Aug 15 · ESTCP topics released June</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 14 + 15: AI Search + Earnings -->
+  <div class="grid-2">
+
+    <section class="card" id="aisearch">
+      <div class="card-head">
+        <div class="card-title">14 · AI Search Visibility</div>
+        <div class="card-sub">ChatGPT · Perplexity · Gemini · Grok</div>
+      </div>
+      <div class="card-body">
+        <div class="card-sub" style="margin-bottom:8px;">Query: "best PFAS expert witness firm"</div>
+        <div class="ai-row"><div class="ai-firm">Exponent</div><div class="ai-bar"><div class="ai-fill" style="width:88%"></div></div><div class="ai-pct">88%</div></div>
+        <div class="ai-row"><div class="ai-firm">Ramboll</div><div class="ai-bar"><div class="ai-fill" style="width:64%"></div></div><div class="ai-pct">64%</div></div>
+        <div class="ai-row"><div class="ai-firm us">Integral</div><div class="ai-bar"><div class="ai-fill us" style="width:52%"></div></div><div class="ai-pct">52%</div></div>
+        <div class="ai-row"><div class="ai-firm">Geosyntec</div><div class="ai-bar"><div class="ai-fill" style="width:46%"></div></div><div class="ai-pct">46%</div></div>
+        <div class="ai-row"><div class="ai-firm">ERM</div><div class="ai-bar"><div class="ai-fill" style="width:38%"></div></div><div class="ai-pct">38%</div></div>
+
+        <div class="card-sub" style="margin-top:18px; margin-bottom:8px;">Query: "sediment remediation consultant"</div>
+        <div class="ai-row"><div class="ai-firm">Anchor QEA</div><div class="ai-bar"><div class="ai-fill" style="width:82%"></div></div><div class="ai-pct">82%</div></div>
+        <div class="ai-row"><div class="ai-firm">Geosyntec</div><div class="ai-bar"><div class="ai-fill" style="width:71%"></div></div><div class="ai-pct">71%</div></div>
+        <div class="ai-row"><div class="ai-firm us">Integral</div><div class="ai-bar"><div class="ai-fill us" style="width:68%"></div></div><div class="ai-pct">68%</div></div>
+        <div class="ai-row"><div class="ai-firm">Ramboll</div><div class="ai-bar"><div class="ai-fill" style="width:54%"></div></div><div class="ai-pct">54%</div></div>
+
+        <div class="card-sub" style="margin-top:18px; margin-bottom:8px;">Query: "natural resource damages assessment"</div>
+        <div class="ai-row"><div class="ai-firm us">Integral</div><div class="ai-bar"><div class="ai-fill us" style="width:79%"></div></div><div class="ai-pct">79%</div></div>
+        <div class="ai-row"><div class="ai-firm">Stratus Consulting</div><div class="ai-bar"><div class="ai-fill" style="width:62%"></div></div><div class="ai-pct">62%</div></div>
+        <div class="ai-row"><div class="ai-firm">Industrial Economics</div><div class="ai-bar"><div class="ai-fill" style="width:58%"></div></div><div class="ai-pct">58%</div></div>
+        <div class="ai-row"><div class="ai-firm">ERM</div><div class="ai-bar"><div class="ai-fill" style="width:34%"></div></div><div class="ai-pct">34%</div></div>
+      </div>
+    </section>
+
+    <section class="card" id="earnings">
+      <div class="card-head">
+        <div class="card-title">15 · Public Co. Earnings &amp; Backlog</div>
+        <div class="card-sub">Q1 2026 · Environmental segments</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Firm</th>
+              <th class="num">Env. Rev.</th>
+              <th class="num">YoY</th>
+              <th class="num">Backlog</th>
+              <th class="num">B:B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="firm">Tetra Tech</td>
+              <td class="num">$1.42B</td>
+              <td class="num pos">+12%</td>
+              <td class="num">$5.8B</td>
+              <td class="num pos">1.18</td>
+            </tr>
+            <tr>
+              <td class="firm">AECOM</td>
+              <td class="num">$3.20B</td>
+              <td class="num pos">+6%</td>
+              <td class="num">$24.1B</td>
+              <td class="num pos">1.06</td>
+            </tr>
+            <tr>
+              <td class="firm">Stantec</td>
+              <td class="num">$890M</td>
+              <td class="num pos">+9%</td>
+              <td class="num">$6.4B</td>
+              <td class="num pos">1.12</td>
+            </tr>
+            <tr>
+              <td class="firm">WSP</td>
+              <td class="num">$1.10B</td>
+              <td class="num pos">+15%</td>
+              <td class="num">$14.0B</td>
+              <td class="num pos">1.21</td>
+            </tr>
+            <tr>
+              <td class="firm">Arcadis</td>
+              <td class="num">$760M</td>
+              <td class="num neg">-2%</td>
+              <td class="num">$3.1B</td>
+              <td class="num neg">0.97</td>
+            </tr>
+            <tr>
+              <td class="firm">Ramboll (private)</td>
+              <td class="num">est. $720M</td>
+              <td class="num pos">+18%</td>
+              <td class="num">n/d</td>
+              <td class="num">—</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="card-sub" style="margin-top:14px;">Themes from Q1 calls</div>
+        <div class="item" style="padding:8px 0;">
+          <div class="item-body">
+            <div class="item-title">PFAS work cited as growth driver in 5 of 6 calls</div>
+            <div class="item-meta">Tetra Tech &amp; WSP gave specific revenue targets</div>
+          </div>
+        </div>
+        <div class="item" style="padding:8px 0;">
+          <div class="item-body">
+            <div class="item-title">Federal market caution flagged by Arcadis &amp; AECOM</div>
+            <div class="item-meta">Procurement delays mentioned; reaffirmed full-year guidance</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 16 + 17 + 18: Client Industries + Agency + Awards -->
+  <div class="grid-3">
+
+    <section class="card" id="clientindustry">
+      <div class="card-head">
+        <div class="card-title">16 · Client Industry Health</div>
+        <div class="card-sub">Demand drivers · Trailing 90 days</div>
+      </div>
+      <div class="card-body">
+        <table class="data">
+          <thead>
+            <tr><th>Sector</th><th>Signal</th><th>Direction</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="firm">Chemical mfg.</td>
+              <td>Capex up; 4 PRP groups expanding scope</td>
+              <td class="pos">▲ strong</td>
+            </tr>
+            <tr>
+              <td class="firm">Oil &amp; gas (refining)</td>
+              <td>3 refineries divested in Q1; Phase I work spike</td>
+              <td class="pos">▲ strong</td>
+            </tr>
+            <tr>
+              <td class="firm">Ports &amp; shipping</td>
+              <td>NEPA reviews accelerating; sediment caps increasing</td>
+              <td class="pos">▲ moderate</td>
+            </tr>
+            <tr>
+              <td class="firm">Utilities (water)</td>
+              <td>PFAS MCL compliance work ramping</td>
+              <td class="pos">▲ strong</td>
+            </tr>
+            <tr>
+              <td class="firm">Manufacturing (general)</td>
+              <td>Site closures up; ESG disclosure pressure</td>
+              <td class="pos">▲ moderate</td>
+            </tr>
+            <tr>
+              <td class="firm">Real estate developers</td>
+              <td>Rate environment; ESA volume flat</td>
+              <td class="num">— flat</td>
+            </tr>
+            <tr>
+              <td class="firm">Insurance / reinsurance</td>
+              <td>Climate liability inquiries up 28% YoY</td>
+              <td class="pos">▲ strong</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="agency">
+      <div class="card-head">
+        <div class="card-title">17 · Agency Leadership</div>
+        <div class="card-sub">EPA · State trustees · Recent changes</div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-new">New</span> EPA Region 10 Administrator</div>
+            <div class="item-meta">Confirmed Apr 18 · Background in tribal trust law · No prior Integral relationship</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-new">New</span> Director, NJ DEP Site Remediation</div>
+            <div class="item-meta">Internal promotion · Worked with Integral on 2022 Hercules matter</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Open</span> EPA Office of Water — AA vacancy</div>
+            <div class="item-meta">Acting through Q3; affects PFAS rulemaking timing</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">CA EPA Secretary — 90-day mark</div>
+            <div class="item-meta">Sediment SQO Phase III a stated priority</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">DOI Office of Restoration &amp; Damage Assessment</div>
+            <div class="item-meta">New Director announced; from former tribal trustee</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Watch</span> WA Ecology — Director's term ends Sep</div>
+            <div class="item-meta">Successor will shape MTCA rule rollout</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="awards">
+      <div class="card-head">
+        <div class="card-title">18 · Awards &amp; Rankings</div>
+        <div class="card-sub">ENR · ACEC · EBI · Chambers</div>
+      </div>
+      <div class="card-body">
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-good">↑2</span> ENR Top 200 Environmental Firms</div>
+            <div class="item-meta">Integral #14 (2026) vs. #16 (2025)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">ENR Top 500 Design Firms — sediment specialty</div>
+            <div class="item-meta">Anchor QEA #1 · Geosyntec #2 · Integral #5</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-good">Win</span> EBI Award — Information Technology</div>
+            <div class="item-meta">Integral's PFAS data platform · Announced May 1</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">ACEC Engineering Excellence — National Honor</div>
+            <div class="item-meta">Submission for Portland Harbor allocation work</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title">Chambers USA — Environmental Litigation</div>
+            <div class="item-meta">Three Integral experts ranked Band 1 individually</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-body">
+            <div class="item-title"><span class="item-tag tag-watch">Watch</span> EBI Awards 2027 — submission deadline Sep 15</div>
+            <div class="item-meta">Practice teams nominating in 4 categories</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<footer>
+  <span>Integral Consulting · Competitive Intelligence Tracker · Concept mockup</span>
+</footer>
+
+</body>
+</html>
