@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA Coastal Resilience Tracker — Integral Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Integral brand palette */
+  --navy: #0f2a4a;
+  --navy-dark: #091e35;
+  --navy-mid: #163855;
+  --navy-light: #1e4f7a;
+  --lime: #8dc63f;
+  --lime-dark: #6fa030;
+  --lime-bright: #a8d85a;
+  --white: #ffffff;
+  --off-white: #f4f7fa;
+  /* Semantic / status */
+  --alert-red: #c03838;
+  --alert-amber: #c07818;
+  --alert-green: #2a7a40;
+  --wiley-blue: #0060b0;
+  --wiley-bg: #e8f2fc;
+  /* Text */
+  --text-primary: #0f1e2e;
+  --text-secondary: #3d5068;
+  --text-muted: #6b8099;
+  /* Borders */
+  --border-light: rgba(15,42,74,0.1);
+  --border-mid: rgba(15,42,74,0.18);
+  /* Cards */
+  --card: #ffffff;
+  --card-alt: #f4f7fa;
+  --shadow: 0 2px 16px rgba(9,30,53,0.1);
+  --shadow-deep: 0 4px 28px rgba(9,30,53,0.18);
+  /* Legacy aliases so rest of CSS still works */
+  --ocean-deep: var(--navy-dark);
+  --ocean-mid: var(--navy);
+  --ocean-light: var(--navy-light);
+  --tide: #3a8fc4;
+  --tide-light: #6ab8e0;
+  --seafoam: var(--lime);
+  --sand: #e8f0f8;
+  --kelp: #4a7030;
+  --kelp-light: var(--lime);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--navy-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 10% 5%, rgba(141,198,63,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(30,79,122,0.18) 0%, transparent 55%);
+}
+
+/* ── HEADER ─────────────────────────────── */
+header {
+  background: var(--navy);
+  border-bottom: 3px solid var(--lime);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 24px rgba(9,30,53,0.45);
+}
+
+.header-top {
+  max-width: 1600px; margin: 0 auto;
+  padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+}
+
+.brand { display: flex; align-items: center; gap: 1.2rem; }
+.brand-logo {
+  font-family: 'Lora', serif;
+  font-size: 1.45rem; font-weight: 700;
+  color: var(--white); letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--lime);
+  padding-bottom: 1px;
+  line-height: 1;
+}
+.brand-divider {
+  width: 1px; height: 32px;
+  background: rgba(255,255,255,0.2);
+}
+.brand-text { display: flex; flex-direction: column; gap: 0.08rem; }
+.brand-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.57rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lime); opacity: 0.9;
+}
+.brand-title {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--white);
+  letter-spacing: 0.005em; line-height: 1.2;
+}
+
+.header-controls { display: flex; align-items: center; gap: 1rem; }
+
+.status-pill {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.64rem;
+  color: rgba(255,255,255,0.6); padding: 0.3rem 0.85rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+}
+
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime); flex-shrink: 0;
+  animation: livePulse 2.5s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(141,198,63,0.7); }
+  50% { box-shadow: 0 0 0 5px rgba(141,198,63,0); }
+}
+
+.search-box {
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px; padding: 0.4rem 0.9rem; color: white;
+  width: 220px; outline: none; transition: all 0.2s;
+}
+.search-box::placeholder { color: rgba(255,255,255,0.3); }
+.search-box:focus { border-color: var(--lime); background: rgba(255,255,255,0.1); box-shadow: 0 0 0 2px rgba(141,198,63,0.2); }
+
+.btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.42rem 1rem; border-radius: 4px; cursor: pointer;
+  border: none; transition: all 0.2s;
+}
+.btn-outline {
+  background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.75);
+}
+.btn-outline:hover { border-color: var(--lime); color: var(--lime); }
+.btn-primary {
+  background: var(--lime); color: var(--navy-dark); border: none; font-weight: 600;
+}
+.btn-primary:hover { background: var(--lime-bright); }
+
+/* ── NAV TABS ───────────────────────────── */
+.nav-tabs-wrap {
+  background: var(--navy-dark);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.nav-tabs {
+  max-width: 1600px; margin: 0 auto;
+  padding: 0 2rem;
+  display: flex; gap: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600;
+  padding: 0.75rem 1.25rem; cursor: pointer;
+  color: rgba(255,255,255,0.48); white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  border-top: none; border-left: none; border-right: none;
+  background: transparent;
+  transition: all 0.15s; letter-spacing: 0.01em;
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.nav-tab:hover {
+  color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.04);
+}
+.nav-tab.active {
+  color: var(--white);
+  border-bottom-color: var(--lime);
+  background: rgba(141,198,63,0.06);
+}
+
+.tab-count {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55);
+  padding: 0.08rem 0.42rem; border-radius: 10px; font-weight: 500;
+}
+.nav-tab.active .tab-count {
+  background: var(--lime); color: var(--navy-dark); font-weight: 700;
+}
+.tab-count.red { background: rgba(192,56,56,0.22); color: #f09090; }
+.nav-tab.active .tab-count.red { background: var(--alert-red); color: white; }
+.tab-count.green { background: rgba(141,198,63,0.2); color: #a8d870; }
+.nav-tab.active .tab-count.green { background: var(--lime); color: var(--navy-dark); }
+.tab-count.amber { background: rgba(200,120,24,0.22); color: #f0b060; }
+.nav-tab.active .tab-count.amber { background: var(--alert-amber); color: white; }
+
+/* ── SECTIONS ───────────────────────────── */
+.section { display: none; }
+.section.active { display: block; }
+
+.section-wrap {
+  max-width: 1600px; margin: 0 auto;
+  padding: 1.5rem 2rem 3rem;
+}
+
+/* ── MOCK BANNER ─────────────────────────── */
+.mock-banner {
+  background: rgba(141,198,63,0.06);
+  border: 1px dashed rgba(141,198,63,0.35);
+  border-radius: 5px; padding: 0.6rem 1.2rem; margin-bottom: 1.25rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  color: rgba(255,255,255,0.55); letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.mock-banner strong { color: var(--lime); }
+
+/* ── ALERT BAR ───────────────────────────── */
+.alert-bar {
+  background: rgba(192,56,56,0.12);
+  border: 1px solid rgba(192,56,56,0.4); border-left: 4px solid var(--alert-red);
+  border-radius: 6px;
+  padding: 0.75rem 1.2rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 1rem;
+  animation: fadeSlide 0.35s ease;
+}
+@keyframes fadeSlide { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.alert-bar-text { font-size: 0.78rem; color: rgba(255,255,255,0.9); line-height: 1.45; flex: 1; }
+.alert-bar-text strong { color: #ffb090; font-weight: 700; }
+.alert-pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  padding: 0.18rem 0.55rem; border-radius: 3px; white-space: nowrap;
+  background: var(--alert-red); color: white; font-weight: 600;
+}
+
+/* ── DASHBOARD GRID ──────────────────────── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 300px;
+  grid-template-rows: auto;
+  gap: 1.25rem;
+}
+
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-full { grid-column: 1 / -1; }
+
+/* ── SYNTHESIS BOX ───────────────────────── */
+.synthesis-box {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  border: 1px solid rgba(141,198,63,0.3);
+  border-left: 4px solid var(--lime);
+  border-radius: 8px;
+  padding: 1.1rem 1.4rem;
+  display: flex; gap: 1.2rem; align-items: flex-start;
+}
+.synthesis-icon { font-size: 1.2rem; flex-shrink: 0; padding-top: 1px; }
+.synthesis-content {}
+.synthesis-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--lime); margin-bottom: 0.4rem;
+}
+.synthesis-text {
+  font-size: 0.83rem; color: rgba(255,255,255,0.9); line-height: 1.68;
+}
+.synthesis-text em { color: var(--lime-bright); font-style: normal; font-weight: 600; }
+
+/* ── CARD ────────────────────────────────── */
+.card {
+  background: var(--card); border-radius: 8px;
+  box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.card-hd {
+  padding: 0.85rem 1.15rem 0.7rem;
+  border-bottom: 2px solid var(--border-light);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem;
+  flex-shrink: 0; background: var(--card-alt);
+}
+.card-title {
+  font-family: 'Lora', serif; font-size: 0.88rem; font-weight: 600;
+  color: var(--navy);
+}
+.src-badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  padding: 0.13rem 0.45rem; border-radius: 3px; flex-shrink: 0;
+}
+.src-web { background: rgba(74,112,48,0.12); border: 1px solid rgba(74,112,48,0.35); color: #2d5a18; }
+.src-wiley { background: var(--wiley-bg); border: 1px solid rgba(0,96,176,0.3); color: var(--wiley-blue); }
+.src-mixed { background: rgba(15,42,74,0.08); border: 1px solid rgba(15,42,74,0.2); color: var(--navy); }
+
+.card-body { overflow-y: auto; flex: 1; }
+
+/* ── FEED ITEMS ──────────────────────────── */
+.feed-item {
+  padding: 0.95rem 1.15rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background 0.12s; cursor: pointer;
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-item:hover { background: rgba(15,42,74,0.04); }
+
+.fi-top { display: flex; gap: 0.55rem; align-items: flex-start; margin-bottom: 0.35rem; }
+.fi-title { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; flex: 1; }
+.fi-meta { display: flex; gap: 0.7rem; align-items: center; }
+.fi-source, .fi-date {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--text-muted);
+}
+.fi-excerpt { font-size: 0.73rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.35rem; }
+.fi-excerpt .hl { background: rgba(141,198,63,0.15); border-radius: 2px; padding: 0 2px; }
+
+/* ── TAGS ────────────────────────────────── */
+.tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  padding: 0.1rem 0.42rem; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+}
+.t-policy { background: rgba(15,42,74,0.1); color: var(--navy); border: 1px solid rgba(15,42,74,0.25); }
+.t-science { background: rgba(74,112,48,0.1); color: #2d5a18; border: 1px solid rgba(74,112,48,0.25); }
+.t-fund { background: rgba(141,198,63,0.12); color: var(--lime-dark); border: 1px solid rgba(141,198,63,0.35); }
+.t-risk { background: rgba(192,56,56,0.08); color: var(--alert-red); border: 1px solid rgba(192,56,56,0.2); }
+.t-lit { background: var(--wiley-bg); color: var(--wiley-blue); border: 1px solid rgba(0,96,176,0.2); }
+.t-docket { background: rgba(200,120,24,0.1); color: #7a4808; border: 1px solid rgba(200,120,24,0.25); }
+.t-species { background: rgba(74,112,48,0.1); color: #2a5818; border: 1px solid rgba(74,112,48,0.28); }
+.t-infra { background: rgba(60,60,80,0.08); color: #3c3c50; border: 1px solid rgba(60,60,80,0.2); }
+.t-media { background: rgba(120,60,120,0.08); color: #6a3a6a; border: 1px solid rgba(120,60,120,0.2); }
+.t-new { background: rgba(141,198,63,0.12); color: var(--lime-dark); border: 1px solid rgba(141,198,63,0.3); }
+
+/* ── KPI TILES ───────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.kpi-tile {
+  padding: 1rem 1.1rem; text-align: center;
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.kpi-tile:nth-child(4n) { border-right: none; }
+.kpi-tile:nth-last-child(-n+4) { border-bottom: none; }
+.kpi-val {
+  font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700;
+  color: var(--navy); line-height: 1; margin-bottom: 0.22rem;
+}
+.kpi-val.up { color: var(--kelp); }
+.kpi-val.warn { color: var(--alert-amber); }
+.kpi-val.crit { color: var(--alert-red); }
+.kpi-lbl { font-size: 0.63rem; color: var(--text-secondary); line-height: 1.35; }
+.kpi-delta { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--text-muted); margin-top: 0.18rem; }
+
+/* ── WILEY ITEMS ─────────────────────────── */
+.wiley-item {
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid rgba(0,96,176,0.08);
+  transition: background 0.12s; cursor: pointer;
+}
+.wiley-item:last-child { border-bottom: none; }
+.wiley-item:hover { background: rgba(0,96,176,0.03); }
+.w-journal {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  color: var(--wiley-blue); letter-spacing: 0.03em; margin-bottom: 0.28rem;
+  text-transform: uppercase;
+}
+.w-title { font-size: 0.79rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.25rem; }
+.w-authors { font-size: 0.67rem; color: var(--text-secondary); font-style: italic; margin-bottom: 0.3rem; }
+.w-snippet {
+  font-size: 0.71rem; color: var(--text-secondary); line-height: 1.5;
+  border-left: 2px solid rgba(0,96,176,0.22); padding-left: 0.6rem; margin-top: 0.35rem;
+}
+.w-meta { display: flex; gap: 0.65rem; align-items: center; margin-top: 0.45rem; flex-wrap: wrap; }
+.w-doi { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--tide); text-decoration: none; }
+.w-doi:hover { text-decoration: underline; }
+.w-cite { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--text-muted); }
+.oa-badge { font-size: 0.57rem; padding: 0.1rem 0.35rem; border-radius: 2px; background: rgba(74,112,48,0.1); border: 1px solid rgba(74,112,48,0.28); color: var(--kelp); }
+
+/* ── TABLE ───────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+.data-table th {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--text-muted); font-weight: 500;
+  padding: 0.6rem 0.9rem; border-bottom: 2px solid var(--border-mid);
+  background: var(--card-alt); text-align: left;
+}
+.data-table td {
+  padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border-light);
+  vertical-align: top; color: var(--text-secondary); line-height: 1.4;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(15,42,74,0.03); }
+.td-title { color: var(--text-primary); font-weight: 600; font-size: 0.77rem; }
+.td-mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; }
+.td-amount { font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 700; color: var(--navy); }
+
+/* ── STATUS PILLS ────────────────────────── */
+.status {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  padding: 0.12rem 0.5rem; border-radius: 3px; white-space: nowrap;
+}
+.s-open { background: rgba(42,128,64,0.1); border: 1px solid rgba(42,128,64,0.28); color: #1a7040; }
+.s-comment { background: rgba(58,143,196,0.1); border: 1px solid rgba(58,143,196,0.3); color: var(--ocean-light); }
+.s-review { background: rgba(200,120,32,0.1); border: 1px solid rgba(200,120,32,0.28); color: #8a5010; }
+.s-final { background: rgba(80,80,100,0.1); border: 1px solid rgba(80,80,100,0.2); color: #505070; }
+.s-active { background: rgba(192,56,56,0.1); border: 1px solid rgba(192,56,56,0.28); color: #a02828; }
+.s-proposed { background: rgba(140,80,140,0.1); border: 1px solid rgba(140,80,140,0.22); color: #6a3a6a; }
+.s-watch { background: rgba(200,120,32,0.1); border: 1px solid rgba(200,120,32,0.25); color: #9a6010; }
+.s-stable { background: rgba(74,112,48,0.1); border: 1px solid rgba(74,112,48,0.25); color: var(--kelp); }
+.s-declined { background: rgba(192,56,56,0.08); border: 1px solid rgba(192,56,56,0.2); color: #b03030; }
+.s-recovering { background: rgba(58,143,196,0.1); border: 1px solid rgba(58,143,196,0.25); color: var(--ocean-light); }
+.s-critical { background: rgba(192,56,56,0.12); border: 1px solid rgba(192,56,56,0.35); color: #c03030; font-weight: 600; }
+.s-high { background: rgba(200,120,32,0.12); border: 1px solid rgba(200,120,32,0.32); color: #9a5010; }
+.s-moderate { background: rgba(200,160,32,0.1); border: 1px solid rgba(200,160,32,0.28); color: #806010; }
+.s-low { background: rgba(74,112,48,0.1); border: 1px solid rgba(74,112,48,0.25); color: var(--kelp); }
+
+/* ── DEADLINE BADGE ──────────────────────── */
+.deadline-near { color: var(--alert-red); font-weight: 600; }
+.deadline-mid { color: var(--alert-amber); }
+.deadline-far { color: var(--text-muted); }
+
+/* ── TIMELINE SIDEBAR ────────────────────── */
+.timeline-list { padding: 0.75rem 1.1rem; }
+.tl-item {
+  display: flex; gap: 0.75rem; padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.07); align-items: flex-start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+}
+.tl-title { font-size: 0.73rem; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
+.tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--text-muted); margin-top: 0.12rem; }
+
+/* ── TOPIC BARS ──────────────────────────── */
+.topic-rows { padding: 0.75rem 1.1rem; }
+.topic-row { display: flex; align-items: center; padding: 0.38rem 0; gap: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.topic-row:last-child { border-bottom: none; }
+.topic-name { font-size: 0.72rem; color: var(--text-primary); min-width: 120px; }
+.topic-bar-wrap { flex: 1; height: 4px; background: rgba(0,0,0,0.07); border-radius: 2px; overflow: hidden; }
+.topic-bar { height: 100%; border-radius: 2px; background: var(--navy-light); }
+.topic-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--text-muted); min-width: 18px; text-align: right; }
+
+/* ── MEDIA CARDS ─────────────────────────── */
+.media-item {
+  padding: 0.85rem 1.15rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.12s; cursor: pointer;
+}
+.media-item:hover { background: rgba(140,80,140,0.03); }
+.media-item:last-child { border-bottom: none; }
+.media-outlet {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  color: #8a5a8a; letter-spacing: 0.03em; margin-bottom: 0.25rem; text-transform: uppercase;
+}
+.media-headline { font-size: 0.78rem; font-weight: 500; color: var(--text-primary); line-height: 1.38; margin-bottom: 0.3rem; }
+.media-summary { font-size: 0.71rem; color: var(--text-secondary); line-height: 1.45; }
+.media-sentiment {
+  display: inline-block; font-size: 0.58rem; margin-top: 0.35rem;
+  font-family: 'IBM Plex Mono', monospace; padding: 0.1rem 0.4rem; border-radius: 2px;
+}
+.sent-concern { background: rgba(192,56,56,0.08); color: #a03030; border: 1px solid rgba(192,56,56,0.18); }
+.sent-neutral { background: rgba(80,80,100,0.08); color: #505070; border: 1px solid rgba(80,80,100,0.18); }
+.sent-positive { background: rgba(42,128,64,0.08); color: #1a7040; border: 1px solid rgba(42,128,64,0.2); }
+
+/* ── CLIMATE PROJECTION PANEL ────────────── */
+.proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border-light); }
+.proj-col { padding: 1rem; border-right: 1px solid var(--border-light); }
+.proj-col:last-child { border-right: none; }
+.proj-header {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
+  margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-light);
+}
+.proj-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.3rem 0; border-bottom: 1px dashed rgba(0,0,0,0.05); }
+.proj-row:last-child { border-bottom: none; }
+.proj-scenario { font-size: 0.7rem; color: var(--text-secondary); }
+.proj-val { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 700; }
+.proj-val.low { color: var(--ocean-light); }
+.proj-val.mid { color: var(--alert-amber); }
+.proj-val.high { color: var(--alert-red); }
+.proj-unit { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--text-muted); margin-left: 0.25rem; }
+.proj-note { font-size: 0.67rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 1rem; }
+
+/* ── SECTION-LEVEL GRID LAYOUTS ──────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+.main-side { display: grid; grid-template-columns: 1fr 320px; gap: 1.25rem; }
+.main-side-wide { display: grid; grid-template-columns: 1fr 1fr 300px; gap: 1.25rem; }
+
+/* ── FOOTER ──────────────────────────────── */
+.page-footer {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  color: rgba(255,255,255,0.25); text-align: center;
+  padding: 1rem 2rem 2rem; line-height: 2; letter-spacing: 0.03em;
+  max-width: 1600px; margin: 0 auto;
+  border-top: 1px solid rgba(141,198,63,0.15);
+}
+.footer-connector { display: inline-flex; align-items: center; gap: 0.3rem; }
+.fc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); }
+
+/* ── MINI SCORE BARS ─────────────────────── */
+.score-bar-wrap { display: flex; align-items: center; gap: 0.5rem; }
+.score-bar-bg { flex: 1; height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 3px; }
+.score-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--text-muted); min-width: 28px; text-align: right; }
+
+/* ── GRANT AMOUNT ────────────────────────── */
+.grant-row { display: flex; flex-direction: column; gap: 0.1rem; }
+.grant-amt { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ocean-mid); }
+.grant-cycle { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--text-muted); }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 1300px) {
+  .dash-grid { grid-template-columns: 1fr 1fr 280px; }
+  .dash-grid .span-3 { grid-column: 1 / -1; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+  .main-side-wide { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .two-col, .main-side, .main-side-wide { grid-template-columns: 1fr; }
+  .section-wrap { padding: 1rem; }
+  .proj-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════ -->
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-logo">integral</div>
+      <div class="brand-divider"></div>
+      <div class="brand-text">
+        <div class="brand-eyebrow">Environmental Intelligence</div>
+        <div class="brand-title">Central California Coastal Resilience Tracker</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <input class="search-box" type="text" placeholder="Search all sections…" id="globalSearch" />
+      <div class="status-pill">
+        <div class="live-dot"></div>
+        Refreshed May 6, 2026 · 08:14 PDT
+      </div>
+      <button class="btn btn-outline">↺ Refresh</button>
+      <button class="btn btn-primary">⬇ Export Briefing</button>
+    </div>
+  </div>
+
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('dashboard')">📊 Dashboard</button>
+    <button class="nav-tab" onclick="showSection('policy')">⚖️ Policy &amp; Regulation <span class="tab-count">5</span></button>
+    <button class="nav-tab" onclick="showSection('science')">🔬 Science &amp; Literature <span class="tab-count">6</span></button>
+    <button class="nav-tab" onclick="showSection('funding')">💰 Funding Pipeline <span class="tab-count green">4</span></button>
+    <button class="nav-tab" onclick="showSection('docket')">📋 Regulatory Docket <span class="tab-count amber">8</span></button>
+    <button class="nav-tab" onclick="showSection('species')">🦦 Species &amp; Habitat</button>
+    <button class="nav-tab" onclick="showSection('climate')">🌡️ Climate Projections</button>
+    <button class="nav-tab" onclick="showSection('infra')">🏗️ Infrastructure Risk <span class="tab-count red">3</span></button>
+    <button class="nav-tab" onclick="showSection('media')">📰 Media &amp; Stakeholders</button>
+  </nav>
+</header>
+
+<!-- ═══ DASHBOARD ════════════════════════════════════════ -->
+<div id="dashboard" class="section active">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP MODE</strong> — Illustrative data only. Live version: web sources via scheduled search agents · Wiley content via <strong>Scholar Gateway MCP connector</strong> · Regulatory dockets via agency RSS/portal scraping</div>
+
+    <div class="alert-bar">
+      <span style="font-size:1.1rem">🌊</span>
+      <div class="alert-bar-text"><strong>Active Event:</strong> NOAA tidal gauge at Monterey Bay recorded +0.4m anomaly above predicted tide May 3–4 coinciding with King Tide. Coastal flooding reported at Moss Landing and Elkhorn Slough access roads. CDFW issued temporary access closure.</div>
+      <span class="alert-pill">ACTIVE EVENT</span>
+    </div>
+
+    <div class="dash-grid">
+
+      <!-- SYNTHESIS -->
+      <div class="synthesis-box span-full">
+        <div class="synthesis-icon">✦</div>
+        <div class="synthesis-content">
+          <div class="synthesis-label">AI Weekly Synthesis · May 6, 2026</div>
+          <div class="synthesis-text">This week's central tension: <em>regulatory ambition outpacing adaptive capacity</em>. The Coastal Commission's new SLR guidance sets aggressive 2027 LCP amendment deadlines for Monterey and Santa Cruz counties while FEMA's expanded FIRM panels — some shifting AE zone boundaries 120m inland — add pressure on municipal planning departments already managing a 45-day 303(d) comment window for Morro Bay. On the science side, new Wiley literature from Hernandez-Ortiz et al. reinforces compound flood risk concerns directly applicable to Elkhorn Slough, with return-period compression to 28–41 years under mid-century scenarios. <em>Three infrastructure assets</em> flagged at elevated risk this cycle. The $42M CNRA Prop 4 grant cycle opens June 1 — recommend prioritizing Morro Bay eelgrass substrate stabilization as an eligible living shoreline project given alignment with the Levin et al. habitat persistence findings.</div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="card span-3">
+        <div class="card-hd"><div class="card-title">Current Conditions — April 2026</div><span class="src-badge src-web">NOAA · MBARI · CDFW</span></div>
+        <div class="kpi-grid">
+          <div class="kpi-tile"><div class="kpi-val warn">+6.2<span style="font-size:0.8rem">cm</span></div><div class="kpi-lbl">Sea Level Anomaly<br>Monterey Gauge</div><div class="kpi-delta">▲ +0.8cm vs Mar</div></div>
+          <div class="kpi-tile"><div class="kpi-val crit">7.94</div><div class="kpi-lbl">Surface Ocean pH<br>MBARI Pt. Sur Mooring</div><div class="kpi-delta">▼ −0.03 vs 2023 mean</div></div>
+          <div class="kpi-tile"><div class="kpi-val warn">14.2°C</div><div class="kpi-lbl">SST — Monterey Bay<br>+1.2°C above climatology</div><div class="kpi-delta">Warm anomaly persists</div></div>
+          <div class="kpi-tile"><div class="kpi-val up">41%</div><div class="kpi-lbl">Wetland Acreage<br>Under Active Restoration</div><div class="kpi-delta">▲ +6% since 2024</div></div>
+          <div class="kpi-tile"><div class="kpi-val crit">−18%</div><div class="kpi-lbl">Bull Kelp Canopy<br>YoY Change Q1 2026</div><div class="kpi-delta">Giant kelp +7% south of Pt Sur</div></div>
+          <div class="kpi-tile"><div class="kpi-val warn">3</div><div class="kpi-lbl">Infrastructure Assets<br>At Elevated Risk</div><div class="kpi-delta">↑ from 1 last quarter</div></div>
+          <div class="kpi-tile"><div class="kpi-val up">$42M</div><div class="kpi-lbl">CNRA Prop 4 Grants<br>Cycle 2 Opening Jun 1</div><div class="kpi-delta">Applications due Aug 15</div></div>
+          <div class="kpi-tile"><div class="kpi-val">8</div><div class="kpi-lbl">Active Docket Items<br>Open Comment / Review</div><div class="kpi-delta">3 deadlines within 60 days</div></div>
+        </div>
+      </div>
+
+      <!-- DEADLINES SIDEBAR -->
+      <div class="card" style="grid-row: span 2;">
+        <div class="card-hd"><div class="card-title">Upcoming Deadlines</div></div>
+        <div class="card-body">
+          <div class="timeline-list">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-red)"></div><div><div class="tl-title deadline-near">SWRCB 303(d) Comment — Morro Bay Estuary</div><div class="tl-date deadline-near">Jun 12, 2026 · 37 days</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--seafoam)"></div><div><div class="tl-title">CNRA Prop 4 Cycle 2 Opens</div><div class="tl-date deadline-mid">Jun 1, 2026 · 26 days</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--ocean-light)"></div><div><div class="tl-title">Army Corps NWP Reissuance — Comment Period</div><div class="tl-date deadline-mid">Jun 28, 2026 · 53 days</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-amber)"></div><div><div class="tl-title">FEMA FIRM Appeal Period — Monterey Bay Panels</div><div class="tl-date deadline-mid">Jul 15, 2026</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--kelp-light)"></div><div><div class="tl-title">CDFW Kelp Survey Q2 Results</div><div class="tl-date deadline-far">Jul 31, 2026</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--ocean-light)"></div><div><div class="tl-title">MBNMS Draft Climate Action Plan — Comment Deadline</div><div class="tl-date deadline-far">Aug 30, 2026</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-amber)"></div><div><div class="tl-title">CNRA Prop 4 Cycle 2 — Applications Due</div><div class="tl-date deadline-far">Aug 15, 2026</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--ocean-light)"></div><div><div class="tl-title">CA Coastal Commission LCP SLR Amendment Deadline</div><div class="tl-date deadline-far">Dec 31, 2027</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT POLICY -->
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Recent Policy Updates</div><span class="src-badge src-web">Web</span></div>
+        <div class="card-body">
+          <div class="feed-item"><div class="fi-top"><span class="tag t-policy">Policy</span><div class="fi-title">CA Coastal Commission Approves Updated SLR Policy Guidance — LCP Amendments Required by 2027</div></div><div class="fi-meta"><span class="fi-source">CA Coastal Commission</span><span class="fi-date">May 5</span></div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-fund">Funding</span><div class="fi-title">CNRA Announces $42M Coastal Resilience Grants — Prop 4 Cycle 2 Opens June 1</div></div><div class="fi-meta"><span class="fi-source">CNRA</span><span class="fi-date">May 2</span></div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-risk">Risk</span><div class="fi-title">SWRCB Issues 303(d) Impairment Listing Consultation — Morro Bay Estuary Sediment &amp; Nutrient Loading</div></div><div class="fi-meta"><span class="fi-source">SWRCB</span><span class="fi-date">Apr 28</span></div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-docket">Docket</span><div class="fi-title">FEMA Coastal Flood Map Remapping Underway — Monterey Bay Shoreline FIRM Update Draft Posted</div></div><div class="fi-meta"><span class="fi-source">FEMA MSC</span><span class="fi-date">Apr 22</span></div></div>
+        </div>
+      </div>
+
+      <!-- RECENT LITERATURE -->
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Recent Literature Highlights</div><span class="src-badge src-wiley">Wiley · Scholar Gateway</span></div>
+        <div class="card-body">
+          <div class="wiley-item"><div class="w-journal">Global Change Biology</div><div class="w-title">Compound flooding risk amplification in CA estuarine systems under 2°C warming</div><div class="w-authors">Hernandez-Ortiz M et al. (2026)</div><div class="w-snippet">Elkhorn Slough 100-yr compound events compress to 28–41 yr under mid-century scenarios.</div></div>
+          <div class="wiley-item"><div class="w-journal">Aquatic Conservation</div><div class="w-title">Eelgrass meadow persistence under projected sediment flux — central CA embayments 2025–2075</div><div class="w-authors">Levin LA et al. (2025)</div><div class="w-snippet">62% of Morro Bay eelgrass coverage projected to shift to unvegetated mudflat by 2060 under high-sediment scenarios.</div></div>
+          <div class="wiley-item"><div class="w-journal">JGR: Oceans</div><div class="w-title">Sediment budget collapse and cliff retreat acceleration at Big Sur</div><div class="w-authors">Young AP et al. (2026)</div><div class="w-snippet">Post-fire cliff retreat 0.8–2.4 m/yr documented 2020–2025, 4–7× background rates.</div></div>
+        </div>
+      </div>
+
+      <!-- TOPICS -->
+      <div class="card" style="grid-column: 1 / span 2;">
+        <div class="card-hd"><div class="card-title">Top Topics — Rolling 30 Days</div></div>
+        <div class="topic-rows">
+          <div class="topic-row"><span class="topic-name">Sea Level Rise</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:90%;background:var(--ocean-light)"></div></div><span class="topic-n">18</span></div>
+          <div class="topic-row"><span class="topic-name">Erosion &amp; Sediment</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:70%"></div></div><span class="topic-n">14</span></div>
+          <div class="topic-row"><span class="topic-name">Wetland Habitat</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:60%;background:var(--kelp)"></div></div><span class="topic-n">12</span></div>
+          <div class="topic-row"><span class="topic-name">Policy &amp; Regulation</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:55%"></div></div><span class="topic-n">11</span></div>
+          <div class="topic-row"><span class="topic-name">Ocean Acidification</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:40%;background:var(--alert-amber)"></div></div><span class="topic-n">8</span></div>
+          <div class="topic-row"><span class="topic-name">Funding &amp; Grants</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:35%;background:var(--seafoam)"></div></div><span class="topic-n">7</span></div>
+          <div class="topic-row"><span class="topic-name">Kelp Forest</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:25%;background:var(--kelp)"></div></div><span class="topic-n">5</span></div>
+          <div class="topic-row"><span class="topic-name">Infrastructure Risk</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:20%;background:var(--alert-red)"></div></div><span class="topic-n">4</span></div>
+        </div>
+      </div>
+
+    </div><!-- /dash-grid -->
+  </div>
+</div>
+
+<!-- ═══ POLICY ════════════════════════════════════════════ -->
+<div id="policy" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: CA Coastal Commission · CNRA · SWRCB · CDFW · NOAA · Army Corps · USFWS · State legislature RSS</div>
+    <div class="main-side">
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Policy &amp; Regulatory Updates</div><span class="src-badge src-web">Web Sources</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-policy">Policy</span><div class="fi-title">California Coastal Commission Approves Updated Sea Level Rise Policy Guidance — LCP Amendments Required by 2027</div></div><div class="fi-meta"><span class="fi-source">CA Coastal Commission</span><span class="fi-date">May 5, 2026</span></div><div class="fi-excerpt">Updated guidance requires local coastal programs to incorporate 2050 and 2100 SLR projections from Cal-Adapt 4.0. <span class="hl">Monterey and Santa Cruz counties identified as high-priority amendment jurisdictions.</span> Noncompliance triggers Commission permit jurisdiction expansion.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-risk">Risk</span><div class="fi-title">SWRCB Issues 303(d) Impairment Listing Consultation for Morro Bay Estuary — Sediment &amp; Nutrient Loading</div></div><div class="fi-meta"><span class="fi-source">State Water Resources Control Board</span><span class="fi-date">Apr 28, 2026</span></div><div class="fi-excerpt">Draft impairment listing opens 45-day public comment period. <span class="hl">TMDL development expected within 18 months.</span> Elevated nitrogen loads linked to upstream agricultural runoff from Chorro Creek watershed.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-docket">Review</span><div class="fi-title">FEMA Coastal Flood Map Remapping — Monterey Bay Shoreline FIRM Update Draft Posted</div></div><div class="fi-meta"><span class="fi-source">FEMA Map Service Center</span><span class="fi-date">Apr 22, 2026</span></div><div class="fi-excerpt">Draft FIRM panels cover 38 miles of coastline from Seaside to Moss Landing. <span class="hl">AE zone boundaries expanded 60–120m inland</span> vs. 2009 maps. Appeal period closes July 15, 2026.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-policy">Policy</span><div class="fi-title">Monterey Bay National Marine Sanctuary Releases Draft Climate Action Plan for Public Review</div></div><div class="fi-meta"><span class="fi-source">NOAA / MBNMS</span><span class="fi-date">Apr 17, 2026</span></div><div class="fi-excerpt">Plan includes ocean acidification monitoring expansion, cold-water upwelling refuge designation proposals, and revised anchoring rules in sensitive kelp habitat. Comment deadline August 30.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-policy">Legislation</span><div class="fi-title">AB 2241 — Coastal Managed Retreat Framework — Passed Assembly Committee, Heads to Senate</div></div><div class="fi-meta"><span class="fi-source">CA Legislature</span><span class="fi-date">Apr 10, 2026</span></div><div class="fi-excerpt">Bill would establish voluntary managed retreat incentive program for high-hazard coastal parcels. <span class="hl">Estimated 4,200 parcels statewide potentially eligible;</span> fiscal note: $180M over 5 years from General Fund.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-policy">Federal</span><div class="fi-title">Army Corps Nationwide Permit Program Reissuance — Coastal Wetlands Provisions Under Revision</div></div><div class="fi-meta"><span class="fi-source">USACE</span><span class="fi-date">Apr 3, 2026</span></div><div class="fi-excerpt">Proposed revisions to NWPs 3, 13, and 27 would tighten acreage thresholds for coastal wetland fill and require compensatory mitigation at 2:1 ratio in NOAA-designated Essential Fish Habitat. Comment period closes June 28.</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Upcoming Deadlines</div></div>
+          <div class="timeline-list">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-red)"></div><div><div class="tl-title deadline-near">SWRCB 303(d) Comment — Morro Bay</div><div class="tl-date deadline-near">Jun 12 · 37 days</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-amber)"></div><div><div class="tl-title">Army Corps NWP Comment Period</div><div class="tl-date deadline-mid">Jun 28 · 53 days</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--alert-amber)"></div><div><div class="tl-title">FEMA FIRM Appeal — Monterey</div><div class="tl-date deadline-mid">Jul 15</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--ocean-light)"></div><div><div class="tl-title">MBNMS Climate Action Plan Comment</div><div class="tl-date deadline-far">Aug 30</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--ocean-light)"></div><div><div class="tl-title">CCC LCP SLR Amendment Deadline</div><div class="tl-date deadline-far">Dec 31, 2027</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Source Agencies</div></div>
+          <div style="padding:0.75rem 1.1rem;display:flex;flex-direction:column;gap:0.4rem;">
+            <div style="font-size:0.72rem;color:var(--text-secondary);line-height:1.8;">
+              CA Coastal Commission &nbsp;·&nbsp; CNRA &nbsp;·&nbsp; SWRCB &nbsp;·&nbsp; CDFW &nbsp;·&nbsp; NOAA / MBNMS &nbsp;·&nbsp; FEMA Map Service Center &nbsp;·&nbsp; USACE (Army Corps) &nbsp;·&nbsp; USFWS &nbsp;·&nbsp; CA Legislature (LegiScan) &nbsp;·&nbsp; Monterey, Santa Cruz, SLO, Santa Barbara County Planning Portals
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCIENCE ═══════════════════════════════════════════ -->
+<div id="science" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Wiley journals via Scholar Gateway MCP connector (Integral subscription) · NOAA CO-OPS · MBARI · CDFW monitoring portals</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Monitoring &amp; Agency Data</div><span class="src-badge src-web">NOAA · MBARI · CDFW</span></div>
+        <div class="card-body">
+          <div class="feed-item"><div class="fi-top"><span class="tag t-science">Tidal Data</span><div class="fi-title">NOAA Tide Gauge Network — Monthly Summary: Monterey, Avila Beach, Santa Barbara (April 2026)</div></div><div class="fi-meta"><span class="fi-source">NOAA CO-OPS</span><span class="fi-date">May 1, 2026</span></div><div class="fi-excerpt">April mean sea level at Monterey: <span class="hl">+6.2 cm above 1983–2001 datum.</span> Trend acceleration of 3.8 mm/yr over rolling 10-year window, consistent with Cal-Adapt RCP 4.5 projections.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-science">Chemistry</span><div class="fi-title">MBARI Pt. Sur Mooring — April Ocean Chemistry Summary: pH, Dissolved Oxygen, Temperature</div></div><div class="fi-meta"><span class="fi-source">MBARI</span><span class="fi-date">Apr 30, 2026</span></div><div class="fi-excerpt">Surface pH 7.94 — <span class="hl">lowest April value in the 18-year mooring record.</span> Hypoxic events (DO &lt;2 mg/L) detected at 80–120m depth on 6 occasions. SST +1.2°C above seasonal average.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-science">Habitat</span><div class="fi-title">CDFW Quarterly Kelp Canopy Survey — Central Coast Region Q1 2026</div></div><div class="fi-meta"><span class="fi-source">CA Dept. Fish &amp; Wildlife</span><span class="fi-date">Apr 30, 2026</span></div><div class="fi-excerpt">Bull kelp canopy area in Monterey Bay <span class="hl">declined 18% YoY;</span> giant kelp shows modest recovery (+7%) south of Point Sur following urchin barrens restoration efforts initiated in 2024.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-science">Sediment</span><div class="fi-title">USGS Coastal Erosion Monitoring — Big Sur to Point Conception Annual Update</div></div><div class="fi-meta"><span class="fi-source">USGS Pacific Coastal &amp; Marine Science</span><span class="fi-date">Apr 15, 2026</span></div><div class="fi-excerpt">Net shoreline change: −0.4 m/yr averaged across monitored transects. Big Sur headland sites averaging −1.8 m/yr, with post-fire sites at −2.4 m/yr. Morro Bay inlet sediment budget shows 12% deficit vs. pre-drought baseline.</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Wiley Journal Highlights</div><span class="src-badge src-wiley">Scholar Gateway MCP</span></div>
+        <div class="card-body">
+          <div class="wiley-item"><div class="w-journal">Global Change Biology · Wiley</div><div class="w-title">Compound flooding risk amplification in California estuarine systems under 2°C warming: a multivariate extreme value analysis</div><div class="w-authors">Hernandez-Ortiz M, Park SY, Battisti DS, et al. (2026)</div><div class="w-snippet">Elkhorn Slough and Morro Bay showed disproportionate sensitivity to co-occurring storm surge and precipitation extremes. 100-yr compound event return periods compress to 28–41 yr under mid-century scenarios.</div><div class="w-meta"><a class="w-doi" href="#">DOI: 10.1111/gcb.17341</a><span class="w-cite">14 citations</span><span class="oa-badge">Open Access</span></div></div>
+          <div class="wiley-item"><div class="w-journal">Aquatic Conservation · Wiley</div><div class="w-title">Eelgrass (Zostera marina) meadow persistence under projected sediment flux changes in central California embayments, 2025–2075</div><div class="w-authors">Levin LA, Connell SD, Torres R, Watanabe M (2025)</div><div class="w-snippet">Under high-sediment scenarios, 62% of Morro Bay eelgrass coverage projected to shift to unvegetated mudflat by 2060. Adaptive management windows identified for substrate stabilization interventions before 2035.</div><div class="w-meta"><a class="w-doi" href="#">DOI: 10.1002/aqc.4238</a><span class="w-cite">9 citations</span></div></div>
+          <div class="wiley-item"><div class="w-journal">JGR: Oceans · Wiley / AGU</div><div class="w-title">Sediment budget collapse and cliff retreat acceleration at Big Sur: attributing decadal mass wasting to precipitation variability and wildfire legacy effects</div><div class="w-authors">Young AP, Guza RT, Adams PN, Flick RE (2026)</div><div class="w-snippet">Post-fire erosion rates 4–7× background on monitored Big Sur headlands. Cliff retreat of 0.8–2.4 m/yr documented 2020–2025, significantly exceeding pre-2017 baselines.</div><div class="w-meta"><a class="w-doi" href="#">DOI: 10.1029/2025JC022814</a><span class="w-cite">22 citations</span></div></div>
+          <div class="wiley-item"><div class="w-journal">Estuarine, Coastal and Shelf Science · Elsevier via Scholar</div><div class="w-title">Tidal marsh carbon sequestration rates and vulnerability to sea level rise along the California central coast</div><div class="w-authors">Duarte CM, Middelburg JJ, Rogers K (2025)</div><div class="w-snippet">Elkhorn Slough tidal marsh sequestering 1.8 Mg C/ha/yr — among highest documented for Pacific coast systems. Marsh drowning threshold estimated at 6–8 mm/yr SLR acceleration.</div><div class="w-meta"><a class="w-doi" href="#">DOI: 10.1016/j.ecss.2025.108742</a><span class="w-cite">7 citations</span><span class="oa-badge">Open Access</span></div></div>
+          <div class="wiley-item"><div class="w-journal">Ecology Letters · Wiley</div><div class="w-title">Urchin barren persistence and thermal anomaly interactions limit kelp forest recovery trajectories in central California</div><div class="w-authors">Castorani MCN, Reed DC, Bell TW (2026)</div><div class="w-snippet">Recovery probability below 40% in sites experiencing SST &gt;15°C for &gt;30 days/yr. Management intervention efficacy strongly site-dependent; northern Monterey Bay sites show highest recovery potential.</div><div class="w-meta"><a class="w-doi" href="#">DOI: 10.1111/ele.14389</a><span class="w-cite">18 citations</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FUNDING ════════════════════════════════════════════ -->
+<div id="funding" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: CNRA · NOAA Sea Grant · EPA · FEMA BRIC · CA Coastal Conservancy · USFWS Coastal Program · NFWF · grants.gov</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Funding Pipeline — Open &amp; Upcoming Opportunities</div><span class="src-badge src-web">Multi-Agency</span></div>
+      <div class="card-body">
+        <table class="data-table">
+          <thead><tr><th>Program</th><th>Agency</th><th>Amount</th><th>Eligible Activities</th><th>Deadline</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="td-title">Prop 4 Coastal Resilience Grant — Cycle 2</td><td class="td-mono">CNRA</td><td><div class="grant-row"><div class="grant-amt">$42M</div><div class="grant-cycle">Total Pool</div></div></td><td>Living shorelines, eelgrass, floodplain reconnection, coastal wetland restoration</td><td class="deadline-near td-mono">Aug 15, 2026</td><td><span class="status s-open">Open Jun 1</span></td><td>SLO &amp; Santa Barbara eligible for coastal zone set-aside. 1:1 match preferred.</td></tr>
+            <tr><td class="td-title">NOAA Coastal Resilience Grants — FY2027 Round</td><td class="td-mono">NOAA Sea Grant</td><td><div class="grant-row"><div class="grant-amt">$2–5M</div><div class="grant-cycle">Per award</div></div></td><td>Coastal habitat restoration, climate adaptation, blue carbon, managed retreat pilots</td><td class="deadline-mid td-mono">Sep 30, 2026</td><td><span class="status s-open">Open</span></td><td>Priority: tribal partnerships and EJ communities. LOI required by Jul 1.</td></tr>
+            <tr><td class="td-title">FEMA BRIC — Building Resilient Infrastructure &amp; Communities</td><td class="td-mono">FEMA</td><td><div class="grant-row"><div class="grant-amt">Up to $50M</div><div class="grant-cycle">State subgrant</div></div></td><td>Nature-based flood mitigation, early warning systems, coastal infrastructure retrofit</td><td class="deadline-far td-mono">Jan 31, 2027</td><td><span class="status s-review">Pre-App Open</span></td><td>CA Cal OES administers. 25% non-federal match. Priority on HMA benefit-cost ratio &gt;1.</td></tr>
+            <tr><td class="td-title">CA Coastal Conservancy — Coastal Resilience Program</td><td class="td-mono">CA Coastal Conservancy</td><td><div class="grant-row"><div class="grant-amt">$500K–3M</div><div class="grant-cycle">Per project</div></div></td><td>Public access, wetland restoration, sea level rise adaptation, trail/habitat connectivity</td><td class="deadline-mid td-mono">Rolling</td><td><span class="status s-open">Open</span></td><td>Pre-proposal consultation strongly recommended. Central coast district officer: TBD.</td></tr>
+            <tr><td class="td-title">NFWF Estuary Restoration Program</td><td class="td-mono">Nat'l Fish &amp; Wildlife Foundation</td><td><div class="grant-row"><div class="grant-amt">$250K–2M</div><div class="grant-cycle">Per award</div></div></td><td>Estuarine fish passage, eelgrass/oyster restoration, water quality, tidal wetlands</td><td class="deadline-mid td-mono">Jul 15, 2026</td><td><span class="status s-open">Open</span></td><td>Central coast applications competitive given Morro Bay &amp; Elkhorn Slough priority listing.</td></tr>
+            <tr><td class="td-title">EPA Section 319 — Nonpoint Source Program</td><td class="td-mono">EPA / SWRCB</td><td><div class="grant-row"><div class="grant-amt">$100K–750K</div><div class="grant-cycle">Per project</div></div></td><td>NPS runoff reduction, agricultural BMPs, coastal water quality improvement</td><td class="deadline-far td-mono">Nov 1, 2026</td><td><span class="status s-review">Anticipated</span></td><td>Relevant for Morro Bay 303(d) TMDL development projects. SWRCB administers CA allocation.</td></tr>
+            <tr><td class="td-title">USFWS Coastal Program — CA Partners</td><td class="td-mono">USFWS</td><td><div class="grant-row"><div class="grant-amt">$50K–500K</div><div class="grant-cycle">Technical + financial</div></div></td><td>Coastal habitat protection, ESA-listed species, shorebird nesting, fish passage</td><td class="deadline-far td-mono">Rolling</td><td><span class="status s-open">Open</span></td><td>Priority: Snowy Plover, Tidewater Goby, Black Rail nesting sites in central coast.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DOCKET ════════════════════════════════════════════ -->
+<div id="docket" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: CCC docket · SWRCB eDMR · CDFW rulemaking · NOAA Federal Register · USACE regulatory portal · FEMA MSC · CA OAL</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Regulatory Docket Tracker — Active Proceedings</div><span class="src-badge src-web">Multi-Agency</span></div>
+      <div class="card-body">
+        <table class="data-table">
+          <thead><tr><th>Docket / Reference</th><th>Agency</th><th>Description</th><th>Stage</th><th>Comment / Action Deadline</th><th>Relevance</th></tr></thead>
+          <tbody>
+            <tr><td class="td-mono">SWRCB-303d-2026-MB</td><td>SWRCB</td><td class="td-title">303(d) Impairment Listing — Morro Bay Estuary: Sediment, Nitrogen, Chlorophyll-a</td><td><span class="status s-comment">Comment Open</span></td><td class="deadline-near td-mono">Jun 12, 2026</td><td>TMDL development; agricultural NPS; client-relevant if SLO watershed work active</td></tr>
+            <tr><td class="td-mono">USACE-NWP-2026-Rev</td><td>Army Corps</td><td class="td-title">Nationwide Permit Program Reissuance — NWPs 3, 13, 27: Coastal wetland fill thresholds revised</td><td><span class="status s-comment">Comment Open</span></td><td class="deadline-mid td-mono">Jun 28, 2026</td><td>Affects all coastal fill/mitigation projects; 2:1 mitigation ratio in EFH proposed</td></tr>
+            <tr><td class="td-mono">FEMA-FIRM-CAC-2026-MNT</td><td>FEMA</td><td class="td-title">FIRM Panel Update — Monterey Bay Shoreline: 38-mile re-mapping, AE zone expansion 60–120m inland</td><td><span class="status s-review">Appeal Period</span></td><td class="deadline-mid td-mono">Jul 15, 2026</td><td>Flood insurance zone changes; NRD property valuation impacts; infrastructure exposure</td></tr>
+            <tr><td class="td-mono">CCC-SLR-GUIDANCE-2026</td><td>CA Coastal Commission</td><td class="td-title">Updated SLR Policy Guidance — LCP Amendment Requirement for Monterey, Santa Cruz, SLO, Santa Barbara Counties</td><td><span class="status s-final">Adopted</span></td><td class="td-mono deadline-far">LCP deadline Dec 31, 2027</td><td>Affects all coastal development permitting in coverage area; Cal-Adapt 4.0 projections required</td></tr>
+            <tr><td class="td-mono">MBNMS-CAP-2026-DRAFT</td><td>NOAA / MBNMS</td><td class="td-title">MBNMS Draft Climate Action Plan — Ocean acidification monitoring, cold-water refuge designations, kelp rules</td><td><span class="status s-comment">Comment Open</span></td><td class="td-mono deadline-far">Aug 30, 2026</td><td>Anchoring restrictions; commercial fishing; research permit implications</td></tr>
+            <tr><td class="td-mono">CA-AB2241</td><td>CA Legislature</td><td class="td-title">AB 2241 — Coastal Managed Retreat Framework: voluntary incentive program for high-hazard parcels</td><td><span class="status s-review">Senate Review</span></td><td class="td-mono">—</td><td>Potential NRD-adjacent issues; property rights; client exposure if shoreline landowner</td></tr>
+            <tr><td class="td-mono">CDFW-KELP-WMA-2026</td><td>CDFW</td><td class="td-title">Kelp Bed WMA Emergency Regulations — Urchin take restrictions, restoration zone designations extended</td><td><span class="status s-active">In Effect</span></td><td class="td-mono">Review Jul 2026</td><td>Commercial/recreational take restrictions central coast; kelp restoration project permitting</td></tr>
+            <tr><td class="td-mono">SWRCB-PFAS-CWA-2026</td><td>SWRCB</td><td class="td-title">CWA Section 401 Water Quality Certification — PFAS provisions for coastal discharge permits under revision</td><td><span class="status s-proposed">Proposed Rule</span></td><td class="td-mono deadline-far">Oct 15, 2026</td><td>Wastewater/stormwater coastal discharges; PFAS monitoring requirements for coastal facilities</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SPECIES ════════════════════════════════════════════ -->
+<div id="species" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: USFWS ECOS · CDFW CESA · NOAA NMFS · NatureServe · CDFW Biogeographic Data Branch</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Species &amp; Habitat Status Board — Central CA Coast</div><span class="src-badge src-web">USFWS · CDFW · NOAA NMFS</span></div>
+      <div class="card-body">
+        <table class="data-table">
+          <thead><tr><th>Species / Habitat</th><th>Listing Status</th><th>Population Trend</th><th>Recent Action / Update</th><th>Key Stressors</th></tr></thead>
+          <tbody>
+            <tr><td class="td-title">Western Snowy Plover<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Charadrius nivosus nivosus</span></td><td><span class="status s-active">ESA Threatened</span></td><td><span class="status s-stable">Stable</span></td><td>Recovery Plan updated Feb 2026; new critical habitat exclusions proposed in Santa Cruz area</td><td>Beach recreation, predation, SLR nest flooding</td></tr>
+            <tr><td class="td-title">Southern Sea Otter<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Enhydra lutris nereis</span></td><td><span class="status s-active">ESA Threatened</span></td><td><span class="status s-recovering">Recovering</span></td><td>2025 population survey: 3,411 individuals (↑4% YoY). Range expansion into Morro Bay estuary noted.</td><td>Entanglement, disease (Toxoplasma), domoic acid</td></tr>
+            <tr><td class="td-title">Tidewater Goby<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Eucyclogobius newberryi</span></td><td><span class="status s-active">ESA Endangered</span></td><td><span class="status s-watch">Watch</span></td><td>Mouth-of-lagoon monitoring shows salinity intrusion events reducing habitat quality at 3 central coast sites</td><td>Lagoon mouth closure, drought, recreation</td></tr>
+            <tr><td class="td-title">Black Rail (CA / Pacific pop.)<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Laterallus jamaicensis coturniculus</span></td><td><span class="status s-active">ESA Threatened · CESA Threatened</span></td><td><span class="status s-declined">Declining</span></td><td>Breeding season survey 2025: 14% decline in detected individuals; Elkhorn Slough population stable</td><td>Marsh loss, SLR inundation, invasive plants</td></tr>
+            <tr><td class="td-title">Giant Kelp Forest Habitat<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Macrocystis pyrifera</span></td><td><span class="status s-watch">CDFW Watch</span></td><td><span class="status s-recovering">Partial Recovery</span></td><td>Giant kelp +7% south of Pt Sur (Q1 2026); bull kelp −18% Monterey Bay. Urchin barrens persist in 34% of monitored range.</td><td>Urchin grazing, warm SST, urchin barrens</td></tr>
+            <tr><td class="td-title">Eelgrass Beds (Zostera marina)</td><td><span class="status s-watch">State SSMP Covered</span></td><td><span class="status s-declined">Declining</span></td><td>Morro Bay aerial survey: 12% canopy loss 2024–2025. Levin et al. (2025) projects 62% loss by 2060 under high-sediment scenario.</td><td>Sediment flux, water clarity, vessel scour</td></tr>
+            <tr><td class="td-title">Coho Salmon (Central CA Coast ESU)<br><span style="font-style:italic;font-size:0.68rem;color:var(--text-muted)">Oncorhynchus kisutch</span></td><td><span class="status s-active">ESA Endangered</span></td><td><span class="status s-declined">Declining</span></td><td>NMFS 5-year review underway; San Lorenzo River winter run at historically low counts (2025–26 season)</td><td>Drought, warm water, stream habitat degradation</td></tr>
+            <tr><td class="td-title">Monarch Butterfly Overwintering Sites</td><td><span class="status s-watch">CDFW SSC</span></td><td><span class="status s-recovering">Recovering</span></td><td>2025 Western count: ~335,000 individuals (↑38% YoY). Pismo Beach site among top 5 statewide.</td><td>Eucalyptus habitat loss, pesticides, milkweed decline</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CLIMATE ════════════════════════════════════════════ -->
+<div id="climate" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Projections from Cal-Adapt 4.0 · NOAA Technical Report NOS CO-OPS 083 · OPC State of the Coast · NCA5 (USGCRP)</div>
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Sea Level Rise Projections — Central CA Coast</div><span class="src-badge src-web">Cal-Adapt 4.0 · NOAA · OPC</span></div>
+        <div class="proj-grid">
+          <div class="proj-col">
+            <div class="proj-header">Monterey (MLLW datum)</div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Low (RCP 2.6)</span><span><span class="proj-val low">+0.26</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Intermediate</span><span><span class="proj-val mid">+0.43</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — High (RCP 8.5)</span><span><span class="proj-val high">+0.61</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Low</span><span><span class="proj-val low">+0.55</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Intermediate</span><span><span class="proj-val mid">+1.02</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — High</span><span><span class="proj-val high">+1.78</span><span class="proj-unit">m</span></span></div>
+          </div>
+          <div class="proj-col">
+            <div class="proj-header">Morro Bay / Avila Beach</div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Low</span><span><span class="proj-val low">+0.24</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Intermediate</span><span><span class="proj-val mid">+0.40</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — High</span><span><span class="proj-val high">+0.58</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Low</span><span><span class="proj-val low">+0.51</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Intermediate</span><span><span class="proj-val mid">+0.97</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — High</span><span><span class="proj-val high">+1.70</span><span class="proj-unit">m</span></span></div>
+          </div>
+          <div class="proj-col">
+            <div class="proj-header">Santa Barbara</div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Low</span><span><span class="proj-val low">+0.22</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — Intermediate</span><span><span class="proj-val mid">+0.38</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2050 — High</span><span><span class="proj-val high">+0.55</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Low</span><span><span class="proj-val low">+0.47</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — Intermediate</span><span><span class="proj-val mid">+0.91</span><span class="proj-unit">m</span></span></div>
+            <div class="proj-row"><span class="proj-scenario">2100 — High</span><span><span class="proj-val high">+1.62</span><span class="proj-unit">m</span></span></div>
+          </div>
+        </div>
+        <div class="proj-note">Source: Cal-Adapt 4.0 probabilistic SLR scenarios, anchored to NRC (2012) framework. High scenario includes ice sheet instability contribution (H++ pathway). All values relative to 2000 baseline. Updated March 2026.</div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Temperature &amp; Ocean Projections</div></div>
+          <div class="card-body" style="padding:1rem 1.15rem;">
+            <table class="data-table">
+              <thead><tr><th>Variable</th><th>Current (2026)</th><th>2050 Mid</th><th>2100 High</th><th>Source</th></tr></thead>
+              <tbody>
+                <tr><td>Air Temp Increase (Annual Mean)</td><td class="td-mono">+0.9°C vs 1981–2010</td><td class="td-mono warn">+1.4°C</td><td class="td-mono" style="color:var(--alert-red)">+3.2°C</td><td class="td-mono">Cal-Adapt 4.0</td></tr>
+                <tr><td>SST Anomaly — Monterey Bay</td><td class="td-mono">+1.2°C above avg</td><td class="td-mono warn">+1.8°C</td><td class="td-mono" style="color:var(--alert-red)">+3.0°C</td><td class="td-mono">MBARI / NOAA</td></tr>
+                <tr><td>Surface Ocean pH</td><td class="td-mono">7.94</td><td class="td-mono warn">7.87</td><td class="td-mono" style="color:var(--alert-red)">7.72</td><td class="td-mono">MBARI mooring</td></tr>
+                <tr><td>Marine Heatwave Frequency</td><td class="td-mono">1.8×/decade</td><td class="td-mono warn">3.2×/decade</td><td class="td-mono" style="color:var(--alert-red)">5.8×/decade</td><td class="td-mono">NCA5 Ch.9</td></tr>
+                <tr><td>100-yr Flood Event (Compound)</td><td class="td-mono">100-yr RP</td><td class="td-mono warn">~40-yr RP</td><td class="td-mono" style="color:var(--alert-red)">~15-yr RP</td><td class="td-mono">Hernandez-Ortiz 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Precipitation &amp; Drought Projections</div></div>
+          <div class="card-body" style="padding:1rem 1.15rem;">
+            <table class="data-table">
+              <thead><tr><th>Variable</th><th>Current Trend</th><th>2050 Projection</th><th>Confidence</th></tr></thead>
+              <tbody>
+                <tr><td>Annual Precip (Central Coast)</td><td>High variability; wet-dry whiplash increasing</td><td class="td-mono">−5 to +8% (wide range)</td><td>Low</td></tr>
+                <tr><td>Extreme Precip Events (&gt;2"/day)</td><td>Increasing frequency post-2010</td><td class="td-mono warn">+20–35% frequency</td><td>Moderate</td></tr>
+                <tr><td>Drought Duration (D3–D4)</td><td>2012–2022 multiyear drought; 2024 partial recovery</td><td class="td-mono warn">Longer &amp; more frequent</td><td>High</td></tr>
+                <tr><td>Atmospheric River Intensity</td><td>Top decile ARs intensifying</td><td class="td-mono warn">+10–20% precip in extreme ARs</td><td>Moderate-High</td></tr>
+                <tr><td>Wildfire Probability (coastal interface)</td><td>Sharply increasing 2017–present</td><td class="td-mono" style="color:var(--alert-red)">2–3× current levels</td><td>High</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INFRASTRUCTURE ════════════════════════════════════ -->
+<div id="infra" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: Caltrans Coastal Asset Inventory · County PWD assessments · RWQCB permit files · FEMA flood mapping · USGS coastal erosion monitoring</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Coastal Infrastructure Vulnerability Index</div><span class="src-badge src-web">Caltrans · County PWD · FEMA</span></div>
+      <div class="card-body">
+        <table class="data-table">
+          <thead><tr><th>Asset</th><th>Type</th><th>Location</th><th>Risk Tier</th><th>Primary Hazard</th><th>Last Assessment</th><th>Status / Notes</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-title">Highway 1 — Gleason Beach Realignment</td><td>Transportation</td><td>Sonoma Co. (adjacent to coverage area)</td>
+              <td><span class="status s-critical">Critical</span></td>
+              <td>Bluff erosion, slope failure</td><td class="td-mono">Feb 2026</td>
+              <td>Realignment project ongoing; 2,000 ft of roadway at active erosion risk. Caltrans contract active.</td>
+            </tr>
+            <tr>
+              <td class="td-title">Moss Landing Wastewater Treatment Plant</td><td>WWTP / Outfall</td><td>Monterey County</td>
+              <td><span class="status s-critical">Critical</span></td>
+              <td>Storm surge, FEMA AE zone expansion, sea level rise</td><td class="td-mono">Mar 2026</td>
+              <td>Plant elevation 1.1m NAVD88; new FIRM panel places perimeter in AE zone. NPDES permit renewal 2027 will require adaptation plan.</td>
+            </tr>
+            <tr>
+              <td class="td-title">Morro Bay Harbor Entrance Channel</td><td>Navigation / Federal Channel</td><td>SLO County</td>
+              <td><span class="status s-high">High</span></td>
+              <td>Sediment shoaling, inlet dynamics, storm damage</td><td class="td-mono">Jan 2026</td>
+              <td>12% sediment budget deficit vs. pre-drought baseline. Army Corps dredging cycle at risk; last dredge 2023. Commercial fishing fleet impacts.</td>
+            </tr>
+            <tr>
+              <td class="td-title">Santa Cruz Small Craft Harbor — Seawall Sections 3–5</td><td>Port / Coastal Protection</td><td>Santa Cruz County</td>
+              <td><span class="status s-high">High</span></td>
+              <td>Wave overtopping, structural aging, SLR</td><td class="td-mono">Nov 2025</td>
+              <td>Sections 3–5 rated Fair–Poor (FHWA bridge scale equivalent). Repair CIP submitted to City Council Jan 2026; funding gap ~$8M.</td>
+            </tr>
+            <tr>
+              <td class="td-title">CA-1 / Elkhorn Slough Causeway</td><td>Transportation / Culvert</td><td>Monterey County</td>
+              <td><span class="status s-moderate">Moderate</span></td>
+              <td>Tidal scour, compound flooding, SLR-driven hydrology change</td><td class="td-mono">Sep 2025</td>
+              <td>Current culvert capacity undersized for projected +0.4m SLR tidal prism expansion. Caltrans Vulnerability Assessment 2025 flagged for further study.</td>
+            </tr>
+            <tr>
+              <td class="td-title">Goleta Slough Airport Tidal Wetland Interface</td><td>Aviation / Wetland</td><td>Santa Barbara County</td>
+              <td><span class="status s-moderate">Moderate</span></td>
+              <td>Tidal inundation, wetland migration, runway edge erosion</td><td class="td-mono">Oct 2025</td>
+              <td>FAA-funded vulnerability study underway. SBA Airport Master Plan update to incorporate SLR adaptation scenarios per CCC guidance.</td>
+            </tr>
+            <tr>
+              <td class="td-title">Avila Beach Pier &amp; Stormwater Outfalls</td><td>Recreation / Stormwater</td><td>SLO County</td>
+              <td><span class="status s-low">Low–Moderate</span></td>
+              <td>Wave energy, structural aging</td><td class="td-mono">Aug 2025</td>
+              <td>Pier structural inspection rated Good overall; two outfall endcaps require replacement. No immediate risk.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MEDIA ══════════════════════════════════════════════ -->
+<div id="media" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">⚠ <strong>MOCKUP</strong> — Sources: Santa Cruz Sentinel · Monterey Herald · SLO Tribune · Santa Barbara Independent · Surfrider Foundation · The Nature Conservancy CA · Tribal nation news portals · NGO press releases</div>
+    <div class="three-col">
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Regional News</div><span class="src-badge src-web">Local Press</span></div>
+        <div class="card-body">
+          <div class="media-item"><div class="media-outlet">Santa Cruz Sentinel</div><div class="media-headline">Capitola Wharf Closure Extended as Erosion Study Findings Released — Repair Cost Estimates Top $18M</div><div class="media-summary">City engineers presented preliminary findings from post-storm structural assessment. County supervisors to consider emergency repair authorization at May 14 session.</div><span class="media-sentiment sent-concern">Concern</span></div>
+          <div class="media-item"><div class="media-outlet">Monterey Herald</div><div class="media-headline">Moss Landing Flooding: Residents Demand Climate Adaptation Plan After Third Event in 18 Months</div><div class="media-summary">Community meeting draws 200+ residents pushing for revised flood management. County OES briefed on FEMA FIRM re-mapping implications for insurance costs.</div><span class="media-sentiment sent-concern">Concern</span></div>
+          <div class="media-item"><div class="media-outlet">SLO Tribune</div><div class="media-headline">Morro Bay Oyster Farmers Welcome Eelgrass Restoration Proposal — 'We Need the Habitat Back'</div><div class="media-summary">Local aquaculture operators expressed support for NFWF-funded eelgrass restoration pilot at Morro Bay, citing water quality co-benefits for oyster production.</div><span class="media-sentiment sent-positive">Positive</span></div>
+          <div class="media-item"><div class="media-outlet">Santa Barbara Independent</div><div class="media-headline">Goleta Slough Restoration Project Breaks Ground — $4.2M Grant-Funded Tidal Wetland Expansion</div><div class="media-summary">Coalition of agencies and land trusts begins work on 38-acre tidal wetland restoration. Expected to sequester 6,800 Mg CO₂e over 30 years.</div><span class="media-sentiment sent-positive">Positive</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">NGO &amp; Advocacy</div><span class="src-badge src-mixed">Orgs</span></div>
+        <div class="card-body">
+          <div class="media-item"><div class="media-outlet">Surfrider Foundation — CA Chapter</div><div class="media-headline">Surfrider Files Comments on CCC SLR Guidance: Urges Stricter Setback Standards, Managed Retreat Priority</div><div class="media-summary">Organization calls for prohibition on new hard armoring in high-hazard zones and mandatory managed retreat for publicly-funded coastal structures at 100-yr SLR horizon.</div><span class="media-sentiment sent-concern">Advocacy</span></div>
+          <div class="media-item"><div class="media-outlet">The Nature Conservancy — California</div><div class="media-headline">TNC Releases Coastal Blue Carbon Opportunity Map — Central Coast Ranks 2nd Statewide for Sequestration Potential</div><div class="media-summary">New mapping tool identifies 14,200 acres of restorable coastal wetland in the central coast region with high blue carbon potential. Data available for download.</div><span class="media-sentiment sent-positive">Resource</span></div>
+          <div class="media-item"><div class="media-outlet">Elkhorn Slough Foundation</div><div class="media-headline">Foundation Reports Record Tidal Marsh Accretion Rates Following 2024 Sediment Augmentation Project</div><div class="media-summary">Monitoring data shows marsh surface elevation gain of 8.2 mm/yr at restoration sites — exceeding current SLR rate and validating sediment augmentation as an adaptation strategy.</div><span class="media-sentiment sent-positive">Science / Positive</span></div>
+          <div class="media-item"><div class="media-outlet">CA Coastkeeper Alliance</div><div class="media-headline">Coastkeeper Petitions SWRCB to Accelerate Morro Bay TMDL Development — Cites Worsening Harmful Algal Blooms</div><div class="media-summary">Petition cites 5 HAB events in Morro Bay since 2022, correlating with elevated nitrogen loads from Chorro Creek agricultural watershed. Requests 12-month rather than 18-month TMDL timeline.</div><span class="media-sentiment sent-concern">Advocacy</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Tribal Nations &amp; EJ</div><span class="src-badge src-mixed">Tribal · EJ</span></div>
+        <div class="card-body">
+          <div class="media-item"><div class="media-outlet">Amah Mutsun Tribal Band</div><div class="media-headline">Amah Mutsun Land Trust Receives $1.2M for Coastal Stewardship Program — Includes Traditional Ecological Knowledge Integration</div><div class="media-summary">Grant from CA Coastal Conservancy supports tribal-led restoration and monitoring at three central coast sites. TEK documentation to be incorporated into MBNMS Climate Action Plan process.</div><span class="media-sentiment sent-positive">Positive</span></div>
+          <div class="media-item"><div class="media-outlet">Chumash Heritage National Marine Sanctuary Coalition</div><div class="media-headline">Coalition Submits Formal Request for Tribal Consultation in MBNMS Boundary Expansion Review Process</div><div class="media-summary">Kumeyaay, Chumash, and allied tribal nations request government-to-government consultation before final action on proposed MBNMS boundary modifications affecting traditional maritime territories.</div><span class="media-sentiment sent-neutral">Procedural</span></div>
+          <div class="media-item"><div class="media-outlet">Central Coast EJ Network</div><div class="media-headline">EJ Groups Flag Disproportionate Flood Insurance Burden on Coastal Communities of Color — Call for Equity Analysis in FIRM Re-mapping</div><div class="media-summary">Coalition of Moss Landing and Marina community organizations requests CCC and FEMA conduct equity analysis of flood insurance cost impacts from expanded AE zone designations on low-income and renter households.</div><span class="media-sentiment sent-concern">Equity / Concern</span></div>
+          <div class="media-item"><div class="media-outlet">Salinan Tribe</div><div class="media-headline">Salinan Tribe Issues Statement on Morro Bay Estuary Health — Calls for Inclusion in 303(d) TMDL Stakeholder Process</div><div class="media-summary">Statement cites tribal fishing rights and cultural connections to Morro Bay estuary. Requests formal consultation under AB 52 as part of SWRCB TMDL scoping process.</div><span class="media-sentiment sent-neutral">Consultation Request</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<div class="page-footer">
+  Sources: NOAA CO-OPS · CA Coastal Commission · CNRA · SWRCB · CDFW · FEMA MSC · USACE · USFWS · MBARI · MBNMS · Caltrans · Cal-Adapt 4.0 · NCA5
+  <br>
+  <span class="footer-connector"><span class="fc-dot"></span> Wiley journal access via Scholar Gateway MCP connector (Integral subscription)</span>
+  &nbsp;·&nbsp;
+  <span class="footer-connector"><span class="fc-dot"></span> Web monitoring via scheduled Claude search agents</span>
+  <br>
+  Integral Consulting Inc. · Internal Use Only · Not for Client Distribution Without Review
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Simple global search highlight
+document.getElementById('globalSearch').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q) {
+    document.querySelectorAll('.fi-title, .w-title, .td-title, .media-headline, .tl-title').forEach(el => {
+      el.style.background = '';
+    });
+    return;
+  }
+  document.querySelectorAll('.fi-title, .w-title, .td-title, .media-headline, .tl-title').forEach(el => {
+    el.style.background = el.textContent.toLowerCase().includes(q) ? 'rgba(58,143,196,0.12)' : '';
+  });
+});
+</script>
+</body>
+</html>
