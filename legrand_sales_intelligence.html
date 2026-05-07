@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeGrand USA · Sales Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --charcoal: #151210;
+  --charcoal-mid: #1e1a16;
+  --charcoal-light: #2a241e;
+  --charcoal-card: #231f1a;
+  --oak: #8b6230;
+  --oak-light: #b5894a;
+  --oak-bright: #d4a655;
+  --gold: #c9943a;
+  --gold-light: #e8c070;
+  --cream: #f0e8d8;
+  --cream-dim: #c8b898;
+  --cream-muted: #8a7860;
+  --forest: #2a3820;
+  --forest-light: #3d5530;
+  --moss: #5a7040;
+  --leaf: #7a9858;
+  --burgundy: #5a1a1a;
+  --burgundy-light: #8a2828;
+  --wine: #7a1830;
+  --alert-amber: #c87820;
+  --alert-green: #4a8030;
+  --text-primary: #f0e8d8;
+  --text-secondary: #c8b898;
+  --text-muted: #7a6850;
+  --border: rgba(139,98,48,0.2);
+  --border-bright: rgba(201,148,58,0.35);
+  --card-bg: #faf6f0;
+  --card-alt: #f2ece0;
+  --shadow: 0 2px 20px rgba(0,0,0,0.12);
+  --shadow-deep: 0 6px 40px rgba(0,0,0,0.2);
+  /* Card-internal text overrides */
+  --card-text-primary: #1a140a;
+  --card-text-secondary: #4a3820;
+  --card-text-muted: #7a6040;
+  --card-border: rgba(139,98,48,0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--charcoal);
+  color: var(--text-primary);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 15% 0%, rgba(139,98,48,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 100%, rgba(42,56,32,0.12) 0%, transparent 55%);
+}
+
+/* grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── HEADER ─────────────────────────────── */
+header {
+  background: var(--charcoal);
+  border-bottom: 1px solid var(--border-bright);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+}
+
+.header-top {
+  max-width: 1500px; margin: 0 auto;
+  padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+}
+
+.brand { display: flex; align-items: center; gap: 1.4rem; }
+
+.brand-mark {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+}
+.brand-lg {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 300; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cream); line-height: 1;
+}
+.brand-usa {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--oak-light); margin-top: 1px; padding-left: 1px;
+}
+
+.brand-divider {
+  width: 1px; height: 36px;
+  background: linear-gradient(180deg, transparent, var(--border-bright), transparent);
+}
+
+.brand-subtitle {
+  display: flex; flex-direction: column; gap: 0.12rem;
+}
+.brand-sub-top {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--oak); 
+}
+.brand-sub-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; font-weight: 400; color: var(--cream-dim);
+  letter-spacing: 0.04em; font-style: italic;
+}
+
+.header-controls { display: flex; align-items: center; gap: 1rem; }
+
+.status-pill {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  color: var(--text-muted); padding: 0.32rem 0.85rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: 20px;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+  animation: goldPulse 3s ease-in-out infinite;
+}
+@keyframes goldPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,148,58,0.6); }
+  50% { box-shadow: 0 0 0 5px rgba(201,148,58,0); }
+}
+
+.search-box {
+  font-family: 'Jost', sans-serif; font-size: 0.75rem;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 3px; padding: 0.38rem 0.9rem; color: var(--cream);
+  width: 210px; outline: none; transition: all 0.2s;
+}
+.search-box::placeholder { color: var(--text-muted); }
+.search-box:focus { border-color: var(--oak-light); background: rgba(139,98,48,0.08); }
+
+.btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 3px; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline {
+  background: transparent; border: 1px solid var(--border-bright); color: var(--oak-light);
+}
+.btn-outline:hover { background: rgba(139,98,48,0.12); color: var(--gold-light); }
+.btn-primary {
+  background: var(--oak); color: var(--cream); border: 1px solid var(--oak-light);
+}
+.btn-primary:hover { background: var(--oak-light); }
+
+/* ── NAV ─────────────────────────────────── */
+.nav-wrap {
+  background: var(--charcoal-mid);
+  border-bottom: 1px solid var(--border);
+}
+.nav-tabs {
+  max-width: 1500px; margin: 0 auto; padding: 0 2rem;
+  display: flex; overflow-x: auto; scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.72rem 1.3rem; cursor: pointer; white-space: nowrap;
+  color: var(--text-muted);
+  background: transparent; border: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.nav-tab:hover { color: var(--cream-dim); background: rgba(139,98,48,0.06); }
+.nav-tab.active {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold);
+  background: rgba(201,148,58,0.07);
+}
+
+.tab-pip {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  padding: 0.08rem 0.4rem; border-radius: 8px;
+  background: rgba(139,98,48,0.18); color: var(--oak-light); border: 1px solid var(--border);
+}
+.nav-tab.active .tab-pip {
+  background: var(--gold); color: var(--charcoal); border-color: var(--gold-light); font-weight: 600;
+}
+.tab-pip.hot { background: rgba(90,26,26,0.25); color: #d08080; border-color: rgba(138,40,40,0.35); }
+.tab-pip.fresh { background: rgba(74,128,48,0.2); color: #90c070; border-color: rgba(90,112,64,0.3); }
+
+/* ── SECTIONS ────────────────────────────── */
+.section { display: none; }
+.section.active { display: block; background: #2a211a; }
+.section-wrap { max-width: 1500px; margin: 0 auto; padding: 1.5rem 2rem 3rem; position: relative; z-index: 1; }
+
+/* ── MOCK BANNER ─────────────────────────── */
+.mock-banner {
+  background: rgba(201,148,58,0.07);
+  border: 1px dashed rgba(201,148,58,0.3);
+  border-radius: 4px; padding: 0.6rem 1.2rem; margin-bottom: 1.4rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem;
+  color: var(--text-muted); letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.mock-banner strong { color: var(--gold); }
+
+/* ── CARDS ───────────────────────────────── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(139,98,48,0.18);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.card-hd {
+  padding: 0.85rem 1.2rem 0.7rem;
+  border-bottom: 1px solid rgba(139,98,48,0.15);
+  background: var(--card-alt);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem;
+  flex-shrink: 0;
+}
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600; color: #2a1a08;
+  letter-spacing: 0.03em;
+}
+.card-badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  padding: 0.12rem 0.45rem; border-radius: 3px; flex-shrink: 0;
+}
+.cb-trade { background: rgba(139,98,48,0.15); border: 1px solid rgba(139,98,48,0.3); color: var(--oak-light); }
+.cb-oak { background: rgba(42,56,32,0.25); border: 1px solid rgba(90,112,64,0.3); color: var(--leaf); }
+.cb-sales { background: rgba(201,148,58,0.1); border: 1px solid rgba(201,148,58,0.25); color: var(--gold); }
+.cb-weather { background: rgba(30,60,100,0.2); border: 1px solid rgba(60,100,160,0.3); color: #80aad8; }
+.cb-intel { background: rgba(90,26,26,0.2); border: 1px solid rgba(138,40,40,0.3); color: #d08080; }
+.card-body { overflow-y: auto; flex: 1; }
+
+/* ── FEED ITEMS ──────────────────────────── */
+.feed-item {
+  padding: 0.95rem 1.2rem;
+  border-bottom: 1px solid rgba(139,98,48,0.1);
+  transition: background 0.12s; cursor: pointer;
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-item:hover { background: rgba(139,98,48,0.06); }
+
+.fi-top { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 0.35rem; }
+.fi-title { font-size: 0.8rem; font-weight: 600; color: #1a1008; line-height: 1.42; flex: 1; }
+.fi-meta { display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; }
+.fi-source { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--oak); }
+.fi-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: #8a7050; }
+.fi-excerpt { font-size: 0.73rem; color: #4a3820; line-height: 1.52; margin-top: 0.38rem; }
+.fi-excerpt .hl { background: rgba(201,148,58,0.18); border-radius: 2px; padding: 0 3px; color: #6a3a08; font-weight: 500; }
+
+/* ── TAGS ────────────────────────────────── */
+.tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+  padding: 0.1rem 0.42rem; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+}
+.t-industry { background: rgba(139,98,48,0.15); color: var(--oak-light); border: 1px solid rgba(139,98,48,0.3); }
+.t-barrel { background: rgba(42,56,32,0.25); color: var(--leaf); border: 1px solid rgba(90,112,64,0.3); }
+.t-vintage { background: rgba(90,26,26,0.2); color: #c08070; border: 1px solid rgba(122,24,48,0.3); }
+.t-trend { background: rgba(201,148,58,0.1); color: var(--gold); border: 1px solid rgba(201,148,58,0.25); }
+.t-supply { background: rgba(60,50,30,0.3); color: #c0a060; border: 1px solid rgba(139,98,48,0.2); }
+.t-winery { background: rgba(122,24,48,0.15); color: #d09090; border: 1px solid rgba(122,24,48,0.3); }
+.t-sales { background: rgba(201,148,58,0.12); color: var(--gold-light); border: 1px solid rgba(201,148,58,0.28); }
+.t-research { background: rgba(42,56,32,0.2); color: var(--moss); border: 1px solid rgba(74,112,48,0.28); }
+.t-weather { background: rgba(30,60,100,0.18); color: #80b0e0; border: 1px solid rgba(60,100,160,0.28); }
+.t-new { background: rgba(74,128,48,0.15); color: #90c070; border: 1px solid rgba(74,128,48,0.3); }
+
+/* ── GRIDS ───────────────────────────────── */
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 280px; gap: 1.25rem; }
+.span-full { grid-column: 1 / -1; }
+.span-3 { grid-column: span 3; }
+.span-2 { grid-column: span 2; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+.main-side { display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem; }
+.main-side-wide { display: grid; grid-template-columns: 1fr 1fr 280px; gap: 1.25rem; }
+
+/* ── SYNTHESIS ───────────────────────────── */
+.synthesis-box {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--charcoal-light) 0%, #1a150e 100%);
+  border: 1px solid var(--border-bright);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px; padding: 1.1rem 1.4rem;
+  display: flex; gap: 1.2rem; align-items: flex-start;
+}
+.synth-icon { font-size: 1.1rem; flex-shrink: 0; padding-top: 2px; }
+.synth-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gold); margin-bottom: 0.38rem;
+}
+.synth-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem; color: var(--cream-dim); line-height: 1.7; font-weight: 300;
+}
+.synth-text em { color: var(--gold-light); font-style: italic; font-weight: 400; }
+
+/* ── KPI TILES ───────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.kpi-tile {
+  padding: 1rem 1.1rem; text-align: center;
+  border-right: 1px solid rgba(139,98,48,0.12);
+  border-bottom: 1px solid rgba(139,98,48,0.12);
+}
+.kpi-tile:nth-child(4n) { border-right: none; }
+.kpi-tile:nth-last-child(-n+4) { border-bottom: none; }
+.kpi-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 600; color: #5a3010;
+  line-height: 1; margin-bottom: 0.22rem;
+}
+.kpi-val.up { color: #2a6010; }
+.kpi-val.warn { color: #a05a10; }
+.kpi-val.crit { color: #8a2020; }
+.kpi-val.neutral { color: #3a2810; }
+.kpi-lbl { font-size: 0.63rem; color: #5a4030; line-height: 1.35; }
+.kpi-delta { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: #8a7050; margin-top: 0.18rem; }
+
+/* ── WEATHER CARDS ───────────────────────── */
+.weather-card {
+  background: linear-gradient(160deg, #0e1a2a 0%, #141020 100%);
+  border: 1px solid rgba(60,100,160,0.3);
+  border-radius: 6px; overflow: hidden;
+}
+.wx-header {
+  padding: 0.9rem 1.2rem 0.6rem;
+  border-bottom: 1px solid rgba(60,100,160,0.2);
+  background: rgba(20,30,50,0.5);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wx-location {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600; color: var(--cream); letter-spacing: 0.04em;
+}
+.wx-ava {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  color: #6090b8; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.wx-main {
+  padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.wx-temp {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; font-weight: 300; color: var(--cream); line-height: 1;
+}
+.wx-temp sup { font-size: 1.2rem; vertical-align: super; }
+.wx-desc { flex: 1; }
+.wx-condition {
+  font-size: 0.82rem; color: #a0c0e0; margin-bottom: 0.3rem; font-weight: 500;
+}
+.wx-details {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  color: #6080a0; line-height: 1.8;
+}
+.wx-forecast {
+  padding: 0.75rem 1.2rem;
+  border-top: 1px solid rgba(60,100,160,0.18);
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.3rem;
+}
+.wx-day {
+  text-align: center; padding: 0.4rem 0.2rem;
+  border-radius: 4px;
+}
+.wx-day-name { font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem; color: #6090b8; text-transform: uppercase; }
+.wx-day-icon { font-size: 1rem; margin: 0.2rem 0; }
+.wx-day-temp { font-size: 0.7rem; color: #a0c0e0; font-weight: 500; }
+.wx-vineyard-note {
+  padding: 0.6rem 1.2rem;
+  background: rgba(42,56,32,0.2);
+  border-top: 1px solid rgba(42,56,32,0.4);
+  font-size: 0.7rem; color: var(--moss); font-style: italic;
+  line-height: 1.45;
+}
+.wx-vineyard-note strong { color: var(--leaf); font-style: normal; }
+
+/* ── SALES TOOLKIT ───────────────────────── */
+.toolkit-item {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(139,98,48,0.1);
+  transition: background 0.12s; cursor: pointer;
+}
+.toolkit-item:last-child { border-bottom: none; }
+.toolkit-item:hover { background: rgba(201,148,58,0.05); }
+.toolkit-category {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--oak); margin-bottom: 0.3rem;
+}
+.toolkit-headline {
+  font-size: 0.8rem; font-weight: 600; color: #1a1008; line-height: 1.38; margin-bottom: 0.35rem;
+}
+.toolkit-body {
+  font-size: 0.72rem; color: #4a3820; line-height: 1.55;
+}
+.toolkit-body strong { color: #1a1008; font-weight: 600; }
+.toolkit-body .quote {
+  display: block; margin-top: 0.45rem; padding: 0.5rem 0.75rem;
+  background: rgba(139,98,48,0.08); border-left: 2px solid var(--oak);
+  border-radius: 0 3px 3px 0; font-style: italic; color: #3a2010;
+  font-family: 'Cormorant Garamond', serif; font-size: 0.87rem; line-height: 1.5;
+}
+
+/* ── WINERY TABLE ────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+.data-table th {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: #7a6040; font-weight: 500;
+  padding: 0.6rem 0.9rem; border-bottom: 1px solid rgba(139,98,48,0.25);
+  background: var(--card-alt); text-align: left;
+}
+.data-table td {
+  padding: 0.75rem 0.9rem; border-bottom: 1px solid rgba(139,98,48,0.1);
+  vertical-align: top; color: #4a3820; line-height: 1.4;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(139,98,48,0.05); }
+.td-name { color: #1a1008; font-weight: 600; font-size: 0.78rem; }
+.td-mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; }
+.td-note { font-style: italic; font-size: 0.71rem; color: var(--oak); }
+
+/* ── STATUS PILLS ────────────────────────── */
+.status {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem;
+  padding: 0.1rem 0.48rem; border-radius: 3px; white-space: nowrap;
+}
+.s-hot { background: rgba(122,24,48,0.25); border: 1px solid rgba(138,40,40,0.4); color: #d09090; }
+.s-warm { background: rgba(139,98,48,0.18); border: 1px solid rgba(139,98,48,0.35); color: var(--oak-light); }
+.s-prospect { background: rgba(42,56,32,0.25); border: 1px solid rgba(74,128,48,0.3); color: var(--leaf); }
+.s-existing { background: rgba(201,148,58,0.15); border: 1px solid rgba(201,148,58,0.3); color: var(--gold); }
+.s-new { background: rgba(30,80,60,0.2); border: 1px solid rgba(60,140,100,0.3); color: #70c090; }
+.s-watch { background: rgba(60,50,30,0.3); border: 1px solid rgba(139,98,48,0.25); color: #c0a060; }
+
+/* ── TIMELINE ────────────────────────────── */
+.timeline-list { padding: 0.75rem 1.1rem; }
+.tl-item {
+  display: flex; gap: 0.75rem; padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(139,98,48,0.15); align-items: flex-start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.tl-title { font-size: 0.73rem; font-weight: 500; color: #1a1008; line-height: 1.35; }
+.tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: #8a7050; margin-top: 0.12rem; }
+.tl-note { font-size: 0.67rem; color: #5a4030; margin-top: 0.1rem; font-style: italic; }
+
+/* ── ALERT BAR ───────────────────────────── */
+.alert-bar {
+  background: rgba(122,24,48,0.15);
+  border: 1px solid rgba(138,40,40,0.4);
+  border-left: 3px solid #c03838;
+  border-radius: 5px; padding: 0.7rem 1.2rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.alert-bar-text { font-size: 0.77rem; color: var(--cream-dim); line-height: 1.45; flex: 1; }
+.alert-bar-text strong { color: #f0a070; font-weight: 600; }
+.alert-pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem;
+  padding: 0.15rem 0.55rem; border-radius: 3px;
+  background: rgba(192,56,56,0.3); border: 1px solid rgba(192,56,56,0.5); color: #f09090;
+  white-space: nowrap;
+}
+
+/* ── TOPIC BARS ──────────────────────────── */
+.topic-rows { padding: 0.75rem 1.1rem; }
+.topic-row { display: flex; align-items: center; padding: 0.38rem 0; gap: 0.6rem; border-bottom: 1px solid rgba(139,98,48,0.1); }
+.topic-row:last-child { border-bottom: none; }
+.topic-name { font-size: 0.71rem; color: #1a1008; min-width: 130px; }
+.topic-bar-wrap { flex: 1; height: 3px; background: rgba(139,98,48,0.15); border-radius: 2px; overflow: hidden; }
+.topic-bar { height: 100%; border-radius: 2px; background: var(--oak); }
+.topic-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: #8a7050; min-width: 18px; text-align: right; }
+
+/* ── PRICE TABLE ─────────────────────────── */
+.price-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.2rem; border-bottom: 1px solid rgba(139,98,48,0.1);
+}
+.price-row:last-child { border-bottom: none; }
+.price-row:hover { background: rgba(139,98,48,0.05); }
+.price-barrel { font-size: 0.78rem; font-weight: 600; color: #1a1008; }
+.price-origin { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: #8a7050; margin-top: 0.1rem; }
+.price-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: #5a3010;
+  text-align: right;
+}
+.price-delta { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: #8a7050; }
+.price-up { color: #903020; }
+.price-down { color: #2a6018; }
+
+/* ── FOOTER ──────────────────────────────── */
+.page-footer {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem;
+  color: var(--text-muted); text-align: center;
+  padding: 1.2rem 2rem 2.5rem; line-height: 2.2; letter-spacing: 0.03em;
+  max-width: 1500px; margin: 0 auto;
+  border-top: 1px solid rgba(139,98,48,0.15);
+  position: relative; z-index: 1;
+}
+.footer-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; color: var(--oak); letter-spacing: 0.18em;
+  text-transform: uppercase; display: block; margin-bottom: 0.3rem;
+}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 1200px) {
+  .dash-grid { grid-template-columns: 1fr 1fr 260px; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .dash-grid, .two-col, .main-side, .main-side-wide { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr; }
+  .section-wrap { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════ -->
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-lg">LeGrand</div>
+        <div class="brand-usa">USA</div>
+      </div>
+      <div class="brand-divider"></div>
+      <div class="brand-subtitle">
+        <div class="brand-sub-top">Sales Intelligence · Field Dashboard</div>
+        <div class="brand-sub-title">French Oak Barrels &amp; Alternatives</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <input class="search-box" type="text" placeholder="Search intel…" id="globalSearch" />
+      <div class="status-pill">
+        <div class="live-dot"></div>
+        Updated May 6, 2026
+      </div>
+      <button class="btn btn-outline">↺ Refresh</button>
+      <button class="btn btn-primary">⬇ Weekly Brief</button>
+    </div>
+  </div>
+  <div class="nav-wrap">
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('dashboard', this)">🪵 Dashboard</button>
+      <button class="nav-tab" onclick="showTab('industry', this)">📰 Industry News <span class="tab-pip">6</span></button>
+      <button class="nav-tab" onclick="showTab('barrels', this)">🛢 Barrel &amp; Oak Market <span class="tab-pip">5</span></button>
+      <button class="nav-tab" onclick="showTab('wineries', this)">🍷 Winery Intelligence <span class="tab-pip hot">4</span></button>
+      <button class="nav-tab" onclick="showTab('sales', this)">💬 Sales Toolkit</button>
+      <button class="nav-tab" onclick="showTab('weather', this)">🌤 Vintage Weather</button>
+      <button class="nav-tab" onclick="showTab('market', this)">📈 Market &amp; Competitors <span class="tab-pip">3</span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══ DASHBOARD ════════════════════════════════════════ -->
+<div id="dashboard" class="section active">
+  <div class="section-wrap">
+    <div class="mock-banner">🪵 <strong>MOCKUP MODE</strong> — Illustrative data only. Live version: industry news via web agents · weather via NOAA / Weather.com · winery intel via Wine Business Monthly, wine-searcher.com, TTB filings</div>
+
+    <div class="dash-grid">
+
+      <!-- SYNTHESIS -->
+      <div class="synthesis-box span-full">
+        <div class="synth-icon">✦</div>
+        <div>
+          <div class="synth-label">Weekly Sales Intelligence Summary · May 6, 2026</div>
+          <div class="synth-text">
+            The window is open. <em>Napa harvest anxiety is building early</em> — a warm April and below-average soil moisture have winemakers thinking about fall already, which means barrel conversations can start now rather than August. In Walla Walla, a wet spring is keeping optimism high and <em>budgets are looking firmer than 2025</em>. On the supply side, French oak stave inventory tightened further as winter harvesting in Tronçais and Vosges ran short; this is a genuine selling point for LeGrand's traceability advantage and long-term forest relationships. Wine Business Monthly's latest survey shows <em>30% of winemakers plan to increase premium barrel spend</em> in 2026 despite softening DTC. Three new winery openings in the Napa/Sonoma corridor flagged as fresh prospects this week.
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="card span-3">
+        <div class="card-hd"><div class="card-title">Market Pulse</div><span class="card-badge cb-trade">Industry Data</span></div>
+        <div class="kpi-grid">
+          <div class="kpi-tile"><div class="kpi-val warn">$248</div><div class="kpi-lbl">French Oak Barrel<br>Avg Market Price</div><div class="kpi-delta">▲ +$12 vs 2025 avg</div></div>
+          <div class="kpi-tile"><div class="kpi-val up">+30%</div><div class="kpi-lbl">Winemakers Increasing<br>Premium Barrel Spend</div><div class="kpi-delta">WBM Survey Apr 2026</div></div>
+          <div class="kpi-tile"><div class="kpi-val warn">−8%</div><div class="kpi-lbl">CA Wine Shipments<br>YoY Volume Change</div><div class="kpi-delta">SVB Q1 2026 Report</div></div>
+          <div class="kpi-tile"><div class="kpi-val neutral">3</div><div class="kpi-lbl">New Winery Openings<br>Napa / Sonoma — 30 Days</div><div class="kpi-delta">Fresh prospects</div></div>
+          <div class="kpi-tile"><div class="kpi-val crit">Tight</div><div class="kpi-lbl">French Oak Stave<br>Inventory — Tronçais</div><div class="kpi-delta">Winter harvest shortfall</div></div>
+          <div class="kpi-tile"><div class="kpi-val up">78°F</div><div class="kpi-lbl">Napa Valley Avg<br>This Week</div><div class="kpi-delta">+4°F above seasonal avg</div></div>
+          <div class="kpi-tile"><div class="kpi-val up">62°F</div><div class="kpi-lbl">Walla Walla Avg<br>This Week</div><div class="kpi-delta">Seasonal — good bud break</div></div>
+          <div class="kpi-tile"><div class="kpi-val neutral">May 14</div><div class="kpi-lbl">Next Key Date<br>Wine Enthusiast Summit</div><div class="kpi-delta">San Francisco</div></div>
+        </div>
+      </div>
+
+      <!-- DEADLINES / EVENTS SIDEBAR -->
+      <div class="card" style="grid-row: span 2;">
+        <div class="card-hd"><div class="card-title">Key Dates &amp; Events</div></div>
+        <div class="card-body">
+          <div class="timeline-list">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div><div><div class="tl-title">Wine Enthusiast Industry Summit</div><div class="tl-date" style="color:var(--alert-amber)">May 14 · San Francisco</div><div class="tl-note">Networking — 3 prospect wineries confirmed attending</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--leaf)"></div><div><div class="tl-title">Premiere Napa Valley — Trade Barrel Tasting</div><div class="tl-date">May 20 · Napa</div><div class="tl-note">Bring ONYX Volcanic samples for Keller, Larkmead</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--oak)"></div><div><div class="tl-title">WA Wine Growers Annual Conf.</div><div class="tl-date">Jun 3–4 · Walla Walla</div><div class="tl-note">Walla Walla territory — high priority</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--oak-light)"></div><div><div class="tl-title">Wine &amp; Spirits Wholesalers of America Expo</div><div class="tl-date">Jun 10 · Las Vegas</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div><div><div class="tl-title">Harvest Season Pre-Order Window Opens</div><div class="tl-date">Jul 1 · Internal</div><div class="tl-note">Start harvest-planning conversations NOW</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--burgundy-light)"></div><div><div class="tl-title">Family Winemakers of California — Tasting</div><div class="tl-date">Aug 8 · San Francisco</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--oak)"></div><div><div class="tl-title">Napa Valley Harvest (est.)</div><div class="tl-date">Sep 15–Oct 15</div><div class="tl-note">Barrel delivery scheduling critical window</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK NEWS -->
+      <div class="card span-2">
+        <div class="card-hd"><div class="card-title">Top Stories This Week</div><span class="card-badge cb-trade">News Digest</span></div>
+        <div class="card-body">
+          <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Trend</span><div class="fi-title">SVB Annual Wine Report: Premium Tier Holding Steady — Winemakers Shifting Barrel Budgets Upmarket</div></div><div class="fi-meta"><span class="fi-source">Silicon Valley Bank / Wine Division</span><span class="fi-date">May 4, 2026</span></div><div class="fi-excerpt"><span class="hl">30% of surveyed winemakers plan to increase spend on premium barrels</span> despite flat-to-declining volume. Quality narrative is winning over cost-cutting in the $25+ tier. Direct LeGrand talking point.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-supply">Supply</span><div class="fi-title">Tronçais and Vosges Forest Stave Yields Down 12% — Winter Harvest Weather Impact on French Oak Supply</div></div><div class="fi-meta"><span class="fi-source">Wines &amp; Vines</span><span class="fi-date">May 1, 2026</span></div><div class="fi-excerpt">French oak stave supply tightening industry-wide. <span class="hl">LeGrand's long-term forest relationships and 3-generation traceability story become a competitive advantage</span> to emphasize when prospects raise delivery concerns.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-winery">Winery</span><div class="fi-title">Three New Napa/Sonoma Boutique Wineries Filed TTB Permits — Debut Vintages Planned for 2027</div></div><div class="fi-meta"><span class="fi-source">TTB Permit Database / WBM</span><span class="fi-date">Apr 30, 2026</span></div><div class="fi-excerpt">Hawkridge Cellars (St. Helena), Colline Wines (Sonoma Coast), Ridgeback Wine Co. (Atlas Peak) — all debut producers. <span class="hl">Fresh prospect opportunity: no incumbent barrel supplier yet.</span></div></div>
+        </div>
+      </div>
+
+      <!-- TOPIC BARS -->
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Hot Topics — 30 Days</div></div>
+        <div class="topic-rows">
+          <div class="topic-row"><span class="topic-name">French Oak Supply</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:90%"></div></div><span class="topic-n">22</span></div>
+          <div class="topic-row"><span class="topic-name">Barrel Pricing</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:78%"></div></div><span class="topic-n">18</span></div>
+          <div class="topic-row"><span class="topic-name">DTC Wine Sales</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:68%"></div></div><span class="topic-n">16</span></div>
+          <div class="topic-row"><span class="topic-name">Alternative Oak</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:55%;background:var(--leaf)"></div></div><span class="topic-n">13</span></div>
+          <div class="topic-row"><span class="topic-name">Toast Chemistry</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:42%;background:var(--gold)"></div></div><span class="topic-n">10</span></div>
+          <div class="topic-row"><span class="topic-name">Walla Walla Reds</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:35%;background:var(--wine)"></div></div><span class="topic-n">8</span></div>
+          <div class="topic-row"><span class="topic-name">Napa Harvest Outlook</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:30%;background:var(--alert-amber)"></div></div><span class="topic-n">7</span></div>
+          <div class="topic-row"><span class="topic-name">Volcanic Oak (ONYX)</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:22%;background:var(--forest-light)"></div></div><span class="topic-n">5</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INDUSTRY NEWS ════════════════════════════════════ -->
+<div id="industry" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">📰 <strong>MOCKUP</strong> — Live sources: Wines &amp; Vines · Wine Business Monthly · Wine Spectator (trade) · Decanter (trade) · Wine-Searcher News · SVB Wine Report · WA Wine Growers</div>
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Wines &amp; Vines · Wine Business Monthly</div><span class="card-badge cb-trade">Trade Press</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Market</span><div class="fi-title">SVB Annual Wine Report Q1 Update: Premium Tier Proves Resilient — Budget Squeeze Hits $12 and Under</div></div><div class="fi-meta"><span class="fi-source">Silicon Valley Bank</span><span class="fi-date">May 4, 2026</span></div><div class="fi-excerpt"><span class="hl">Premium barrel investment correlates with the $25+ category, which is holding volume.</span> Winemakers protecting brand equity are maintaining or increasing barrel spend. Soft DTC numbers making <em>barrel ROI narrative</em> more important than ever.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-industry">Industry</span><div class="fi-title">California Wine Production Down 6% in 2025 — but Quality Metrics at Record High, Says USDA NASS</div></div><div class="fi-meta"><span class="fi-source">Wines &amp; Vines</span><span class="fi-date">May 2, 2026</span></div><div class="fi-excerpt">Lower volume with higher average quality scores — a classic <span class="hl">quality-over-quantity inflection</span> that historically drives premium barrel investment. Winemakers protecting points scores guard oak programs carefully.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Trend</span><div class="fi-title">Natural &amp; Low-Intervention Winemaking Segment Growing — Barrel Oak Integration Still Central to Premium Expression</div></div><div class="fi-meta"><span class="fi-source">Wine Business Monthly</span><span class="fi-date">Apr 28, 2026</span></div><div class="fi-excerpt">Counter-narrative to "natural = no oak": survey shows 68% of low-intervention producers still use French oak, <span class="hl">prioritizing subtle toast profiles and fine grain.</span> ONYX Volcanic story directly relevant here.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-industry">Regional</span><div class="fi-title">Washington State Wine Production Hits Record — Walla Walla AVA Commanding Premium Price Premiums</div></div><div class="fi-meta"><span class="fi-source">WA Wine Growers</span><span class="fi-date">Apr 22, 2026</span></div><div class="fi-excerpt">Washington production up 4% YoY. Walla Walla AVA wines achieving <span class="hl">21% price premium vs. state average</span>, driving producer investment in quality differentiation — including barrel programs.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Wine Spectator &amp; Consumer Media</div><span class="card-badge cb-trade">Consumer / Ratings</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-vintage">Ratings</span><div class="fi-title">Wine Spectator Top 100 Preview — Napa Cabernet Dominating; 2022 Vintage Scores Averaging 94.2pts</div></div><div class="fi-meta"><span class="fi-source">Wine Spectator</span><span class="fi-date">May 3, 2026</span></div><div class="fi-excerpt">High scores create justification for premium barrel programs. <span class="hl">Clients hitting 93+ pts are prime candidates for Marc Le Grand Signature 36/48-month.</span> Use ratings context in proposal conversations.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Consumer</span><div class="fi-title">Decanter: "The Barrel Chronicles" — Consumer Feature on French Oak's Role in World-Class Winemaking</div></div><div class="fi-meta"><span class="fi-source">Decanter</span><span class="fi-date">Apr 25, 2026</span></div><div class="fi-excerpt">Long-form consumer piece on Tronçais, Vosges, and Allier forest terroir and how grain tightness shapes wine character. <span class="hl">Winemakers receiving this are primed for forest-specific conversations</span> — ideal setup for LeGrand's traceability narrative.</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Research &amp; Open Access</div><span class="card-badge cb-oak">Academic / Open</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-research">Research</span><div class="fi-title">New Study: Impact of Oak Grain Tightness on Ellagitannin Release Rates — Implications for Toast Protocol Selection</div></div><div class="fi-meta"><span class="fi-source">Am. J. Enology &amp; Viticulture (Open Access)</span><span class="fi-date">Apr 20, 2026</span></div><div class="fi-excerpt">Fine grain vs. medium grain oak shows <span class="hl">30–40% difference in ellagitannin extraction at equivalent toast levels.</span> Directly supports LeGrand's grain tightness messaging; use in technical conversations with winemakers.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-research">Research</span><div class="fi-title">Volatile Phenol Profile Differences Between Volcanic-Process and Traditional Flame-Toast Barrels — UC Davis Pilot Study</div></div><div class="fi-meta"><span class="fi-source">UC Davis Viticulture &amp; Enology (preprint)</span><span class="fi-date">Apr 10, 2026</span></div><div class="fi-excerpt">ONYX Volcanic process produces <span class="hl">measurably different eugenol/guaiacol ratio vs. flame toast</span> — less combustion-derived compounds, more integrated phenolic structure. Scientific validation for ONYX sales conversations.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-research">Sustainability</span><div class="fi-title">Carbon Footprint of French vs. American Oak Production: Lifecycle Assessment Across Cooperage Systems</div></div><div class="fi-meta"><span class="fi-source">Journal of Cleaner Production (Open Access)</span><span class="fi-date">Mar 28, 2026</span></div><div class="fi-excerpt">French oak's longer stave-seasoning cycle results in <span class="hl">12% lower embodied carbon</span> vs. kiln-dried American oak. Sustainability-focused winery buyers (increasingly common) respond well to this data point.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Upcoming Industry Events</div></div>
+          <div class="timeline-list">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div><div><div class="tl-title">Wine Enthusiast Industry Summit</div><div class="tl-date" style="color:var(--alert-amber)">May 14 · San Francisco · 8 days</div><div class="tl-note">Major networking opportunity</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--leaf)"></div><div><div class="tl-title">Premiere Napa Valley — Trade</div><div class="tl-date">May 20 · Napa</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--oak)"></div><div><div class="tl-title">WA Wine Growers Annual Conference</div><div class="tl-date">Jun 3–4 · Walla Walla</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div><div><div class="tl-title">Unified Wine &amp; Grape Symposium</div><div class="tl-date">Jan 2027 · Sacramento</div><div class="tl-note">Largest US wine trade show</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BARREL & OAK MARKET ═══════════════════════════════ -->
+<div id="barrels" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">🛢 <strong>MOCKUP</strong> — Sources: Wines &amp; Vines cooperage coverage · Tonnellerie industry reports · APCF (French Cooper Association) · ONF (Office National des Forêts) · open access research</div>
+    <div class="main-side-wide">
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Cooperage &amp; Oak Supply News</div><span class="card-badge cb-oak">Barrel Industry</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-supply">Supply</span><div class="fi-title">French National Forestry Office Reports 12% Shortfall in Tronçais Winter Stave Harvest — Wet Season Impact</div></div><div class="fi-meta"><span class="fi-source">ONF / Wines &amp; Vines</span><span class="fi-date">May 1, 2026</span></div><div class="fi-excerpt">Wet winter conditions limited harvesting windows in Tronçais. <span class="hl">Stave inventory across major tonnelleries running 8–15% below normal levels.</span> Supply constraint is a legitimate urgency-creator in sales conversations — but position LeGrand's relationships as protection, not scarcity panic.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-barrel">Cooperage</span><div class="fi-title">Seguin Moreau and Radoux Both Announce Price Increases for 2026–27 Season — Average +$18–22/Barrel</div></div><div class="fi-meta"><span class="fi-source">Wines &amp; Vines</span><span class="fi-date">Apr 25, 2026</span></div><div class="fi-excerpt">Major competitor cooperages raising prices. <span class="hl">Use to contextualize LeGrand's pricing as competitive value with superior traceability and customization.</span> Price increase announcements create natural conversation openers.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Trend</span><div class="fi-title">American Oak Regaining Share in Entry-Level Category — French Oak Holds Premium Segment Dominance</div></div><div class="fi-meta"><span class="fi-source">Wine Business Monthly</span><span class="fi-date">Apr 18, 2026</span></div><div class="fi-excerpt">Bifurcation accelerating: American oak in $12–18 wines, French oak consolidating in $25+. <span class="hl">LeGrand's positioning in premium segment is structurally advantaged.</span> Clarify to prospects that you're not competing for the bottom of the market.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-research">Science</span><div class="fi-title">New Cooperage Research: Extended Seasoning (36+ Months) Reduces Astringency Markers by 22% vs. 24-Month — Validation of Marc Le Grand Signature Approach</div></div><div class="fi-meta"><span class="fi-source">Am. J. Enology &amp; Viticulture</span><span class="fi-date">Apr 5, 2026</span></div><div class="fi-excerpt">Peer-reviewed data showing astringency reduction from extended outdoor seasoning. <span class="hl">Direct scientific support for LeGrand's 36 and 48-month Marc Le Grand Signature series.</span> Print and bring to technical winemaker conversations.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Barrel Price Benchmarks</div><span class="card-badge cb-sales">Market Intel</span></div>
+          <div class="card-body">
+            <div class="price-row"><div><div class="price-barrel">French Oak — 225L Standard</div><div class="price-origin">Nevers / Allier · 24-month season</div></div><div><div class="price-val">$235–260</div><div class="price-delta price-up">▲ +$12 YoY</div></div></div>
+            <div class="price-row"><div><div class="price-barrel">French Oak — Fine Grain Premium</div><div class="price-origin">Tronçais / Vosges · 36-month season</div></div><div><div class="price-val">$295–340</div><div class="price-delta price-up">▲ +$18 YoY</div></div></div>
+            <div class="price-row"><div><div class="price-barrel">American Oak — 225L Standard</div><div class="price-origin">Missouri / Appalachian</div></div><div><div class="price-val">$135–165</div><div class="price-delta price-down">▼ −$5 YoY</div></div></div>
+            <div class="price-row"><div><div class="price-barrel">Hungarian Oak — 225L</div><div class="price-origin">Zemplén / Bakony</div></div><div><div class="price-val">$175–210</div><div class="price-delta" style="color:var(--text-muted)">→ Flat</div></div></div>
+            <div class="price-row"><div><div class="price-barrel">Oak Alternatives (staves/spirals)</div><div class="price-origin">Per barrel-equivalent treatment</div></div><div><div class="price-val">$45–90</div><div class="price-delta price-down">▼ Competitive</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Forest Origins Cheatsheet</div><span class="card-badge cb-oak">Reference</span></div>
+          <div class="card-body" style="padding:1rem 1.2rem;">
+            <table class="data-table">
+              <thead><tr><th>Forest</th><th>Grain</th><th>Character</th><th>Best For</th></tr></thead>
+              <tbody>
+                <tr><td class="td-name">Tronçais</td><td class="td-mono">Extra Fine</td><td>Elegant, mineral, subtle tannin</td><td>Pinot Noir, aged Chardonnay</td></tr>
+                <tr><td class="td-name">Vosges</td><td class="td-mono">Fine</td><td>Spicy, full-bodied, structured</td><td>Cabernet Sauvignon, Syrah</td></tr>
+                <tr><td class="td-name">Nevers</td><td class="td-mono">Medium Fine</td><td>Vanilla, round tannins, aromatic</td><td>Merlot, versatile programs</td></tr>
+                <tr><td class="td-name">Allier</td><td class="td-mono">Fine–Medium</td><td>Balanced, spice, medium body</td><td>Broad range, reliable workhorse</td></tr>
+                <tr><td class="td-name">Limousin</td><td class="td-mono">Coarse</td><td>Bold tannin, strong oak impact</td><td>Brandy, heavy reds</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast guide card -->
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Toast Profile Quick Guide</div><span class="card-badge cb-oak">Reference</span></div>
+          <div class="card-body" style="padding:1rem 1.2rem;">
+            <table class="data-table">
+              <thead><tr><th>Toast</th><th>Sensory Profile</th></tr></thead>
+              <tbody>
+                <tr><td class="td-name">Light (L)</td><td>Fresh wood, lactones, minimal smoke — delicate whites &amp; rosé</td></tr>
+                <tr><td class="td-name">Medium (M)</td><td>Vanilla, caramel, balanced spice — versatile, most popular</td></tr>
+                <tr><td class="td-name">Medium+ (M+)</td><td>Roasted notes, coffee, structure — Cab Sauv, Tempranillo</td></tr>
+                <tr><td class="td-name">Heavy (H)</td><td>Smoke, char, bold spice — bold reds, can overpower</td></tr>
+                <tr><td class="td-name">ONYX Volcanic</td><td>No combustion — pure oak expression, stone-heated. Lowest volatile phenol, highest integration</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Talking Points — Supply Tightness</div><span class="card-badge cb-sales">Sales</span></div>
+          <div class="card-body">
+            <div class="toolkit-item">
+              <div class="toolkit-category">When a prospect hesitates on price</div>
+              <div class="toolkit-body"><span class="quote">"The Tronçais harvest is running 12% short this winter. Our relationships go back three generations — we've secured our allocation. Wineries without those relationships are going to be scrambling by fall."</span></div>
+            </div>
+            <div class="toolkit-item">
+              <div class="toolkit-category">When asked about alternatives</div>
+              <div class="toolkit-body"><span class="quote">"We actually offer ONYX Volcanic — it's not a cheaper alternative, it's a different tool. If you're making a wine where you want oak character without combustion artifacts, it's worth a trial barrel."</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WINERY INTELLIGENCE ══════════════════════════════ -->
+<div id="wineries" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">🍷 <strong>MOCKUP</strong> — Sources: TTB permit filings · Wine Business Monthly new winery tracker · wine-searcher.com · winery press releases · local wine media (Napa Valley Register, Walla Walla Union-Bulletin)</div>
+    <div class="alert-bar">
+      <span style="font-size:1rem">🔥</span>
+      <div class="alert-bar-text"><strong>Hot Prospect Alert:</strong> Hawkridge Cellars (St. Helena) filed TTB permit last week — debut vintage 2027, no barrel supplier confirmed. Winemaker alumni of Spottswoode. Warm introduction possible via Premier Napa attendee list.</div>
+      <span class="alert-pill">NEW LEAD</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Winery Intelligence — Prospects &amp; Accounts</div><span class="card-badge cb-intel">Field Intel</span></div>
+        <div class="card-body">
+          <table class="data-table">
+            <thead><tr><th>Winery</th><th>Region</th><th>Status</th><th>Barrels/Yr Est.</th><th>Signal / Intel</th><th>Next Action</th></tr></thead>
+            <tbody>
+              <tr><td class="td-name">Hawkridge Cellars</td><td class="td-mono">Napa / St. Helena</td><td><span class="status s-hot">Hot Prospect</span></td><td class="td-mono">~80–120</td><td class="td-note">TTB permit filed Apr 28. No supplier yet. Winemaker: J. Carmichael (ex-Spottswoode)</td><td>Contact at Premiere Napa May 20</td></tr>
+              <tr><td class="td-name">Colline Wines</td><td class="td-mono">Sonoma Coast</td><td><span class="status s-hot">Hot Prospect</span></td><td class="td-mono">~40–60</td><td class="td-note">New label, Pinot-focused. IG shows interest in natural/low-intervention. ONYX Volcanic story ideal.</td><td>DM via Instagram + email</td></tr>
+              <tr><td class="td-name">Figgins Estate</td><td class="td-mono">Walla Walla</td><td><span class="status s-existing">Existing</span></td><td class="td-mono">~300</td><td class="td-note">Renewal conversation due June. Historically Goncalves M+ for Syrah program. Ask about estate Cab program expansion.</td><td>Schedule visit for WA Wine Growers Conf Jun 3</td></tr>
+              <tr><td class="td-name">Canoe Ridge Vineyard</td><td class="td-mono">Columbia Valley</td><td><span class="status s-warm">Warm</span></td><td class="td-mono">~500–700</td><td class="td-note">Currently split between Radoux and Taransaud. Radoux price increase creates opening.</td><td>Send price comparison sheet + Tronçais availability note</td></tr>
+              <tr><td class="td-name">Keller Estate</td><td class="td-mono">Napa / Petaluma Gap</td><td><span class="status s-existing">Existing</span></td><td class="td-mono">~150</td><td class="td-note">Strong relationship. Chardonnay program uses Allier L — ask about Pinot Noir addition with ONYX trial.</td><td>Sample delivery + lunch May 20 (Premiere)</td></tr>
+              <tr><td class="td-name">Ridgeback Wine Co.</td><td class="td-mono">Napa / Atlas Peak</td><td><span class="status s-hot">New Lead</span></td><td class="td-mono">~60–100</td><td class="td-note">TTB permit filed. High-elevation Cab project. No contact yet.</td><td>Research winemaker, find intro path</td></tr>
+              <tr><td class="td-name">Pursued by Bear</td><td class="td-mono">Walla Walla</td><td><span class="status s-prospect">Prospect</span></td><td class="td-mono">~200</td><td class="td-note">Kyle MacLachlan project. Strong brand. Using French oak but supplier unclear. WA Growers conf opportunity.</td><td>Prep brand story + premium samples for Jun 3</td></tr>
+              <tr><td class="td-name">Gramercy Cellars</td><td class="td-mono">Walla Walla</td><td><span class="status s-watch">Watch</span></td><td class="td-mono">~400</td><td class="td-note">Long-term Taransaud account. Loyal but watching supply issues. No immediate opening — maintain relationship.</td><td>Check in at WA Wine Growers conf</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Napa / Sonoma New Openings</div><span class="card-badge cb-intel">Leads</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-new">New</span><div class="fi-title">Hawkridge Cellars — St. Helena Boutique Focusing on Estate Cabernet Sauvignon &amp; Petit Verdot</div></div><div class="fi-meta"><span class="fi-source">TTB / WBM</span><span class="fi-date">Apr 28, 2026</span></div><div class="fi-excerpt">Debut vintage 2027. Winemaker from Spottswoode. <span class="hl">No incumbent barrel supplier — prime opening.</span> ~100 barrel program expected at full production.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-new">New</span><div class="fi-title">Colline Wines — Sonoma Coast Pinot Noir &amp; Chardonnay, Low-Intervention Focus</div></div><div class="fi-meta"><span class="fi-source">TTB / Instagram launch</span><span class="fi-date">Apr 20, 2026</span></div><div class="fi-excerpt">Strong natural wine aesthetic. <span class="hl">ONYX Volcanic is the perfect intro product</span> — "no combustion" story resonates with this audience. ~50 barrel program.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Walla Walla Intelligence</div><span class="card-badge cb-intel">Territory</span></div>
+          <div class="card-body">
+            <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Growth</span><div class="fi-title">Walla Walla AVA Wines Achieve 21% Price Premium — Quality Investment Signals Strong Barrel Budgets</div></div><div class="fi-meta"><span class="fi-source">WA Wine Growers</span><span class="fi-date">Apr 22, 2026</span></div><div class="fi-excerpt">Strong pricing for Walla Walla reds means <span class="hl">premium barrel investment is justifiable and common</span> in this market. Budget conversations typically easier than Willamette Valley.</div></div>
+            <div class="feed-item"><div class="fi-top"><span class="tag t-vintage">Vintage</span><div class="fi-title">2026 WA Spring Report: Excellent Bud Break, Above-Average Soil Moisture — Optimism High for Quality Vintage</div></div><div class="fi-meta"><span class="fi-source">WA Wine Growers</span><span class="fi-date">May 4, 2026</span></div><div class="fi-excerpt"><span class="hl">Good vintage outlook = bullish winery mood = better budget conversations.</span> Visit Walla Walla accounts in June when harvest planning enthusiasm is high.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SALES TOOLKIT ════════════════════════════════════ -->
+<div id="sales" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">💬 <strong>MOCKUP</strong> — Compiled from industry research, sales best practices, and LeGrand product knowledge. Refresh monthly with new objection responses and conversation starters.</div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Conversation Starters</div><span class="card-badge cb-sales">Opening Moves</span></div>
+        <div class="card-body">
+          <div class="toolkit-item">
+            <div class="toolkit-category">Hook — Current Events</div>
+            <div class="toolkit-headline">"How are you thinking about barrels given the Tronçais supply situation?"</div>
+            <div class="toolkit-body">Opens with something real and current. Shows market awareness. Transitions naturally to LeGrand's secured allocations and forest relationships as the solution, not a sales pitch.</div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Hook — Vintage Outlook</div>
+            <div class="toolkit-headline">"With this warm spring in Napa, are you thinking about harvest timing — and how does that affect your barrel program?"</div>
+            <div class="toolkit-body">Links weather (something they care about intensely) to barrel planning. Warm vintage = more structured tannins = barrel selection matters more, not less. Creates relevance.</div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Hook — Ratings / Market</div>
+            <div class="toolkit-headline">"Your 2022 scored really well. What's the barrel strategy for the 2023 and 2024 programs?"</div>
+            <div class="toolkit-body">Flattery plus genuine curiosity. High-scoring producers are protective of their barrel program and open to conversations about how to repeat or improve results.</div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Hook — New Producers</div>
+            <div class="toolkit-headline">"Congratulations on the launch — what's your oak vision for the debut vintage?"</div>
+            <div class="toolkit-body">Fresh producers have no incumbent to displace and are eager for guidance. Position LeGrand as a collaborative partner, not just a vendor. Offer a consultation, not a catalog.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Objection Handling</div><span class="card-badge cb-sales">Responses</span></div>
+        <div class="card-body">
+          <div class="toolkit-item">
+            <div class="toolkit-category">Objection: "You're too expensive"</div>
+            <div class="toolkit-body">Acknowledge, then reframe: <strong>cost per barrel is only part of the math.</strong> The real question is what a point improvement in score is worth — at $50/bottle, 94 vs. 93 is meaningful margin. Also: competitor prices just went up $18–22 this year.
+              <span class="quote">"I understand. Let me ask — what would one extra point on your critic score translate to in wholesale price? That's usually the better math than per-barrel cost."</span>
+            </div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Objection: "We're happy with our current supplier"</div>
+            <div class="toolkit-body">Don't fight it. Ask for a trial. <strong>A single trial barrel in a new lot costs less than $300 and could change everything.</strong>
+              <span class="quote">"Totally understood — and I don't want to displace something that's working. But would you be open to a trial barrel on your next experimental lot? You'd have the comparison in the glass."</span>
+            </div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Objection: "We're moving toward neutral oak / less oak"</div>
+            <div class="toolkit-body">This is an ONYX Volcanic opportunity, not a loss. Volcanic process = integration without imposition.
+              <span class="quote">"That's exactly why ONYX Volcanic exists — it's not about adding oak flavor, it's about what happens to texture and mouthfeel when you use energy transfer without combustion. Very different tool."</span>
+            </div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Objection: "Lead times are too long"</div>
+            <div class="toolkit-body">Turn into urgency. Supply is tight. Early commitments get allocation.
+              <span class="quote">"That's actually why I'm here now — if you wait until July, Tronçais fine grain won't be available for fall delivery. We're taking harvest commitments through June."</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title">LeGrand Differentiators</div><span class="card-badge cb-sales">Value Props</span></div>
+        <div class="card-body">
+          <div class="toolkit-item">
+            <div class="toolkit-category">3-Generation Traceability</div>
+            <div class="toolkit-headline">From log selection to stave aging to cooperage — LeGrand controls and documents every step</div>
+            <div class="toolkit-body">No other importer offers this level of chain of custody. In an era of sustainability claims and certification requirements, this is a verifiable, meaningful differentiator. <strong>Ask if their winery is doing any sustainability certification</strong> — they almost all are, and this story helps them.</div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">ONYX Volcanic — Unique Technology</div>
+            <div class="toolkit-headline">Superheated stone energy transfer — no combustion, no smoke artifacts, pure oak expression</div>
+            <div class="toolkit-body">Nothing else on the market does this. It's not a gimmick — UC Davis pilot data shows measurably different volatile phenol profile. <strong>Best target: winemakers who love oak texture but worry about smoke/char overtopping fruit.</strong></div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">J.M. Gonçalves — Five Toast Styles</div>
+            <div class="toolkit-headline">24-month French &amp; American oak available in five distinct toast profiles for program precision</div>
+            <div class="toolkit-body">Breadth of options means a winemaker can create a <strong>tailored blend across toast levels</strong> rather than committing to one profile. Great for experimental or multivarietal programs. Gonçalves is the accessible entry point; Signature is the upgrade path.</div>
+          </div>
+          <div class="toolkit-item">
+            <div class="toolkit-category">Marc Le Grand Signature — Extra Fine Grain</div>
+            <div class="toolkit-headline">36 and 48-month outdoor seasoning, three extended toast regimes — for producers who want science on their side</div>
+            <div class="toolkit-body">Supported by peer-reviewed research showing astringency reduction from extended seasoning. <strong>Target: 93+ point producers who want to move to 95+.</strong> Price premium is a feature, not a bug — it signals commitment.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WEATHER ═══════════════════════════════════════════ -->
+<div id="weather" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">🌤 <strong>MOCKUP</strong> — Live version: NOAA Climate Data · NWS Point Forecasts · UC Cooperative Extension frost/heat data · Walla Walla Valley Wine weather portal</div>
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+      <div class="two-col">
+        <!-- NAPA -->
+        <div class="weather-card">
+          <div class="wx-header">
+            <div><div class="wx-location">Napa Valley, CA</div><div class="wx-ava">Napa Valley AVA · 38.2°N</div></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#6090b8">May 6, 2026</div>
+          </div>
+          <div class="wx-main">
+            <div class="wx-temp">78<sup>°F</sup></div>
+            <div class="wx-desc">
+              <div class="wx-condition">☀️ Clear &amp; Warm — Above Seasonal Average</div>
+              <div class="wx-details">
+                Low: 54°F &nbsp;|&nbsp; High: 82°F<br>
+                Humidity: 38% &nbsp;|&nbsp; Wind: SW 8 mph<br>
+                Last Rain: Apr 12 &nbsp;|&nbsp; Soil Moisture: Below Average
+              </div>
+            </div>
+          </div>
+          <div class="wx-forecast">
+            <div class="wx-day"><div class="wx-day-name">Wed</div><div class="wx-day-icon">☀️</div><div class="wx-day-temp">82°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Thu</div><div class="wx-day-icon">🌤</div><div class="wx-day-temp">79°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Fri</div><div class="wx-day-icon">⛅</div><div class="wx-day-temp">72°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Sat</div><div class="wx-day-icon">🌧</div><div class="wx-day-temp">65°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Sun</div><div class="wx-day-icon">⛅</div><div class="wx-day-temp">70°F</div></div>
+          </div>
+          <div class="wx-vineyard-note"><strong>Vineyard Note:</strong> Warm, dry spring accelerating bud development — Cabernet Sauvignon vines 10–14 days ahead of 10-year average. Harvest could run early; winemakers are anxious. <strong>Ideal moment to open harvest barrel planning conversations.</strong></div>
+        </div>
+
+        <!-- WALLA WALLA -->
+        <div class="weather-card">
+          <div class="wx-header">
+            <div><div class="wx-location">Walla Walla, WA</div><div class="wx-ava">Walla Walla Valley AVA · 46.0°N</div></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#6090b8">May 6, 2026</div>
+          </div>
+          <div class="wx-main">
+            <div class="wx-temp">62<sup>°F</sup></div>
+            <div class="wx-desc">
+              <div class="wx-condition">⛅ Partly Cloudy — Seasonal &amp; Favorable</div>
+              <div class="wx-details">
+                Low: 44°F &nbsp;|&nbsp; High: 66°F<br>
+                Humidity: 52% &nbsp;|&nbsp; Wind: NW 6 mph<br>
+                Last Rain: May 3 &nbsp;|&nbsp; Soil Moisture: Good
+              </div>
+            </div>
+          </div>
+          <div class="wx-forecast">
+            <div class="wx-day"><div class="wx-day-name">Wed</div><div class="wx-day-icon">⛅</div><div class="wx-day-temp">66°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Thu</div><div class="wx-day-icon">☀️</div><div class="wx-day-temp">70°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Fri</div><div class="wx-day-icon">☀️</div><div class="wx-day-temp">72°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Sat</div><div class="wx-day-icon">🌤</div><div class="wx-day-temp">68°F</div></div>
+            <div class="wx-day"><div class="wx-day-name">Sun</div><div class="wx-day-icon">⛅</div><div class="wx-day-temp">63°F</div></div>
+          </div>
+          <div class="wx-vineyard-note"><strong>Vineyard Note:</strong> Excellent bud break conditions — above-average soil moisture and steady temps. No frost risk in 10-day forecast. <strong>Winery mood: optimistic. This is a favorable time for prospect calls and visits — producers feel good about 2026.</strong></div>
+        </div>
+      </div>
+
+      <!-- SEASONAL CONTEXT -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Napa Valley — 2026 Growing Season Tracker</div><span class="card-badge cb-weather">Seasonal</span></div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead><tr><th>Milestone</th><th>Avg Date</th><th>2026 Actual / Est.</th><th>Sales Implication</th></tr></thead>
+              <tbody>
+                <tr><td class="td-name">Bud Break (Cab Sauv)</td><td class="td-mono">Apr 1</td><td class="td-mono" style="color:#90c070">Mar 22 ✓ (10 days early)</td><td>Early vintage likely — open barrel conversations NOW</td></tr>
+                <tr><td class="td-name">Flowering</td><td class="td-mono">May 15–Jun 1</td><td class="td-mono" style="color:var(--gold)">May 5–20 est.</td><td>Set size predictions in 2–3 weeks</td></tr>
+                <tr><td class="td-name">Véraison</td><td class="td-mono">Aug 1–15</td><td class="td-mono">~Jul 20–Aug 5 est.</td><td>Harvest planning locks in Jul — barrel orders should be placed</td></tr>
+                <tr><td class="td-name">Harvest (Cab)</td><td class="td-mono">Sep 20–Oct 10</td><td class="td-mono">~Sep 10–30 est. (early)</td><td>Deliveries needed by late August</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Walla Walla — 2026 Growing Season Tracker</div><span class="card-badge cb-weather">Seasonal</span></div>
+          <div class="card-body">
+            <table class="data-table">
+              <thead><tr><th>Milestone</th><th>Avg Date</th><th>2026 Status</th><th>Sales Implication</th></tr></thead>
+              <tbody>
+                <tr><td class="td-name">Bud Break (Cab/Syrah)</td><td class="td-mono">Apr 10–20</td><td class="td-mono" style="color:#90c070">Apr 14 ✓ On track</td><td>Normal timeline — no urgency pressure yet</td></tr>
+                <tr><td class="td-name">Last Frost Risk</td><td class="td-mono">May 1–15</td><td class="td-mono" style="color:#90c070">Clear in forecast ✓</td><td>Producer confidence high — good time to call</td></tr>
+                <tr><td class="td-name">Flowering</td><td class="td-mono">Jun 1–15</td><td class="td-mono">On track est.</td><td>—</td></tr>
+                <tr><td class="td-name">Harvest (Cab/Syrah)</td><td class="td-mono">Oct 1–20</td><td class="td-mono">Oct 5–25 est.</td><td>Barrel orders should be placed by August</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MARKET & COMPETITORS ═════════════════════════════ -->
+<div id="market" class="section">
+  <div class="section-wrap">
+    <div class="mock-banner">📈 <strong>MOCKUP</strong> — Sources: Wines &amp; Vines cooperage coverage · competitor websites · trade show announcements · Wine Business Monthly market surveys</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Competitor Monitor</div><span class="card-badge cb-intel">Market Intel</span></div>
+        <div class="card-body">
+          <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Pricing</span><div class="fi-title">Seguin Moreau Announces 8% Price Increase for 2026–27 Season Across French Oak Line</div></div><div class="fi-meta"><span class="fi-source">Wines &amp; Vines</span><span class="fi-date">Apr 25, 2026</span></div><div class="fi-excerpt"><span class="hl">Direct opening for LeGrand competitive conversations</span> with Seguin Moreau accounts. Average increase ~$18–22/barrel. Accounts locked into multi-year Seguin contracts may be willing to trial-barrel switch.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Pricing</span><div class="fi-title">Radoux Price Increase — 6% Rise Effective July 2026 Orders; Lead Time Extended to 14 Weeks</div></div><div class="fi-meta"><span class="fi-source">Industry contacts</span><span class="fi-date">Apr 20, 2026</span></div><div class="fi-excerpt">Radoux accounts facing both higher prices and longer lead times. <span class="hl">Canoe Ridge and Gramercy both use Radoux — reach out before July order window.</span></div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-supply">Supply</span><div class="fi-title">Taransaud Confirms Allocation Constraints for Tronçais Fine Grain — Priority to Long-Term Accounts Only</div></div><div class="fi-meta"><span class="fi-source">Trade contacts</span><span class="fi-date">Apr 15, 2026</span></div><div class="fi-excerpt">New producers and smaller accounts being deprioritized by Taransaud for Tronçais fine grain. <span class="hl">LeGrand's ability to serve boutique and new-entrant accounts is a real differentiator right now.</span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Market Trends — Longer View</div><span class="card-badge cb-trade">Macro</span></div>
+        <div class="card-body">
+          <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Macro</span><div class="fi-title">Wine Consumption Shifting — Gen Z Drinks Less, But Spends More Per Bottle When They Do</div></div><div class="fi-meta"><span class="fi-source">IWSR 2026 Consumer Report</span><span class="fi-date">May 2, 2026</span></div><div class="fi-excerpt">Volume softening but premiumization intact. <span class="hl">Wineries chasing the Gen Z consumer are doubling down on quality, not price cutting</span> — barrel investment follows the quality bet.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-trend">Trend</span><div class="fi-title">DTC Channel Under Pressure — Wineries Refocusing on On-Premise and Export; Quality Scores More Critical Than Ever</div></div><div class="fi-meta"><span class="fi-source">Wine Business Monthly</span><span class="fi-date">Apr 28, 2026</span></div><div class="fi-excerpt">As DTC softens, wineries competing on restaurant lists and international markets where <span class="hl">critic scores and oak pedigree matter enormously.</span> Quality-of-barrel story directly relevant.</div></div>
+          <div class="feed-item"><div class="fi-top"><span class="tag t-research">Sustainability</span><div class="fi-title">Sustainability Certifications (SIP, CCOF) Now Require Supply Chain Transparency — Cooperage Traceability Documentation Increasingly Required</div></div><div class="fi-meta"><span class="fi-source">SIP Certified</span><span class="fi-date">Apr 10, 2026</span></div><div class="fi-excerpt"><span class="hl">LeGrand's traceability documentation can directly support winery sustainability certification requirements.</span> Ask every SIP or CCOF-certified account if they need cooperage chain-of-custody records.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<div class="page-footer">
+  <span class="footer-mark">LeGrand USA</span>
+  Sales Intelligence Dashboard · Internal Use Only
+  <br>
+  Sources: Wines &amp; Vines · Wine Business Monthly · Silicon Valley Bank Wine Report · IWSR · NOAA/NWS · TTB Permit Database · WA Wine Growers · UC Davis Viticulture &amp; Enology · ONF (Office National des Forêts) · APCF
+  <br>
+  Data illustrative — live version powered by scheduled Claude web agents &amp; Scholar Gateway connector
+</div>
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('globalSearch').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  document.querySelectorAll('.fi-title, .toolkit-headline, .td-name, .w-title').forEach(el => {
+    el.style.background = q && el.textContent.toLowerCase().includes(q)
+      ? 'rgba(201,148,58,0.15)' : '';
+  });
+});
+</script>
+</body>
+</html>
