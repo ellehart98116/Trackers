@@ -485,6 +485,49 @@ footer.foot a:hover { text-decoration: underline; }
 .view-tab .tab-icon { margin-right: 6px; }
 .view-tab .tab-count { font-size: 11px; opacity: 0.65; margin-left: 6px; font-weight: 500; }
 
+
+.key-dates { background: linear-gradient(135deg, #f7fbed 0%, #fdfff8 100%); border: 1px solid #d8e8b8; border-left: 4px solid var(--integral-lime); border-radius: 6px; padding: 14px 18px; margin: 12px 0 22px 0; }
+.key-dates-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(148, 211, 67, 0.25); }
+.key-dates-title { font-family: 'Lora', Georgia, serif; font-size: 14px; font-weight: 600; color: var(--integral-navy); }
+.key-dates-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.key-dates-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
+.key-dates-list li { display: grid; grid-template-columns: 130px 70px 1fr; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px dotted #e3e8ee; font-size: 13px; }
+.key-dates-list li:last-child { border-bottom: none; }
+.key-date { font-weight: 700; color: var(--integral-navy); font-family: 'IBM Plex Sans', sans-serif; }
+.key-date-gap { font-size: 11px; color: #6b7c8c; text-transform: uppercase; letter-spacing: 0.04em; }
+.key-date-desc { color: #1a2733; line-height: 1.5; }
+.key-date-desc a { color: #0a4f6f; text-decoration: none; font-weight: 500; }
+.key-date-desc a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .key-dates-list li { grid-template-columns: 1fr; gap: 2px; } .key-date-gap { display: none; } }
+
+
+.fr-ticker { background: linear-gradient(135deg, var(--integral-navy) 0%, #1a4070 100%); color: #fff; border-radius: 8px; padding: 14px 18px; margin: 16px 0 22px 0; box-shadow: 0 4px 14px rgba(19, 50, 89, 0.18); position: relative; overflow: hidden; }
+.fr-ticker::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--integral-lime); }
+.ticker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.ticker-status { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); }
+.ticker-dot { width: 8px; height: 8px; border-radius: 50%; background: #08FF08; box-shadow: 0 0 8px rgba(8, 255, 8, 0.7); animation: tickerPulse 1.4s ease-in-out infinite; }
+@keyframes tickerPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+.ticker-nav { display: flex; align-items: center; gap: 8px; }
+.ticker-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 16px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s; padding: 0; }
+.ticker-btn:hover { background: rgba(255,255,255,0.16); }
+.ticker-dots { display: inline-flex; gap: 5px; padding: 0 6px; }
+.ticker-dot-nav { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; transition: background 0.15s; }
+.ticker-dot-nav.is-active { background: var(--integral-lime); }
+.ticker-body { min-height: 90px; }
+.ticker-card { animation: tickerFade 0.4s ease-out; }
+@keyframes tickerFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.ticker-title { display: block; color: #fff; font-family: 'Lora', Georgia, serif; font-size: 15px; font-weight: 600; line-height: 1.35; text-decoration: none; margin-bottom: 6px; }
+.ticker-title:hover { color: var(--integral-lime); text-decoration: underline; }
+.ticker-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 11.5px; color: rgba(255,255,255,0.7); }
+.ticker-meta .badge { background: rgba(148, 211, 67, 0.18); color: var(--integral-lime); border: 1px solid rgba(148, 211, 67, 0.35); padding: 1px 7px; font-size: 10px; border-radius: 3px; }
+.ticker-src { background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.95); border: 1px solid rgba(255,255,255,0.18); padding: 1px 7px; font-size: 10px; border-radius: 3px; font-weight: 600; letter-spacing: 0.02em; }
+.ticker-src.src-fr { background: rgba(148, 211, 67, 0.18); color: var(--integral-lime); border-color: rgba(148, 211, 67, 0.4); }
+.ticker-src.src-jdsupra { background: rgba(180, 200, 255, 0.14); color: #b4c8ff; border-color: rgba(180, 200, 255, 0.35); }
+.ticker-src.src-lexology { background: rgba(255, 200, 100, 0.14); color: #ffc870; border-color: rgba(255, 200, 100, 0.35); }
+.ticker-date { font-weight: 500; }
+.ticker-abstract { font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+.ticker-loading, .ticker-empty { font-size: 12.5px; color: rgba(255,255,255,0.7); padding: 12px 0; }
+
 </style>
 </head>
 <body>
@@ -504,97 +547,89 @@ footer.foot a:hover { text-decoration: underline; }
   </div>
 </header>
 <div class="view-tabs">
-  <button class="view-tab is-active" data-view="full" type="button"><span class="tab-icon">&#128218;</span>Regulatory Reference</button>
-  <button class="view-tab" data-view="feeds" type="button"><span class="tab-icon">&#128225;</span>Live Feeds<span class="tab-count">EPA APIs</span></button>
-  <button class="view-tab" data-view="news" type="button"><span class="tab-icon">&#128240;</span>Latest News<span class="tab-count">past 30 days</span></button>
+  <button class="view-tab is-active" data-view="news" type="button"><span class="tab-icon">&#128240;</span>Latest News<span class="tab-count">past 30 days</span></button>
+  <button class="view-tab" data-view="full" type="button"><span class="tab-icon">&#128218;</span>Regulatory Reference</button>
 </div>
 
 
+
+<div class="fr-ticker" id="frTicker">
+  <div class="ticker-header">
+    <div class="ticker-status">
+      <span class="ticker-dot"></span>
+      <span>Live &middot; EPA Federal Register PFAS activity</span>
+    </div>
+    <div class="ticker-nav">
+      <button class="ticker-btn" data-dir="prev" type="button" aria-label="Previous item">&#8249;</button>
+      <span class="ticker-dots" id="tickerDots"></span>
+      <button class="ticker-btn" data-dir="next" type="button" aria-label="Next item">&#8250;</button>
+    </div>
+  </div>
+  <div class="ticker-body" id="tickerBody">
+    <div class="ticker-loading">Fetching latest PFAS Federal Register activity&hellip;</div>
+  </div>
+</div>
 <nav class="toc">
   <div class="toc-title">Contents</div>
   <ol class="toc-list">
-    <li><a href="#deadlines">Deadlines</a></li>
-    <li><a href="#federal-rules">Federal Actions</a></li>
     <li><a href="#federal-register">Federal Register</a></li>
-    <li><a href="#echo-feed">ECHO Enforcement</a></li>
-    <li><a href="#ucmr5-feed">UCMR 5 Detections</a></li>
-    <li><a href="#openfda-feed">openFDA Recalls</a></li>
-    <li><a href="#insideepa">InsideEPA News</a></li>
+    <li><a href="#federal-rules">Federal Actions</a></li>
     <li><a href="#state-watchlist">State Watchlist</a></li>
     <li><a href="#international">International</a></li>
     <li><a href="#product-stewardship">Product Stewardship</a></li>
+    <li><a href="#insideepa">InsideEPA News</a></li>
     <li><a href="#litigation">Litigation Trends</a></li>
-    <li><a href="#funding-grants">Funding &amp; Grants</a></li>
     <li><a href="#resources">Resources</a></li>
   </ol>
 </nav>
 
-<section id="deadlines">
-  <h2>Upcoming deadlines &amp; milestones</h2>
-  <div class="timeline">
-    <div class="tl-item soon">
-      <div class="tl-date">Spring 2026 target</div>
-      <div class="tl-title">EPA finalizes RCRA listing of 9 PFAS as hazardous constituents <em style="font-weight:400; color:#a06a13;">— pending publication</em></div>
-      <div class="tl-desc">Unified Agenda listed an April 2026 final-rule target; not yet published in the Federal Register. Would trigger RCRA corrective-action authority at affected TSDFs.</div>
-    </div>
-    <div class="tl-item soon">
-      <div class="tl-date">Spring 2026 target</div>
-      <div class="tl-title">NPDWR compliance-extension rule (2029 &rarr; 2031) <em style="font-weight:400; color:#a06a13;">— pending publication</em></div>
-      <div class="tl-desc">EPA intends to retain PFOA/PFOS MCLs while extending compliance, and to rescind/reconsider PFHxS, PFNA, HFPO-DA, and the Hazard Index mixture. Final rule not yet published.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">Summer 2026</div>
-      <div class="tl-title">EPA begins outreach to systems &gt; 4 ppt under PFAS OUT</div>
-      <div class="tl-desc">Direct engagement; technical-assistance webinars to follow.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">Fall 2026</div>
-      <div class="tl-title">Final UCMR 5 PFAS data release expected</div>
-      <div class="tl-desc">Completes the national SDWA monitoring dataset for 29 PFAS and lithium. Underpins NPDWR implementation, PFAS OUT targeting, and drinking-water occurrence screening.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#federal-rules">UCMR 5 card</a></div>
-    </div>
-    <div class="tl-item urgent">
-      <div class="tl-date">May 25, 2026</div>
-      <div class="tl-title">EU REACH SEAC public consultation closes <span class="pin-flag">&#128204; Pinned</span></div>
-      <div class="tl-desc">Final day to submit comments on ECHA's Committee for Socio-Economic Analysis draft opinion supporting the EU-wide PFAS restriction. Affects U.S. manufacturers exporting to EU.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#international">EU REACH entry</a></div>
-    </div>
-    <div class="tl-item urgent">
-      <div class="tl-date">June 29, 2026</div>
-      <div class="tl-title">EPA 2026 D&amp;D Interim Guidance public comment closes</div>
-      <div class="tl-desc">Public comment period on EPA's 2026 Interim Guidance for Destruction and Disposal of PFAS and Materials Containing PFAS. Submit at regulations.gov.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#federal-rules">EPA D&amp;D Guidance card</a></div>
-    </div>
-    <div class="tl-item urgent">
-      <div class="tl-date">June 2026</div>
-      <div class="tl-title">Canada NPRI PFAS reporting deadline <span class="pin-flag">&#128204; Pinned</span></div>
-      <div class="tl-desc">First reporting cycle for 131 individual PFAS newly added to Canada's National Pollutant Release Inventory. Covers releases during calendar year 2025. Affects U.S. exporters with Canadian operations.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#international">Canada PFAS card</a></div>
-    </div>
-    <div class="tl-item urgent">
-      <div class="tl-date">July 1, 2026</div>
-      <div class="tl-title">AFFF MDL Phase Two settlement test results due <span class="pin-flag">&#128204; Pinned</span></div>
-      <div class="tl-desc">Phase Two Qualifying Class Members in the 3M nationwide public water system settlement (MDL 2873) must submit detailed PFAS test results to the Claims Administrator by this date. Affects hundreds of public water systems.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#dod-program">DoD Cleanup Program</a></div>
-    </div>
-    <div class="tl-item urgent">
-      <div class="tl-date">Oct 1, 2026</div>
-      <div class="tl-title">DoD AFFF use deadline</div>
-      <div class="tl-desc">Final NDAA deadline for ending AFFF use at DoD installations &mdash; second of two one-year waivers exhausted.<br>Triggers F3 (fluorine-free foam) transition at all facilities and mobile assets.</div>
-      <div style="margin-top:6px;"><a class="xref" href="#dod-program">DoD Cleanup Program</a></div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">Jan 31, 2027</div>
-      <div class="tl-title">TSCA 8(a)(7) submission window opens</div>
-      <div class="tl-desc">Or 60 days after the forthcoming final substantive 8(a)(7) rule effective date, whichever is earlier. End-of-window dates depend on final rule timing.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">2031 (proposed)</div>
-      <div class="tl-title">PFAS NPDWR compliance date</div>
-      <div class="tl-desc">Public water systems must meet PFOA/PFOS MCLs of 4 ppt.</div>
-    </div>
+<section id="federal-register">
+  <h2>Live EPA Federal Register activity <span class="count" id="frCount">&hellip;</span></h2>
+  <div id="frContent">
+    <div class="loading"><span class="spinner"></span>Fetching latest PFAS rulemakings from federalregister.gov&hellip;</div>
   </div>
 </section>
+
+
+
+<div class="key-dates">
+  <div class="key-dates-header">
+    <span class="key-dates-title">&#128197; Key dates ahead</span>
+    <span class="key-dates-note">Calendar items not captured by the Federal Register feed &mdash; click through to the relevant section</span>
+  </div>
+  <ul class="key-dates-list">
+    <li>
+      <span class="key-date">May 25, 2026</span>
+      <span class="key-date-gap">8 days</span>
+      <span class="key-date-desc">Maine PFAS plant-fiber food packaging prohibition effective &middot; <a href="#state-watchlist">State Watchlist &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">May 25, 2026</span>
+      <span class="key-date-gap">8 days</span>
+      <span class="key-date-desc">EU REACH SEAC draft-opinion consultation closes &middot; <a href="#international">International &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">June 1, 2026</span>
+      <span class="key-date-gap">~2 weeks</span>
+      <span class="key-date-desc">Canada NPRI PFAS reporting due (releases during CY 2025; 131 PFAS) &middot; <a href="#international">International &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">June 29, 2026</span>
+      <span class="key-date-gap">~6 weeks</span>
+      <span class="key-date-desc">EPA Interim D&amp;D Guidance public comment period closes &middot; <a href="#federal-rules">Federal Actions &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Oct 1, 2026</span>
+      <span class="key-date-gap">~4.5 months</span>
+      <span class="key-date-desc">DoD AFFF phase-out (final &mdash; no further waivers available) &middot; <a href="#federal-rules">Federal Actions &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Jan 1, 2027</span>
+      <span class="key-date-gap">~7.5 months</span>
+      <span class="key-date-desc">NM PFAS Protection Act + RI Consumer PFAS Ban Act take effect &middot; <a href="#state-watchlist">State Watchlist &rarr;</a></span>
+    </li>
+  </ul>
+</div>
 
 <section id="federal-rules">
   <h2>Federal PFAS rules, guidance, monitoring &amp; enforcement <span class="count">10</span></h2>
@@ -710,7 +745,7 @@ footer.foot a:hover { text-decoration: underline; }
       </div>
       <div class="rule-meta">EPA Office of Water &middot; 40 CFR 141 &middot; Final April 10, 2024</div>
       <div class="rule-body">
-        Enforceable MCLs: <strong>PFOA &amp; PFOS at 4.0 ppt</strong>; PFHxS, PFNA, HFPO-DA at 10 ppt; Hazard Index = 1 for PFHxS/PFNA/HFPO-DA/PFBS mixture. EPA plans to retain PFOA/PFOS NPDWRs while extending compliance deadlines (proposed extension to 2031), and to rescind/reconsider PFHxS, PFNA, HFPO-DA, and the Hazard Index mixture. <strong style="color:#a73d32;">Under D.C. Circuit challenge</strong> in <em>AWWA v. EPA</em>; outcomes could affect the scope, timing, or continued validity of some or all PFAS NPDWR requirements.
+        Enforceable MCLs: <strong>PFOA &amp; PFOS at 4.0 ppt</strong>; PFHxS, PFNA, HFPO-DA at 10 ppt; Hazard Index = 1 for PFHxS/PFNA/HFPO-DA/PFBS mixture. <strong style="background:#fff3e6; padding:1px 6px; border-radius:3px; color:#a06a13;">&#x1F195; May 1, 2026:</strong> OMB completed interagency review of EPA's proposed NPDWR amendments &mdash; Federal Register publication imminent. Proposed amendments: retain PFOA/PFOS NPDWRs and 4 ppt MCLs, <strong>rescind</strong> regulatory determinations for PFHxS, PFNA, HFPO-DA, and the Hazard Index mixture, and extend compliance from <strong>2029 to 2031</strong>. <strong style="color:#a73d32;">Under D.C. Circuit challenge</strong> in <em>AWWA v. EPA</em>; outcomes could affect the scope, timing, or continued validity of some or all PFAS NPDWR requirements.
         <div style="margin-top:8px; padding:8px 10px; background:#f1f6f9; border-left:3px solid #0a4f6f; border-radius:4px; font-size:12px;"><strong style="color:#0a4f6f;">Implementation support:</strong> EPA's <strong>PFAS OUT</strong> initiative will proactively contact ~3,000 water systems with known PFOA/PFOS challenges, beginning with systems above 4 ppt in summer 2026. PFAS OUT connects systems to funding and technical-assistance resources but does not itself provide direct funding or technical assistance.</div>
         <div style="margin-top:6px;"><a class="xref" href="#state-watchlist">State MCLs (often stricter)</a><a class="xref" href="#insideepa">SDWA litigation updates</a></div>
       </div>
@@ -733,63 +768,6 @@ footer.foot a:hover { text-decoration: underline; }
   </div>
 </section>
 
-<section id="federal-register">
-  <h2>Live EPA Federal Register activity <span class="count" id="frCount">&hellip;</span></h2>
-  <div id="frContent">
-    <div class="loading"><span class="spinner"></span>Fetching latest PFAS rulemakings from federalregister.gov&hellip;</div>
-  </div>
-</section>
-
-
-<section id="echo-feed">
-  <h2>EPA ECHO &mdash; PFAS Enforcement &amp; Compliance <span class="count">scaffolded</span></h2>
-
-  <div class="scope-box">
-    <strong class="scope-title">What this feed will pull</strong>
-    <div style="margin-bottom:10px;">Live PFAS-related enforcement actions, facility inspections, and SDWA NPDWR compliance status from <a href="https://echo.epa.gov/" target="_blank" rel="noopener" style="color:#0a4f6f;">EPA's ECHO database</a>. Useful for spotting new enforcement targets before press coverage.</div>
-    <div class="scope-row"><span class="scope-label">Source</span> <code style="background:#f3f6f9; padding:2px 6px; border-radius:3px; font-size:11.5px;">echodata.epa.gov/echo/...</code> &mdash; REST endpoints with JSON output, no API key required.</div>
-    <div class="scope-row"><span class="scope-label">Filters</span> PFAS-related cases, drinking-water-system violations, and active enforcement actions in the past 90 days.</div>
-  </div>
-
-  <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:12px 16px; font-size:12.5px; color:#1a2733;">
-    <strong style="color:#1a2733;">&#9881;&#65039; Live fetch not yet wired up.</strong> The Federal Register panel above shows the pattern; ECHO will be wired up once we confirm CORS support on the public REST endpoints.
-    <div style="margin-top:10px;"><a href="https://echo.epa.gov/trends/comparative-maps-dashboards/pfas-analytical-tools-dashboard" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:600;">View EPA's PFAS Analytical Tools dashboard &rarr;</a></div>
-  </div>
-</section>
-
-<section id="ucmr5-feed">
-  <h2>UCMR 5 &mdash; PFAS Drinking-Water Detections <span class="count">scaffolded</span></h2>
-
-  <div class="scope-box">
-    <strong class="scope-title">What this feed will pull</strong>
-    <div style="margin-bottom:10px;">Live PFAS detection data from EPA's Unregulated Contaminant Monitoring Rule (UCMR 5): required testing for 29 PFAS at public water systems serving &gt;3,300 people, 2023&ndash;2025. Quarterly result releases.</div>
-    <div class="scope-row"><span class="scope-label">Source</span> <code style="background:#f3f6f9; padding:2px 6px; border-radius:3px; font-size:11.5px;">data.epa.gov/efservice/UCMR5_OCCURDATA/...</code> &mdash; Envirofacts JSON API, no key required.</div>
-    <div class="scope-row"><span class="scope-label">Filters</span> Latest release window, detections above MRL, summary by state and PFAS species.</div>
-  </div>
-
-  <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:12px 16px; font-size:12.5px; color:#1a2733;">
-    <strong style="color:#1a2733;">&#9881;&#65039; Live fetch not yet wired up.</strong> Volume is large (thousands of samples) so this needs a summary view, not raw rows. Will design once we confirm Envirofacts CORS behavior.
-    <div style="margin-top:10px;"><a href="https://www.epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:600;">View EPA's UCMR 5 occurrence data &rarr;</a></div>
-  </div>
-</section>
-
-
-<section id="openfda-feed">
-  <h2>openFDA &mdash; PFAS-related Food Enforcement <span class="count" id="openfdaCount">&hellip;</span></h2>
-
-  <div class="scope-box">
-    <strong class="scope-title">What this feed pulls</strong>
-    <div style="margin-bottom:10px;">Live PFAS-related food recalls and enforcement actions from FDA's <a href="https://open.fda.gov/apis/food/enforcement/" target="_blank" rel="noopener" style="color:#0a4f6f;">openFDA Food Enforcement</a> endpoint. Catches recalls citing PFAS, perfluoroalkyl, polyfluoroalkyl, PFOA, or PFOS as the reason for recall, sorted newest first.</div>
-    <div class="scope-row"><span class="scope-label">Source</span> <code style="background:#f3f6f9; padding:2px 6px; border-radius:3px; font-size:11.5px;">api.fda.gov/food/enforcement.json</code> &mdash; JSON API, no key required, browser-friendly (CORS enabled).</div>
-    <div class="scope-row"><span class="scope-label">Expectation</span> Hits are rare. PFAS-tagged food recalls are uncommon (most state-level grease-proofing actions don't trigger federal recalls). A 0-result return is normal &mdash; the panel is there to catch the consequential ones.</div>
-  </div>
-
-  <div id="openfdaContent">
-    <div class="loading"><span class="spinner"></span>Fetching latest PFAS-related food recalls from openFDA&hellip;</div>
-  </div>
-
-  <p style="font-size:11.5px; color:#6b7c8c; margin-top:14px;">Broaden the search: <a href="https://api.fda.gov/food/enforcement.json?search=reason_for_recall:PFAS&sort=recall_initiation_date:desc&limit=20" target="_blank" rel="noopener" style="color:#0a4f6f;">view raw JSON results</a> &middot; <a href="https://www.fda.gov/food/environmental-contaminants-food/and-polyfluoroalkyl-substances-pfas" target="_blank" rel="noopener" style="color:#0a4f6f;">FDA PFAS page</a></p>
-</section>
 <section id="insideepa" class="section-news">
   <h2>InsideEPA &mdash; National PFAS coverage <span class="count">last 30 days</span><span class="news-marker">News</span></h2>
 
@@ -811,14 +789,22 @@ footer.foot a:hover { text-decoration: underline; }
       <div class="fr-item">
         <a class="fr-title" href="https://insideepa.com/pfas-news/pfas-use-data-centers-emerges-new-litigation-focus-attorney-says" target="_blank" rel="noopener">PFAS Use At Data Centers Emerges As New Litigation Focus, Attorney Says</a>
         <div class="fr-meta"><span class="topic topic-litigation">Litigation</span><span class="badge">May 14, 2026</span>InsideEPA &middot; PFAS News</div>
-        <div class="fr-abstract">Contamination stemming from data centers' use of PFAS may soon be a new focus of litigation, an environmental attorney is warning. Builds off a new report finding that PFAS contamination continues to be one of the largest areas of toxics litigation even though limitations remain around scientific evidence to prove causation.</div>
+        <div class="fr-abstract"><strong>How data centers use PFAS:</strong> two technically distinct pathways &mdash; fluorinated cooling gases (atmospheric release; GWP thousands &times; CO&sub2;) and PFAS immersion-cooling fluids (potential water-pathway release). U.S. Chamber of Commerce 2024 report identified data centers as one of 7 critical PFAS-reliant industry sectors, but disposal and wastewater pathways have received little study. <strong>Source &amp; signal:</strong> Eve Gartner (Earthjustice) flagged data centers as a next-wave PFAS site category during a May 13 <a href="https://insideepa.com/sites/insideepa.com/files/documents/2026/may/epa2026_0821.pdf" target="_blank" rel="noopener" style="color:#0a4f6f;">Environmental Law Institute webinar</a> launching ELI's March 2026 report <em>"Current Trends in Toxics Litigation."</em> <strong>Implications for science work:</strong> new site type for environmental site assessment, fate-and-transport modeling, and PFAS characterization; expect demand for source-attribution and exposure-pathway analyses. EPA announced last year it's prioritizing TSCA new-chemical reviews for data-center and AI projects &mdash; though unclear if existing PFAS in cooling get the same scrutiny. <strong>State of the field:</strong> ELI's Cecilia Diedrich predicts PFAS litigation will surpass <em>asbestos</em> in scope and cost; causation (long latency, science gaps) remains the central scientific question. Forward-looking: CIEL's Patrick Boyle expects microplastics to follow the same trajectory.
+        <div style="margin-top:6px;"><a class="xref" href="#litigation">Data centers card in Litigation Trends</a></div></div>
       </div>
 
       <div class="fr-item">
         <a class="fr-title" href="https://insideepa.com/pfas-news/epa-s-new-biosolids-guide-may-tier-risks-based-pfas-concentrations" target="_blank" rel="noopener">EPA's New Biosolids Guide May Tier Risks Based On PFAS Concentrations</a>
         <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="topic topic-trade">Federal Policy</span><span class="badge">May 11, 2026</span>InsideEPA &middot; PFAS News</div>
-        <div class="fr-abstract">OW Assistant Administrator Jessica Kramer publicly committed (May 7 announcement) that EPA is developing <strong>tiered-concentration biosolids guidance</strong> &mdash; a directional shift adopted from approaches water systems sought and that Minnesota/Michigan have drafted. <em>Pinned: foundational evergreen reference for biosolids practice &mdash; will shape state programs and remediation cost-recovery posture.</em>
+        <div class="fr-abstract">OW Assistant Administrator Jessica Kramer announced May 7 (U.S. WASH Convening, D.C.) that EPA is developing new guidance on PFAS in biosolids &mdash; explicitly framed as <strong>correcting confusion from the Biden-era PFOA/PFOS draft risk assessment</strong>, which industry, states, farming groups, and water systems criticized for overestimating risk via non-real-world modeling. New guidance will use "real-life scenarios" and signals a <strong>tiered-concentration approach</strong> aligned with Michigan, Minnesota, Virginia, and Maryland (NACWA's model template: &ge;100 &micro;g/kg PFOA+PFOS triggers land-application ban + source-reduction program; &ge;50 &micro;g/kg triggers source-reduction + reduced application rate of 3 dry tons/acre). The Biden draft RA comment period closed August 2025; EPA is still reviewing comments. Practical signal: directional shift toward a less restrictive federal posture on biosolids land application, prioritizing the highest-concentration material. <em>Pinned: foundational evergreen reference &mdash; will shape state programs, remediation cost-recovery, and any future federal biosolids rulemaking.</em>
         <div style="margin-top:6px;"><a class="xref" href="#federal-rules">Federal Biosolids RA card</a><a class="xref" href="#state-watchlist">VA &amp; MD biosolids laws</a></div></div>
+      </div>
+
+      <div class="fr-item">
+        <a class="fr-title" href="https://www.morganlewis.com/pubs/2026/05/pfas-regulation-and-litigation-continue-to-evolve-as-federal-deadlines-slip-and-states-press-ahead" target="_blank" rel="noopener">OMB Completes Interagency Review of EPA's Proposed PFAS NPDWR Amendments</a>
+        <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="topic topic-trade">Federal Policy</span><span class="badge">May 1, 2026</span>InsideEPA &middot; Federal Regulatory</div>
+        <div class="fr-abstract">OMB cleared EPA's proposed NPDWR amendments on May 1, 2026 &mdash; the proposed rule is now poised for Federal Register publication. <strong>Substance of the proposal</strong> (per Morgan Lewis summary): retain PFOA and PFOS NPDWRs and MCLs at 4 ppt, <strong>rescind</strong> regulatory determinations for PFHxS, PFNA, HFPO-DA, and the Hazard Index mixture, and <strong>extend the compliance deadline from 2029 to 2031</strong>. <strong>Why this matters for scientific staff:</strong> directly affects every Integral drinking-water PFAS engagement &mdash; monitoring program design, treatment selection, system-by-system compliance scoping, and risk communication assumptions. The Hazard Index rescission removes the multi-PFAS mixture framework that some state programs were aligning to; cleanup-level decisions referencing the rescinded determinations need to be re-grounded. Watch the Federal Register daily this week.
+        <div style="margin-top:6px;"><a class="xref" href="#federal-rules">NPDWR card</a><a class="xref" href="#federal-register">Federal Register feed</a></div></div>
       </div>
 
       <div class="fr-item">
@@ -1248,19 +1234,24 @@ footer.foot a:hover { text-decoration: underline; }
 
   <div class="scope-box">
     <strong class="scope-title">What this section covers</strong>
-    <div style="margin-bottom:10px;">Trends in <strong>PFAS lawsuits against manufacturers, users, and downstream parties</strong> &mdash; the plaintiff side of the docket, not regulatory challenges to EPA. Designed to help Integral attorneys and consultants spot emerging theories of liability, new defendant categories, and where the next wave of cases is heading.</div>
+    <div style="margin-bottom:10px;">How PFAS litigation is shaping the science and engineering landscape &mdash; <strong>which sectors are being scrutinized, which exposure pathways and analytical methods are being contested, and where the science is being asked to do more work.</strong> Designed for Integral's scientific staff to stay aware of how PFAS issues are unfolding outside the regulatory channels.</div>
 
-    <div class="scope-row"><span class="scope-label">Scope</span> Quarterly analyses, MDL/bellwether status, novel theories of liability, new state actions against named defendants.</div>
+    <div class="scope-row"><span class="scope-label">Scope</span> Quarterly trend roundups, MDL/bellwether status, emerging site categories and defendant types (new operations being implicated), and the scientific evidence questions plaintiffs and defendants are debating.</div>
     <div class="scope-row"><span class="scope-label">Out of scope</span> Industry/utility challenges to EPA rules (those live in InsideEPA News).</div>
   </div>
 
   <div class="topic-group">
-    <div class="topic-heading"><span class="topic topic-litigation">Featured analysis</span><span class="group-count">1 article</span></div>
+    <div class="topic-heading"><span class="topic topic-litigation">Featured analysis</span><span class="group-count">2 articles</span></div>
     <div class="fr-list">
+      <div class="fr-item">
+        <a class="fr-title" href="https://www.morganlewis.com/pubs/2026/05/pfas-regulation-and-litigation-continue-to-evolve-as-federal-deadlines-slip-and-states-press-ahead" target="_blank" rel="noopener">PFAS Regulation and Litigation Continue to Evolve as Federal Deadlines Slip and States Press Ahead</a>
+        <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="badge">May 2026</span>JD Supra &middot; Morgan Lewis</div>
+        <div class="fr-abstract">Mid-quarter synthesis (May 2026) covering NPDWR proposed amendments, TSCA &sect;8(a)(7) submission-period delays, CERCLA-PFAS litigation status, and accelerating state activity. <strong>Why this is useful for scientific staff:</strong> consolidates several technical-regulatory threads into one read &mdash; what's changing in drinking-water standards, what reporting obligations are shifting, and which states are filling federal gaps that affect site-investigation and remediation work. Pairs with the Q1 Primer below for trajectory context.</div>
+      </div>
       <div class="fr-item">
         <a class="fr-title" href="https://www.jdsupra.com/legalnews/pfas-primer-quarterly-update-2026-q1-2526980/" target="_blank" rel="noopener">PFAS Primer Quarterly Update &mdash; 2026 Q1</a>
         <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="badge">2026 Q1</span>JD Supra &middot; Law firm analysis</div>
-        <div class="fr-abstract">Quarterly trend roundup covering the state of PFAS litigation through Q1 2026 &mdash; regulatory backdrop, MDL developments, state AG actions, and emerging theories of liability. Useful evergreen reference for client-facing summaries and BD conversations. <em>Pinned</em> until the Q2 update appears.</div>
+        <div class="fr-abstract">Quarterly state-of-the-field roundup covering PFAS litigation through Q1 2026 &mdash; regulatory backdrop, MDL developments, state AG actions, and the science questions courts are wrestling with. Useful evergreen reference for scientific staff who want to understand the broader PFAS landscape without reading individual case opinions. <em>Pinned</em> until the Q2 update appears.</div>
       </div>
     </div>
   </div>
@@ -1271,17 +1262,17 @@ footer.foot a:hover { text-decoration: underline; }
       <div class="fr-item">
         <a class="fr-title" href="https://www.kare11.com/article/news/local/courts-news/mpca-files-new-lawsuit-against-3m-over-ongoing-forever-chemical-pollution/89-bc0d267d-2ab4-43b1-9fa6-e63304dea1fa" target="_blank" rel="noopener">&#9733; MPCA v. 3M (Washington Co., MN &rarr; D. Minn. 0:2026cv02440)</a>
         <div class="fr-meta"><span class="badge">May 2026</span>State enforcement &middot; New filing</div>
-        <div class="fr-abstract">Minnesota Pollution Control Agency filed a new complaint May 1, 2026 alleging incomplete remediation of Cottage Grove PFAS contamination; seeks $30,000/day civil penalties. 3M filed a 144-page Notice of Removal to federal court asserting government-contractor immunity. Post-2018 $850M settlement era &mdash; signals state AGs willing to bring fresh actions even after global settlements.</div>
+        <div class="fr-abstract">Minnesota Pollution Control Agency filed a new complaint May 1, 2026 alleging incomplete remediation of Cottage Grove PFAS contamination; seeks $30,000/day civil penalties. <strong>Recent PFAS readings reported up to 310,000 ppt at the site</strong> &mdash; substantially above any state action level or federal MCL. 3M removed to federal court (D. Minn. 0:2026cv02440) asserting government-contractor immunity. <strong>Why this matters for scientists:</strong> signals that state agencies are willing to bring fresh enforcement actions even after global settlements &mdash; relevant for sites where remediation goals, source apportionment, and cleanup endpoints are still being negotiated. Watch for new technical demands on remediation performance verification, and for how the courts treat extreme-concentration evidence in PFAS post-settlement enforcement.</div>
       </div>
       <div class="fr-item">
         <a class="fr-title" href="https://www.jpml.uscourts.gov/sites/jpml/files/JPML_Multidistrict_Litigation_Pending_as_of_April_15_2026.pdf" target="_blank" rel="noopener">AFFF MDL 2873 (D.S.C., J. Gergel)</a>
         <div class="fr-meta"><span class="badge">Ongoing</span>Multidistrict litigation &middot; Bellwether</div>
-        <div class="fr-abstract">The PFAS firefighting-foam MDL remains the center of gravity for U.S. PFAS toxic-tort litigation. Track for bellwether trial outcomes, settlements, and CERCLA stay disputes &mdash; outcomes drive defendant strategy across the industry. Pairs with InsideEPA's <a href="#insideepa" style="color:#0a4f6f;">CERCLA stay coverage</a>.</div>
+        <div class="fr-abstract">The PFAS firefighting-foam MDL remains the largest concentration of U.S. PFAS toxic-tort litigation. <strong>Why this matters for scientists:</strong> courts are actively testing exposure modeling, source attribution, biomarker science, fate-and-transport, and causation methodology in this MDL. Outcomes will shape evidence standards for future PFAS site investigations and expert engagements. Pairs with InsideEPA's <a href="#insideepa" style="color:#0a4f6f;">CERCLA stay coverage</a>.</div>
       </div>
       <div class="fr-item">
         <a class="fr-title" href="https://insideepa.com/pfas-news/pfas-use-data-centers-emerges-new-litigation-focus-attorney-says" target="_blank" rel="noopener">Emerging theory: data centers as defendants</a>
         <div class="fr-meta"><span class="badge">May 14, 2026</span>Novel theory of liability</div>
-        <div class="fr-abstract">Plaintiff-side attorneys are publicly flagging data-center PFAS use as a next-wave litigation target. Worth monitoring for the first filed complaints &mdash; could open a new defendant category beyond traditional manufacturers and AFFF users. Full coverage in <a href="#insideepa" style="color:#0a4f6f;">InsideEPA News &mdash; Litigation</a>.</div>
+        <div class="fr-abstract">Data centers are being publicly flagged as a next-wave PFAS site category. <strong>Why this matters for scientists:</strong> data centers use PFAS in two technically distinct ways &mdash; fluorinated cooling gases (atmospheric release; GWP thousands &times; CO&sub2;) and immersion-cooling fluids (potential water-pathway release). New site type for environmental site assessment, fate-and-transport modeling, and PFAS characterization work. Full coverage in <a href="#insideepa" style="color:#0a4f6f;">InsideEPA News</a>.</div>
       </div>
     </div>
   </div>
@@ -1289,7 +1280,7 @@ footer.foot a:hover { text-decoration: underline; }
   <div class="topic-group">
     <div class="topic-heading"><span class="topic topic-trade">Where to watch &mdash; free sources</span><span class="group-count">4 sources</span></div>
     <div style="font-size:12.5px; color:#3d4856; margin-top:6px;">
-      <p style="margin:6px 0;">Free / freemium aggregators of law-firm PFAS content &mdash; useful for spotting trends before they appear in paid feeds.</p>
+      <p style="margin:6px 0;">Free / freemium aggregators of law-firm PFAS content &mdash; useful for scientists to spot trends in how PFAS is being applied or challenged across industries before those trends appear in technical journals or trade press.</p>
       <ul style="margin:8px 0; padding-left:18px; line-height:1.7;">
         <li><a href="https://www.jdsupra.com/topics/pfas/" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:600;">JD Supra &mdash; PFAS topic page</a> &mdash; aggregates law-firm client alerts, quarterly updates, and case analyses. Free with email registration. Source of the featured Q1 2026 Primer above.</li>
         <li><a href="https://www.lexology.com/hub/products/topic-pfas" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:600;">Lexology &mdash; PFAS topic hub</a> &mdash; similar aggregator with strong international coverage. Free with registration.</li>
@@ -1298,114 +1289,6 @@ footer.foot a:hover { text-decoration: underline; }
       </ul>
       <p style="margin:10px 0 0 0; font-size:11.5px; color:#6b7c8c; font-style:italic;">The Sunday weekly scan can be extended to monitor any of these &mdash; let Claude know which to add.</p>
     </div>
-  </div>
-</section>
-
-<section id="funding-grants">
-  <h2>Funding, grants &amp; implementation support <span class="count">PFAS-eligible federal programs</span></h2>
-  <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Federal funding pipelines that PFAS work can tap. Useful for client communications and proposal scoping. Status: <span class="status-chip status-open">Open</span> = current cycle accepting · <span class="status-chip status-forthcoming">Forthcoming</span> = announced, opening soon · <span class="status-chip status-closed">Closed</span> = current cycle closed, next TBD.</p>
-  <div class="rules-grid">
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">DWSRF Emerging Contaminants Set-Aside</div>
-        <span class="status-chip status-open">Active &middot; state-administered</span>
-      </div>
-      <div class="rule-meta">EPA &middot; State-administered &middot; BIL appropriation</div>
-      <div class="rule-body">
-        <strong>$4B over FY22&ndash;FY26</strong> via Bipartisan Infrastructure Law for Drinking Water SRF Emerging Contaminants funding &mdash; primarily PFAS. State-administered funding for eligible drinking-water EC projects (timing varies by state). FY26 capitalization grants begin <strong>April 2026, ending Feb 2027</strong>. Up to 31% of grant available as set-asides.
-        <div style="margin-top:6px;"><a class="xref" href="#npdwr-rule">NPDWR (drives demand)</a></div>
-      </div>
-      <a class="rule-link" href="https://www.epa.gov/dwsrf/drinking-water-state-revolving-fund-emerging-contaminants" target="_blank" rel="noopener">EPA DWSRF EC page &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">CWSRF Emerging Contaminants</div>
-        <span class="status-chip status-open">Active through FY2026</span>
-      </div>
-      <div class="rule-meta">EPA &middot; Clean Water SRF &middot; BIL appropriation</div>
-      <div class="rule-body">
-        <strong>$1B over FY22&ndash;FY26</strong> via Bipartisan Infrastructure Law for emerging contaminants &mdash; including PFAS &mdash; in <strong>wastewater, stormwater, and nonpoint-source pollution</strong>. State-administered. Relevant to biosolids, POTW upgrades, stormwater systems, and watershed-scale PFAS work. Pairs with the federal Biosolids Risk Assessment.
-        <div style="margin-top:6px;"><a class="xref" href="#federal-rules">Biosolids Risk Assessment</a></div>
-      </div>
-      <a class="rule-link" href="https://www.epa.gov/cwsrf/clean-water-state-revolving-fund-emerging-contaminants-program" target="_blank" rel="noopener">EPA CWSRF EC &rarr;</a>
-    </div>
-
-    <div class="rule-card status-active">
-      <div class="rule-head">
-        <div class="rule-title">TEC RealWaterTA (Tackling Emerging Contaminants)</div>
-        <span class="status-chip status-open">Active &middot; technical assistance</span>
-      </div>
-      <div class="rule-meta">EPA &middot; No-cost technical assistance &middot; not direct funding</div>
-      <div class="rule-body">
-        EPA's no-cost technical-assistance program for small or disadvantaged drinking-water systems addressing PFAS and other emerging contaminants. Supports <strong>sampling plans, PFAS NPDWR monitoring, preliminary engineering / alternatives analysis, funding applications, and public outreach</strong>. Does not provide direct funding.
-        <div style="margin-top:6px;"><a class="xref" href="#federal-rules">NPDWR / PFAS OUT</a></div>
-      </div>
-      <a class="rule-link" href="https://www.epa.gov/water-infrastructure/water-technical-assistance" target="_blank" rel="noopener">EPA WaterTA / RealWaterTA &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">SDC-EC Grant (Small &amp; Disadvantaged Communities)</div>
-        <span class="status-chip status-open">Open</span>
-      </div>
-      <div class="rule-meta">EPA &middot; Noncompetitive to states/territories &middot; BIL appropriation</div>
-      <div class="rule-body">
-        <strong>$5B over FY22&ndash;FY26 ($1B annually)</strong>; awarded <strong>noncompetitively to states and territories</strong>, who use funds for eligible small or disadvantaged communities to address emerging contaminants &mdash; primarily PFAS &mdash; in drinking water. No cost-share/match. Strong fit for clients with under-funded water systems in PFAS-impacted areas.
-      </div>
-      <a class="rule-link" href="https://www.epa.gov/dwcapacity/faqs-emerging-contaminants-ec-small-or-disadvantaged-communities-grant-sdc" target="_blank" rel="noopener">EPA SDC-EC FAQs &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">EPA Brownfields Grants (PFAS-eligible)</div>
-        <span class="status-chip status-closed">Annual cycle &middot; current cycle closed</span>
-      </div>
-      <div class="rule-meta">EPA &middot; Multipurpose, Assessment, Cleanup, RLF</div>
-      <div class="rule-body">
-        Brownfields grants have been <strong>PFAS-eligible since 2024</strong>. Multipurpose ($800K), Assessment ($500K community-wide), Cleanup ($500K per site), and Revolving Loan Fund. Annual NOFO cycle; <strong>EPA's funding page reports no open or upcoming opportunities at this time</strong>. Useful when PFAS is one contaminant of concern among many.
-      </div>
-      <a class="rule-link" href="https://www.epa.gov/brownfields/types-funding" target="_blank" rel="noopener">EPA Brownfields funding &rarr;</a>
-    </div>
-
-    <div class="rule-card status-active">
-      <div class="rule-head">
-        <div class="rule-title">DoD Environmental Restoration Account</div>
-        <span class="status-chip status-open">Active</span>
-      </div>
-      <div class="rule-meta">DoD &middot; FY26 NDAA &middot; Site-driven</div>
-      <div class="rule-body">
-        Per GAO-25-107401, DoD estimates <strong>$9.3B+ in PFAS investigation &amp; cleanup needs</strong> beyond FY25. Funds investigations and remedial actions at the 723 identified sites; not competitive but the funding pool driving DoD CERCLA contractor work.
-        <div style="margin-top:6px;"><a class="xref" href="#dod-program">DoD Cleanup Program</a><a class="xref" href="#deadlines">AFFF Oct 2026 deadline</a></div>
-      </div>
-      <a class="rule-link" href="https://www.acq.osd.mil/eie/eer/ecc/pfas/" target="_blank" rel="noopener">DoD PFAS Task Force &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">FEMA BRIC (PFAS / resilience overlap)</div>
-        <span class="status-chip status-open">FY24&ndash;FY25 NOFO active &middot; FY26 TBD</span>
-      </div>
-      <div class="rule-meta">FEMA &middot; Building Resilient Infrastructure &amp; Communities</div>
-      <div class="rule-body">
-        BRIC funds resilience projects; water-system projects with PFAS or contaminant-resilience components have been funded in past cycles. FEMA announced a <strong>FY2024&ndash;FY2025 BRIC NOFO on March 25, 2026, making $1B available</strong>. FY26 NOFO timing TBD. Worth tracking for clients pairing PFAS treatment with broader resilience upgrades.
-      </div>
-      <a class="rule-link" href="https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities" target="_blank" rel="noopener">FEMA BRIC &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final">
-      <div class="rule-head">
-        <div class="rule-title">USDA Rural Water (PFAS-eligible)</div>
-        <span class="status-chip status-open">Open</span>
-      </div>
-      <div class="rule-meta">USDA &middot; Rural Decentralized Water / SEARCH</div>
-      <div class="rule-body">
-        Rural Decentralized Water Systems Grant funds household well systems including PFAS-affected wells. SEARCH grants fund pre-development engineering for rural water systems. Useful for DoD-adjacent rural communities affected by AFFF.
-      </div>
-      <a class="rule-link" href="https://www.rd.usda.gov/programs-services/water-environmental-programs" target="_blank" rel="noopener">USDA Rural Water programs &rarr;</a>
-    </div>
-
   </div>
 </section>
 
@@ -1464,6 +1347,18 @@ footer.foot a:hover { text-decoration: underline; }
       <div class="res-title">ECCC PFAS (Canada)</div>
       <div class="res-desc">Environment and Climate Change Canada &mdash; PFAS class restrictions in development</div>
     </a>
+    <a class="res-card" href="https://www.gov.uk/government/publications/pfas-plan/pfas-plan-building-a-safer-future-together" target="_blank" rel="noopener">
+      <div class="res-title">HSE / UK PFAS Plan</div>
+      <div class="res-desc">UK Health and Safety Executive PFAS Plan &mdash; Annex 15 firefighting-foam dossier and broader strategy (Feb 2026)</div>
+    </a>
+    <a class="res-card" href="https://echo.epa.gov/trends/comparative-maps-dashboards/pfas-analytical-tools-dashboard" target="_blank" rel="noopener">
+      <div class="res-title">ECHO PFAS Analytical Tools</div>
+      <div class="res-desc">EPA's interactive dashboard for PFAS enforcement, sampling, and facility data</div>
+    </a>
+    <a class="res-card" href="https://www.epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener">
+      <div class="res-title">EPA UCMR 5 Occurrence Data</div>
+      <div class="res-desc">Quarterly PFAS monitoring results from public water systems (29 PFAS, 2023&ndash;2025)</div>
+    </a>
     <a class="res-card" href="https://www.integral-corp.com/services/toxicology-and-health-sciences/product-stewardship/" target="_blank" rel="noopener">
       <div class="res-title">Integral Product Stewardship</div>
       <div class="res-desc">Integral's Product Stewardship practice page</div>
@@ -1497,14 +1392,12 @@ footer.foot a:hover { text-decoration: underline; }
   var tabs = document.querySelectorAll('.view-tab');
   if (!tabs.length) return;
   var allSections = document.querySelectorAll('.wrap > section');
+  var fullOnlyExtras = document.querySelectorAll('.wrap > .key-dates');
   var toc = document.querySelector('.toc');
-  var feedIds = ['federal-register', 'echo-feed', 'ucmr5-feed', 'openfda-feed'];
   var newsIds = ['insideepa', 'litigation'];
 
   function viewForId(id) {
-    if (feedIds.indexOf(id) !== -1) return 'feeds';
-    if (newsIds.indexOf(id) !== -1) return 'news';
-    return 'full';
+    return (newsIds.indexOf(id) !== -1) ? 'news' : 'full';
   }
 
   function setView(view, scrollTarget) {
@@ -1515,7 +1408,10 @@ footer.foot a:hover { text-decoration: underline; }
     allSections.forEach(function(s) {
       s.style.display = (viewForId(s.id) === view) ? '' : 'none';
     });
-    // TOC entries follow active view
+    // Extras (e.g. key-dates callout) appear only in the Regulatory Reference view
+    fullOnlyExtras.forEach(function(el) {
+      el.style.display = (view === 'full') ? '' : 'none';
+    });
     var tocItems = document.querySelectorAll('.toc-list li');
     for (var i = 0; i < tocItems.length; i++) {
       var li = tocItems[i];
@@ -1536,7 +1432,6 @@ footer.foot a:hover { text-decoration: underline; }
     tab.addEventListener('click', function() { setView(tab.dataset.view); });
   });
 
-  // Cross-tab TOC navigation
   document.querySelectorAll('.toc-list a').forEach(function(link) {
     link.addEventListener('click', function(e) {
       var targetId = link.getAttribute('href').substring(1);
@@ -1550,7 +1445,6 @@ footer.foot a:hover { text-decoration: underline; }
     });
   });
 
-  // Initial state: Regulatory Reference
   setView('full');
 })();
 </script>
@@ -1594,56 +1488,180 @@ footer.foot a:hover { text-decoration: underline; }
 </script>
 
 
+
 <script>
 (function() {
-  var container = document.getElementById('openfdaContent');
-  if (!container) return;
-  var countEl = document.getElementById('openfdaCount');
+  var ticker = document.getElementById('frTicker');
+  if (!ticker) return;
+  var body = document.getElementById('tickerBody');
+  var dotsEl = document.getElementById('tickerDots');
+  var statusLabel = ticker.querySelector('.ticker-status span:last-child');
+  var items = [];
+  var current = 0;
+  var rotateTimer = null;
+  var ROTATE_MS = 6000;
+  var CORS_PROXY = 'https://api.allorigins.win/get?url=';
 
-  var queryParts = ['reason_for_recall:PFAS', 'reason_for_recall:perfluoroalkyl', 'reason_for_recall:polyfluoroalkyl', 'reason_for_recall:PFOA', 'reason_for_recall:PFOS', 'product_description:PFAS'];
-  var search = encodeURIComponent(queryParts.join('+'));
-  var url = 'https://api.fda.gov/food/enforcement.json?search=' + search + '&sort=recall_initiation_date:desc&limit=10';
-
-  function fmtDate(s) {
-    if (!s || s.length !== 8) return s || '';
-    return s.substr(4,2) + '/' + s.substr(6,2) + '/' + s.substr(0,4);
-  }
   function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
+  function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function stripHtml(s) {
+    if (!s) return '';
+    var tmp = document.createElement('div');
+    tmp.innerHTML = s;
+    return (tmp.textContent || tmp.innerText || '').trim();
+  }
 
-  fetch(url)
-    .then(function(r) {
-      if (r.status === 404) return { results: [], meta: { results: { total: 0 } } };
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
-    .then(function(data) {
-      var results = (data && data.results) || [];
-      var totalHits = (data && data.meta && data.meta.results && typeof data.meta.results.total === 'number') ? data.meta.results.total : results.length;
-      if (countEl) countEl.textContent = totalHits === 0 ? '0 PFAS-tagged recalls' : (totalHits + (totalHits === 1 ? ' recall' : ' recalls'));
-      if (!results.length) {
-        container.innerHTML = '<div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:14px 18px; font-size:13px; color:#1a2733;"><strong>No PFAS-tagged food recalls in openFDA right now.</strong><div style="margin-top:6px; color:#3d4856;">This is the expected state &mdash; PFAS food recalls are rare. The panel will populate as soon as one is filed. Sunday scan will also flag matches in chat.</div></div>';
-        return;
-      }
-      var rows = results.map(function(r) {
-        var cls = r.classification ? r.classification.replace('Class ','') : '';
-        var clsBadge = cls ? '<span class="badge" style="background:#fff3e6; color:#a06a13;">Class ' + escapeHtml(cls) + '</span>' : '';
-        return '<div class="fr-item">' +
-          '<div class="fr-title" style="cursor:default;">' + escapeHtml((r.product_description || 'Unknown product').slice(0,200)) + '</div>' +
-          '<div class="fr-meta">' + clsBadge + '<span class="badge">' + escapeHtml(fmtDate(r.recall_initiation_date)) + '</span>' + escapeHtml(r.recalling_firm || 'Unknown firm') + ' &middot; ' + escapeHtml(r.state || '—') + '</div>' +
-          '<div class="fr-abstract">' + escapeHtml((r.reason_for_recall || '').slice(0,400)) + '</div>' +
-          (r.recall_number ? '<div style="font-size:11px; color:#6b7c8c; margin-top:4px;">Recall #' + escapeHtml(r.recall_number) + '</div>' : '') +
-          '</div>';
-      }).join('');
-      container.innerHTML = '<div class="fr-list">' + rows + '</div>';
-    })
-    .catch(function(err) {
-      if (countEl) countEl.textContent = 'error';
-      container.innerHTML = '<div style="background:#fdf2f2; border:1px solid #f5c7c7; border-left:4px solid #c94545; border-radius:6px; padding:12px 16px; font-size:12.5px; color:#7a2424;">Could not load openFDA data: ' + escapeHtml(err.message) + '. The API endpoint may be temporarily unavailable or blocked by network policy.</div>';
+  function fetchFederalRegister() {
+    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&per_page=6&order=newest';
+    return fetch(url)
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(data) {
+        return (data.results || []).map(function(r) {
+          return {
+            source: 'Federal Register',
+            sourceClass: 'src-fr',
+            title: r.title,
+            url: r.html_url,
+            date: r.publication_date,
+            type: r.type || 'Notice',
+            abstract: (r.abstract || '').substring(0, 220)
+          };
+        });
+      })
+      .catch(function() { return []; });
+  }
+
+  function fetchRss(feedUrl, sourceName, sourceClass) {
+    return fetch(CORS_PROXY + encodeURIComponent(feedUrl))
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(data) {
+        if (!data || !data.contents) return [];
+        var doc = new DOMParser().parseFromString(data.contents, 'application/xml');
+        var rssItems = doc.querySelectorAll('item, entry');
+        var out = [];
+        rssItems.forEach(function(item) {
+          if (out.length >= 6) return;
+          var titleEl = item.querySelector('title');
+          var linkEl = item.querySelector('link');
+          var pubEl = item.querySelector('pubDate, published, updated');
+          var descEl = item.querySelector('description, summary, content');
+          var link = '';
+          if (linkEl) {
+            link = linkEl.getAttribute('href') || linkEl.textContent || '';
+          }
+          var title = stripHtml(titleEl ? titleEl.textContent : '');
+          var pub = pubEl ? pubEl.textContent : '';
+          var desc = stripHtml(descEl ? descEl.textContent : '');
+          if (title && link) {
+            out.push({
+              source: sourceName,
+              sourceClass: sourceClass,
+              title: title,
+              url: link.trim(),
+              date: pub,
+              type: 'Analysis',
+              abstract: desc.substring(0, 220)
+            });
+          }
+        });
+        return out;
+      })
+      .catch(function() { return []; });
+  }
+
+  function renderDots() {
+    if (!dotsEl) return;
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      html += '<span class="ticker-dot-nav' + (i === current ? ' is-active' : '') + '" data-idx="' + i + '"></span>';
+    }
+    dotsEl.innerHTML = html;
+    dotsEl.querySelectorAll('.ticker-dot-nav').forEach(function(d) {
+      d.addEventListener('click', function() {
+        current = parseInt(d.dataset.idx, 10);
+        renderCurrent();
+        restartRotation();
+      });
     });
+  }
+  function renderCurrent() {
+    if (!items.length) return;
+    var item = items[current];
+    var srcBadge = '<span class="ticker-src ' + item.sourceClass + '">' + escapeHtml(item.source) + '</span>';
+    var typeBadge = item.type ? '<span class="badge">' + escapeHtml(item.type) + '</span>' : '';
+    var date = fmtDate(item.date);
+    var abstractText = item.abstract;
+    if (item.abstract && item.abstract.length >= 220) abstractText += '…';
+    body.innerHTML = '<div class="ticker-card">' +
+      '<a class="ticker-title" href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener">' + escapeHtml(item.title) + '</a>' +
+      '<div class="ticker-meta">' + srcBadge + typeBadge + '<span class="ticker-date">' + escapeHtml(date) + '</span></div>' +
+      (abstractText ? '<div class="ticker-abstract">' + escapeHtml(abstractText) + '</div>' : '') +
+      '</div>';
+    renderDots();
+  }
+  function startRotation() {
+    if (items.length <= 1) return;
+    rotateTimer = setInterval(function() {
+      current = (current + 1) % items.length;
+      renderCurrent();
+    }, ROTATE_MS);
+  }
+  function stopRotation() { if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; } }
+  function restartRotation() { stopRotation(); startRotation(); }
+
+  ticker.querySelectorAll('.ticker-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (!items.length) return;
+      var dir = btn.dataset.dir;
+      current = (dir === 'prev') ? (current - 1 + items.length) % items.length : (current + 1) % items.length;
+      renderCurrent();
+      restartRotation();
+    });
+  });
+  ticker.addEventListener('mouseenter', stopRotation);
+  ticker.addEventListener('mouseleave', startRotation);
+
+  Promise.all([
+    fetchFederalRegister(),
+    fetchRss('https://www.jdsupra.com/topics/pfas/feed/', 'JD Supra', 'src-jdsupra'),
+    fetchRss('https://www.lexology.com/feed.aspx?source=hub-topic&id=ecaf48e3-d0e7-4abc-b8bc-3aff4daca12a', 'Lexology', 'src-lexology')
+  ]).then(function(results) {
+    var all = [].concat.apply([], results);
+    // Dedupe by url
+    var seen = {};
+    items = all.filter(function(it) {
+      if (seen[it.url]) return false;
+      seen[it.url] = true;
+      return true;
+    });
+    // Sort by date desc
+    items.sort(function(a, b) {
+      var da = new Date(a.date).getTime() || 0;
+      var db = new Date(b.date).getTime() || 0;
+      return db - da;
+    });
+    items = items.slice(0, 12);
+    if (!items.length) {
+      body.innerHTML = '<div class="ticker-empty">No items available right now from Federal Register, JD Supra, or Lexology.</div>';
+      return;
+    }
+    // Update status label to reflect active sources
+    var sources = {};
+    items.forEach(function(it) { sources[it.source] = true; });
+    var srcList = Object.keys(sources).join(' &middot; ');
+    if (statusLabel) statusLabel.innerHTML = 'Live &middot; ' + srcList;
+    renderCurrent();
+    startRotation();
+  });
 })();
 </script>
 <script>
