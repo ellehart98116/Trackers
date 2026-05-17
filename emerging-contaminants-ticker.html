@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Emerging Contaminants — Federal Register Ticker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --integral-navy: #133259;
+    --integral-navy-deep: #0d2440;
+    --integral-lime: #94d343;
+    --integral-lime-bright: #c8ec3a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'IBM Plex Sans', system-ui, sans-serif;
+    background: transparent;
+    color: #1a2733;
+    padding: 12px;
+  }
+  .fr-ticker {
+    background: linear-gradient(135deg, var(--integral-navy) 0%, #1a4070 100%);
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 14px rgba(19, 50, 89, 0.18);
+    position: relative;
+    overflow: hidden;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .fr-ticker::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--integral-lime);
+  }
+  .ticker-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .ticker-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.85);
+  }
+  .ticker-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #08FF08;
+    box-shadow: 0 0 8px rgba(8,255,8,0.7);
+    animation: tickerPulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes tickerPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.85); }
+  }
+  .ticker-nav { display: flex; align-items: center; gap: 8px; }
+  .ticker-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.85);
+    width: 26px; height: 26px; border-radius: 4px;
+    cursor: pointer; font-size: 16px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background 0.15s; padding: 0;
+  }
+  .ticker-btn:hover { background: rgba(255,255,255,0.16); }
+  .ticker-dots { display: inline-flex; gap: 5px; padding: 0 6px; }
+  .ticker-dot-nav {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer; transition: background 0.15s;
+  }
+  .ticker-dot-nav.is-active { background: var(--integral-lime); }
+  .ticker-body { min-height: 108px; }
+  .ticker-card { animation: tickerFade 0.4s ease-out; }
+  @keyframes tickerFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .ticker-title {
+    display: block; color: #fff;
+    font-family: 'Georgia', 'Lora', serif;
+    font-size: 15px; font-weight: 600; line-height: 1.35;
+    text-decoration: none; margin-bottom: 6px;
+  }
+  .ticker-title:hover { color: var(--integral-lime); text-decoration: underline; }
+  .ticker-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin-bottom: 6px; font-size: 11.5px; color: rgba(255,255,255,0.7);
+  }
+  .badge {
+    background: rgba(148,211,67,0.18);
+    color: var(--integral-lime);
+    border: 1px solid rgba(148,211,67,0.35);
+    padding: 1px 7px; font-size: 10px; border-radius: 3px;
+  }
+  .badge-agency {
+    background: rgba(180,200,255,0.13);
+    color: #b4c8ff;
+    border: 1px solid rgba(180,200,255,0.30);
+    padding: 1px 7px; font-size: 10px; border-radius: 3px;
+  }
+  .badge-tag {
+    background: rgba(255,200,100,0.13);
+    color: #ffc870;
+    border: 1px solid rgba(255,200,100,0.30);
+    padding: 1px 7px; font-size: 10px; border-radius: 3px;
+  }
+  .ticker-src {
+    padding: 1px 7px; font-size: 10px; border-radius: 3px;
+    font-weight: 600; letter-spacing: 0.02em;
+    background: rgba(148,211,67,0.18); color: var(--integral-lime);
+    border: 1px solid rgba(148,211,67,0.4);
+  }
+  .ticker-date { font-weight: 500; }
+  .ticker-abstract { font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+  .ticker-loading, .ticker-empty {
+    font-size: 12.5px; color: rgba(255,255,255,0.7); padding: 12px 0;
+  }
+  .ticker-footer {
+    margin-top: 10px; padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.10);
+    font-size: 10.5px; color: rgba(255,255,255,0.55);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 4px;
+  }
+  .ticker-footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+  .ticker-footer a:hover { color: var(--integral-lime); }
+</style>
+</head>
+<body>
+
+<div class="fr-ticker" id="frTicker">
+  <div class="ticker-header">
+    <div class="ticker-status">
+      <span class="ticker-dot"></span>
+      <span id="tickerStatusLabel">Live &middot; loading&hellip;</span>
+    </div>
+    <div class="ticker-nav">
+      <button class="ticker-btn" data-dir="prev" type="button" aria-label="Previous item">&#8249;</button>
+      <span class="ticker-dots" id="tickerDots"></span>
+      <button class="ticker-btn" data-dir="next" type="button" aria-label="Next item">&#8250;</button>
+    </div>
+  </div>
+  <div class="ticker-body" id="tickerBody">
+    <div class="ticker-loading">Fetching emerging contaminant activity from the Federal Register&hellip;</div>
+  </div>
+  <div class="ticker-footer">
+    <span>Federal Register &middot; Rules, Proposed Rules &amp; Notices &middot; updates on page load</span>
+    <a href="https://www.federalregister.gov/documents/search?conditions[term]=PFAS+microplastics+PCB+dioxin&conditions[type][]=RULE&conditions[type][]=PRORULE&conditions[type][]=NOTICE" target="_blank" rel="noopener">Search FR &rarr;</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ── Configuration ────────────────────────────────────────────────────────────
+
+  var MAX_ITEMS    = 8;
+  var ROTATE_MS    = 6000;
+  var TIMEOUT_MS   = 8000;
+
+  // Contaminant search terms — each fires one API call (FR API supports one term
+  // per request; we fan out and deduplicate).
+  var TERMS = [
+    { term: 'PFAS',               tag: 'PFAS' },
+    { term: 'PFOA PFOS',          tag: 'PFAS' },
+    { term: 'perfluoro',          tag: 'PFAS' },
+    { term: 'GenX PFBS',          tag: 'PFAS' },
+    { term: 'microplastics',      tag: 'Microplastics' },
+    { term: 'nanoplastics',       tag: 'Microplastics' },
+    { term: '6PPD-quinone',       tag: '6PPD-Q' },
+    { term: 'polychlorinated biphenyl', tag: 'PCB' },
+    { term: 'dioxin furan',       tag: 'Dioxin/Furan' },
+    { term: 'methylmercury',      tag: 'Mercury' },
+    { term: 'arsenic',            tag: 'Arsenic' },
+    { term: '1,4-dioxane',        tag: '1,4-Dioxane' },
+    { term: 'chlorpyrifos',       tag: 'Chlorpyrifos' },
+    { term: 'atrazine',           tag: 'Atrazine' },
+    { term: 'glyphosate',         tag: 'Glyphosate' },
+    { term: 'trichloroethylene',  tag: 'TCE' },
+    { term: 'selenium',           tag: 'Selenium' }
+  ];
+
+  // Agency slugs recognized by the FR API
+  var AGENCIES = [
+    'environmental-protection-agency',
+    'food-and-drug-administration',
+    'geological-survey',
+    'army-corps-of-engineers'
+  ];
+
+  // Document types
+  var DOC_TYPES = ['RULE', 'PRORULE', 'NOTICE'];
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────────
+  var ticker      = document.getElementById('frTicker');
+  var bodyEl      = document.getElementById('tickerBody');
+  var dotsEl      = document.getElementById('tickerDots');
+  var statusLabel = document.getElementById('tickerStatusLabel');
+
+  var items       = [];
+  var current     = 0;
+  var rotateTimer = null;
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    return isNaN(d) ? s : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function fetchWithTimeout(url) {
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, TIMEOUT_MS);
+    return fetch(url, ctrl ? { signal: ctrl.signal } : {}).finally(function () { clearTimeout(t); });
+  }
+
+  // ── Federal Register fetch (one term × all agencies) ─────────────────────────
+  function buildFRUrl(term) {
+    var base = 'https://www.federalregister.gov/api/v1/documents.json?';
+    var params = [
+      'conditions[term]=' + encodeURIComponent(term),
+      'per_page=4',
+      'order=newest',
+      'fields[]=title',
+      'fields[]=html_url',
+      'fields[]=publication_date',
+      'fields[]=type',
+      'fields[]=abstract',
+      'fields[]=agency_names'
+    ];
+    AGENCIES.forEach(function (a) {
+      params.push('conditions[agencies][]=' + encodeURIComponent(a));
+    });
+    DOC_TYPES.forEach(function (t) {
+      params.push('conditions[type][]=' + encodeURIComponent(t));
+    });
+    return base + params.join('&');
+  }
+
+  function fetchTerm(termObj) {
+    return fetchWithTimeout(buildFRUrl(termObj.term))
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        return (data.results || []).map(function (r) {
+          var agencies = Array.isArray(r.agency_names) ? r.agency_names.join(', ') : '';
+          return {
+            title:    r.title,
+            url:      r.html_url,
+            date:     r.publication_date,
+            type:     r.type || 'Notice',
+            abstract: (r.abstract || '').substring(0, 240),
+            agency:   agencies,
+            tag:      termObj.tag
+          };
+        });
+      })
+      .catch(function () { return []; });
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────────
+  function renderDots() {
+    if (!dotsEl) return;
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      html += '<span class="ticker-dot-nav' + (i === current ? ' is-active' : '') +
+              '" data-idx="' + i + '"></span>';
+    }
+    dotsEl.innerHTML = html;
+    dotsEl.querySelectorAll('.ticker-dot-nav').forEach(function (d) {
+      d.addEventListener('click', function () {
+        current = parseInt(d.dataset.idx, 10);
+        renderCurrent();
+        restartRotation();
+      });
+    });
+  }
+
+  function renderCurrent() {
+    if (!items.length) return;
+    var item = items[current];
+    var abstract = item.abstract;
+    if (abstract && abstract.length >= 240) abstract += '…';
+
+    var agencyBadge = item.agency
+      ? '<span class="badge-agency">' + esc(item.agency.split(',')[0].trim()) + '</span>'
+      : '';
+    var tagBadge = item.tag
+      ? '<span class="badge-tag">' + esc(item.tag) + '</span>'
+      : '';
+    var typeBadge = item.type
+      ? '<span class="badge">' + esc(item.type) + '</span>'
+      : '';
+
+    bodyEl.innerHTML =
+      '<div class="ticker-card">' +
+        '<a class="ticker-title" href="' + esc(item.url) + '" target="_blank" rel="noopener">' +
+          esc(item.title) +
+        '</a>' +
+        '<div class="ticker-meta">' +
+          '<span class="ticker-src">Federal Register</span>' +
+          typeBadge +
+          tagBadge +
+          agencyBadge +
+          '<span class="ticker-date">' + esc(fmtDate(item.date)) + '</span>' +
+        '</div>' +
+        (abstract ? '<div class="ticker-abstract">' + esc(abstract) + '</div>' : '') +
+      '</div>';
+
+    renderDots();
+  }
+
+  // ── Rotation ─────────────────────────────────────────────────────────────────
+  function startRotation() {
+    if (items.length <= 1) return;
+    rotateTimer = setInterval(function () {
+      current = (current + 1) % items.length;
+      renderCurrent();
+    }, ROTATE_MS);
+  }
+  function stopRotation()   { if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; } }
+  function restartRotation(){ stopRotation(); startRotation(); }
+
+  ticker.querySelectorAll('.ticker-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!items.length) return;
+      current = btn.dataset.dir === 'prev'
+        ? (current - 1 + items.length) % items.length
+        : (current + 1) % items.length;
+      renderCurrent();
+      restartRotation();
+    });
+  });
+  ticker.addEventListener('mouseenter', stopRotation);
+  ticker.addEventListener('mouseleave', startRotation);
+
+  // ── Bootstrap ─────────────────────────────────────────────────────────────────
+  var promises = TERMS.map(fetchTerm);
+
+  Promise.allSettled(promises).then(function (settled) {
+    var all = [];
+    settled.forEach(function (s) {
+      if (s.status === 'fulfilled' && Array.isArray(s.value)) {
+        all = all.concat(s.value);
+      }
+    });
+
+    // Deduplicate by URL
+    var seen = {};
+    var unique = all.filter(function (it) {
+      if (!it.url || seen[it.url]) return false;
+      seen[it.url] = true;
+      return true;
+    });
+
+    // Sort newest first
+    unique.sort(function (a, b) {
+      return (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0);
+    });
+
+    items = unique.slice(0, MAX_ITEMS);
+
+    if (!items.length) {
+      bodyEl.innerHTML = '<div class="ticker-empty">No results loaded — the Federal Register API may be temporarily unavailable.</div>';
+      if (statusLabel) statusLabel.textContent = 'No results';
+      return;
+    }
+
+    // Count unique contaminant tags found
+    var tags = {};
+    items.forEach(function (it) { if (it.tag) tags[it.tag] = true; });
+    var tagCount = Object.keys(tags).length;
+
+    if (statusLabel) statusLabel.innerHTML =
+      'Live &middot; Federal Register &middot; ' + items.length + ' items &middot; ' + tagCount + ' contaminant groups';
+
+    renderCurrent();
+    startRotation();
+  });
+
+})();
+</script>
+
+</body>
+</html>
