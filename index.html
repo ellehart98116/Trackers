@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Services — Tracker Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --integral-green: #3B6D11;
+    --integral-green-dark: #27500A;
+    --integral-green-light: #EAF3DE;
+    --integral-green-mid: #639922;
+    --integral-green-pale: #C0DD97;
+    --stone: #f5f4f0;
+    --stone-border: #e2e0d8;
+    --text-primary: #1a1a18;
+    --text-secondary: #5a5a55;
+    --text-muted: #8a8a84;
+    --white: #ffffff;
+    --prototype-bg: #FAEEDA;
+    --prototype-border: #EF9F27;
+    --prototype-text: #633806;
+    --prototype-accent: #BA7517;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    background: var(--stone);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* ── Experimental banner ── */
+  .exp-banner {
+    background: #2a1f00;
+    border-bottom: 1px solid #5a3d00;
+    padding: 0.6rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .exp-banner-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #EF9F27;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .exp-banner-text {
+    font-size: 12px;
+    color: #FAC775;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
+  .exp-banner-text strong {
+    font-weight: 600;
+    color: #EF9F27;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--integral-green-dark);
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: var(--integral-green);
+    opacity: 0.25;
+    transform: translate(30%, 60%);
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--integral-green-pale);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    color: var(--white);
+    line-height: 1.15;
+    font-weight: 400;
+    max-width: 540px;
+  }
+
+  .header-title em {
+    font-style: italic;
+    color: var(--integral-green-pale);
+  }
+
+  .header-sub {
+    margin-top: 0.75rem;
+    font-size: 13.5px;
+    color: var(--integral-green-pale);
+    opacity: 0.85;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* ── Main layout ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--integral-green-mid);
+    flex-shrink: 0;
+  }
+
+  .section-dot.prototype {
+    background: var(--prototype-accent);
+  }
+
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .section-desc {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 560px;
+  }
+
+  /* ── Tracker card grid ── */
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  /* ── Tracker card ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--stone-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.25rem 1rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    border-color: var(--integral-green-mid);
+    box-shadow: 0 4px 18px rgba(59, 109, 17, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--integral-green-light);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .card-icon svg {
+    width: 18px; height: 18px;
+    stroke: var(--integral-green);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .card-name {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .card-arrow {
+    margin-top: auto;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--integral-green);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .card-arrow svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.15s ease;
+  }
+
+  .card:hover .card-arrow svg {
+    transform: translateX(3px);
+  }
+
+  /* ── Prototype card variant ── */
+  .card.prototype {
+    background: var(--prototype-bg);
+    border-color: #F7C1C1; /* light amber-ish */
+    border-color: #f5d9a0;
+    position: relative;
+  }
+
+  .card.prototype:hover {
+    border-color: var(--prototype-accent);
+    box-shadow: 0 4px 18px rgba(186, 117, 23, 0.12);
+  }
+
+  .card.prototype .card-icon {
+    background: rgba(186, 117, 23, 0.12);
+  }
+
+  .card.prototype .card-icon svg {
+    stroke: var(--prototype-accent);
+  }
+
+  .card.prototype .card-name {
+    font-weight: 700;
+    color: var(--prototype-text);
+  }
+
+  .card.prototype .card-meta {
+    color: #854F0B;
+    opacity: 0.8;
+  }
+
+  .card.prototype .card-arrow {
+    color: var(--prototype-accent);
+  }
+
+  .proto-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(186, 117, 23, 0.18);
+    color: var(--prototype-text);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-bottom: 2px;
+    align-self: flex-start;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--stone-border);
+    margin: 2.5rem 0;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--stone-border);
+    background: var(--stone);
+  }
+</style>
+</head>
+<body>
+
+<div class="exp-banner">
+  <div class="exp-banner-dot"></div>
+  <p class="exp-banner-text"><strong>Experimental space.</strong> All trackers and content on this page are drafts. Links, data, and structure may change without notice.</p>
+</div>
+
+<header>
+  <p class="header-eyebrow">Library Services — Research Tools</p>
+  <h1 class="header-title">Tracker <em>Index</em></h1>
+  <p class="header-sub">A working index of regulatory, policy, and literature trackers under active development. All content is in draft and subject to change.</p>
+</header>
+
+<main>
+
+  <!-- ── Emerging Contaminants ── -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-dot"></div>
+      <span class="section-label">Regulatory &amp; Policy</span>
+    </div>
+    <h2 class="section-title">Emerging Contaminants</h2>
+    <p class="section-desc">Trackers monitoring federal and state regulatory activity, policy developments, and enforcement trends for priority contaminants.</p>
+
+    <div class="tracker-grid">
+
+      <a class="card" href="https://ellehart98116.github.io/Trackers/PPT.html" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+        </div>
+        <span class="card-name">PFAS Regulatory and Industry Tracker</span>
+        <span class="card-meta">Federal rules, state actions, enforcement, and industry response across PFAS compounds.</span>
+        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+
+      <a class="card" href="https://ellehart98116.github.io/Trackers/6ppd_q_tracker.html" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="card-name">6PPD-Q Regulatory Tracker</span>
+        <span class="card-meta">Emerging regulatory and research landscape for 6PPD-quinone and tire rubber-derived contaminants.</span>
+        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Literature Trackers ── -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-dot"></div>
+      <span class="section-label">Scientific Literature</span>
+    </div>
+    <h2 class="section-title">Literature Trackers</h2>
+    <p class="section-desc">Curated trackers for peer-reviewed literature supporting active project areas and practice groups.</p>
+
+    <div class="tracker-grid">
+
+      <a class="card" href="https://ellehart98116.github.io/Trackers/pharm_occ_tox_tracker.html" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <span class="card-name">Pharmaceutical &amp; Occupational Toxicology Literature Tracker</span>
+        <span class="card-meta">Peer-reviewed literature covering pharmaceutical toxicology and occupational exposure science.</span>
+        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Sample Trackers / Prototypes ── -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-dot prototype"></div>
+      <span class="section-label">Prototypes — Mock Data</span>
+    </div>
+    <h2 class="section-title">Sample Trackers</h2>
+    <p class="section-desc">Proof-of-concept trackers built with mock data. These are works in progress and not intended for project use.</p>
+
+    <div class="tracker-grid">
+
+      <a class="card prototype" href="https://ellehart98116.github.io/Trackers/CA_Coast_Res.html" target="_blank" rel="noopener">
+        <span class="proto-badge">⚠ Prototype</span>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M12 8v4l3 3"/><path d="M17.6 6.4L6.4 17.6"/></svg>
+        </div>
+        <span class="card-name">Central California — Coastal Resilience</span>
+        <span class="card-meta">Mock tracker. Data is illustrative only and does not reflect current regulatory or scientific conditions.</span>
+        <span class="card-arrow">View prototype <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+
+      <a class="card prototype" href="https://ellehart98116.github.io/Trackers/CIT.html" target="_blank" rel="noopener">
+        <span class="proto-badge">⚠ Prototype</span>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <span class="card-name">Competitive Intelligence</span>
+        <span class="card-meta">Mock tracker. Data is illustrative only and does not reflect actual competitive landscape data.</span>
+        <span class="card-arrow">View prototype <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Library Services — Research Tools &nbsp;·&nbsp; Experimental draft &nbsp;·&nbsp; Not for external distribution
+</footer>
+
+</body>
+</html>
