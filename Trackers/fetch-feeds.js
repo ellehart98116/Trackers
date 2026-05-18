@@ -1,36 +1,23 @@
 // fetch-feeds.js
-// Runs in GitHub Actions. Fetches Federal Register API + JD Supra RSS,
-// filters by contaminant keywords, deduplicates, sorts, writes feeds.json.
-
 const fetch = (...args) => import('node-fetch').then(({ default: f }) => f(...args));
 const xml2js = require('xml2js');
 const fs = require('fs');
 const path = require('path');
 
-// ── Output path ───────────────────────────────────────────────────────────────
+// Hardcoded output path — works regardless of where the script is called from
 const OUT_PATH = path.join(__dirname, 'emerging-contaminants-data.json');
-const MAX_ITEMS = 20; // keep top 20; ticker shows 8 at a time
+const MAX_ITEMS = 20;
 
-// ── Contaminant keyword filter (for JD Supra broad feeds) ────────────────────
 const KEYWORDS = [
   'pfas', 'pfoa', 'pfos', 'perfluoro', 'forever chemical',
-  'genx', 'pfbs',
-  'microplastic', 'nanoplastic',
+  'genx', 'pfbs', 'microplastic', 'nanoplastic',
   '6ppd', '6ppd-q', '6ppd-quinone',
   'polychlorinated biphenyl', 'pcb',
-  'dioxin', 'furan',
-  'methylmercury', 'mercury',
-  'arsenic',
-  '1,4-dioxane',
-  'chlorpyrifos',
-  'atrazine',
-  'glyphosate',
-  'trichloroethylene', 'tce',
-  'selenium',
-  'emerging contaminant',
-  'toxic substance', 'hazardous substance',
-  'cercla', 'superfund',
-  'tsca'
+  'dioxin', 'furan', 'methylmercury', 'mercury',
+  'arsenic', '1,4-dioxane', 'chlorpyrifos', 'atrazine',
+  'glyphosate', 'trichloroethylene', 'tce', 'selenium',
+  'emerging contaminant', 'toxic substance', 'hazardous substance',
+  'cercla', 'superfund', 'tsca'
 ];
 
 function matchesKeyword(text) {
@@ -38,20 +25,19 @@ function matchesKeyword(text) {
   return KEYWORDS.some(k => lower.includes(k));
 }
 
-// ── Federal Register ──────────────────────────────────────────────────────────
 const FR_TERMS = [
   { term: 'PFAS',                     tag: 'PFAS' },
-  { term: 'PFOA PFOS',                tag: 'PFAS' },
+  { term: 'PFOA+PFOS',                tag: 'PFAS' },
   { term: 'perfluoro',                tag: 'PFAS' },
-  { term: 'GenX PFBS',                tag: 'PFAS' },
+  { term: 'GenX+PFBS',                tag: 'PFAS' },
   { term: 'microplastics',            tag: 'Microplastics' },
   { term: 'nanoplastics',             tag: 'Microplastics' },
   { term: '6PPD-quinone',             tag: '6PPD-Q' },
-  { term: 'polychlorinated biphenyl', tag: 'PCB' },
-  { term: 'dioxin furan',             tag: 'Dioxin/Furan' },
+  { term: 'polychlorinated+biphenyl', tag: 'PCB' },
+  { term: 'dioxin+furan',             tag: 'Dioxin/Furan' },
   { term: 'methylmercury',            tag: 'Mercury' },
   { term: 'arsenic',                  tag: 'Arsenic' },
-  { term: '1,4-dioxane',              tag: '1,4-Dioxane' },
+  { term: '1%2C4-dioxane',            tag: '1,4-Dioxane' },
   { term: 'chlorpyrifos',             tag: 'Chlorpyrifos' },
   { term: 'atrazine',                 tag: 'Atrazine' },
   { term: 'glyphosate',               tag: 'Glyphosate' },
@@ -68,25 +54,18 @@ const FR_AGENCIES = [
 
 const FR_TYPES = ['RULE', 'PRORULE', 'NOTICE'];
 
-function buildFRUrl(term) {
-  const params = new URLSearchParams();
-  params.append('conditions[term]', term);
-  params.append('per_page', '4');
-  params.append('order', 'newest');
-  params.append('fields[]', 'title');
-  params.append('fields[]', 'html_url');
-  params.append('fields[]', 'publication_date');
-  params.append('fields[]', 'type');
-  params.append('fields[]', 'abstract');
-  params.append('fields[]', 'agency_names');
-  FR_AGENCIES.forEach(a => params.append('conditions[agencies][]', a));
-  FR_TYPES.forEach(t => params.append('conditions[type][]', t));
-  return `https://www.federalregister.gov/api/v1/documents.json?${params.toString()}`;
+function buildFRUrl(termObj) {
+  // Build URL manually to avoid URLSearchParams double-encoding issues
+  let url = `https://www.federalregister.gov/api/v1/documents.json?conditions[term]=${termObj.term}&per_page=4&order=newest&fields[]=title&fields[]=html_url&fields[]=publication_date&fields[]=type&fields[]=abstract&fields[]=agency_names`;
+  FR_AGENCIES.forEach(a => { url += `&conditions[agencies][]=${a}`; });
+  FR_TYPES.forEach(t => { url += `&conditions[type][]=${t}`; });
+  return url;
 }
 
 async function fetchFRTerm(termObj) {
   try {
-    const res = await fetch(buildFRUrl(termObj.term), { timeout: 10000 });
+    const url = buildFRUrl(termObj);
+    const res = await fetch(url, { timeout: 10000 });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return (data.results || []).map(r => ({
@@ -106,21 +85,20 @@ async function fetchFRTerm(termObj) {
   }
 }
 
-// ── JD Supra RSS ──────────────────────────────────────────────────────────────
 const JDS_FEEDS = [
-  {
-    url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentalLaw&premium=1',
-    label: 'JD Supra — Environmental Law',
-  },
-  {
-    url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=ToxicTorts&premium=1',
-    label: 'JD Supra — Toxic Torts',
-  },
-  {
-    url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=PersonalInjuryProductsLiability&premium=1',
-    label: 'JD Supra — Products Liability',
-  },
+  { url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentalLaw&premium=1', label: 'JD Supra' },
+  { url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=ToxicTorts&premium=1', label: 'JD Supra' },
+  { url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=PersonalInjuryProductsLiability&premium=1', label: 'JD Supra' },
 ];
+
+function extractText(val) {
+  // xml2js can return a string, an object with _, or an array
+  if (!val) return '';
+  if (typeof val === 'string') return val;
+  if (typeof val === 'object' && val._) return val._;
+  if (Array.isArray(val)) return extractText(val[0]);
+  return String(val);
+}
 
 async function fetchJDSupraFeed(feedDef) {
   try {
@@ -137,8 +115,8 @@ async function fetchJDSupraFeed(feedDef) {
 
     const out = [];
     for (const item of rawItems) {
-      const title = item.title || '';
-      const desc  = item.description || item.summary || '';
+      const title = extractText(item.title);
+      const desc  = extractText(item.description || item.summary || '');
       if (!matchesKeyword(title) && !matchesKeyword(desc)) continue;
 
       const combined = (title + ' ' + desc).toLowerCase();
@@ -158,14 +136,14 @@ async function fetchJDSupraFeed(feedDef) {
       else if (combined.includes('selenium')) tag = 'Selenium';
       else if (combined.includes('cercla') || combined.includes('superfund')) tag = 'Superfund';
 
-      const author = item['dc:creator'] || item.author || '';
+      const author = extractText(item['dc:creator'] || item.author || '');
 
       out.push({
         source: feedDef.label,
         sourceType: 'legal',
         title: title.trim(),
-        url: (item.link || '').trim(),
-        date: item.pubDate || item['dc:date'] || '',
+        url: extractText(item.link || '').trim(),
+        date: extractText(item.pubDate || item['dc:date'] || ''),
         type: 'Analysis',
         agency: author.trim(),
         tag,
@@ -181,7 +159,6 @@ async function fetchJDSupraFeed(feedDef) {
   }
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('Fetching Federal Register...');
   const frResults = await Promise.all(FR_TERMS.map(fetchFRTerm));
@@ -208,19 +185,11 @@ async function main() {
   });
 
   const final = unique.slice(0, MAX_ITEMS);
-
-  const output = {
-    generated: new Date().toISOString(),
-    count: final.length,
-    items: final,
-  };
+  const output = { generated: new Date().toISOString(), count: final.length, items: final };
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2), 'utf8');
   console.log(`\nWrote ${final.length} items to ${OUT_PATH}`);
   console.log('Done.');
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+main().catch(err => { console.error('Fatal error:', err); process.exit(1); });
