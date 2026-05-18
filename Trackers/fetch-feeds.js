@@ -4,8 +4,7 @@ const xml2js = require('xml2js');
 const fs = require('fs');
 const path = require('path');
 
-// Hardcoded output path — works regardless of where the script is called from
-const OUT_PATH = path.join(__dirname, 'emerging-contaminants-data.json');
+const OUT_PATH = path.resolve(__dirname, 'emerging-contaminants-data.json');
 const MAX_ITEMS = 20;
 
 const KEYWORDS = [
@@ -25,66 +24,6 @@ function matchesKeyword(text) {
   return KEYWORDS.some(k => lower.includes(k));
 }
 
-const FR_TERMS = [
-  { term: 'PFAS',                     tag: 'PFAS' },
-  { term: 'PFOA+PFOS',                tag: 'PFAS' },
-  { term: 'perfluoro',                tag: 'PFAS' },
-  { term: 'GenX+PFBS',                tag: 'PFAS' },
-  { term: 'microplastics',            tag: 'Microplastics' },
-  { term: 'nanoplastics',             tag: 'Microplastics' },
-  { term: '6PPD-quinone',             tag: '6PPD-Q' },
-  { term: 'polychlorinated+biphenyl', tag: 'PCB' },
-  { term: 'dioxin+furan',             tag: 'Dioxin/Furan' },
-  { term: 'methylmercury',            tag: 'Mercury' },
-  { term: 'arsenic',                  tag: 'Arsenic' },
-  { term: '1%2C4-dioxane',            tag: '1,4-Dioxane' },
-  { term: 'chlorpyrifos',             tag: 'Chlorpyrifos' },
-  { term: 'atrazine',                 tag: 'Atrazine' },
-  { term: 'glyphosate',               tag: 'Glyphosate' },
-  { term: 'trichloroethylene',        tag: 'TCE' },
-  { term: 'selenium',                 tag: 'Selenium' },
-];
-
-const FR_AGENCIES = [
-  'environmental-protection-agency',
-  'food-and-drug-administration',
-  'geological-survey',
-  'army-corps-of-engineers',
-];
-
-const FR_TYPES = ['RULE', 'PRORULE', 'NOTICE'];
-
-function buildFRUrl(termObj) {
-  // Build URL manually to avoid URLSearchParams double-encoding issues
-  let url = `https://www.federalregister.gov/api/v1/documents.json?conditions[term]=${termObj.term}&per_page=4&order=newest&fields[]=title&fields[]=html_url&fields[]=publication_date&fields[]=type&fields[]=abstract&fields[]=agency_names`;
-  FR_AGENCIES.forEach(a => { url += `&conditions[agencies][]=${a}`; });
-  FR_TYPES.forEach(t => { url += `&conditions[type][]=${t}`; });
-  return url;
-}
-
-async function fetchFRTerm(termObj) {
-  try {
-    const url = buildFRUrl(termObj);
-    const res = await fetch(url, { timeout: 10000 });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return (data.results || []).map(r => ({
-      source: 'Federal Register',
-      sourceType: 'regulatory',
-      title: r.title,
-      url: r.html_url,
-      date: r.publication_date,
-      type: r.type || 'Notice',
-      agency: Array.isArray(r.agency_names) ? r.agency_names[0] || '' : '',
-      tag: termObj.tag,
-      abstract: (r.abstract || '').substring(0, 280),
-    }));
-  } catch (e) {
-    console.warn(`FR fetch failed for "${termObj.term}":`, e.message);
-    return [];
-  }
-}
-
 const JDS_FEEDS = [
   { url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentalLaw&premium=1', label: 'JD Supra' },
   { url: 'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=ToxicTorts&premium=1', label: 'JD Supra' },
@@ -92,7 +31,6 @@ const JDS_FEEDS = [
 ];
 
 function extractText(val) {
-  // xml2js can return a string, an object with _, or an array
   if (!val) return '';
   if (typeof val === 'string') return val;
   if (typeof val === 'object' && val._) return val._;
@@ -160,19 +98,15 @@ async function fetchJDSupraFeed(feedDef) {
 }
 
 async function main() {
-  console.log('Fetching Federal Register...');
-  const frResults = await Promise.all(FR_TERMS.map(fetchFRTerm));
-  const frItems = frResults.flat();
-  console.log(`  FR: ${frItems.length} raw items`);
+  console.log('Output path:', OUT_PATH);
 
   console.log('Fetching JD Supra feeds...');
   const jdsResults = await Promise.all(JDS_FEEDS.map(fetchJDSupraFeed));
   const jdsItems = jdsResults.flat();
   console.log(`  JD Supra: ${jdsItems.length} filtered items`);
 
-  const all = [...frItems, ...jdsItems];
   const seen = new Set();
-  const unique = all.filter(item => {
+  const unique = jdsItems.filter(item => {
     if (!item.url || seen.has(item.url)) return false;
     seen.add(item.url);
     return true;
@@ -188,7 +122,7 @@ async function main() {
   const output = { generated: new Date().toISOString(), count: final.length, items: final };
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2), 'utf8');
-  console.log(`\nWrote ${final.length} items to ${OUT_PATH}`);
+  console.log(`Wrote ${final.length} items to ${OUT_PATH}`);
   console.log('Done.');
 }
 
