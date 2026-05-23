@@ -1,7 +1,18 @@
 {
-  "generated": "2026-05-22T19:27:51.273Z",
+  "generated": "2026-05-23T02:34:09.417Z",
   "count": 20,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "California Environmental Law & Policy Update 5.22.26",
+      "url": "https://www.jdsupra.com/legalnews/california-environmental-law-policy-2175198/",
+      "date": "Fri, 22 May 2026 19:36:35 GMT",
+      "type": "Analysis",
+      "agency": "Allen Matkins",
+      "tag": "PFAS",
+      "abstract": "The U.S. Environmental Protection Agency (EPA) on Monday proposed two rules rolling back certain regulations limiting per- and poly-fluoroalkyl substance (PFAS) levels under the Safe Drinking Water Act....By: Allen Matkins"
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -126,28 +137,6 @@
     {
       "source": "JD Supra",
       "sourceType": "legal",
-      "title": "EPA Proposes to Revisit PFAS Drinking Water Rules",
-      "url": "https://www.jdsupra.com/legalnews/epa-proposes-to-revisit-pfas-drinking-6446598/",
-      "date": "Wed, 20 May 2026 02:36:01 GMT",
-      "type": "Analysis",
-      "agency": "Foley Hoag LLP - Environmental Law",
-      "tag": "PFAS",
-      "abstract": "On May 18, 2026, EPA proposed two significant changes to the federal drinking water regulations for PFAS (per- and polyfluoroalkyl substances), commonly known as “forever chemicals.” One would rescind the Biden-era standards for four categories of PFAS, and the other would extend"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "Wrap-Up of Federal and State Chemical Regulatory Developments, May 2026",
-      "url": "https://www.jdsupra.com/legalnews/wrap-up-of-federal-and-state-chemical-3022923/",
-      "date": "Tue, 19 May 2026 20:32:15 GMT",
-      "type": "Analysis",
-      "agency": "Bergeson &amp; Campbell, P.C.",
-      "tag": "Environmental",
-      "abstract": "House Subcommittee Holds Hearing On Critical Material Supply Chains, Examines How To Modernize TSCA -  On April 22, 2026, the House Energy and Commerce Subcommittee held a hearing entitled “Help or Hindrance? The Impact of U.S. Environmental Laws on Critical Material Supply Chain"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
       "title": "Rise of PFAS in Consumer Products Litigation Gets Timely Lift with California Court Decision",
       "url": "https://www.jdsupra.com/legalnews/rise-of-pfas-in-consumer-products-9485351/",
       "date": "Fri, 15 May 2026 18:57:01 GMT",
@@ -221,6 +210,17 @@
       "agency": "Bergeson &amp; Campbell, P.C.",
       "tag": "Glyphosate",
       "abstract": "On April 27, 2026, the U.S. Supreme Court heard oral argument in Monsanto Company v. Durnell, a closely watched case that could reshape the intersection of federal pesticide regulation and state tort law. At issue is whether failure to warn claims under state law, specifically th"
+    },
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "From Liability to Legacy: Leveraging CERCLA to Protect Public Water Systems",
+      "url": "https://www.jdsupra.com/legalnews/from-liability-to-legacy-leveraging-2111188/",
+      "date": "Tue, 05 May 2026 18:50:19 GMT",
+      "type": "Analysis",
+      "agency": "Napoli Shkolnik",
+      "tag": "PFAS",
+      "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
     }
   ]
 }
