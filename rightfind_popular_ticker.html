@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RightFind — What Integral Is Reading</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'IBM Plex Sans',-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --bg:#f3f2ee;
+  --surface:#fff;
+  --surface2:#eeedea;
+  --border:rgba(0,0,0,.08);
+  --border-med:rgba(0,0,0,.13);
+  --text:#181815;
+  --text-2:#64635e;
+  --text-3:#9e9d98;
+  --accent:#1a4d2e;
+  --accent-light:#e8f4ec;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#161614;--surface:#1e1e1c;--surface2:#252523;
+  --border:rgba(255,255,255,.07);--border-med:rgba(255,255,255,.12);
+  --text:#e6e4dc;--text-2:#9e9c94;--text-3:#6a6864;
+  --accent:#6ad898;--accent-light:#1a3828;
+}}
+html,body{font-family:var(--font);background:transparent;color:var(--text);margin:0;padding:0}
+
+/* ── outer card ── */
+.widget{
+  background:var(--surface);
+  border:.5px solid var(--border-med);
+  border-radius:10px;
+  overflow:hidden;
+  font-family:var(--font);
+}
+
+/* ── header ── */
+.w-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 16px 8px;
+  border-bottom:.5px solid var(--border);
+  background:var(--surface2);
+  flex-wrap:wrap;gap:8px;
+}
+.w-left{display:flex;align-items:center;gap:10px}
+.w-logo{
+  font-size:12px;font-weight:500;letter-spacing:-.01em;
+  color:var(--text);
+}
+.w-logo span{color:#c0392b}
+.live-pill{
+  display:flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);border:.5px solid var(--accent);
+  border-radius:20px;padding:2px 8px;opacity:.85;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--accent);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.w-eyebrow{
+  font-size:10px;font-weight:500;color:var(--text-2);
+}
+.w-meta{font-size:9.5px;font-family:var(--mono);color:var(--text-3)}
+
+/* ── scrolling track ── */
+.w-scroll{overflow:hidden;padding:7px 0;position:relative;cursor:default}
+.w-scroll:hover .w-track{animation-play-state:paused}
+.w-track{
+  display:flex;align-items:center;
+  white-space:nowrap;
+  animation:scroll 90s linear infinite;
+}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.w-item{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 0 0 20px;flex-shrink:0;
+}
+.w-rank{
+  font-size:9px;font-family:var(--mono);font-weight:500;
+  color:var(--accent);opacity:.7;min-width:18px;text-align:right;flex-shrink:0;
+}
+.w-title{font-size:12px;color:var(--text);line-height:1.2}
+.w-source{font-size:10px;font-family:var(--mono);color:var(--text-3);flex-shrink:0}
+.w-divider{
+  display:inline-block;width:1px;height:12px;
+  background:var(--border-med);margin:0 6px 0 20px;flex-shrink:0;
+}
+
+/* ── footer ── */
+.w-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 16px 5px;
+  border-top:.5px solid var(--border);
+  background:var(--surface2);
+}
+.w-fnote{font-size:9px;font-family:var(--mono);color:var(--text-3)}
+.w-badge{
+  font-size:9px;font-weight:500;font-family:var(--mono);
+  background:var(--accent-light);color:var(--accent);
+  border:.5px solid var(--accent);border-radius:4px;
+  padding:1px 7px;
+}
+
+/* loading / error state */
+.w-msg{font-size:11px;color:var(--text-3);font-style:italic;padding:6px 20px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <div class="w-header">
+    <div class="w-left">
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+      <span class="w-logo">Right<span>F</span>ind Enterprise</span>
+      <span class="w-eyebrow">— What Integral Is Reading</span>
+    </div>
+    <span class="w-meta" id="wMeta">Loading&hellip;</span>
+  </div>
+
+  <div class="w-scroll" title="Hover to pause">
+    <div class="w-track" id="wTrack">
+      <span class="w-msg">Fetching top articles&hellip;</span>
+    </div>
+  </div>
+
+  <div class="w-footer">
+    <span class="w-fnote">Top articles across Integral &mdash; rolling 10 days &mdash; hover to pause &mdash; display only</span>
+    <span class="w-badge" id="wBadge">&#8635; loading</span>
+  </div>
+
+</div>
+<script>
+(function(){
+  var FEED='https://www.rightfind.com/vlib/rss/top.aspx?type=articles&scope=RollingClient&username=ehartley%40integral-corp.com&token=j%2fEVDR%2fbuspoOickbk6LLSIWVsoR%2b922jN76Xf8O%2fd8%3d&count=100&age=10&noauth=0';
+  var API='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(FEED)+'&count=100';
+
+  function trunc(s,n){return s&&s.length>n?s.slice(0,n).trim()+'\u2026':(s||'');}
+
+  function build(items){
+    if(!items||!items.length){
+      document.getElementById('wTrack').innerHTML="<span class='w-msg'>No articles found in feed.</span>";
+      return;
+    }
+
+    var html='';
+    // build doubled list for seamless loop
+    [items,items].forEach(function(list){
+      list.forEach(function(it,i){
+        var rank=i+1;
+        var title=trunc(it.title,80);
+        // source = author field often contains journal name in RightFind feeds
+        var src=trunc((it.author||it.category||'').split(',')[0].trim(),30);
+        html+="<span class='w-item'>"
+          +"<span class='w-rank'>#"+rank+"</span>"
+          +"<span class='w-title'>"+title+"</span>"
+          +(src?"<span class='w-source'>["+src+"]</span>":"")
+          +"</span>"
+          +"<span class='w-divider'></span>";
+      });
+    });
+
+    document.getElementById('wTrack').innerHTML=html;
+
+    // adjust speed to content width — ~100px per second
+    var track=document.getElementById('wTrack');
+    var halfW=track.scrollWidth/2;
+    var dur=Math.max(40,Math.round(halfW/80));
+    track.style.animationDuration=dur+'s';
+
+    var now=new Date().toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+    document.getElementById('wMeta').textContent=items.length+' articles \u00b7 '+now;
+    document.getElementById('wBadge').textContent='\u21bb updated '+now;
+  }
+
+  fetch(API)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.items){build(d.items);}
+      else{
+        document.getElementById('wTrack').innerHTML="<span class='w-msg'>Feed unavailable: "+(d.message||'check RightFind')+"</span>";
+        document.getElementById('wMeta').textContent='Feed error';
+        document.getElementById('wBadge').textContent='error';
+      }
+    })
+    .catch(function(){
+      document.getElementById('wTrack').innerHTML="<span class='w-msg'>Could not reach RightFind feed.</span>";
+      document.getElementById('wMeta').textContent='Error';
+      document.getElementById('wBadge').textContent='error';
+    });
+})();
+</script>
+</body>
+</html>
