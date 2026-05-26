@@ -558,6 +558,196 @@
     to   { opacity:1; transform:translateY(0); }
   }
 
+  /* ── Embed button on cards ── */
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .embed-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-muted);
+    background: var(--navy-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .embed-btn:hover {
+    border-color: var(--green);
+    color: var(--green-dark);
+    background: var(--green-pale);
+  }
+
+  .embed-btn svg {
+    width: 12px; height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Embed button on dark ticker */
+  .embed-btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: #8fafd4;
+    background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+
+  .embed-btn-dark:hover {
+    border-color: rgba(122,204,42,0.5);
+    color: var(--green);
+    background: rgba(122,204,42,0.08);
+  }
+
+  .embed-btn-dark svg {
+    width: 12px; height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Embed modal ── */
+  .embed-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(10,18,30,0.82);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .embed-modal-overlay.open { display: flex; }
+
+  .embed-modal {
+    background: var(--white);
+    border-radius: 14px;
+    max-width: 600px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+  }
+
+  .embed-modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--navy-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    width: 28px; height: 28px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .embed-modal-close:hover { background: var(--border); }
+
+  .embed-modal-eyebrow {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .embed-modal-title {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    padding-right: 2rem;
+    line-height: 1.35;
+  }
+
+  .embed-modal-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+  }
+
+  .embed-code-block {
+    background: var(--navy-dark);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    color: #b8d4f0;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+    margin-bottom: 0.85rem;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .embed-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 7px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .embed-copy-btn:hover { background: var(--navy-mid); }
+  .embed-copy-btn.copied { background: var(--green-dark); }
+
+  .embed-copy-btn svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .embed-note {
+    margin-top: 0.85rem;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
   /* ── Footer ── */
   footer {
     text-align: center;
@@ -601,7 +791,12 @@
         </div>
         <span class="card-name">PFAS Regulatory and Industry Tracker</span>
         <span class="card-meta">Federal rules, state actions, enforcement, and industry response across PFAS compounds.</span>
-        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="card-footer">
+          <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('PFAS Regulatory and Industry Tracker','https://ellehart98116.github.io/Trackers/PPT.html')">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+          </button>
+        </div>
       </a>
 
       <a class="card" href="https://ellehart98116.github.io/Trackers/6ppd_q_tracker.html" target="_blank" rel="noopener">
@@ -610,7 +805,12 @@
         </div>
         <span class="card-name">6PPD-Q Regulatory Tracker</span>
         <span class="card-meta">Emerging regulatory and research landscape for 6PPD-quinone and tire rubber-derived contaminants.</span>
-        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="card-footer">
+          <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('6PPD-Q Regulatory Tracker','https://ellehart98116.github.io/Trackers/6ppd_q_tracker.html')">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+          </button>
+        </div>
       </a>
 
     </div>
@@ -629,6 +829,9 @@
     <div style="display:flex;align-items:center;gap:10px;">
       <div class="live-pill"><div class="live-dot"></div>Live</div>
       <span id="lastVisitBadge" style="display:none;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:rgba(255,200,100,0.15);color:#ffc870;border:0.5px solid rgba(255,200,100,0.4);">✦ New since last visit</span>
+      <button class="embed-btn-dark" onclick="openEmbedModal('JD Supra — Emerging Contaminants Ticker','https://ellehart98116.github.io/Trackers/emerging-contaminants-ticker.html')">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+      </button>
     </div>
   </div>
 
@@ -700,7 +903,12 @@
         </div>
         <span class="card-name">Pharmaceutical &amp; Occupational Toxicology Literature Tracker</span>
         <span class="card-meta">Peer-reviewed literature covering pharmaceutical toxicology and occupational exposure science.</span>
-        <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="card-footer">
+          <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('Pharmaceutical &amp; Occupational Toxicology Literature Tracker','https://ellehart98116.github.io/Trackers/pharm_occ_tox_tracker.html')">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+          </button>
+        </div>
       </a>
 
     </div>
@@ -736,7 +944,12 @@
         </div>
         <span class="card-name">Competitive Intelligence</span>
         <span class="card-meta">Mock tracker. Data is illustrative only and does not reflect actual competitive landscape data.</span>
-        <span class="card-arrow">View prototype <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="card-footer">
+          <span class="card-arrow">View prototype <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('Competitive Intelligence','https://ellehart98116.github.io/Trackers/CIT.html')">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+          </button>
+        </div>
       </a>
 
     </div>
@@ -1060,5 +1273,72 @@
     });
 })();
 </script>
+<!-- ── Embed Modal ── -->
+<div id="embedModal" class="embed-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="embedModalTitle">
+  <div class="embed-modal">
+    <button class="embed-modal-close" onclick="closeEmbedModal()" aria-label="Close">&#x2715;</button>
+    <p class="embed-modal-eyebrow">&lt;/&gt; Embed this tracker</p>
+    <h2 class="embed-modal-title" id="embedModalTitle"></h2>
+    <p class="embed-modal-desc">Copy the code below and paste it into any HTML page, Confluence page, or intranet site that supports iframes.</p>
+    <div class="embed-code-block" id="embedCodeBlock"></div>
+    <button class="embed-copy-btn" id="embedCopyBtn" onclick="copyEmbedCode()">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copy code
+    </button>
+    <p class="embed-note">The tracker will render at full width inside the iframe. You can adjust <code>height</code> to fit your layout. Some intranet platforms may require you to whitelist <code>ellehart98116.github.io</code> as a trusted source.</p>
+  </div>
+</div>
+
+<script>
+function openEmbedModal(name, url) {
+  var modal = document.getElementById('embedModal');
+  var title = document.getElementById('embedModalTitle');
+  var codeBlock = document.getElementById('embedCodeBlock');
+  var copyBtn = document.getElementById('embedCopyBtn');
+
+  var code = '<iframe\n  src="' + url + '"\n  width="100%"\n  height="700"\n  frameborder="0"\n  style="border:none;border-radius:8px;"\n  title="' + name.replace(/&amp;/g, '&') + '">\n</iframe>';
+
+  title.textContent = name.replace(/&amp;/g, '&');
+  codeBlock.textContent = code;
+  copyBtn.textContent = 'Copy code';
+  copyBtn.classList.remove('copied');
+
+  // Re-add icon
+  copyBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy code';
+
+  modal.classList.add('open');
+}
+
+function closeEmbedModal() {
+  document.getElementById('embedModal').classList.remove('open');
+}
+
+function copyEmbedCode() {
+  var code = document.getElementById('embedCodeBlock').textContent;
+  var btn = document.getElementById('embedCopyBtn');
+  navigator.clipboard.writeText(code).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = code; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  });
+  btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy code';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+// Close on overlay click
+document.getElementById('embedModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEmbedModal();
+});
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeEmbedModal();
+});
+</script>
+
 </body>
 </html>
