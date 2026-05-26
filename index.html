@@ -620,43 +620,66 @@
 </main>
 
 <!-- ── JD Supra Ticker — full width ── -->
-<div class="ticker-section">
+<div class="ticker-section" id="tickerSection">
   <div class="ticker-section-inner">
     <div class="ticker-section-heading">
       <span class="ticker-section-eyebrow">Live Feed</span>
       <h2 class="ticker-section-title"><em>JD Supra</em> — Emerging Contaminants</h2>
     </div>
-    <div class="live-pill"><div class="live-dot"></div>Live</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+      <span id="lastVisitBadge" style="display:none;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:rgba(255,200,100,0.15);color:#ffc870;border:0.5px solid rgba(255,200,100,0.4);">✦ New since last visit</span>
+    </div>
   </div>
 
   <div class="ticker-shell">
-    <div style="padding: 14px 3rem 0;">
+    <div style="padding:12px 3rem 0;">
 
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
-        <span id="tickerStatusLabel" style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.75);">Loading&hellip;</span>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="ctrl-btn" data-dir="prev" type="button" aria-label="Previous" style="font-size:16px; width:28px; height:28px;">&#8249;</button>
-          <span id="tickerDots" style="display:inline-flex; gap:5px; padding:0 4px;"></span>
-          <button class="ctrl-btn" data-dir="next" type="button" aria-label="Next" style="font-size:16px; width:28px; height:28px;">&#8250;</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:8px;">
+        <span id="tickerStatusLabel" style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.75);">Loading&hellip;</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="ctrl-btn" data-dir="prev" type="button" aria-label="Previous" style="font-size:16px;width:28px;height:28px;">&#8249;</button>
+          <span id="tickerDots" style="display:inline-flex;gap:5px;padding:0 4px;"></span>
+          <button class="ctrl-btn" data-dir="next" type="button" aria-label="Next" style="font-size:16px;width:28px;height:28px;">&#8250;</button>
         </div>
       </div>
 
-      <div id="tickerBody" style="min-height:110px; padding-bottom:4px;">
-        <div style="font-size:12.5px; color:rgba(255,255,255,0.6); padding:12px 0;">Loading emerging contaminant activity&hellip;</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;">
+        <div style="position:relative;flex:1;min-width:180px;max-width:280px;">
+          <input id="tickerSearch" type="text" placeholder="Search articles…" style="width:100%;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;font-size:12px;padding:5px 10px 5px 28px;outline:none;font-family:'DM Sans',sans-serif;" />
+          <svg style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:rgba(255,255,255,0.4);fill:none;stroke-width:2;stroke-linecap:round;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div id="tagFilters" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        <button id="clearFilters" style="display:none;font-size:10px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;padding:2px 4px;font-family:'DM Sans',sans-serif;">&#x2715; Clear</button>
+      </div>
+
+      <div id="tickerBody" style="min-height:130px;padding-bottom:4px;"></div>
+
+      <div style="height:2px;background:rgba(255,255,255,0.06);margin:10px 0 2px;border-radius:1px;overflow:hidden;">
+        <div id="tickerProgress" style="height:100%;width:0%;background:#7acc2a;transition:width 0.1s linear;border-radius:1px;"></div>
       </div>
 
     </div>
 
     <div class="ticker-source-bar">
       <span class="source-text" id="tickerAge"></span>
-      <a class="source-link" href="https://www.jdsupra.com/law-news/environmental-law/" target="_blank" rel="noopener">
-        JD Supra Environmental Law
-        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span id="sourceCredits" style="font-size:10.5px;color:#3d5a78;"></span>
+        <a class="source-link" href="https://www.jdsupra.com/law-news/environmental-law/" target="_blank" rel="noopener">
+          JD Supra Environmental Law
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
     </div>
   </div>
 </div>
 
+<div id="tickerModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,18,30,0.85);align-items:center;justify-content:center;padding:2rem;">
+  <div style="background:#1e2d45;border-radius:14px;max-width:680px;width:100%;padding:2rem;position:relative;border:0.5px solid rgba(255,255,255,0.12);max-height:80vh;overflow-y:auto;">
+    <button id="modalClose" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:14px;line-height:1;">&#x2715;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
 <main style="padding-top: 0; max-width: 1100px; margin: 0 auto; padding: 0 3rem 5rem;">
   <hr class="divider" style="margin-top: 2.5rem;">
 
@@ -725,31 +748,57 @@
   Library Services — Research Tools &nbsp;·&nbsp; Experimental draft &nbsp;·&nbsp; Not for external distribution
 </footer>
 
+
 <script>
 (function () {
   var MAX_DISPLAY = 8;
   var ROTATE_MS   = 8000;
   var DATA_URL    = 'https://ellehart98116.github.io/Trackers/Trackers/emerging-contaminants-data.json';
+  var LAST_VISIT_KEY = 'jds_ticker_last_visit';
 
-  var tickerSection = document.querySelector('.ticker-section');
-  var bodyEl        = document.getElementById('tickerBody');
-  var dotsEl        = document.getElementById('tickerDots');
-  var statusLabel   = document.getElementById('tickerStatusLabel');
-  var ageLabel      = document.getElementById('tickerAge');
+  var bodyEl      = document.getElementById('tickerBody');
+  var dotsEl      = document.getElementById('tickerDots');
+  var statusLabel = document.getElementById('tickerStatusLabel');
+  var ageLabel    = document.getElementById('tickerAge');
+  var progressEl  = document.getElementById('tickerProgress');
+  var searchEl    = document.getElementById('tickerSearch');
+  var tagFiltersEl= document.getElementById('tagFilters');
+  var clearBtn    = document.getElementById('clearFilters');
+  var modal       = document.getElementById('tickerModal');
+  var modalContent= document.getElementById('modalContent');
+  var modalClose  = document.getElementById('modalClose');
+  var lastBadge   = document.getElementById('lastVisitBadge');
+  var sourceCredEl= document.getElementById('sourceCredits');
 
-  var items       = [];
+  var allItems    = [];
+  var filtered    = [];
   var current     = 0;
   var rotateTimer = null;
+  var progressTimer = null;
+  var progressStart = null;
+  var activeTag   = null;
+  var searchQuery = '';
+  var isHovered   = false;
+
+  var TAG_URLS = {
+    pfas:    'https://www.jdsupra.com/topics/pfas/',
+    '6ppd':  'https://www.jdsupra.com/search/searchResults.aspx?sTerm=6PPD-Q&tab=News',
+    micro:   'https://www.jdsupra.com/search/searchResults.aspx?sTerm=microplastics&tab=News',
+    dioxin:  'https://www.jdsupra.com/search/searchResults.aspx?sTerm=dioxin+PCB&tab=News',
+    general: 'https://www.jdsupra.com/topics/emerging-contaminants/'
+  };
+  var TAG_COLOR = { pfas:'#7acc2a', '6ppd':'#72b8f5', micro:'#5dcaa5', dioxin:'#f0997b' };
+  var TAG_BG    = { pfas:'rgba(122,204,42,0.15)', '6ppd':'rgba(55,138,221,0.15)', micro:'rgba(93,202,165,0.15)', dioxin:'rgba(216,90,48,0.15)' };
 
   function esc(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
   function fmtDate(s) {
     if (!s) return '';
     var d = new Date(s);
-    return isNaN(d) ? s : d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    return isNaN(d) ? s : d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
   }
   function timeAgo(isoStr) {
     if (!isoStr) return '';
@@ -761,104 +810,252 @@
     return 'Updated ' + d + (d === 1 ? ' day' : ' days') + ' ago';
   }
 
-  function renderDots() {
-    var html = '';
-    for (var i = 0; i < items.length; i++) {
-      html += '<span style="width:7px;height:7px;border-radius:50%;cursor:pointer;transition:background 0.15s;background:' +
-        (i === current ? '#7acc2a' : 'rgba(255,255,255,0.25)') +
-        '" data-idx="' + i + '"></span>';
+  function tagKey(tag) { return (tag || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+  function applyFilters() {
+    filtered = allItems.filter(function(item) {
+      var matchTag = !activeTag || tagKey(item.tag) === activeTag;
+      var matchSearch = !searchQuery || (item.title || '').toLowerCase().indexOf(searchQuery) !== -1 ||
+                        (item.abstract || '').toLowerCase().indexOf(searchQuery) !== -1;
+      return matchTag && matchSearch;
+    });
+    current = 0;
+    stopProgress();
+    renderDots();
+    if (!filtered.length) {
+      bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.5);padding:16px 0;">No articles match your filter. <button onclick="clearAll()" style="background:none;border:none;color:#7acc2a;cursor:pointer;font-size:12px;text-decoration:underline;">Clear filters</button></div>';
+    } else {
+      renderCurrent();
+      if (!isHovered) startProgress();
     }
-    dotsEl.innerHTML = html;
-    dotsEl.querySelectorAll('span[data-idx]').forEach(function (d) {
-      d.addEventListener('click', function () {
-        current = parseInt(d.dataset.idx, 10);
-        renderCurrent(); restartRotation();
+  }
+
+  function clearAll() {
+    activeTag = null; searchQuery = ''; searchEl.value = '';
+    clearBtn.style.display = 'none';
+    tagFiltersEl.querySelectorAll('button[data-tag]').forEach(function(b) {
+      b.style.background = 'rgba(255,255,255,0.07)';
+      b.style.borderColor = 'rgba(255,255,255,0.15)';
+      b.style.color = 'rgba(255,255,255,0.7)';
+    });
+    applyFilters();
+  }
+  window.clearAll = clearAll;
+
+  function buildTagFilters(items) {
+    var tagCounts = {};
+    items.forEach(function(it) {
+      var k = tagKey(it.tag);
+      if (k) tagCounts[k] = (tagCounts[k] || 0) + 1;
+    });
+    var html = '';
+    Object.keys(tagCounts).forEach(function(k) {
+      var color = TAG_COLOR[k] || '#8fafd4';
+      var bg    = TAG_BG[k]    || 'rgba(143,175,212,0.15)';
+      var label = items.find(function(i) { return tagKey(i.tag) === k; });
+      var displayLabel = label ? label.tag : k;
+      html += '<button data-tag="' + k + '" style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:4px;cursor:pointer;border:0.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);font-family:DM Sans,sans-serif;transition:all 0.15s;">' +
+              esc(displayLabel) + ' <span style="opacity:0.6;">(' + tagCounts[k] + ')</span></button>';
+    });
+    tagFiltersEl.innerHTML = html;
+    tagFiltersEl.querySelectorAll('button[data-tag]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var k = btn.dataset.tag;
+        if (activeTag === k) {
+          activeTag = null;
+          btn.style.background = 'rgba(255,255,255,0.07)';
+          btn.style.borderColor = 'rgba(255,255,255,0.15)';
+          btn.style.color = 'rgba(255,255,255,0.7)';
+        } else {
+          activeTag = k;
+          tagFiltersEl.querySelectorAll('button[data-tag]').forEach(function(b) {
+            b.style.background = 'rgba(255,255,255,0.07)';
+            b.style.borderColor = 'rgba(255,255,255,0.15)';
+            b.style.color = 'rgba(255,255,255,0.7)';
+          });
+          var color = TAG_COLOR[k] || '#8fafd4';
+          btn.style.background = TAG_BG[k] || 'rgba(143,175,212,0.15)';
+          btn.style.borderColor = color;
+          btn.style.color = color;
+        }
+        clearBtn.style.display = (activeTag || searchQuery) ? 'inline' : 'none';
+        applyFilters();
       });
     });
   }
 
-  function renderCurrent() {
-    if (!items.length) return;
-    var item = items[current];
-    var abstract = item.abstract || '';
-    if (abstract.length >= 280) abstract += '…';
-    var agencyText = item.agency ? item.agency.split(',')[0].trim() : '';
+  searchEl.addEventListener('input', function() {
+    searchQuery = searchEl.value.trim().toLowerCase();
+    clearBtn.style.display = (activeTag || searchQuery) ? 'inline' : 'none';
+    applyFilters();
+  });
+  clearBtn.addEventListener('click', clearAll);
 
-    var tagColor = { pfas:'#7acc2a', '6ppd':'#72b8f5', micro:'#5dcaa5', dioxin:'#f0997b' };
-    var tagBg    = { pfas:'rgba(122,204,42,0.15)', '6ppd':'rgba(55,138,221,0.15)', micro:'rgba(93,202,165,0.15)', dioxin:'rgba(216,90,48,0.15)' };
-    var tagKey   = (item.tag || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    var tc = tagColor[tagKey] || '#8fafd4';
-    var tb = tagBg[tagKey]   || 'rgba(143,175,212,0.15)';
+  function renderDots() {
+    var html = '';
+    for (var i = 0; i < filtered.length; i++) {
+      html += '<span style="width:7px;height:7px;border-radius:50%;cursor:pointer;transition:background 0.15s;display:inline-block;background:' +
+        (i === current ? '#7acc2a' : 'rgba(255,255,255,0.25)') + '" data-idx="' + i + '"></span>';
+    }
+    dotsEl.innerHTML = html;
+    dotsEl.querySelectorAll('span[data-idx]').forEach(function(d) {
+      d.addEventListener('click', function() {
+        current = parseInt(d.dataset.idx, 10);
+        renderCurrent(); restartProgress();
+      });
+    });
+  }
+
+  function copyLink(url) {
+    navigator.clipboard.writeText(url).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = url; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    });
+  }
+
+  function openModal(item) {
+    var k = tagKey(item.tag);
+    var tc = TAG_COLOR[k] || '#8fafd4';
+    var tb = TAG_BG[k]    || 'rgba(143,175,212,0.15)';
+    modalContent.innerHTML =
+      '<a href="' + esc(item.url) + '" target="_blank" rel="noopener" style="display:block;color:#fff;font-family:Lora,Georgia,serif;font-size:17px;font-weight:600;line-height:1.4;text-decoration:none;margin-bottom:12px;padding-right:2rem;">' + esc(item.title) + '</a>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;font-size:11px;">' +
+        (item.tag ? '<a href="' + esc(TAG_URLS[k] || TAG_URLS.general) + '" target="_blank" rel="noopener" style="padding:3px 10px;border-radius:4px;background:' + tb + ';color:' + tc + ';border:1px solid ' + tc + '55;text-decoration:none;font-weight:600;">' + esc(item.tag) + ' ↗</a>' : '') +
+        '<span style="color:rgba(255,255,255,0.5);padding:3px 0;">' + esc(fmtDate(item.date)) + '</span>' +
+      '</div>' +
+      '<div style="font-size:13.5px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">' + esc(item.abstract || 'No abstract available.') + '</div>' +
+      '<div style="display:flex;gap:10px;">' +
+        '<a href="' + esc(item.url) + '" target="_blank" rel="noopener" style="font-size:12px;font-weight:500;color:#7acc2a;text-decoration:none;padding:6px 14px;border:0.5px solid rgba(122,204,42,0.4);border-radius:6px;">Read on JD Supra ↗</a>' +
+        '<button onclick="copyLink(\'' + esc(item.url) + '\')" style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:6px 14px;cursor:pointer;font-family:DM Sans,sans-serif;">Copy link</button>' +
+      '</div>';
+    modal.style.display = 'flex';
+    stopProgress();
+  }
+
+  modalClose.addEventListener('click', function() {
+    modal.style.display = 'none';
+    if (!isHovered) startProgress();
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) { modal.style.display = 'none'; if (!isHovered) startProgress(); }
+  });
+
+  function renderCurrent() {
+    if (!filtered.length) return;
+    var item = filtered[current];
+    var abstract = (item.abstract || '').slice(0, 220);
+    if ((item.abstract || '').length > 220) abstract += '…';
+    var k  = tagKey(item.tag);
+    var tc = TAG_COLOR[k] || '#8fafd4';
+    var tb = TAG_BG[k]    || 'rgba(143,175,212,0.15)';
 
     bodyEl.innerHTML =
       '<div style="animation:tickFadeIn 0.35s ease-out;">' +
         '<a href="' + esc(item.url) + '" target="_blank" rel="noopener" style="display:block;color:#fff;font-family:Lora,Georgia,serif;font-size:15px;font-weight:600;line-height:1.4;text-decoration:none;margin-bottom:8px;">' + esc(item.title) + '</a>' +
         '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:7px;font-size:11px;">' +
-          '<span style="padding:2px 8px;border-radius:3px;font-weight:600;background:rgba(180,200,255,0.14);color:#b4c8ff;border:1px solid rgba(180,200,255,0.3);">JD Supra</span>' +
-          (item.type ? '<span style="padding:2px 8px;border-radius:3px;background:' + tb + ';color:' + tc + ';border:1px solid ' + tc + '44;">' + esc(item.type) + '</span>' : '') +
-          (item.tag  ? '<span style="padding:2px 8px;border-radius:3px;background:rgba(255,200,100,0.13);color:#ffc870;border:1px solid rgba(255,200,100,0.3);">' + esc(item.tag) + '</span>' : '') +
-          (agencyText ? '<span style="padding:2px 8px;border-radius:3px;background:rgba(200,200,255,0.10);color:rgba(200,210,255,0.8);border:1px solid rgba(200,200,255,0.2);">' + esc(agencyText) + '</span>' : '') +
-          '<span style="color:rgba(255,255,255,0.6);font-weight:500;">' + esc(fmtDate(item.date)) + '</span>' +
+          (item.tag ? '<a href="' + esc(TAG_URLS[k] || TAG_URLS.general) + '" target="_blank" rel="noopener" title="Browse all ' + esc(item.tag) + ' articles on JD Supra" style="padding:3px 10px;border-radius:4px;background:' + tb + ';color:' + tc + ';border:1px solid ' + tc + '55;text-decoration:none;font-weight:600;" onmouseover="this.style.opacity=\'0.8\'" onmouseout="this.style.opacity=\'1\'">' + esc(item.tag) + ' ↗</a>' : '') +
+          '<span style="color:rgba(255,255,255,0.5);font-weight:500;">' + esc(fmtDate(item.date)) + '</span>' +
         '</div>' +
-        (abstract ? '<div style="font-size:12.5px;line-height:1.55;color:rgba(255,255,255,0.8);">' + esc(abstract) + '</div>' : '') +
+        (abstract ? '<div style="font-size:12.5px;line-height:1.55;color:rgba(255,255,255,0.75);margin-bottom:10px;">' + esc(abstract) + '</div>' : '') +
+        '<div style="display:flex;gap:8px;margin-top:4px;">' +
+          '<button onclick="openExpanded(' + current + ')" style="font-size:11px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:5px;padding:3px 10px;cursor:pointer;font-family:DM Sans,sans-serif;">Expand ↕</button>' +
+          '<button onclick="copyLink(\'' + esc(item.url) + '\')" style="font-size:11px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:5px;padding:3px 10px;cursor:pointer;font-family:DM Sans,sans-serif;">Copy link</button>' +
+        '</div>' +
       '</div>';
-
     renderDots();
   }
 
-  function startRotation() {
-    if (items.length <= 1) return;
-    rotateTimer = setInterval(function () {
-      current = (current + 1) % items.length;
-      renderCurrent();
-    }, ROTATE_MS);
-  }
-  function stopRotation()    { if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; } }
-  function restartRotation() { stopRotation(); startRotation(); }
+  window.openExpanded = function(idx) { openModal(filtered[idx]); };
 
-  tickerSection.querySelectorAll('.ctrl-btn[data-dir]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (!items.length) return;
+  function startProgress() {
+    stopProgress();
+    progressEl.style.transition = 'none';
+    progressEl.style.width = '0%';
+    progressStart = Date.now();
+    progressTimer = setInterval(function() {
+      var elapsed = Date.now() - progressStart;
+      var pct = Math.min(100, (elapsed / ROTATE_MS) * 100);
+      progressEl.style.transition = 'width 0.1s linear';
+      progressEl.style.width = pct + '%';
+      if (elapsed >= ROTATE_MS) {
+        current = (current + 1) % filtered.length;
+        renderCurrent();
+        progressStart = Date.now();
+        progressEl.style.transition = 'none';
+        progressEl.style.width = '0%';
+      }
+    }, 100);
+  }
+  function stopProgress() {
+    if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+    progressEl.style.width = '0%';
+  }
+  function restartProgress() { if (!isHovered) startProgress(); }
+  function stopRotation()    { stopProgress(); }
+  function startRotation()   { if (!isHovered) startProgress(); }
+
+  document.querySelectorAll('.ctrl-btn[data-dir]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (!filtered.length) return;
       current = btn.dataset.dir === 'prev'
-        ? (current - 1 + items.length) % items.length
-        : (current + 1) % items.length;
-      renderCurrent(); restartRotation();
+        ? (current - 1 + filtered.length) % filtered.length
+        : (current + 1) % filtered.length;
+      renderCurrent(); restartProgress();
     });
   });
-  tickerSection.addEventListener('mouseenter', stopRotation);
-  tickerSection.addEventListener('mouseleave', startRotation);
+
+  var tickerShell = document.querySelector('.ticker-shell');
+  tickerShell.addEventListener('mouseenter', function() { isHovered = true; stopProgress(); });
+  tickerShell.addEventListener('mouseleave', function() { isHovered = false; startProgress(); });
 
   fetch(DATA_URL)
-    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(function (data) {
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
       var all        = data.items || [];
-      var regulatory = all.filter(function (i) { return i.sourceType === 'regulatory'; });
-      var legal      = all.filter(function (i) { return i.sourceType === 'legal'; });
+      var regulatory = all.filter(function(i) { return i.sourceType === 'regulatory'; });
+      var legal      = all.filter(function(i) { return i.sourceType === 'legal'; });
       var interleaved = [];
       var ri = 0, li = 0;
       while (interleaved.length < MAX_DISPLAY && (ri < regulatory.length || li < legal.length)) {
         if (ri < regulatory.length) interleaved.push(regulatory[ri++]);
         if (interleaved.length < MAX_DISPLAY && li < legal.length) interleaved.push(legal[li++]);
       }
-      items = interleaved;
+      allItems = interleaved;
 
-      if (!items.length) {
-        bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">No results yet — the GitHub Actions workflow may still be running for the first time.</div>';
+      if (!allItems.length) {
+        bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">No results yet — trigger the GitHub Actions workflow to generate the data file.</div>';
         statusLabel.textContent = 'No data';
         return;
       }
 
-      var tags = {};
-      items.forEach(function (it) { if (it.tag) tags[it.tag] = true; });
-      statusLabel.textContent = 'JD Supra · ' + items.length + ' items · ' + Object.keys(tags).length + ' contaminant groups';
+      // New since last visit
+      var lastVisit = localStorage.getItem(LAST_VISIT_KEY);
+      var hasNew = lastVisit && allItems.some(function(i) { return i.date && new Date(i.date) > new Date(lastVisit); });
+      if (hasNew) lastBadge.style.display = 'inline';
+      localStorage.setItem(LAST_VISIT_KEY, new Date().toISOString());
+
+      // Source diversity
+      var authors = {};
+      allItems.forEach(function(i) { if (i.agency) { var a = i.agency.split(',')[0].trim(); authors[a] = true; } });
+      var authorCount = Object.keys(authors).length;
+      if (authorCount > 1) sourceCredEl.textContent = authorCount + ' sources';
+
+      var tagCounts = {};
+      allItems.forEach(function(i) { if (i.tag) tagCounts[i.tag] = (tagCounts[i.tag] || 0) + 1; });
+      var tagSummary = Object.keys(tagCounts).map(function(t) { return t + ' (' + tagCounts[t] + ')'; }).join(' · ');
+      statusLabel.textContent = 'JD Supra · ' + allItems.length + ' items · ' + tagSummary;
       if (data.generated) ageLabel.textContent = timeAgo(data.generated);
 
+      buildTagFilters(allItems);
+      filtered = allItems.slice();
+      renderDots();
       renderCurrent();
-      startRotation();
+      startProgress();
     })
-    .catch(function (err) {
+    .catch(function(err) {
       console.error('Feed load error:', err);
-      bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">Feed data unavailable. Trigger the GitHub Actions workflow manually to generate the data file.</div>';
+      bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">Feed data unavailable. Trigger the GitHub Actions workflow manually.</div>';
       statusLabel.textContent = 'Offline';
     });
 })();
