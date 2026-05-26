@@ -314,9 +314,9 @@
 
   /* ── Ticker full-width section ── */
   .ticker-section {
-    background: var(--navy-dark);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: #f0f4fa;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
 
   .ticker-section-inner {
@@ -340,28 +340,31 @@
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #4a6a8a;
+    color: var(--text-muted);
   }
 
   .ticker-section-title {
     font-family: 'Lora', serif;
     font-size: 1.3rem;
     font-weight: 400;
-    color: #fff;
+    color: var(--navy);
     line-height: 1.2;
   }
 
-  .ticker-section-title em { color: var(--green); font-style: italic; }
+  .ticker-section-title em { color: var(--green-dark); font-style: italic; }
 
   .ticker-section-meta {
     font-size: 12px;
-    color: #4a6a8a;
+    color: var(--text-muted);
   }
 
   .ticker-shell {
-    background: var(--navy-dark);
+    background: var(--navy);
     overflow: hidden;
     font-family: 'DM Sans', sans-serif;
+    border-radius: 10px;
+    margin: 0 3rem 1.25rem;
+    border: 1px solid rgba(255,255,255,0.06);
   }
 
   .ticker-header {
@@ -396,16 +399,17 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--green);
-    border: 0.5px solid rgba(122,204,42,0.4);
+    color: var(--green-dark);
+    border: 0.5px solid rgba(93,160,24,0.4);
     border-radius: 20px;
     padding: 2px 9px;
+    background: rgba(122,204,42,0.1);
   }
 
   .live-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--green);
+    background: var(--green-dark);
     animation: livepulse 1.8s ease-in-out infinite;
   }
 
@@ -527,7 +531,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px 3rem;
+    padding: 7px 1.5rem;
     border-top: 1px solid rgba(255,255,255,0.05);
   }
 
@@ -600,7 +604,7 @@
     stroke-linejoin: round;
   }
 
-  /* Embed button on dark ticker */
+  /* Embed button in ticker section header (light bg) */
   .embed-btn-dark {
     display: inline-flex;
     align-items: center;
@@ -608,9 +612,9 @@
     font-size: 11px;
     font-weight: 500;
     font-family: 'DM Sans', sans-serif;
-    color: #8fafd4;
-    background: rgba(255,255,255,0.06);
-    border: 0.5px solid rgba(255,255,255,0.15);
+    color: var(--text-secondary);
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 4px 10px;
     cursor: pointer;
@@ -618,9 +622,9 @@
   }
 
   .embed-btn-dark:hover {
-    border-color: rgba(122,204,42,0.5);
-    color: var(--green);
-    background: rgba(122,204,42,0.08);
+    border-color: var(--green);
+    color: var(--green-dark);
+    background: var(--green-pale);
   }
 
   .embed-btn-dark svg {
@@ -836,7 +840,7 @@
   </div>
 
   <div class="ticker-shell">
-    <div style="padding:12px 3rem 0;">
+    <div style="padding:12px 1.5rem 0;">
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:8px;">
         <span id="tickerStatusLabel" style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.75);">Loading&hellip;</span>
@@ -995,10 +999,12 @@
 
   var TAG_URLS = {
     pfas:    'https://www.jdsupra.com/topics/pfas/',
-    '6ppd':  'https://www.jdsupra.com/search/searchResults.aspx?sTerm=6PPD-Q&tab=News',
-    micro:   'https://www.jdsupra.com/search/searchResults.aspx?sTerm=microplastics&tab=News',
-    dioxin:  'https://www.jdsupra.com/search/searchResults.aspx?sTerm=dioxin+PCB&tab=News',
-    general: 'https://www.jdsupra.com/topics/emerging-contaminants/'
+    '6ppd':  'https://www.jdsupra.com/legalnews/search/?q=6PPD-Q',
+    micro:   'https://www.jdsupra.com/topics/microplastics/',
+    dioxin:  'https://www.jdsupra.com/legalnews/search/?q=dioxin+PCB',
+    general: 'https://www.jdsupra.com/topics/emerging-contaminants/',
+    superfund: 'https://www.jdsupra.com/topics/superfund/',
+    pcb:     'https://www.jdsupra.com/legalnews/search/?q=PCB'
   };
   var TAG_COLOR = { pfas:'#7acc2a', '6ppd':'#72b8f5', micro:'#5dcaa5', dioxin:'#f0997b' };
   var TAG_BG    = { pfas:'rgba(122,204,42,0.15)', '6ppd':'rgba(55,138,221,0.15)', micro:'rgba(93,202,165,0.15)', dioxin:'rgba(216,90,48,0.15)' };
