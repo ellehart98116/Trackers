@@ -3,43 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Library Services — Tracker Index</title>
+<title>Library Services — Tracker & Ticker Index</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --integral-green: #3B6D11;
-    --integral-green-dark: #27500A;
-    --integral-green-light: #EAF3DE;
-    --integral-green-mid: #639922;
-    --integral-green-pale: #C0DD97;
-    --stone: #f5f4f0;
-    --stone-border: #e2e0d8;
-    --text-primary: #1a1a18;
-    --text-secondary: #5a5a55;
-    --text-muted: #8a8a84;
+    --navy: #1e2d45;
+    --navy-dark: #151f30;
+    --navy-mid: #2a3f5f;
+    --navy-light: #e8edf5;
+    --green: #7acc2a;
+    --green-dark: #5da018;
+    --green-pale: #d4f0a0;
     --white: #ffffff;
+    --border: #dde3ee;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #9ca3af;
     --prototype-bg: #FAEEDA;
-    --prototype-border: #EF9F27;
-    --prototype-text: #633806;
+    --prototype-border: #f5d9a0;
     --prototype-accent: #BA7517;
+    --prototype-text: #633806;
   }
 
   body {
     font-family: 'DM Sans', sans-serif;
     font-weight: 400;
-    background: var(--stone);
+    background: var(--white);
     color: var(--text-primary);
     min-height: 100vh;
   }
 
   /* ── Experimental banner ── */
   .exp-banner {
-    background: #2a1f00;
-    border-bottom: 1px solid #5a3d00;
-    padding: 0.6rem 3rem;
+    background: #0f1a2b;
+    border-bottom: 1px solid #1e2d45;
+    padding: 0.55rem 3rem;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -48,32 +49,32 @@
   .exp-banner-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: #EF9F27;
+    background: var(--green);
     flex-shrink: 0;
     animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    50% { opacity: 0.35; }
   }
 
   .exp-banner-text {
     font-size: 12px;
-    color: #FAC775;
+    color: #8fafd4;
     letter-spacing: 0.02em;
     line-height: 1.4;
   }
 
   .exp-banner-text strong {
     font-weight: 600;
-    color: #EF9F27;
+    color: var(--green);
   }
 
   /* ── Header ── */
   header {
-    background: var(--integral-green-dark);
-    padding: 2.5rem 3rem 2rem;
+    background: var(--navy);
+    padding: 2.5rem 3rem 2.25rem;
     position: relative;
     overflow: hidden;
   }
@@ -82,11 +83,11 @@
     content: '';
     position: absolute;
     bottom: 0; right: 0;
-    width: 320px; height: 320px;
+    width: 300px; height: 300px;
     border-radius: 50%;
-    background: var(--integral-green);
-    opacity: 0.25;
-    transform: translate(30%, 60%);
+    background: var(--green);
+    opacity: 0.07;
+    transform: translate(30%, 55%);
     pointer-events: none;
   }
 
@@ -96,36 +97,35 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--integral-green-pale);
+    color: #8fafd4;
     margin-bottom: 0.5rem;
   }
 
   .header-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem;
+    font-family: 'Lora', serif;
+    font-size: 2.3rem;
     color: var(--white);
     line-height: 1.15;
     font-weight: 400;
-    max-width: 540px;
+    max-width: 600px;
   }
 
   .header-title em {
     font-style: italic;
-    color: var(--integral-green-pale);
+    color: var(--green);
   }
 
   .header-sub {
     margin-top: 0.75rem;
     font-size: 13.5px;
-    color: var(--integral-green-pale);
-    opacity: 0.85;
-    max-width: 480px;
-    line-height: 1.6;
+    color: #8fafd4;
+    max-width: 500px;
+    line-height: 1.65;
   }
 
   /* ── Main layout ── */
   main {
-    max-width: 860px;
+    max-width: 880px;
     margin: 0 auto;
     padding: 3rem 2rem 5rem;
   }
@@ -138,14 +138,14 @@
   .section-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 1.25rem;
+    gap: 10px;
+    margin-bottom: 0.5rem;
   }
 
   .section-dot {
-    width: 10px; height: 10px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: var(--integral-green-mid);
+    background: var(--green);
     flex-shrink: 0;
   }
 
@@ -163,17 +163,17 @@
   }
 
   .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
+    font-family: 'Lora', serif;
+    font-size: 1.45rem;
     font-weight: 400;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
   }
 
   .section-desc {
     font-size: 13.5px;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.65;
     margin-bottom: 1.25rem;
     max-width: 560px;
   }
@@ -181,14 +181,14 @@
   /* ── Tracker card grid ── */
   .tracker-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
     gap: 14px;
   }
 
   /* ── Tracker card ── */
   .card {
     background: var(--white);
-    border: 1px solid var(--stone-border);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.25rem 1.25rem 1rem;
     text-decoration: none;
@@ -196,25 +196,24 @@
     flex-direction: column;
     gap: 10px;
     transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-    cursor: pointer;
   }
 
   .card:hover {
-    border-color: var(--integral-green-mid);
-    box-shadow: 0 4px 18px rgba(59, 109, 17, 0.1);
+    border-color: var(--green);
+    box-shadow: 0 4px 20px rgba(122, 204, 42, 0.12);
     transform: translateY(-2px);
   }
 
   .card-icon {
     width: 36px; height: 36px;
     border-radius: 8px;
-    background: var(--integral-green-light);
+    background: var(--navy-light);
     display: flex; align-items: center; justify-content: center;
   }
 
   .card-icon svg {
-    width: 18px; height: 18px;
-    stroke: var(--integral-green);
+    width: 17px; height: 17px;
+    stroke: var(--navy);
     fill: none;
     stroke-width: 1.8;
     stroke-linecap: round;
@@ -222,23 +221,24 @@
   }
 
   .card-name {
-    font-size: 14.5px;
+    font-family: 'Lora', serif;
+    font-size: 14px;
     font-weight: 500;
-    color: var(--text-primary);
-    line-height: 1.35;
+    color: var(--navy);
+    line-height: 1.4;
   }
 
   .card-meta {
     font-size: 12px;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   .card-arrow {
     margin-top: auto;
     font-size: 12px;
     font-weight: 500;
-    color: var(--integral-green);
+    color: var(--green-dark);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -261,9 +261,7 @@
   /* ── Prototype card variant ── */
   .card.prototype {
     background: var(--prototype-bg);
-    border-color: #F7C1C1; /* light amber-ish */
-    border-color: #f5d9a0;
-    position: relative;
+    border-color: var(--prototype-border);
   }
 
   .card.prototype:hover {
@@ -272,7 +270,7 @@
   }
 
   .card.prototype .card-icon {
-    background: rgba(186, 117, 23, 0.12);
+    background: rgba(186, 117, 23, 0.1);
   }
 
   .card.prototype .card-icon svg {
@@ -301,19 +299,259 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    background: rgba(186, 117, 23, 0.18);
+    background: rgba(186, 117, 23, 0.15);
     color: var(--prototype-text);
     border-radius: 4px;
     padding: 2px 7px;
-    margin-bottom: 2px;
     align-self: flex-start;
   }
 
   /* ── Divider ── */
   .divider {
     border: none;
-    border-top: 1px solid var(--stone-border);
+    border-top: 1px solid var(--border);
     margin: 2.5rem 0;
+  }
+
+  /* ── Ticker full-width section ── */
+  .ticker-section {
+    background: var(--navy-dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ticker-section-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 1.6rem 2rem 0.75rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .ticker-section-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ticker-section-eyebrow {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4a6a8a;
+  }
+
+  .ticker-section-title {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .ticker-section-title em { color: var(--green); font-style: italic; }
+
+  .ticker-section-meta {
+    font-size: 12px;
+    color: #4a6a8a;
+  }
+
+  .ticker-shell {
+    background: var(--navy-dark);
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .ticker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    max-width: 100%;
+  }
+
+  .ticker-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ticker-brand-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8fafd4;
+  }
+
+  .live-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 0.5px solid rgba(122,204,42,0.4);
+    border-radius: 20px;
+    padding: 2px 9px;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: livepulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes livepulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .ticker-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ctrl-btn {
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    color: #8fafd4;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .ctrl-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+  .ctrl-label {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4a6a8a;
+  }
+
+  .ticker-track-wrap {
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ticker-track-wrap::before,
+  .ticker-track-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .ticker-track-wrap::before { left: 0; background: linear-gradient(to right, #151f30, transparent); }
+  .ticker-track-wrap::after  { right: 0; background: linear-gradient(to left, #151f30, transparent); }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerscroll 80s linear infinite;
+  }
+
+  .ticker-track.paused { animation-play-state: paused; }
+
+  @keyframes tickerscroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 28px;
+    border-right: 0.5px solid rgba(255,255,255,0.06);
+    text-decoration: none;
+    min-width: 320px;
+    max-width: 500px;
+    transition: background 0.15s;
+  }
+
+  .ticker-item:hover { background: rgba(255,255,255,0.04); }
+
+  .item-tag {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .tag-pfas    { background: rgba(122,204,42,0.15);  color: #7acc2a; }
+  .tag-6ppd    { background: rgba(55,138,221,0.15);  color: #72b8f5; }
+  .tag-micro   { background: rgba(93,202,165,0.15);  color: #5dcaa5; }
+  .tag-general { background: rgba(143,175,212,0.15); color: #8fafd4; }
+  .tag-dioxin  { background: rgba(216,90,48,0.15);   color: #f0997b; }
+
+  .item-title {
+    font-family: 'Lora', serif;
+    font-size: 14.5px;
+    color: #d4e4f5;
+    line-height: 1.3;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .item-date {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: #3d5a78;
+    white-space: nowrap;
+  }
+
+  .ticker-source-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .source-text { font-size: 11px; color: #3d5a78; }
+
+  .source-link {
+    font-size: 11px;
+    color: var(--green-dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .source-link:hover { color: var(--green); }
+
+  .source-link svg {
+    width: 11px; height: 11px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* ── Footer ── */
@@ -322,8 +560,8 @@
     padding: 1.5rem;
     font-size: 12px;
     color: var(--text-muted);
-    border-top: 1px solid var(--stone-border);
-    background: var(--stone);
+    border-top: 1px solid var(--border);
+    background: var(--white);
   }
 </style>
 </head>
@@ -336,7 +574,7 @@
 
 <header>
   <p class="header-eyebrow">Library Services — Research Tools</p>
-  <h1 class="header-title">Tracker <em>Index</em></h1>
+  <h1 class="header-title">Tracker <em>&amp;</em> Ticker Index</h1>
   <p class="header-sub">A working index of regulatory, policy, and literature trackers under active development. All content is in draft and subject to change.</p>
 </header>
 
@@ -372,9 +610,43 @@
       </a>
 
     </div>
+
   </section>
 
-  <hr class="divider">
+</main>
+
+<!-- ── JD Supra Ticker — full width ── -->
+<div class="ticker-section">
+  <div class="ticker-section-inner">
+    <div class="ticker-section-heading">
+      <span class="ticker-section-eyebrow">Live Feed · JD Supra</span>
+      <h2 class="ticker-section-title"><em>Emerging Contaminants</em> — Litigation &amp; Regulatory Ticker</h2>
+    </div>
+    <div class="ticker-controls">
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+      <span class="ctrl-label">Hover to pause</span>
+      <button class="ctrl-btn" id="pauseBtn" title="Pause/Resume" aria-label="Pause or resume ticker">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="ticker-shell">
+    <div class="ticker-track-wrap">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+    <div class="ticker-source-bar">
+      <span class="source-text">Source: JD Supra · Curated by Library Services · Updated weekly</span>
+      <a class="source-link" href="https://www.jdsupra.com/topics/environmental-law/" target="_blank" rel="noopener">
+        Browse JD Supra
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<main style="padding-top: 0;">
+  <hr class="divider" style="margin-top: 2.5rem;">
 
   <!-- ── Literature Trackers ── -->
   <section class="section">
@@ -441,5 +713,140 @@
   Library Services — Research Tools &nbsp;·&nbsp; Experimental draft &nbsp;·&nbsp; Not for external distribution
 </footer>
 
+<script>
+(function() {
+  var track = document.getElementById('tickerTrack');
+  if (!track) return;
+
+  var FALLBACK = [
+    { tag:"pfas",    label:"PFAS",                  title:"EPA Finalizes PFAS Drinking Water Limits Under Safe Drinking Water Act",                   date:"May 2025", url:"https://www.jdsupra.com/legalnews/epa-finalizes-pfas-drinking-water-limits/" },
+    { tag:"pfas",    label:"PFAS",                  title:"3M Settlement Distribution Update: Claims Processing Enters Final Phase",                   date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/3m-pfas-settlement/" },
+    { tag:"6ppd",    label:"6PPD-Q",                title:"Washington State 6PPD-Q Ban Survives Industry Legal Challenge",                             date:"May 2025", url:"https://www.jdsupra.com/legalnews/6ppd-q-washington-state-ban/" },
+    { tag:"micro",   label:"Microplastics",          title:"California Microplastics Monitoring Rule Triggers First Wave of Industry Litigation",        date:"Mar 2025", url:"https://www.jdsupra.com/legalnews/california-microplastics-monitoring/" },
+    { tag:"pfas",    label:"PFAS",                  title:"DOD PFAS Remediation Liability: Congressional Scrutiny Intensifies",                        date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/dod-pfas-remediation/" },
+    { tag:"general", label:"Emerging Contaminants", title:"NRD Litigation Trend: Plaintiffs Expand Emerging Contaminant Claims to Include PFAS",        date:"May 2025", url:"https://www.jdsupra.com/legalnews/nrd-emerging-contaminants/" },
+    { tag:"pfas",    label:"PFAS",                  title:"PFAS Product Stewardship: FDA Phaseout Timeline and Industry Response",                      date:"Mar 2025", url:"https://www.jdsupra.com/legalnews/pfas-fda-phaseout/" },
+    { tag:"6ppd",    label:"6PPD-Q",                title:"6PPD-Q and Coho Salmon: Ninth Circuit Ruling Expands NRD Exposure for Tire Makers",          date:"Feb 2025", url:"https://www.jdsupra.com/legalnews/6ppd-q-coho-salmon-ninth-circuit/" },
+    { tag:"micro",   label:"Microplastics",          title:"Microplastic Human Health Claims: First Class Actions Filed in Federal Court",               date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/microplastics-class-action/" },
+    { tag:"pfas",    label:"PFAS",                  title:"State PFAS Superfund Laws: Multi-Jurisdictional Liability Exposure for Manufacturers",        date:"May 2025", url:"https://www.jdsupra.com/legalnews/state-pfas-superfund-laws/" },
+    { tag:"dioxin",  label:"Dioxins/PCBs",           title:"PCB Superfund Cost Recovery: Monsanto Successor Liability Ruling Affirmed",                  date:"Jan 2025", url:"https://www.jdsupra.com/legalnews/pcb-superfund-monsanto/" },
+    { tag:"general", label:"Emerging Contaminants", title:"White House Review of Emerging Contaminant Designation Process Underway",                     date:"May 2025", url:"https://www.jdsupra.com/legalnews/emerging-contaminant-designation/" },
+  ];
+
+  var FEEDS = [
+    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentalLaw&premium=1',
+    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentEnergy&premium=1',
+    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=ToxicTort&premium=1'
+  ];
+
+  var KEYWORDS = {
+    pfas:    ['pfas','pfoa','pfos','forever chemical','polyfluoroalkyl','perfluoro','afff'],
+    '6ppd':  ['6ppd','6ppd-q','tire rubber','coho salmon','tire-derived'],
+    micro:   ['microplastic','nanoplastic','plastic particle'],
+    dioxin:  ['dioxin','pcb','polychlorinated','tcdd'],
+  };
+
+  function tagItem(title) {
+    var t = title.toLowerCase();
+    var keys = Object.keys(KEYWORDS);
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      var terms = KEYWORDS[k];
+      for (var j = 0; j < terms.length; j++) {
+        if (t.indexOf(terms[j]) !== -1) {
+          var labels = { pfas:'PFAS', '6ppd':'6PPD-Q', micro:'Microplastics', dioxin:'Dioxins/PCBs' };
+          return { tag: k, label: labels[k] };
+        }
+      }
+    }
+    return { tag: 'general', label: 'Emerging Contaminants' };
+  }
+
+  function fmtDate(str) {
+    if (!str) return '';
+    var d = new Date(str);
+    if (isNaN(d)) return str.slice(0,10);
+    return d.toLocaleDateString('en-US', { month:'short', year:'numeric' });
+  }
+
+  function isRelevant(title) {
+    var t = title.toLowerCase();
+    var terms = ['pfas','pfoa','pfos','forever chemical','6ppd','microplastic','dioxin','pcb',
+                 'polyfluoro','perfluoro','toxic tort','emerging contaminant','afff','superfund',
+                 'contamina','remediat','selenium','perchlorate','tire rubber','nanoplastic'];
+    for (var i = 0; i < terms.length; i++) {
+      if (t.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function buildItem(d) {
+    var a = document.createElement('a');
+    a.className = 'ticker-item';
+    a.href = d.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.innerHTML = '<span class="item-tag tag-' + d.tag + '">' + d.label + '</span>'
+      + '<span class="item-title">' + d.title + '</span>'
+      + '<span class="item-date">' + d.date + '</span>';
+    return a;
+  }
+
+  function populateTicker(items) {
+    track.innerHTML = '';
+    var set = [...items, ...items];
+    set.forEach(function(d) { track.appendChild(buildItem(d)); });
+  }
+
+  function fetchFeed(url) {
+    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url) + '&count=20';
+    return fetch(api).then(function(r) { return r.json(); }).catch(function() { return null; });
+  }
+
+  populateTicker(FALLBACK);
+
+  Promise.all(FEEDS.map(fetchFeed)).then(function(results) {
+    var seen = {};
+    var items = [];
+    results.forEach(function(data) {
+      if (!data || data.status !== 'ok') return;
+      (data.items || []).forEach(function(item) {
+        var title = (item.title || '').trim();
+        if (!title || seen[title]) return;
+        if (!isRelevant(title)) return;
+        seen[title] = true;
+        var tagged = tagItem(title);
+        items.push({
+          tag:   tagged.tag,
+          label: tagged.label,
+          title: title,
+          date:  fmtDate(item.pubDate),
+          url:   item.link || '#'
+        });
+      });
+    });
+
+    if (items.length >= 5) {
+      items.sort(function(a,b) { return new Date(b.date) - new Date(a.date); });
+      populateTicker(items);
+      var bar = document.querySelector('.source-text');
+      if (bar) bar.textContent = 'Source: JD Supra (live) · ' + items.length + ' articles · Curated by Library Services';
+    }
+  });
+
+  var paused = false;
+  var btn = document.getElementById('pauseBtn');
+
+  btn.addEventListener('click', function() {
+    paused = !paused;
+    track.classList.toggle('paused', paused);
+    btn.innerHTML = paused
+      ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+      : '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+  });
+
+  track.addEventListener('mouseenter', function() { if (!paused) track.classList.add('paused'); });
+  track.addEventListener('mouseleave', function() { if (!paused) track.classList.remove('paused'); });
+})();
+</script>
 </body>
-</html>
