@@ -139,8 +139,8 @@ html,body{font-family:var(--font);background:transparent;color:var(--text);margi
 </div>
 <script>
 (function(){
-  var FEED='https://www.rightfind.com/vlib/rss/top.aspx?type=articles&scope=RollingClient&username=ehartley%40integral-corp.com&token=j%2fEVDR%2fbuspoOickbk6LLSIWVsoR%2b922jN76Xf8O%2fd8%3d&count=100&age=10&noauth=0';
-  var API='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(FEED)+'&count=100';
+  var FEED='https://www.rightfind.com/vlib/rss/top.aspx?type=articles&scope=RollingClient&username=ehartley%40integral-corp.com&token=j%2fEVDR%2fbuspoOickbk6LLSIWVsoR%2b922jN76Xf8O%2fd8%3d&age=10&noauth=0';
+  var API='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(FEED)+'&count=10';
 
   function trunc(s,n){return s&&s.length>n?s.slice(0,n).trim()+'\u2026':(s||'');}
 
