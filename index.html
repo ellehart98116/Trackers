@@ -554,6 +554,11 @@
     stroke-linejoin: round;
   }
 
+  @keyframes tickFadeIn {
+    from { opacity:0; transform:translateY(4px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
   /* ── Footer ── */
   footer {
     text-align: center;
@@ -619,26 +624,34 @@
 <div class="ticker-section">
   <div class="ticker-section-inner">
     <div class="ticker-section-heading">
-      <span class="ticker-section-eyebrow">Live Feed · JD Supra</span>
-      <h2 class="ticker-section-title"><em>Emerging Contaminants</em> — Litigation &amp; Regulatory Ticker</h2>
+      <span class="ticker-section-eyebrow">Live Feed</span>
+      <h2 class="ticker-section-title"><em>JD Supra</em> — Emerging Contaminants</h2>
     </div>
-    <div class="ticker-controls">
-      <div class="live-pill"><div class="live-dot"></div>Live</div>
-      <span class="ctrl-label">Hover to pause</span>
-      <button class="ctrl-btn" id="pauseBtn" title="Pause/Resume" aria-label="Pause or resume ticker">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-      </button>
-    </div>
+    <div class="live-pill"><div class="live-dot"></div>Live</div>
   </div>
 
   <div class="ticker-shell">
-    <div class="ticker-track-wrap">
-      <div class="ticker-track" id="tickerTrack"></div>
+    <div style="padding: 14px 2rem 0;">
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
+        <span id="tickerStatusLabel" style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.75);">Loading&hellip;</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="ctrl-btn" data-dir="prev" type="button" aria-label="Previous" style="font-size:16px; width:28px; height:28px;">&#8249;</button>
+          <span id="tickerDots" style="display:inline-flex; gap:5px; padding:0 4px;"></span>
+          <button class="ctrl-btn" data-dir="next" type="button" aria-label="Next" style="font-size:16px; width:28px; height:28px;">&#8250;</button>
+        </div>
+      </div>
+
+      <div id="tickerBody" style="min-height:110px; padding-bottom:4px;">
+        <div style="font-size:12.5px; color:rgba(255,255,255,0.6); padding:12px 0;">Loading emerging contaminant activity&hellip;</div>
+      </div>
+
     </div>
+
     <div class="ticker-source-bar">
-      <span class="source-text">Source: JD Supra · Curated by Library Services · Updated weekly</span>
-      <a class="source-link" href="https://www.jdsupra.com/topics/environmental-law/" target="_blank" rel="noopener">
-        Browse JD Supra
+      <span class="source-text" id="tickerAge"></span>
+      <a class="source-link" href="https://www.jdsupra.com/law-news/environmental-law/" target="_blank" rel="noopener">
+        JD Supra Environmental Law
         <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
@@ -714,139 +727,142 @@
 </footer>
 
 <script>
-(function() {
-  var track = document.getElementById('tickerTrack');
-  if (!track) return;
+(function () {
+  var MAX_DISPLAY = 8;
+  var ROTATE_MS   = 8000;
+  var DATA_URL    = 'https://ellehart98116.github.io/Trackers/Trackers/emerging-contaminants-data.json';
 
-  var FALLBACK = [
-    { tag:"pfas",    label:"PFAS",                  title:"EPA Finalizes PFAS Drinking Water Limits Under Safe Drinking Water Act",                   date:"May 2025", url:"https://www.jdsupra.com/legalnews/epa-finalizes-pfas-drinking-water-limits/" },
-    { tag:"pfas",    label:"PFAS",                  title:"3M Settlement Distribution Update: Claims Processing Enters Final Phase",                   date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/3m-pfas-settlement/" },
-    { tag:"6ppd",    label:"6PPD-Q",                title:"Washington State 6PPD-Q Ban Survives Industry Legal Challenge",                             date:"May 2025", url:"https://www.jdsupra.com/legalnews/6ppd-q-washington-state-ban/" },
-    { tag:"micro",   label:"Microplastics",          title:"California Microplastics Monitoring Rule Triggers First Wave of Industry Litigation",        date:"Mar 2025", url:"https://www.jdsupra.com/legalnews/california-microplastics-monitoring/" },
-    { tag:"pfas",    label:"PFAS",                  title:"DOD PFAS Remediation Liability: Congressional Scrutiny Intensifies",                        date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/dod-pfas-remediation/" },
-    { tag:"general", label:"Emerging Contaminants", title:"NRD Litigation Trend: Plaintiffs Expand Emerging Contaminant Claims to Include PFAS",        date:"May 2025", url:"https://www.jdsupra.com/legalnews/nrd-emerging-contaminants/" },
-    { tag:"pfas",    label:"PFAS",                  title:"PFAS Product Stewardship: FDA Phaseout Timeline and Industry Response",                      date:"Mar 2025", url:"https://www.jdsupra.com/legalnews/pfas-fda-phaseout/" },
-    { tag:"6ppd",    label:"6PPD-Q",                title:"6PPD-Q and Coho Salmon: Ninth Circuit Ruling Expands NRD Exposure for Tire Makers",          date:"Feb 2025", url:"https://www.jdsupra.com/legalnews/6ppd-q-coho-salmon-ninth-circuit/" },
-    { tag:"micro",   label:"Microplastics",          title:"Microplastic Human Health Claims: First Class Actions Filed in Federal Court",               date:"Apr 2025", url:"https://www.jdsupra.com/legalnews/microplastics-class-action/" },
-    { tag:"pfas",    label:"PFAS",                  title:"State PFAS Superfund Laws: Multi-Jurisdictional Liability Exposure for Manufacturers",        date:"May 2025", url:"https://www.jdsupra.com/legalnews/state-pfas-superfund-laws/" },
-    { tag:"dioxin",  label:"Dioxins/PCBs",           title:"PCB Superfund Cost Recovery: Monsanto Successor Liability Ruling Affirmed",                  date:"Jan 2025", url:"https://www.jdsupra.com/legalnews/pcb-superfund-monsanto/" },
-    { tag:"general", label:"Emerging Contaminants", title:"White House Review of Emerging Contaminant Designation Process Underway",                     date:"May 2025", url:"https://www.jdsupra.com/legalnews/emerging-contaminant-designation/" },
-  ];
+  var tickerSection = document.querySelector('.ticker-section');
+  var bodyEl        = document.getElementById('tickerBody');
+  var dotsEl        = document.getElementById('tickerDots');
+  var statusLabel   = document.getElementById('tickerStatusLabel');
+  var ageLabel      = document.getElementById('tickerAge');
 
-  var FEEDS = [
-    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentalLaw&premium=1',
-    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=EnvironmentEnergy&premium=1',
-    'https://www.jdsupra.com/resources/syndication/docsRSSfeed.aspx?ftype=ToxicTort&premium=1'
-  ];
+  var items       = [];
+  var current     = 0;
+  var rotateTimer = null;
 
-  var KEYWORDS = {
-    pfas:    ['pfas','pfoa','pfos','forever chemical','polyfluoroalkyl','perfluoro','afff'],
-    '6ppd':  ['6ppd','6ppd-q','tire rubber','coho salmon','tire-derived'],
-    micro:   ['microplastic','nanoplastic','plastic particle'],
-    dioxin:  ['dioxin','pcb','polychlorinated','tcdd'],
-  };
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+  function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    return isNaN(d) ? s : d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  }
+  function timeAgo(isoStr) {
+    if (!isoStr) return '';
+    var diff = Date.now() - new Date(isoStr).getTime();
+    var h = Math.round(diff / 36e5);
+    if (h < 1)  return 'Updated just now';
+    if (h < 24) return 'Updated ' + h + 'h ago';
+    var d = Math.round(h / 24);
+    return 'Updated ' + d + (d === 1 ? ' day' : ' days') + ' ago';
+  }
 
-  function tagItem(title) {
-    var t = title.toLowerCase();
-    var keys = Object.keys(KEYWORDS);
-    for (var i = 0; i < keys.length; i++) {
-      var k = keys[i];
-      var terms = KEYWORDS[k];
-      for (var j = 0; j < terms.length; j++) {
-        if (t.indexOf(terms[j]) !== -1) {
-          var labels = { pfas:'PFAS', '6ppd':'6PPD-Q', micro:'Microplastics', dioxin:'Dioxins/PCBs' };
-          return { tag: k, label: labels[k] };
-        }
-      }
+  function renderDots() {
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      html += '<span style="width:7px;height:7px;border-radius:50%;cursor:pointer;transition:background 0.15s;background:' +
+        (i === current ? '#7acc2a' : 'rgba(255,255,255,0.25)') +
+        '" data-idx="' + i + '"></span>';
     }
-    return { tag: 'general', label: 'Emerging Contaminants' };
-  }
-
-  function fmtDate(str) {
-    if (!str) return '';
-    var d = new Date(str);
-    if (isNaN(d)) return str.slice(0,10);
-    return d.toLocaleDateString('en-US', { month:'short', year:'numeric' });
-  }
-
-  function isRelevant(title) {
-    var t = title.toLowerCase();
-    var terms = ['pfas','pfoa','pfos','forever chemical','6ppd','microplastic','dioxin','pcb',
-                 'polyfluoro','perfluoro','toxic tort','emerging contaminant','afff','superfund',
-                 'contamina','remediat','selenium','perchlorate','tire rubber','nanoplastic'];
-    for (var i = 0; i < terms.length; i++) {
-      if (t.indexOf(terms[i]) !== -1) return true;
-    }
-    return false;
-  }
-
-  function buildItem(d) {
-    var a = document.createElement('a');
-    a.className = 'ticker-item';
-    a.href = d.url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.innerHTML = '<span class="item-tag tag-' + d.tag + '">' + d.label + '</span>'
-      + '<span class="item-title">' + d.title + '</span>'
-      + '<span class="item-date">' + d.date + '</span>';
-    return a;
-  }
-
-  function populateTicker(items) {
-    track.innerHTML = '';
-    var set = [...items, ...items];
-    set.forEach(function(d) { track.appendChild(buildItem(d)); });
-  }
-
-  function fetchFeed(url) {
-    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url) + '&count=20';
-    return fetch(api).then(function(r) { return r.json(); }).catch(function() { return null; });
-  }
-
-  populateTicker(FALLBACK);
-
-  Promise.all(FEEDS.map(fetchFeed)).then(function(results) {
-    var seen = {};
-    var items = [];
-    results.forEach(function(data) {
-      if (!data || data.status !== 'ok') return;
-      (data.items || []).forEach(function(item) {
-        var title = (item.title || '').trim();
-        if (!title || seen[title]) return;
-        if (!isRelevant(title)) return;
-        seen[title] = true;
-        var tagged = tagItem(title);
-        items.push({
-          tag:   tagged.tag,
-          label: tagged.label,
-          title: title,
-          date:  fmtDate(item.pubDate),
-          url:   item.link || '#'
-        });
+    dotsEl.innerHTML = html;
+    dotsEl.querySelectorAll('span[data-idx]').forEach(function (d) {
+      d.addEventListener('click', function () {
+        current = parseInt(d.dataset.idx, 10);
+        renderCurrent(); restartRotation();
       });
     });
+  }
 
-    if (items.length >= 5) {
-      items.sort(function(a,b) { return new Date(b.date) - new Date(a.date); });
-      populateTicker(items);
-      var bar = document.querySelector('.source-text');
-      if (bar) bar.textContent = 'Source: JD Supra (live) · ' + items.length + ' articles · Curated by Library Services';
-    }
+  function renderCurrent() {
+    if (!items.length) return;
+    var item = items[current];
+    var abstract = item.abstract || '';
+    if (abstract.length >= 280) abstract += '…';
+    var agencyText = item.agency ? item.agency.split(',')[0].trim() : '';
+
+    var tagColor = { pfas:'#7acc2a', '6ppd':'#72b8f5', micro:'#5dcaa5', dioxin:'#f0997b' };
+    var tagBg    = { pfas:'rgba(122,204,42,0.15)', '6ppd':'rgba(55,138,221,0.15)', micro:'rgba(93,202,165,0.15)', dioxin:'rgba(216,90,48,0.15)' };
+    var tagKey   = (item.tag || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    var tc = tagColor[tagKey] || '#8fafd4';
+    var tb = tagBg[tagKey]   || 'rgba(143,175,212,0.15)';
+
+    bodyEl.innerHTML =
+      '<div style="animation:tickFadeIn 0.35s ease-out;">' +
+        '<a href="' + esc(item.url) + '" target="_blank" rel="noopener" style="display:block;color:#fff;font-family:Lora,Georgia,serif;font-size:15px;font-weight:600;line-height:1.4;text-decoration:none;margin-bottom:8px;">' + esc(item.title) + '</a>' +
+        '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:7px;font-size:11px;">' +
+          '<span style="padding:2px 8px;border-radius:3px;font-weight:600;background:rgba(180,200,255,0.14);color:#b4c8ff;border:1px solid rgba(180,200,255,0.3);">JD Supra</span>' +
+          (item.type ? '<span style="padding:2px 8px;border-radius:3px;background:' + tb + ';color:' + tc + ';border:1px solid ' + tc + '44;">' + esc(item.type) + '</span>' : '') +
+          (item.tag  ? '<span style="padding:2px 8px;border-radius:3px;background:rgba(255,200,100,0.13);color:#ffc870;border:1px solid rgba(255,200,100,0.3);">' + esc(item.tag) + '</span>' : '') +
+          (agencyText ? '<span style="padding:2px 8px;border-radius:3px;background:rgba(200,200,255,0.10);color:rgba(200,210,255,0.8);border:1px solid rgba(200,200,255,0.2);">' + esc(agencyText) + '</span>' : '') +
+          '<span style="color:rgba(255,255,255,0.6);font-weight:500;">' + esc(fmtDate(item.date)) + '</span>' +
+        '</div>' +
+        (abstract ? '<div style="font-size:12.5px;line-height:1.55;color:rgba(255,255,255,0.8);">' + esc(abstract) + '</div>' : '') +
+      '</div>';
+
+    renderDots();
+  }
+
+  function startRotation() {
+    if (items.length <= 1) return;
+    rotateTimer = setInterval(function () {
+      current = (current + 1) % items.length;
+      renderCurrent();
+    }, ROTATE_MS);
+  }
+  function stopRotation()    { if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; } }
+  function restartRotation() { stopRotation(); startRotation(); }
+
+  tickerSection.querySelectorAll('.ctrl-btn[data-dir]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!items.length) return;
+      current = btn.dataset.dir === 'prev'
+        ? (current - 1 + items.length) % items.length
+        : (current + 1) % items.length;
+      renderCurrent(); restartRotation();
+    });
   });
+  tickerSection.addEventListener('mouseenter', stopRotation);
+  tickerSection.addEventListener('mouseleave', startRotation);
 
-  var paused = false;
-  var btn = document.getElementById('pauseBtn');
+  fetch(DATA_URL)
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function (data) {
+      var all        = data.items || [];
+      var regulatory = all.filter(function (i) { return i.sourceType === 'regulatory'; });
+      var legal      = all.filter(function (i) { return i.sourceType === 'legal'; });
+      var interleaved = [];
+      var ri = 0, li = 0;
+      while (interleaved.length < MAX_DISPLAY && (ri < regulatory.length || li < legal.length)) {
+        if (ri < regulatory.length) interleaved.push(regulatory[ri++]);
+        if (interleaved.length < MAX_DISPLAY && li < legal.length) interleaved.push(legal[li++]);
+      }
+      items = interleaved;
 
-  btn.addEventListener('click', function() {
-    paused = !paused;
-    track.classList.toggle('paused', paused);
-    btn.innerHTML = paused
-      ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
-      : '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-  });
+      if (!items.length) {
+        bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">No results yet — the GitHub Actions workflow may still be running for the first time.</div>';
+        statusLabel.textContent = 'No data';
+        return;
+      }
 
-  track.addEventListener('mouseenter', function() { if (!paused) track.classList.add('paused'); });
-  track.addEventListener('mouseleave', function() { if (!paused) track.classList.remove('paused'); });
+      var tags = {};
+      items.forEach(function (it) { if (it.tag) tags[it.tag] = true; });
+      statusLabel.textContent = 'JD Supra · ' + items.length + ' items · ' + Object.keys(tags).length + ' contaminant groups';
+      if (data.generated) ageLabel.textContent = timeAgo(data.generated);
+
+      renderCurrent();
+      startRotation();
+    })
+    .catch(function (err) {
+      console.error('Feed load error:', err);
+      bodyEl.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,0.6);padding:12px 0;">Feed data unavailable. Trigger the GitHub Actions workflow manually to generate the data file.</div>';
+      statusLabel.textContent = 'Offline';
+    });
 })();
 </script>
 </body>
+</html>
