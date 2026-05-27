@@ -184,6 +184,13 @@
     gap: 16px;
   }
 
+  /* ── HERO grid: PFAS gets full width top row, 6PPD-Q normal ── */
+  .tracker-grid-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
   /* ── Tracker card ── */
   .card {
     background: var(--white);
@@ -201,6 +208,71 @@
     border-color: var(--green);
     box-shadow: 0 4px 20px rgba(122, 204, 42, 0.12);
     transform: translateY(-2px);
+  }
+
+  /* ── PFAS Hero card ── */
+  .card.hero {
+    border: 2px solid var(--green);
+    background: linear-gradient(135deg, #f6fcee 0%, #ffffff 60%);
+    box-shadow: 0 4px 24px rgba(122, 204, 42, 0.13);
+    padding: 1.5rem 1.5rem 1.15rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: var(--green);
+    opacity: 0.06;
+    transform: translate(35%, -35%);
+    pointer-events: none;
+  }
+
+  .card.hero:hover {
+    border-color: var(--green-dark);
+    box-shadow: 0 8px 32px rgba(122, 204, 42, 0.2);
+    transform: translateY(-3px);
+  }
+
+  .card.hero .card-icon {
+    width: 42px; height: 42px;
+    background: rgba(122, 204, 42, 0.12);
+    border-radius: 10px;
+  }
+
+  .card.hero .card-icon svg {
+    width: 20px; height: 20px;
+    stroke: var(--green-dark);
+  }
+
+  .card.hero .card-name {
+    font-size: 15.5px;
+    color: var(--navy);
+  }
+
+  .card.hero .card-meta {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    background: rgba(122, 204, 42, 0.15);
+    color: var(--green-dark);
+    border: 1px solid rgba(122, 204, 42, 0.35);
+    border-radius: 4px;
+    padding: 2px 8px;
+    align-self: flex-start;
   }
 
   .card-icon {
@@ -255,6 +327,32 @@
 
   .card:hover .card-arrow svg {
     transform: translateX(3px);
+  }
+
+  /* Curation criteria link */
+  .card-criteria-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+    margin-top: 2px;
+  }
+
+  .card-criteria-link:hover {
+    color: var(--green-dark);
+  }
+
+  .card-criteria-link svg {
+    width: 11px; height: 11px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* ── Prototype card variant ── */
@@ -312,7 +410,7 @@
     margin: 2.5rem 0;
   }
 
-  /* ── Ticker full-width section ── */
+  /* ── Ticker — slimmed down ── */
   .ticker-section {
     background: #f0f4fa;
     border-top: 1px solid var(--border);
@@ -322,9 +420,9 @@
   .ticker-section-inner {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 1.25rem 3rem 0.75rem;
+    padding: 0.75rem 3rem 0.5rem;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
   }
@@ -332,11 +430,11 @@
   .ticker-section-heading {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .ticker-section-eyebrow {
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -345,7 +443,7 @@
 
   .ticker-section-title {
     font-family: 'Lora', serif;
-    font-size: 1.3rem;
+    font-size: 1.05rem;
     font-weight: 400;
     color: var(--navy);
     line-height: 1.2;
@@ -353,17 +451,12 @@
 
   .ticker-section-title em { color: var(--green-dark); font-style: italic; }
 
-  .ticker-section-meta {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
   .ticker-shell {
     background: var(--navy);
     overflow: hidden;
     font-family: 'DM Sans', sans-serif;
-    border-radius: 10px;
-    margin: 0 3rem 1.25rem;
+    border-radius: 8px;
+    margin: 0 3rem 0.85rem;
     border: 1px solid rgba(255,255,255,0.06);
   }
 
@@ -371,7 +464,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 2rem;
+    padding: 8px 1.5rem;
     border-top: 1px solid rgba(255,255,255,0.06);
     max-width: 100%;
   }
@@ -429,7 +522,7 @@
     border: 0.5px solid rgba(255,255,255,0.15);
     border-radius: 6px;
     color: #8fafd4;
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: background 0.15s;
@@ -531,7 +624,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px 1.5rem;
+    padding: 5px 1.5rem;
     border-top: 1px solid rgba(255,255,255,0.05);
   }
 
@@ -787,14 +880,20 @@
     <h2 class="section-title">Emerging Contaminants</h2>
     <p class="section-desc">Trackers monitoring federal and state regulatory activity, policy developments, and enforcement trends for priority contaminants.</p>
 
-    <div class="tracker-grid">
+    <div class="tracker-grid-hero">
 
-      <a class="card" href="https://ellehart98116.github.io/Trackers/PPT.html" target="_blank" rel="noopener">
+      <!-- PFAS — hero card -->
+      <a class="card hero" href="https://ellehart98116.github.io/Trackers/PPT.html" target="_blank" rel="noopener">
+        <span class="hero-badge">★ Featured tracker</span>
         <div class="card-icon">
           <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
         </div>
         <span class="card-name">PFAS Regulatory and Industry Tracker</span>
         <span class="card-meta">Federal rules, state actions, enforcement, and industry response across PFAS compounds.</span>
+        <a class="card-criteria-link" href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-curation-criteria.docx?d=w3c2b814f0237439ba4f9756b44e74fb7&csf=1&web=1&e=mtgmcK" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Curation criteria
+        </a>
         <div class="card-footer">
           <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('PFAS Regulatory and Industry Tracker','https://ellehart98116.github.io/Trackers/PPT.html')">
@@ -803,6 +902,7 @@
         </div>
       </a>
 
+      <!-- 6PPD-Q — normal card -->
       <a class="card" href="https://ellehart98116.github.io/Trackers/6ppd_q_tracker.html" target="_blank" rel="noopener">
         <div class="card-icon">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
@@ -823,7 +923,7 @@
 
 </main>
 
-<!-- ── JD Supra Ticker — full width ── -->
+<!-- ── JD Supra Ticker — slimmed down, full width ── -->
 <div class="ticker-section" id="tickerSection">
   <div class="ticker-section-inner">
     <div class="ticker-section-heading">
@@ -840,18 +940,18 @@
   </div>
 
   <div class="ticker-shell">
-    <div style="padding:12px 1.5rem 0;">
+    <div style="padding:9px 1.5rem 0;">
 
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:8px;">
         <span id="tickerStatusLabel" style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.75);">Loading&hellip;</span>
         <div style="display:flex;align-items:center;gap:8px;">
-          <button class="ctrl-btn" data-dir="prev" type="button" aria-label="Previous" style="font-size:16px;width:28px;height:28px;">&#8249;</button>
+          <button class="ctrl-btn" data-dir="prev" type="button" aria-label="Previous" style="font-size:16px;width:26px;height:26px;">&#8249;</button>
           <span id="tickerDots" style="display:inline-flex;gap:5px;padding:0 4px;"></span>
-          <button class="ctrl-btn" data-dir="next" type="button" aria-label="Next" style="font-size:16px;width:28px;height:28px;">&#8250;</button>
+          <button class="ctrl-btn" data-dir="next" type="button" aria-label="Next" style="font-size:16px;width:26px;height:26px;">&#8250;</button>
         </div>
       </div>
 
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;">
         <div style="position:relative;flex:1;min-width:180px;max-width:280px;">
           <input id="tickerSearch" type="text" placeholder="Search articles…" style="width:100%;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;font-size:12px;padding:5px 10px 5px 28px;outline:none;font-family:'DM Sans',sans-serif;" />
           <svg style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:rgba(255,255,255,0.4);fill:none;stroke-width:2;stroke-linecap:round;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -860,9 +960,9 @@
         <button id="clearFilters" style="display:none;font-size:10px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;padding:2px 4px;font-family:'DM Sans',sans-serif;">&#x2715; Clear</button>
       </div>
 
-      <div id="tickerBody" style="min-height:130px;padding-bottom:4px;"></div>
+      <div id="tickerBody" style="min-height:110px;padding-bottom:4px;"></div>
 
-      <div style="height:2px;background:rgba(255,255,255,0.06);margin:10px 0 2px;border-radius:1px;overflow:hidden;">
+      <div style="height:2px;background:rgba(255,255,255,0.06);margin:8px 0 2px;border-radius:1px;overflow:hidden;">
         <div id="tickerProgress" style="height:100%;width:0%;background:#7acc2a;transition:width 0.1s linear;border-radius:1px;"></div>
       </div>
 
@@ -1248,13 +1348,11 @@
         return;
       }
 
-      // New since last visit
       var lastVisit = localStorage.getItem(LAST_VISIT_KEY);
       var hasNew = lastVisit && allItems.some(function(i) { return i.date && new Date(i.date) > new Date(lastVisit); });
       if (hasNew) lastBadge.style.display = 'inline';
       localStorage.setItem(LAST_VISIT_KEY, new Date().toISOString());
 
-      // Source diversity
       var authors = {};
       allItems.forEach(function(i) { if (i.agency) { var a = i.agency.split(',')[0].trim(); authors[a] = true; } });
       var authorCount = Object.keys(authors).length;
@@ -1309,7 +1407,6 @@ function openEmbedModal(name, url) {
   copyBtn.textContent = 'Copy code';
   copyBtn.classList.remove('copied');
 
-  // Re-add icon
   copyBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy code';
 
   modal.classList.add('open');
@@ -1335,12 +1432,10 @@ function copyEmbedCode() {
   }, 2000);
 }
 
-// Close on overlay click
 document.getElementById('embedModal').addEventListener('click', function(e) {
   if (e.target === this) closeEmbedModal();
 });
 
-// Close on Escape
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeEmbedModal();
 });
