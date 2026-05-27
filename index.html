@@ -184,11 +184,12 @@
     gap: 16px;
   }
 
-  /* ── HERO grid: PFAS gets full width top row, 6PPD-Q normal ── */
+  /* ── HERO grid: PFAS and 6PPD-Q side by side, equal height ── */
   .tracker-grid-hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+    align-items: stretch;
   }
 
   /* ── Tracker card ── */
@@ -325,7 +326,8 @@
     transition: transform 0.15s ease;
   }
 
-  .card:hover .card-arrow svg {
+  .card:hover .card-arrow svg,
+  .card:hover a.card-arrow svg {
     transform: translateX(3px);
   }
 
@@ -882,25 +884,27 @@
 
     <div class="tracker-grid-hero">
 
-      <!-- PFAS — hero card -->
-      <a class="card hero" href="https://ellehart98116.github.io/Trackers/PPT.html" target="_blank" rel="noopener">
+      <!-- PFAS — hero card (div wrapper avoids nested-anchor invalid HTML) -->
+      <div class="card hero" style="cursor:pointer;" onclick="window.open('https://ellehart98116.github.io/Trackers/PPT.html','_blank','noopener')">
         <span class="hero-badge">★ Featured tracker</span>
         <div class="card-icon">
           <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
         </div>
         <span class="card-name">PFAS Regulatory and Industry Tracker</span>
         <span class="card-meta">Federal rules, state actions, enforcement, and industry response across PFAS compounds.</span>
-        <a class="card-criteria-link" href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-curation-criteria.docx?d=w3c2b814f0237439ba4f9756b44e74fb7&csf=1&web=1&e=mtgmcK" target="_blank" rel="noopener" onclick="event.stopPropagation();">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Curation criteria
-        </a>
-        <div class="card-footer">
-          <span class="card-arrow">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-          <button class="embed-btn" onclick="event.preventDefault();openEmbedModal('PFAS Regulatory and Industry Tracker','https://ellehart98116.github.io/Trackers/PPT.html')">
-            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
-          </button>
+        <div class="card-footer" style="margin-top:auto;">
+          <a class="card-arrow" href="https://ellehart98116.github.io/Trackers/PPT.html" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="text-decoration:none;">Open tracker <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <a class="card-criteria-link" href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-curation-criteria.docx?d=w3c2b814f0237439ba4f9756b44e74fb7&csf=1&web=1&e=mtgmcK" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Criteria
+            </a>
+            <button class="embed-btn" onclick="event.stopPropagation();openEmbedModal('PFAS Regulatory and Industry Tracker','https://ellehart98116.github.io/Trackers/PPT.html')">
+              <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Embed
+            </button>
+          </div>
         </div>
-      </a>
+      </div>
 
       <!-- 6PPD-Q — normal card -->
       <a class="card" href="https://ellehart98116.github.io/Trackers/6ppd_q_tracker.html" target="_blank" rel="noopener">
@@ -1232,6 +1236,7 @@
       document.execCommand('copy'); document.body.removeChild(ta);
     });
   }
+  window.copyLink = copyLink;
 
   function openModal(item) {
     var k = tagKey(item.tag);
