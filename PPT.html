@@ -561,6 +561,23 @@ footer.foot a:hover { text-decoration: underline; }
 .critical-links a { color: #0a4f6f; text-decoration: none; }
 .critical-links a:hover { text-decoration: underline; }
 
+
+/* Federal Register live-stream visual treatments */
+#frContent .badge.type-proposed { background: #fff3e6; color: #a06a13; border: 1px solid #f0d4a8; }
+#frContent .badge.type-rule, #frContent .badge.type-final { background: #eef9d9; color: #4a7016; border: 1px solid #c8e288; }
+#frContent .badge.type-notice { background: #e6f0fa; color: #1e5b8a; border: 1px solid #b8d4ea; }
+#frContent .badge.type-presidential { background: #f0e6fa; color: #5a2b8a; border: 1px solid #d4b8ea; }
+#frContent .badge.type-correction { background: #fae6e6; color: #8a2b2b; border: 1px solid #ea b8b8; }
+#frContent .badge.type-other { background: #ececec; color: #6b6b6b; border: 1px solid #d6d6d6; }
+#frContent .badge.type-icon { margin-right: 4px; opacity: 0.7; }
+#frContent .fr-item { border-left: 3px solid transparent; padding-left: 8px; transition: background 0.15s; border-radius: 3px; }
+#frContent .fr-item.is-priority { border-left-color: var(--integral-lime); background: linear-gradient(90deg, rgba(148, 211, 67, 0.08) 0%, transparent 70%); }
+#frContent .fr-item.is-priority .fr-title::before { content: "\1F4CC "; font-size: 11px; opacity: 0.85; margin-right: 2px; }
+#frContent .priority-tag { display: inline-block; background: var(--integral-lime); color: var(--integral-navy); font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 3px; margin-left: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+.fr-legend { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 14px 0; padding: 8px 12px; background: #fafcfd; border: 1px solid #e3e8ee; border-radius: 5px; font-size: 11.5px; color: #6b7c8c; }
+.fr-legend strong { color: #1a2733; margin-right: 4px; font-weight: 600; }
+.fr-legend .badge { font-size: 10px; }
+
 </style>
 </head>
 <body>
@@ -657,6 +674,15 @@ footer.foot a:hover { text-decoration: underline; }
 <section id="federal-register">
   <h2>Live EPA Federal Register Stream <span class="count" id="frCount">&hellip;</span><span class="news-marker" style="background:#c8ec3a; color:var(--integral-navy);">Live</span></h2>
   <p style="font-size:12.5px; color:#6b7c8c; margin:-6px 0 12px 0;">Real-time raw stream of EPA PFAS publications &mdash; auto-fetched on every page load from the <a href="https://www.federalregister.gov/developers/api/v1" target="_blank" rel="noopener" style="color:#0a4f6f;">federalregister.gov public API</a>. Curated, structured federal regulations are in the <strong>Federal Actions</strong> section just below.</p>
+  <div class="fr-legend">
+    <strong>Color key:</strong>
+    <span class="badge type-proposed">Proposed Rule</span>
+    <span class="badge type-rule">Final Rule</span>
+    <span class="badge type-notice">Notice</span>
+    <span style="opacity:0.7; padding-left:6px;">|</span>
+    <span class="priority-tag">Priority</span>
+    <span style="opacity:0.85;">items matching Integral PFAS keywords are highlighted with a lime accent and 📌 marker.</span>
+  </div>
   <div id="frContent">
     <div class="loading"><span class="spinner"></span>Fetching latest PFAS rulemakings from federalregister.gov&hellip;</div>
   </div>
@@ -1706,6 +1732,25 @@ footer.foot a:hover { text-decoration: underline; }
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
+  // Document type → CSS class + icon
+  function typeMeta(t) {
+    if (!t) return { cls: 'type-other', icon: '' };
+    var lower = t.toLowerCase();
+    if (lower.indexOf('proposed') !== -1) return { cls: 'type-proposed', icon: '\u{1F4DD}' }; // 📝
+    if (lower.indexOf('final') !== -1) return { cls: 'type-final', icon: '\u{2705}' };       // ✅
+    if (lower === 'rule') return { cls: 'type-rule', icon: '\u{2705}' };
+    if (lower.indexOf('notice') !== -1) return { cls: 'type-notice', icon: '\u{1F4E2}' };    // 📢
+    if (lower.indexOf('presidential') !== -1) return { cls: 'type-presidential', icon: '\u{1F3DB}\u{FE0F}' }; // 🏛️
+    if (lower.indexOf('correction') !== -1) return { cls: 'type-correction', icon: '\u{270F}\u{FE0F}' }; // ✏️
+    return { cls: 'type-other', icon: '' };
+  }
+  // Priority keywords — title or abstract matches → highlight
+  var priorityTerms = ['NPDWR', 'drinking water', 'maximum contaminant', 'MCL', 'rescission', 'rescind', 'CERCLA', 'hazardous substance', 'hazardous constituent', 'TSCA', 'biosolids', 'sewage sludge', 'destruction and disposal', 'CCL', 'contaminant candidate', 'UCMR', 'RCRA', 'compliance extension', 'effluent', 'AFFF', 'firefighting foam'];
+  function isPriority(title, abstract) {
+    var text = ((title || '') + ' ' + (abstract || '')).toLowerCase();
+    return priorityTerms.some(function(t) { return text.indexOf(t.toLowerCase()) !== -1; });
+  }
+
   function loadFederalRegister() {
     var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&per_page=10&order=newest';
     fetch(url)
@@ -1719,11 +1764,14 @@ footer.foot a:hover { text-decoration: underline; }
         }
         var rows = results.map(function(r) {
           var date = fmtDate(r.publication_date);
-          var typeBadge = r.type ? '<span class="badge">' + escapeHtml(r.type) + '</span>' : '';
+          var meta = typeMeta(r.type);
+          var typeBadge = r.type ? '<span class="badge ' + meta.cls + '">' + (meta.icon ? '<span class="type-icon">' + meta.icon + '</span>' : '') + escapeHtml(r.type) + '</span>' : '';
+          var priority = isPriority(r.title, r.abstract);
+          var priorityTag = priority ? '<span class="priority-tag">Priority</span>' : '';
           var abstractText = (r.abstract || '').substring(0, 360);
           if (r.abstract && r.abstract.length > 360) abstractText += '…';
-          return '<div class="fr-item">' +
-            '<a class="fr-title" href="' + escapeHtml(r.html_url || '#') + '" target="_blank" rel="noopener">' + escapeHtml(r.title) + '</a>' +
+          return '<div class="fr-item' + (priority ? ' is-priority' : '') + '">' +
+            '<a class="fr-title" href="' + escapeHtml(r.html_url || '#') + '" target="_blank" rel="noopener">' + escapeHtml(r.title) + '</a>' + priorityTag +
             '<div class="fr-meta">' + typeBadge + '<span class="badge">' + escapeHtml(date) + '</span>EPA &middot; Federal Register</div>' +
             (abstractText ? '<div class="fr-abstract">' + escapeHtml(abstractText) + '</div>' : '') +
             '</div>';
