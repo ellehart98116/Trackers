@@ -1,7 +1,18 @@
 {
-  "generated": "2026-05-27T09:36:44.919Z",
+  "generated": "2026-05-27T15:25:46.626Z",
   "count": 20,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "Strict liability, broad exclusions: Indiana Court of Appeals bars coverage for barge environmental claim",
+      "url": "https://www.jdsupra.com/legalnews/strict-liability-broad-exclusions-8665587/",
+      "date": "Wed, 27 May 2026 15:21:58 GMT",
+      "type": "Analysis",
+      "agency": "Freeman Mathis &amp; Gary",
+      "tag": "Superfund",
+      "abstract": "On April 28, 2026, the Indiana Court of Appeals addressed a significant insurance coverage dispute arising from environmental contamination at a Louisiana shipyard designated as an EPA Superfund site.  In Starr Indemnity & Liability Insurance Co. v. American Commercial Barge Line"
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -210,17 +221,6 @@
       "agency": "Bergeson &amp; Campbell, P.C.",
       "tag": "Glyphosate",
       "abstract": "On April 27, 2026, the U.S. Supreme Court heard oral argument in Monsanto Company v. Durnell, a closely watched case that could reshape the intersection of federal pesticide regulation and state tort law. At issue is whether failure to warn claims under state law, specifically th"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "From Liability to Legacy: Leveraging CERCLA to Protect Public Water Systems",
-      "url": "https://www.jdsupra.com/legalnews/from-liability-to-legacy-leveraging-2111188/",
-      "date": "Tue, 05 May 2026 18:50:19 GMT",
-      "type": "Analysis",
-      "agency": "Napoli Shkolnik",
-      "tag": "PFAS",
-      "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
     }
   ]
 }
