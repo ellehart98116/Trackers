@@ -258,6 +258,21 @@ section h2 .count {
   display: inline-block;
   width: 100%;
 }
+/* Override for International Overlay: only 4 cards, force CSS grid with 3 columns */
+#international .rules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 12px;
+  row-gap: 12px;
+  align-items: start;
+  columns: unset;
+}
+#international .rules-grid > .rule-card {
+  margin-bottom: 0;
+  display: block;
+  width: auto;
+  break-inside: auto;
+}
 .rule-card {
   border: 1px solid #e3e8ee;
   border-left: 4px solid #2a7fa1;
