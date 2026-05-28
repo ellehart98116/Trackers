@@ -247,10 +247,16 @@ section h2 .count {
 }
 
 .rules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  gap: 12px;
-  align-items: start;
+  column-width: 330px;
+  column-gap: 12px;
+}
+.rules-grid > .rule-card {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 12px;
+  display: inline-block;
+  width: 100%;
 }
 .rule-card {
   border: 1px solid #e3e8ee;
