@@ -1867,5 +1867,318 @@ footer.foot a:hover { text-decoration: underline; }
       s.style.display = (viewForId(s.id) === view) ? '' : 'none';
     });
     // Extras (e.g. key-dates callout) appear only in the Regulatory Reference view
-    fullOnlyExtras.forEach(function(el) {
-      el.style.display = (view =
+        fullOnlyExtras.forEach(function(el) {
+      el.style.display = (view === 'full') ? '' : 'none';
+    });
+    // Also hide lib-updates and trending-callout on non-full views (they're navy/amber, not red/lime)
+    document.querySelectorAll('.wrap > .lib-updates, .wrap > .trending-callout').forEach(function(el) {
+      el.style.display = (view === 'full') ? '' : 'none';
+    });
+    var tocItems = document.querySelectorAll('.toc-list li');
+    for (var i = 0; i < tocItems.length; i++) {
+      var li = tocItems[i];
+      var a = li.querySelector('a');
+      if (!a) continue;
+      var id = a.getAttribute('href').substring(1);
+      li.style.display = (viewForId(id) === view) ? '' : 'none';
+    }
+    // Hide entire TOC on Submit Content tab
+    if (toc) toc.style.display = (view === 'submit') ? 'none' : '';
+    if (scrollTarget) {
+      var el = document.getElementById(scrollTarget);
+      if (el) setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() { setView(tab.dataset.view); });
+  });
+
+  // Cross-tab navigation: anchor clicks switch tabs if target lives in a different view
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href || href === '#' || href.length < 2) return;
+    var targetId = href.substring(1);
+    if (!document.getElementById(targetId)) return;
+    var targetView = viewForId(targetId);
+    var activeTab = document.querySelector('.view-tab.is-active');
+    var currentView = activeTab ? activeTab.dataset.view : 'full';
+    if (targetView !== currentView) {
+      e.preventDefault();
+      setView(targetView, targetId);
+    }
+  });
+
+  setView('full');
+})();
+</script>
+
+<script>
+// Sticky TOC + active section highlighting
+(function() {
+  var toc = document.querySelector('.toc');
+  if (!toc) return;
+  var tocLinks = toc.querySelectorAll('.toc-list a');
+  var sections = Array.prototype.map.call(tocLinks, function(a) {
+    var id = a.getAttribute('href').substring(1);
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  var sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute; top:0; height:1px; width:1px;';
+  toc.parentNode.insertBefore(sentinel, toc);
+  if (typeof IntersectionObserver !== 'undefined') {
+    var stickyObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting && e.boundingClientRect.top < 0) toc.classList.add('is-stuck');
+        else toc.classList.remove('is-stuck');
+      });
+    }, { threshold: 0 });
+    stickyObserver.observe(sentinel);
+
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          var id = e.target.id;
+          tocLinks.forEach(function(a) {
+            if (a.getAttribute('href') === '#' + id) a.classList.add('is-active');
+            else a.classList.remove('is-active');
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sections.forEach(function(s) { sectionObserver.observe(s); });
+  }
+})();
+</script>
+
+<script>
+(function() {
+  var frContent = document.getElementById('frContent');
+  var frCount = document.getElementById('frCount');
+  if (!frContent) return;
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function typeMeta(t) {
+    if (!t) return { cls: 'type-other', icon: '' };
+    var lower = t.toLowerCase();
+    if (lower.indexOf('proposed') !== -1) return { cls: 'type-proposed', icon: '\u{1F4DD}' };
+    if (lower.indexOf('final') !== -1) return { cls: 'type-final', icon: '\u{2705}' };
+    if (lower === 'rule') return { cls: 'type-rule', icon: '\u{2705}' };
+    if (lower.indexOf('notice') !== -1) return { cls: 'type-notice', icon: '\u{1F4E2}' };
+    if (lower.indexOf('presidential') !== -1) return { cls: 'type-presidential', icon: '\u{1F3DB}\u{FE0F}' };
+    if (lower.indexOf('correction') !== -1) return { cls: 'type-correction', icon: '\u{270F}\u{FE0F}' };
+    return { cls: 'type-other', icon: '' };
+  }
+  var priorityTerms = ['NPDWR', 'drinking water', 'maximum contaminant', 'MCL', 'rescission', 'rescind', 'CERCLA', 'hazardous substance', 'hazardous constituent', 'TSCA', 'biosolids', 'sewage sludge', 'destruction and disposal', 'CCL', 'contaminant candidate', 'UCMR', 'RCRA', 'compliance extension', 'effluent', 'AFFF', 'firefighting foam', 'vapor intrusion', 'soil gas', 'vapor-forming', 'fluorotelomer', 'FTOH'];
+  function isPriority(title, abstract) {
+    var text = ((title || '') + ' ' + (abstract || '')).toLowerCase();
+    return priorityTerms.some(function(t) { return text.indexOf(t.toLowerCase()) !== -1; });
+  }
+
+  function loadFederalRegister() {
+    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&per_page=10&order=newest';
+    fetch(url)
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(data) {
+        var results = data.results || [];
+        if (frCount) frCount.textContent = results.length + (results.length === 1 ? ' item' : ' items');
+        if (!results.length) {
+          frContent.innerHTML = '<p style="color:#6b7c8c; font-size:13px;">No recent EPA PFAS items in the Federal Register.</p>';
+          return;
+        }
+        var rows = results.map(function(doc) {
+          var title = doc.title || '(untitled)';
+          var abstract = doc.abstract || '';
+          var meta = typeMeta(doc.type);
+          var priority = isPriority(title, abstract);
+          var priorityClass = priority ? ' is-priority' : '';
+          var pin = priority ? '<span class="pin-flag">&#128204;</span> ' : '';
+          return '<div class="fr-item' + priorityClass + '">' +
+            '<a class="fr-title" href="' + (doc.html_url || '#') + '" target="_blank" rel="noopener">' + pin + escapeHtml(title) + '</a>' +
+            '<div class="fr-meta">' +
+              '<span class="badge ' + meta.cls + '">' + meta.icon + ' ' + escapeHtml(doc.type || 'Document') + '</span>' +
+              '<span>' + escapeHtml(fmtDate(doc.publication_date)) + '</span>' +
+              (doc.document_number ? '<span>FR Doc ' + escapeHtml(doc.document_number) + '</span>' : '') +
+            '</div>' +
+            (abstract ? '<div class="fr-abstract">' + escapeHtml(abstract).slice(0, 400) + (abstract.length > 400 ? '&hellip;' : '') + '</div>' : '') +
+            '</div>';
+        }).join('');
+        frContent.innerHTML = '<div class="fr-list">' + rows + '</div>';
+      })
+      .catch(function(err) {
+        if (frCount) frCount.textContent = 'error';
+        frContent.innerHTML = '<p style="color:#a04050; font-size:13px;">Could not load Federal Register data: ' + escapeHtml(err.message) + '. The federalregister.gov API may be temporarily unavailable.</p>';
+      });
+  }
+
+  loadFederalRegister();
+
+  // FR volume chart — last 6 months, bucketed by month and type
+  function renderFrChart(buckets) {
+    var keys = Object.keys(buckets).sort();
+    var max = 0;
+    keys.forEach(function(k) {
+      var b = buckets[k];
+      var total = b['Proposed Rule'] + b['Rule'] + b['Notice'] + b['Other'];
+      if (total > max) max = total;
+    });
+    if (max === 0) max = 5;
+    max = Math.max(5, Math.ceil(max / 5) * 5);
+    var W = 460, H = 180, padL = 30, padR = 8, padT = 12, padB = 30;
+    var chartW = W - padL - padR;
+    var chartH = H - padT - padB;
+    var barGroupW = chartW / keys.length;
+    var barW = barGroupW * 0.62;
+    var colors = {
+      'Proposed Rule': '#f0c878',
+      'Rule': '#a3cf48',
+      'Notice': '#7fb3da',
+      'Other': '#cccccc'
+    };
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:520px; height:auto; display:block;">';
+    var yTicks = 5;
+    for (var t = 0; t <= yTicks; t++) {
+      var v = Math.round(max * t / yTicks);
+      var y = padT + chartH - (chartH * t / yTicks);
+      svg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="#e3e8ee" stroke-width="1"/>';
+      svg += '<text x="' + (padL - 4) + '" y="' + (y + 3) + '" text-anchor="end" font-size="9" fill="#6b7c8c">' + v + '</text>';
+    }
+    keys.forEach(function(k, i) {
+      var b = buckets[k];
+      var x = padL + i * barGroupW + (barGroupW - barW) / 2;
+      var yCursor = padT + chartH;
+      ['Proposed Rule', 'Rule', 'Notice', 'Other'].forEach(function(type) {
+        var count = b[type];
+        if (count === 0) return;
+        var h = chartH * count / max;
+        yCursor -= h;
+        svg += '<rect x="' + x + '" y="' + yCursor + '" width="' + barW + '" height="' + h + '" fill="' + colors[type] + '" stroke="#fff" stroke-width="0.5"><title>' + b.label + ' &mdash; ' + type + ': ' + count + '</title></rect>';
+      });
+      svg += '<text x="' + (x + barW / 2) + '" y="' + (H - padB + 14) + '" text-anchor="middle" font-size="10.5" fill="#3d4856" font-weight="500">' + b.label + '</text>';
+    });
+    svg += '<line x1="' + padL + '" y1="' + (padT + chartH) + '" x2="' + (W - padR) + '" y2="' + (padT + chartH) + '" stroke="#3d4856" stroke-width="1"/>';
+    svg += '</svg>';
+    var legend = '<div style="display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; font-size:11.5px; color:#3d4856; align-items:center;">';
+    ['Proposed Rule', 'Rule', 'Notice', 'Other'].forEach(function(type) {
+      legend += '<span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:12px; height:12px; background:' + colors[type] + '; border:1px solid #ddd; border-radius:2px;"></span>' + type + '</span>';
+    });
+    legend += '</div>';
+    return svg + legend;
+  }
+
+  function loadFrChart() {
+    var chartEl = document.getElementById('frChart');
+    if (!chartEl) return;
+    var now = new Date();
+    var months = [];
+    for (var i = 5; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      var monthNum = d.getMonth() + 1;
+      months.push({
+        key: d.getFullYear() + '-' + (monthNum < 10 ? '0' + monthNum : monthNum),
+        label: d.toLocaleString('en-US', { month: 'short' })
+      });
+    }
+    var buckets = {};
+    months.forEach(function(m) {
+      buckets[m.key] = { label: m.label, 'Proposed Rule': 0, 'Rule': 0, 'Notice': 0, 'Other': 0 };
+    });
+    var startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+    var startStr = startDate.toISOString().slice(0, 10);
+    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&conditions[publication_date][gte]=' + startStr + '&per_page=1000&order=newest';
+    fetch(url)
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(data) {
+        (data.results || []).forEach(function(doc) {
+          var key = (doc.publication_date || '').slice(0, 7);
+          if (!buckets[key]) return;
+          var t = doc.type;
+          if (t === 'Proposed Rule') buckets[key]['Proposed Rule']++;
+          else if (t === 'Rule') buckets[key]['Rule']++;
+          else if (t === 'Notice') buckets[key]['Notice']++;
+          else buckets[key]['Other']++;
+        });
+        chartEl.innerHTML = renderFrChart(buckets);
+      })
+      .catch(function(err) {
+        chartEl.innerHTML = '<div class="fr-chart-loading" style="color:#a04050;">Could not load FR volume data (' + escapeHtml(err.message) + ').</div>';
+      });
+  }
+
+  loadFrChart();
+})();
+</script>
+
+<script>
+(function() {
+  var pills = document.querySelectorAll('#stateFilter .filter-pill');
+  if (!pills.length) return;
+  var section = document.getElementById('state-watchlist');
+  if (!section) return;
+  var cards = section.querySelectorAll('.rules-grid > .rule-card');
+  var countEl = document.getElementById('stateCount');
+  var labelMap = { all: 'All states', mcl: 'Drinking-water MCLs', products: 'Product bans', biosolids: 'Biosolids', cleanup: 'Cleanup standards' };
+
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      var filter = pill.dataset.filter;
+      pills.forEach(function(p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      var visibleCount = 0;
+      cards.forEach(function(card) {
+        var tags = (card.dataset.tags || '').split(/\s+/);
+        var match = (filter === 'all') || tags.indexOf(filter) !== -1;
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+      if (countEl) countEl.textContent = visibleCount + ' state' + (visibleCount === 1 ? '' : 's') + ' (' + (labelMap[filter] || filter) + ')';
+    });
+  });
+})();
+</script>
+
+<script>
+(function() {
+  var form = document.getElementById('submitForm');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var type = data.get('type') || '';
+    var title = data.get('title') || '';
+    var url = data.get('url') || '';
+    var why = data.get('why') || '';
+    var content = data.get('content') || '';
+    var notes = data.get('notes') || '';
+    var subject = 'PFAS Tracker submission: ' + (title || type || 'new item');
+    var body = 'Content type: ' + type + '\n\n' +
+               'Title: ' + title + '\n\n' +
+               (url ? 'Source URL: ' + url + '\n\n' : '') +
+               (why ? 'Why this matters:\n' + why + '\n\n' : '') +
+               (content ? 'Pasted content:\n' + content + '\n\n' : '') +
+               (notes ? 'Submitter notes:\n' + notes + '\n\n' : '') +
+               '---\nSubmitted via the PFAS Policy Tracker (Submit Content tab).';
+    var mailto = 'mailto:ehartley@integral-corp.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+  });
+})();
+</script>
+
+</body>
+</html>
