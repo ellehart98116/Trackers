@@ -575,6 +575,39 @@ footer.foot a:hover { text-decoration: underline; }
 .critical-links a { color: #0a4f6f; text-decoration: none; }
 .critical-links a:hover { text-decoration: underline; }
 
+/* Trending callout (amber accent for "heat") */
+.trending-callout { background: linear-gradient(135deg, #fdf6ea 0%, #fffcf6 100%); border: 1px solid #f0d4a8; border-left: 4px solid #c98a1e; border-radius: 6px; padding: 14px 18px; margin: 12px 0 22px 0; }
+.trending-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(201, 138, 30, 0.28); }
+.trending-title { font-family: 'Lora', Georgia, serif; font-size: 14px; font-weight: 600; color: #a06a13; }
+.trending-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.trending-list { list-style: none; margin: 0; padding: 0; }
+.trending-list li { font-size: 13px; line-height: 1.55; color: #1a2733; padding: 8px 0; border-bottom: 1px dotted rgba(201, 138, 30, 0.2); }
+.trending-list li:last-child { border-bottom: none; }
+.trending-topic { display: inline-block; font-weight: 600; color: #a06a13; margin-right: 8px; }
+.trending-desc a { color: #0a4f6f; text-decoration: none; font-weight: 500; }
+.trending-desc a:hover { text-decoration: underline; }
+
+/* FR volume chart */
+.fr-chart-wrap { background: #fafcfe; border: 1px solid #cdddea; border-radius: 6px; padding: 12px 14px; margin: 8px 0 14px 0; }
+.fr-chart-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.fr-chart-title { font-family: 'Lora', Georgia, serif; font-size: 13.5px; font-weight: 600; color: var(--integral-navy); }
+.fr-chart-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.fr-chart-loading { font-size: 11.5px; color: #6b7c8c; font-style: italic; padding: 12px 0; }
+
+/* Library Services Weekly Updates box */
+.lib-updates { background: linear-gradient(135deg, #eef4f9 0%, #fafcfe 100%); border: 1px solid #cdddea; border-left: 4px solid var(--integral-navy); border-radius: 6px; padding: 14px 18px; margin: 12px 0 22px 0; }
+.lib-updates-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(15, 42, 74, 0.18); }
+.lib-updates-title { font-family: 'Lora', Georgia, serif; font-size: 14px; font-weight: 600; color: var(--integral-navy); }
+.lib-updates-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.lib-updates-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
+.lib-updates-list li { display: grid; grid-template-columns: 70px 130px 1fr; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px dotted rgba(15, 42, 74, 0.15); font-size: 13px; line-height: 1.5; }
+.lib-updates-list li:last-child { border-bottom: none; }
+.lib-update-date { font-weight: 600; color: var(--integral-navy); font-size: 12px; }
+.lib-update-section { font-size: 11px; font-weight: 500; color: #0a4f6f; background: #eaf3fa; padding: 2px 8px; border-radius: 3px; text-align: center; border: 1px solid #cfe2f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lib-update-desc a { color: #0a4f6f; text-decoration: none; font-weight: 500; }
+.lib-update-desc a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .lib-updates-list li { grid-template-columns: 1fr; gap: 2px; } .lib-update-section { display: inline-block; width: max-content; } }
+
 
 /* Federal Register live-stream visual treatments */
 .badge.type-proposed { background: #fff3e6; color: #a06a13; border: 1px solid #f0d4a8; }
@@ -626,6 +659,8 @@ footer.foot a:hover { text-decoration: underline; }
 <nav class="toc">
   <div class="toc-title">Contents</div>
   <ol class="toc-list">
+    <li><a href="#lib-updates">What's New</a></li>
+    <li><a href="#trending-now">Trending</a></li>
     <li><a href="#key-dates">Federal Key Dates Ahead</a></li>
     <li><a href="#federal-register">Live FR Stream</a></li>
     <li><a href="#federal-rules">Federal Actions</a></li>
@@ -637,6 +672,94 @@ footer.foot a:hover { text-decoration: underline; }
     <li><a href="#resources">Reference Pages</a></li>
   </ol>
 </nav>
+
+<div class="lib-updates" id="lib-updates">
+  <div class="lib-updates-header">
+    <span class="lib-updates-title">&#128218; Library Services &mdash; What's new this week</span>
+    <span class="lib-updates-note">Last 10 tracker additions &amp; updates &middot; rolling window</span>
+  </div>
+  <ul class="lib-updates-list">
+    <li>
+      <span class="lib-update-date">Jun 2</span>
+      <span class="lib-update-section">New features</span>
+      <span class="lib-update-desc">Launched <a href="#trending-now">Trending now</a> callout (hand-curated weekly) and a <a href="#federal-register">live FR volume bar chart</a> showing PFAS Federal Register activity over the last 6 months by type.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 2</span>
+      <span class="lib-update-section">InsideEPA Latest</span>
+      <span class="lib-update-desc">Updated <a href="#insideepa">May 11 biosolids entry</a> &mdash; EPA convened internal work group with USDA coordination on the draft PFOA/PFOS biosolids RA review.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Federal Actions</span>
+      <span class="lib-update-desc">New card: <a href="#fed-vapor-pathways">PFAS Vapor Pathways &amp; Vapor Intrusion</a> &mdash; ITRC Jan 2026 fact sheet, Hawaii DOH interim screening levels, Michigan EGLE workgroup.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">International</span>
+      <span class="lib-update-desc">New cards: <a href="#intl-eu-ppwr">EU PPWR food-contact PFAS ban</a> (effective Aug 12, 2026) and <a href="#intl-eu-afff">EU AFFF foams restriction</a> (Reg. 2025/1988).</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Critical Updates</span>
+      <span class="lib-update-desc">EU PPWR food-contact ban promoted to <a href="#intl-critical-updates">International Critical Updates</a> &mdash; finalized regulation, no grandfathering.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Litigation Trends</span>
+      <span class="lib-update-desc">Added: <a href="#litigation">Wild Virginia v. EPA</a> &mdash; CWA &sect;303(d) PFOS fish-tissue MTD briefing in E.D. Va.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Federal Actions</span>
+      <span class="lib-update-desc">Enriched: <a href="#fed-dd-guidance">D&amp;D Guidance card</a> &mdash; FR Doc 2026-08174, tech ranking by release potential, Zeldin annual-update commitment.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Key Dates</span>
+      <span class="lib-update-desc">Added Jan 31, 2027 (TSCA &sect;8(a)(7) reporting window opens) and Aug 12, 2026 / Oct 23, 2026 EU deadlines to <a href="#key-dates">Federal</a> + <a href="#intl-key-dates">International</a> calendars.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">References</span>
+      <span class="lib-update-desc">Added <a href="#resources">3 new entries</a> &mdash; ITRC Vapor-forming PFAS fact sheet, Michigan EGLE Air Quality Workgroup, EPA VI Screening Level Calculator.</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 1</span>
+      <span class="lib-update-section">Live FR Stream</span>
+      <span class="lib-update-desc">Added vapor-pathway terms to <a href="#federal-register">priority-highlight keywords</a> (vapor intrusion, soil gas, FTOH, fluorotelomer, vapor-forming).</span>
+    </li>
+  </ul>
+</div>
+
+<div class="trending-callout" id="trending-now">
+  <div class="trending-header">
+    <span class="trending-title">&#128293; Trending now</span>
+    <span class="trending-note">Topics building momentum across the PFAS regulatory landscape &mdash; hand-curated weekly</span>
+  </div>
+  <ul class="trending-list">
+    <li>
+      <span class="trending-topic">Biosolids</span>
+      <span class="trending-desc">Federal PFOA/PFOS biosolids RA review accelerating &mdash; EPA work group convened, USDA coordination, tiered-risk approach signaled (aligned with NACWA model template). State cascade continues to fill the federal gap (MD HB0925, VA HB1443, MN, MI). <a href="#fed-biosolids">Federal card</a> &middot; <a href="#insideepa">InsideEPA coverage</a></span>
+    </li>
+    <li>
+      <span class="trending-topic">Vapor pathways</span>
+      <span class="trending-desc">ITRC published its first formal Vapor-forming PFAS fact sheet (Jan 2026); Hawaii DOH issued interim PFAS-VI screening levels (incl. TFA, PFPrA); peer-reviewed vapor-phase sampling methods now available. Expect client questions on adding soil-gas/indoor-air sampling to PFAS plans. <a href="#fed-vapor-pathways">Vapor pathways card</a></span>
+    </li>
+    <li>
+      <span class="trending-topic">EU regulatory cascade</span>
+      <span class="trending-desc">Three EU regulations converging on 2026 effective dates &mdash; PPWR food-contact PFAS ban (Aug 12), AFFF portable-extinguisher ban (Oct 23), Water Framework PFAS standards (in force May 11). Affects U.S. exporters, multinational clients, and analytical method demand (incl. TFA emerging as a watch analyte). <a href="#international">International Overlay</a></span>
+    </li>
+    <li>
+      <span class="trending-topic">NPDWR amendments</span>
+      <span class="trending-desc">Two proposed rules published May 18, 2026 &mdash; compliance extension to 2031 + rescissions for PFHxS/PFNA/HFPO-DA/Hazard Index. Virtual public hearing July 7; comment period closes July 20. AWWA v. EPA D.C. Circuit challenge runs in parallel. <a href="#npdwr-rule">NPDWR card</a></span>
+    </li>
+    <li>
+      <span class="trending-topic">New defendant categories</span>
+      <span class="trending-desc">PFAS litigation extending beyond manufacturers to <strong>data centers</strong> (cooling fluids), <strong>apparel</strong> (W.L. Gore GORE-TEX class action), and <strong>state AG enforcement of activewear</strong> (Texas AG CID on Lululemon). Each opens new site-investigation or product-stewardship work. <a href="#litigation">Litigation Trends</a></span>
+    </li>
+  </ul>
+</div>
 
 <div class="critical-updates" id="critical-updates">
   <div class="critical-updates-header">
@@ -688,6 +811,11 @@ footer.foot a:hover { text-decoration: underline; }
       <span class="key-date-gap">~4.5 months</span>
       <span class="key-date-desc">DoD AFFF phase-out (final &mdash; no further waivers available) &middot; <a href="#dod-program">DoD program card &rarr;</a></span>
     </li>
+    <li>
+      <span class="key-date">Jan 31, 2027</span>
+      <span class="key-date-gap">~8 months</span>
+      <span class="key-date-desc">TSCA &sect;8(a)(7) PFAS reporting window opens (or 60 days after final exemptions rule, whichever earlier) &middot; <a href="#fed-tsca">TSCA card &rarr;</a></span>
+    </li>
     </ul>
 </div>
 
@@ -703,13 +831,20 @@ footer.foot a:hover { text-decoration: underline; }
     <span class="priority-tag">Priority</span>
     <span style="opacity:0.85;">items matching Integral PFAS keywords are highlighted with a lime accent and 📌 marker.</span>
   </div>
+  <div class="fr-chart-wrap">
+    <div class="fr-chart-header">
+      <span class="fr-chart-title">&#128202; PFAS Federal Register activity &mdash; last 6 months</span>
+      <span class="fr-chart-note">Live count of EPA PFAS notices by month, by type (federalregister.gov API)</span>
+    </div>
+    <div id="frChart"><div class="fr-chart-loading">Calculating monthly volume&hellip;</div></div>
+  </div>
   <div id="frContent">
     <div class="loading"><span class="spinner"></span>Fetching latest PFAS rulemakings from federalregister.gov&hellip;</div>
   </div>
 </section>
 
 <section id="federal-rules">
-  <h2>Federal PFAS rules, guidance, monitoring &amp; enforcement <span class="count">10</span></h2>
+  <h2>Federal PFAS rules, guidance, monitoring &amp; enforcement <span class="count">11</span></h2>
   <div class="rules-grid">
 
     <div class="rule-card status-proposed" id="fed-ccl6">
@@ -732,7 +867,7 @@ footer.foot a:hover { text-decoration: underline; }
       </div>
       <div class="rule-meta">EPA OLEM &middot; Updated 2026 from 2024 baseline</div>
       <div class="rule-body">
-        EPA's <strong>non-binding interim guidance</strong> identifying lower-release options for managing PFAS-containing materials. The 2026 update focuses on three commercially available technology categories: <strong>permitted Class I underground injection wells</strong> for fluids; <strong>permitted RCRA Subtitle C hazardous-waste landfills</strong> where landfill disposal is selected and PFAS concentrations are relatively high; and <strong>thermal treatment / incineration</strong> under certain conditions, while flagging continued concerns about PFAS emissions as products of incomplete destruction. The guidance does not establish requirements. <strong>Open for public comment through June 29, 2026.</strong> Pairs with the DoD 2026 Interim Guidance for installation cleanup planning.
+        <strong>April 28, 2026 update &mdash;</strong> EPA published <a href="https://www.federalregister.gov/documents/2026/04/28/2026-08174/interim-pfas-destruction-and-disposal-guidance-notice-of-availability-for-public-comment" target="_blank" rel="noopener" style="color:#0a4f6f;">FR Doc 2026-08174</a> opening 60-day public comment on the updated 2026 Interim Guidance (superseding the April 2024 version). The 2026 guidance evaluates and <strong>ranks destruction/disposal technologies by release potential for the first time</strong>, covering high-temperature incineration, smoldering combustion, <strong>electrochemical oxidation</strong>, <strong>supercritical water oxidation</strong>, permitted Class I underground injection wells, permitted RCRA Subtitle C hazardous-waste landfills, and landfill containment. EPA Administrator Zeldin committed to <strong>annual updates going forward</strong>. The guidance explicitly identifies key data gaps on byproduct formation (PFAS thermal decomposition products, incomplete destruction residues) and release-pathway uncertainties for landfill leachate and biosolids co-management. <strong>Non-binding; does not establish requirements.</strong> <strong>Comment period closes June 29, 2026</strong> &middot; Docket EPA-HQ-OLEM-2020-0527. <strong>Why this matters for scientists:</strong> remediation engineers designing PFAS waste disposal trains for CERCLA sites, DoD installations, AFFF-laden wastewaters, ion-exchange resins, and granular activated carbon now have an updated federal benchmark &mdash; and the technology ranking framework will shape vendor contract specifications and technology selection justification in RODs and FSPs.
         <div style="margin-top:6px;"><a class="xref" href="#fed-rcra">RCRA Listing</a><a class="xref" href="#key-dates">Comment deadline</a><a class="xref" href="#insideepa">EPA incineration news</a></div>
       </div>
       <a class="rule-link" href="https://www.epa.gov/pfas/interim-guidance-destruction-and-disposal-pfas-and-materials-containing-pfas" target="_blank" rel="noopener">EPA D&amp;D Interim Guidance &rarr;</a>
@@ -861,6 +996,28 @@ footer.foot a:hover { text-decoration: underline; }
       <a class="rule-link" href="https://www.epa.gov/hw/engagement-sessions-soil-low-concentrations-pfas" target="_blank" rel="noopener">OLEM engagement sessions page &rarr;</a>
     </div>
 
+    <div class="rule-card status-proposed" id="fed-vapor-pathways">
+      <div class="rule-head">
+        <div class="rule-title">PFAS Vapor Pathways &amp; Vapor Intrusion</div>
+        <span class="rule-tag tag-proposed">Emerging &middot; watch item</span>
+      </div>
+      <div class="rule-meta">ITRC + state-level activity &middot; No federal PFAS-specific VI guidance yet</div>
+      <div class="rule-body">
+        Vapor-forming PFAS (notably <strong>fluorotelomer alcohols (FTOHs)</strong>, perfluoroalkyl sulfonamides, and ultrashort-chain PFAS including <strong>TFA</strong> and PFPrA) have been detected in soil gas, sewer gas, outdoor air, and indoor air &mdash; but a complete subsurface-to-indoor-air VI pathway has not yet been conclusively demonstrated. <strong>The 2015 OSWER VI Technical Guide remains the operative federal framework; no federal PFAS-specific VI screening levels exist.</strong>
+        <div style="margin-top:10px; padding:8px 10px; background:#f1f6f9; border-left:3px solid #0a4f6f; border-radius:4px; font-size:12.5px;"><strong style="color:#0a4f6f;">Recent developments worth tracking:</strong>
+          <ul style="margin:6px 0 0 18px; padding:0; line-height:1.6;">
+            <li><strong>ITRC &mdash; Jan 2026 Fact Sheet "Vapor-forming PFAS"</strong> (<a href="https://pfas-1.itrcweb.org/wp-content/uploads/2026/01/ITRC_PFAS_VI_FactSheet_Dec2025_final.pdf" target="_blank" rel="noopener" style="color:#0a4f6f;">PDF</a>) &mdash; formal technical synthesis of vapor-forming PFAS and VI pathway considerations, knowledge gaps in vapor pressure / Henry's law data, and inhalation toxicology needs.</li>
+            <li><strong>Hawaii DOH &mdash; only state with interim PFAS VI screening levels</strong> (two subsurface vapor + six indoor air screening levels, including for TFA and PFPrA). Interim guidance does not yet require PFAS-VI assessments but signals direction.</li>
+            <li><strong>Michigan EGLE &mdash; Air Quality Workgroup</strong> (<a href="https://www.michigan.gov/pfasresponse/workgroups/air-quality" target="_blank" rel="noopener" style="color:#0a4f6f;">page</a>) conducts PFAS air-quality investigations at AFFF / industrial sites; no codified PFAS-VI screening levels yet.</li>
+            <li><strong>Analytical method development</strong> &mdash; vapor-phase PFAS sampling for soil gas, sewer gas, and indoor air now described in the peer-reviewed literature (Schauer et al., RSC <em>Environ. Sci. Atmos.</em>, 2025).</li>
+          </ul>
+        </div>
+        <strong>Why this matters for scientists:</strong> Integral risk assessors and site-characterization teams supporting AFFF sites, chemical manufacturing facilities, and PFAS-impacted redevelopment should be aware that ITRC has formalized the vapor pathway as a credible-but-unproven concern. Expect inquiries from clients about whether to add soil gas or indoor air to PFAS sampling plans; the analytical methods now exist, even where screening levels do not.
+        <div style="margin-top:6px;"><a class="xref" href="#intl-eu-water">TFA / EU Directive 2026/805</a><a class="xref" href="#fed-olem-soil">OLEM soil engagement</a></div>
+      </div>
+      <a class="rule-link" href="https://pfas-1.itrcweb.org/fact-sheets/" target="_blank" rel="noopener">ITRC PFAS Fact Sheets &rarr;</a>
+    </div>
+
   </div>
 </section>
 
@@ -921,6 +1078,7 @@ footer.foot a:hover { text-decoration: underline; }
         <a class="fr-title" href="https://insideepa.com/pfas-news/epa-s-new-biosolids-guide-may-tier-risks-based-pfas-concentrations" target="_blank" rel="noopener">EPA's New Biosolids Guide May Tier Risks Based On PFAS Concentrations</a>
         <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="topic topic-trade">Federal Policy</span><span class="badge">May 11, 2026</span>InsideEPA &middot; PFAS News</div>
         <div class="fr-abstract">OW Assistant Administrator Jessica Kramer announced May 7 (U.S. WASH Convening, D.C.) that EPA is developing new guidance on PFAS in biosolids &mdash; explicitly framed as <strong>correcting confusion from the Biden-era PFOA/PFOS draft risk assessment</strong>, which industry, states, farming groups, and water systems criticized for overestimating risk via non-real-world modeling. New guidance will use "real-life scenarios" and signals a <strong>tiered-concentration approach</strong> aligned with Michigan, Minnesota, Virginia, and Maryland (NACWA's model template: &ge;100 &micro;g/kg PFOA+PFOS triggers land-application ban + source-reduction program; &ge;50 &micro;g/kg triggers source-reduction + reduced application rate of 3 dry tons/acre). The Biden draft RA comment period closed August 2025; EPA is still reviewing comments. Practical signal: directional shift toward a less restrictive federal posture on biosolids land application, prioritizing the highest-concentration material. <em>Pinned: foundational evergreen reference &mdash; will shape state programs, remediation cost-recovery, and any future federal biosolids rulemaking.</em>
+        <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;"><strong style="color:#a06a13;">&#128260; Update &mdash; late May 2026:</strong> A senior EPA official subsequently confirmed the agency has <strong>convened an internal work group</strong> on PFAS in biosolids and is <strong>coordinating with USDA</strong> to inform both the draft RA review and the forthcoming tiered guidance. The EPA-USDA coordination is a meaningful signal at the seam where biosolids land-application policy gets shaped &mdash; expect federal direction to integrate agricultural-use considerations with the tiered-risk framework. <a href="https://insideepa.com/pfas-news/epa-convenes-work-group-tackle-pfas-biosolids-top-official-says" target="_blank" rel="noopener" style="color:#0a4f6f;">InsideEPA coverage</a>.</div>
         <div style="margin-top:6px;"><a class="xref" href="#fed-biosolids">Federal Biosolids RA card</a><a class="xref" href="#state-watchlist">VA &amp; MD biosolids laws</a></div></div>
       </div>
 
@@ -1051,6 +1209,7 @@ footer.foot a:hover { text-decoration: underline; }
       <div class="rule-meta">Broadest state PFAS law in the U.S. &middot; 38 MRS &sect; 1614</div>
       <div class="rule-body">
         Phased bans across multiple effective dates. <strong>Jan 1, 2026:</strong> sale ban on cleaning products, cookware, cosmetics, dental floss, juvenile &amp; menstrual products, ski wax, upholstered furniture, and most textiles. <strong>May 25, 2026:</strong> plant-fiber packaging ban. <strong>Jan 1, 2029:</strong> artificial turf and outdoor apparel for severe wet conditions. <strong>Jan 1, 2032:</strong> broad prohibition on intentionally added PFAS &mdash; subject to "currently unavoidable use" determinations and statutory carveouts. <strong>Jan 1, 2040:</strong> certain HVAC/refrigeration equipment. Maine separately prohibits/restricts land application of sludge and certain sludge-derived products.
+        <div style="margin-top:10px; padding:8px 10px; background:#f1f6f9; border-left:3px solid #0a4f6f; border-radius:4px; font-size:12.5px;"><strong style="color:#0a4f6f;">May 2026 scope clarification &mdash;</strong> MDEP's January 2026 implementation report confirms "cookware" reaches beyond pots, pans, and utensils to include <strong>kitchen appliance components in direct contact with food</strong> (e.g., refrigerator water/ice dispensers), <strong>reusable water bottles</strong>, trays, and bowls &mdash; a broader interpretation than many manufacturers anticipated. "Houseware" is determined by primary design/marketing, so secondary commercial use does not create an exemption. Two CUU approvals were granted Oct. 2, 2025 (internal cartridge valve and vented cap liner for industrial cleaning containers, effective through Jan. 1, 2031). MDEP plans to revise <strong>Chapter 90</strong> and consolidate future CUU determinations into a single <strong>annual rulemaking cycle</strong> rather than ad hoc approvals. Product stewardship clients in cookware, small-appliance, food-contact, and container categories should reassess product scope against the broader MDEP interpretation.</div>
       </div>
       <a class="rule-link" href="https://www.maine.gov/dep/spills/topics/pfas/PFAS-products/" target="_blank" rel="noopener">Maine DEP PFAS in Products &rarr;</a>
     </div>
@@ -1247,6 +1406,10 @@ footer.foot a:hover { text-decoration: underline; }
         <strong>EU Directive 2026/805 in force (May 11, 2026)</strong> &mdash; Establishes 4.4 ppt sum-of-four PFAS (PFHxS/PFOS/PFOA/PFNA) groundwater quality standard and 25-PFAS PFOA-equivalent surface water EQS across the EU. Member states transpose by Dec 22, 2027.
         <span class="critical-links"><a href="#intl-eu-water">EU Water Framework card &rarr;</a></span>
       </li>
+      <li>
+        <strong>EU PPWR PFAS ban &mdash; food-contact packaging</strong> &mdash; Regulation (EU) 2025/40 bans intentionally added PFAS in all food-contact packaging across the EU effective <strong>August 12, 2026</strong>. No grandfathering. Dual analytical threshold: 25 ppb per individual PFAS / 250 ppb sum / 50 ppm total fluorine.
+        <span class="critical-links"><a href="#intl-eu-ppwr">EU PPWR card &rarr;</a></span>
+      </li>
     </ul>
   </div>
 
@@ -1260,6 +1423,21 @@ footer.foot a:hover { text-decoration: underline; }
         <span class="key-date">June 1, 2026</span>
         <span class="key-date-gap">~2 weeks</span>
         <span class="key-date-desc">Canada NPRI PFAS reporting due (releases during CY 2025; 131 PFAS) &middot; <a href="#intl-canada">Canada card &rarr;</a></span>
+      </li>
+      <li>
+        <span class="key-date">Aug 12, 2026</span>
+        <span class="key-date-gap">~10 weeks</span>
+        <span class="key-date-desc">&#128680; EU PPWR PFAS ban on food-contact packaging takes effect (Reg. EU 2025/40) &middot; <a href="#intl-eu-ppwr">EU PPWR card &rarr;</a></span>
+      </li>
+      <li>
+        <span class="key-date">Oct 23, 2026</span>
+        <span class="key-date-gap">~5 months</span>
+        <span class="key-date-desc">EU AFFF ban on portable fire extinguishers + labelling requirement (Reg. EU 2025/1988) &middot; <a href="#intl-eu-afff">EU AFFF foams card &rarr;</a></span>
+      </li>
+      <li>
+        <span class="key-date">Dec 22, 2027</span>
+        <span class="key-date-gap">~19 months</span>
+        <span class="key-date-desc">EU Directive 2026/805 transposition deadline (member states) &middot; <a href="#intl-eu-water">EU Water Framework card &rarr;</a></span>
       </li>
     </ul>
   </div>
@@ -1317,6 +1495,32 @@ footer.foot a:hover { text-decoration: underline; }
         <strong>Aug 2025 &ndash; Feb 18, 2026:</strong> HSE 6-month public consultation on UK REACH PFAS-in-firefighting-foam restriction (Annex 15 dossier) ran and is now closed. <strong>HSE final opinion expected 2026; UK Government decision in 2027.</strong> <strong>Feb 3, 2026:</strong> UK Government published comprehensive PFAS Plan covering monitoring, new restrictions, permitting/waste frameworks, and potential statutory limits across multiple sectors. Affects U.S. exporters to UK market.
       </div>
       <a class="rule-link" href="https://www.gov.uk/government/publications/pfas-plan/pfas-plan-building-a-safer-future-together" target="_blank" rel="noopener">UK PFAS Plan &rarr;</a>
+    </div>
+
+    <div class="rule-card status-final" id="intl-eu-ppwr">
+      <div class="rule-head">
+        <div class="rule-title">EU PPWR &mdash; Food-Contact Packaging PFAS Ban</div>
+        <span class="rule-tag tag-final">Final &middot; effective Aug 12, 2026</span>
+      </div>
+      <div class="rule-meta">Regulation (EU) 2025/40 &middot; Packaging and Packaging Waste Regulation</div>
+      <div class="rule-body">
+        Regulation (EU) 2025/40 takes full effect <strong>August 12, 2026</strong>, banning intentionally added PFAS in food-contact packaging placed on the EU market across all 27 member states. <strong>No grandfathering provision</strong> &mdash; even packaging manufactured before August 2026 cannot be sold after. Concentration thresholds: <strong>25 ppb per individual PFAS</strong> (targeted analysis, excluding polymeric PFAS), <strong>250 ppb for the sum of targeted PFAS</strong>, and <strong>50 ppm total fluorine</strong> (including polymeric PFAS). Covers greaseproof paper, pizza boxes, baking trays, microwave packaging, food wrappers, and similar items. <strong>Why this matters for scientists:</strong> the dual-pathway analytical regime (targeted PFAS screening + total-fluorine screening) creates a new analytical protocol demand, and the 50 ppm TF threshold may catch fluoropolymer coatings previously considered low-concern. U.S. manufacturers and exporters selling packaged food to the EU must have reformulated or substituted packaging before this date; downstream certification and testing burden falls on the supply chain. Product stewardship specialists should flag this as an imminent hard deadline distinct from the broader REACH restriction timeline.
+        <div style="margin-top:6px;"><a class="xref" href="#intl-key-dates">Aug 12 effective date</a><a class="xref" href="#product-stewardship">Product Stewardship</a></div>
+      </div>
+      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/40/oj" target="_blank" rel="noopener">Regulation (EU) 2025/40 &rarr;</a>
+    </div>
+
+    <div class="rule-card status-final" id="intl-eu-afff">
+      <div class="rule-head">
+        <div class="rule-title">EU REACH Restriction &mdash; PFAS in Firefighting Foams</div>
+        <span class="rule-tag tag-final">Final &middot; phased 2026&ndash;2035</span>
+      </div>
+      <div class="rule-meta">Regulation (EU) 2025/1988 &middot; amends Annex XVII of REACH</div>
+      <div class="rule-body">
+        Adopted October 2025. Phased restriction on PFAS in firefighting foams at <strong>&ge;1 mg/L (sum of all PFAS)</strong>. <strong>First operative deadline &mdash; October 23, 2026:</strong> bans PFAS-containing firefighting foams placed on the market in <strong>portable fire extinguishers</strong> and requires labelling on all PFAS-containing foam agents sold after that date. <strong>October 23, 2030:</strong> ban extends to all firefighting foam uses. SEVESO industrial sites retain phased transitions through October 2035. <strong>Why this matters for scientists:</strong> the 1 mg/L sum-PFAS threshold is a new analytical trigger distinct from MCL or groundwater standards. EU facility operators with portable extinguisher inventories must restock with PFAS-free alternatives before October 2026; AFFF site investigators supporting international clients should track these phase-in dates alongside U.S. MDL and DoD guidance. PFAS foams are the primary contamination driver at ~60% of contaminated firefighting sites across Europe.
+        <div style="margin-top:6px;"><a class="xref" href="#intl-key-dates">Oct 23, 2026 deadline</a><a class="xref" href="#dod-program">DoD AFFF program</a></div>
+      </div>
+      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/1988/oj" target="_blank" rel="noopener">Regulation (EU) 2025/1988 &rarr;</a>
     </div>
 
   </div>
@@ -1455,6 +1659,11 @@ footer.foot a:hover { text-decoration: underline; }
         <div class="fr-meta"><span class="badge">Apr 13, 2026</span>State AG enforcement &middot; Civil investigative demand</div>
         <div class="fr-abstract">Texas AG Ken Paxton on April 13, 2026 served a civil investigative demand on Lululemon USA Inc. to examine whether the company misled consumers about product safety given its sustainability/wellness marketing. The investigation will scrutinize Lululemon's <strong>internal Restricted Substances List, product testing protocols, and supply chain disclosures</strong>. <strong>Why this matters for scientists:</strong> extends the state-AG enforcement pattern from cosmetics into athletic/performance fabrics. Supply-chain chemical disclosures and restricted-substance testing programs will face increasing scrutiny even in states without enacted PFAS-in-products legislation. Clients in apparel, athletic wear, and technical textiles should expect heightened expectations on product-level testing and supplier audit documentation.</div>
     </div>
+    <div class="fr-item">
+      <div class="fr-title" style="cursor:default;">Wild Virginia, Inc. v. EPA &mdash; CWA &sect;303(d) PFOS Impaired-Waters Suit (E.D. Va. No. 3:25-cv-01043)</div>
+      <div class="fr-meta"><span class="badge">May 2026</span>CWA citizen suit &middot; Motion to dismiss briefing</div>
+      <div class="fr-abstract">Plaintiff challenges EPA's approval of Virginia's 2024 CWA &sect;303(d) impaired-waters list while taking no action on fish-tissue PFOS data for segments of the Middle Chickahominy River watershed. <strong>April 29, 2026:</strong> EPA moved to dismiss, arguing no nondiscretionary duty exists under the CWA for agency approval/disapproval of state lists and that the citizen-suit provision does not reach discretionary agency decisions. <strong>May 5, 2026:</strong> Wild Virginia replied, contending EPA admitted missing the 30-day statutory deadline; seeks vacatur and order requiring EPA to act on the full list. <strong>Why this matters for scientists:</strong> tests whether <strong>fish-tissue PFOS data</strong> requires state listing under &sect;303(d) &mdash; a threshold that, if settled, would define how PFAS-contaminated aquatic pathways must be addressed in impaired-waters assessments nationally and shape cleanup obligations and TMDL development. Watch for the MTD ruling.</div>
+    </div>
   </div>
 
   <h3 class="lit-subhead">Where to watch &mdash; free sources</h3>
@@ -1507,6 +1716,18 @@ footer.foot a:hover { text-decoration: underline; }
     <a class="res-card" href="https://pfas-1.itrcweb.org/" target="_blank" rel="noopener">
       <div class="res-title">ITRC PFAS Guidance</div>
       <div class="res-desc">Master technical reference (Jan 2026 update)</div>
+    </a>
+    <a class="res-card" href="https://pfas-1.itrcweb.org/wp-content/uploads/2026/01/ITRC_PFAS_VI_FactSheet_Dec2025_final.pdf" target="_blank" rel="noopener">
+      <div class="res-title">ITRC &mdash; Vapor-forming PFAS (Jan 2026)</div>
+      <div class="res-desc">Fact sheet on FTOHs, sulfonamides, ultrashort-chain PFAS, and the VI pathway</div>
+    </a>
+    <a class="res-card" href="https://www.michigan.gov/pfasresponse/workgroups/air-quality" target="_blank" rel="noopener">
+      <div class="res-title">Michigan EGLE &mdash; PFAS Air Quality Workgroup</div>
+      <div class="res-desc">State-level PFAS soil-gas and indoor-air investigation work (leading state on PFAS-VI)</div>
+    </a>
+    <a class="res-card" href="https://www.epa.gov/vaporintrusion/vapor-intrusion-screening-level-calculator" target="_blank" rel="noopener">
+      <div class="res-title">EPA VI Screening Level Calculator</div>
+      <div class="res-desc">Federal VI screening framework (general; no PFAS-specific calculator yet)</div>
     </a>
     <a class="res-card" href="https://www.fda.gov/food/environmental-contaminants-food/and-polyfluoroalkyl-substances-pfas" target="_blank" rel="noopener">
       <div class="res-title">FDA PFAS in food</div>
@@ -1647,252 +1868,4 @@ footer.foot a:hover { text-decoration: underline; }
     });
     // Extras (e.g. key-dates callout) appear only in the Regulatory Reference view
     fullOnlyExtras.forEach(function(el) {
-      el.style.display = (view === 'full') ? '' : 'none';
-    });
-    var tocItems = document.querySelectorAll('.toc-list li');
-    for (var i = 0; i < tocItems.length; i++) {
-      var li = tocItems[i];
-      var a = li.querySelector('a');
-      if (!a) continue;
-      var id = a.getAttribute('href').substring(1);
-      li.style.display = (viewForId(id) === view) ? '' : 'none';
-    }
-    // Hide entire TOC on Submit Content tab (single-purpose tab; TOC adds no value)
-    if (toc) toc.style.display = (view === 'submit') ? 'none' : '';
-    if (scrollTarget) {
-      var el = document.getElementById(scrollTarget);
-      if (el) setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() { setView(tab.dataset.view); });
-  });
-
-  // Cross-tab navigation: any in-page anchor click (TOC, xrefs, critical-links, key-dates links, etc.)
-  // should switch tabs if the target section lives in a different view.
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest && e.target.closest('a[href^="#"]');
-    if (!link) return;
-    var href = link.getAttribute('href');
-    if (!href || href === '#' || href.length < 2) return;
-    var targetId = href.substring(1);
-    if (!document.getElementById(targetId)) return;
-    var targetView = viewForId(targetId);
-    var activeTab = document.querySelector('.view-tab.is-active');
-    var currentView = activeTab ? activeTab.dataset.view : 'full';
-    if (targetView !== currentView) {
-      e.preventDefault();
-      setView(targetView, targetId);
-    }
-  });
-
-  setView('full');
-})();
-</script>
-<script>
-// Sticky TOC + active section highlighting
-(function() {
-  var toc = document.querySelector('.toc');
-  if (!toc) return;
-  var tocLinks = toc.querySelectorAll('.toc-list a');
-  var sections = Array.prototype.map.call(tocLinks, function(a) {
-    var id = a.getAttribute('href').substring(1);
-    return document.getElementById(id);
-  }).filter(Boolean);
-
-  // Detect when the TOC becomes "stuck" (scrolled into pinned position)
-  var sentinel = document.createElement('div');
-  sentinel.style.cssText = 'position:absolute; top:0; height:1px; width:1px;';
-  toc.parentNode.insertBefore(sentinel, toc);
-  var stickyObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (!e.isIntersecting && e.boundingClientRect.top < 0) toc.classList.add('is-stuck');
-      else toc.classList.remove('is-stuck');
-    });
-  }, { threshold: 0 });
-  stickyObserver.observe(sentinel);
-
-  // Highlight the section currently in view
-  var sectionObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        var id = e.target.id;
-        tocLinks.forEach(function(a) {
-          if (a.getAttribute('href') === '#' + id) a.classList.add('is-active');
-          else a.classList.remove('is-active');
-        });
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-  sections.forEach(function(s) { sectionObserver.observe(s); });
-})();
-</script>
-
-
-
-
-<script>
-(function() {
-  var frContent = document.getElementById('frContent');
-  var frCount = document.getElementById('frCount');
-  if (!frContent) return;
-
-  function escapeHtml(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
-  }
-  function fmtDate(s) {
-    if (!s) return '';
-    var d = new Date(s);
-    if (isNaN(d)) return s;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  // Document type → CSS class + icon
-  function typeMeta(t) {
-    if (!t) return { cls: 'type-other', icon: '' };
-    var lower = t.toLowerCase();
-    if (lower.indexOf('proposed') !== -1) return { cls: 'type-proposed', icon: '\u{1F4DD}' }; // 📝
-    if (lower.indexOf('final') !== -1) return { cls: 'type-final', icon: '\u{2705}' };       // ✅
-    if (lower === 'rule') return { cls: 'type-rule', icon: '\u{2705}' };
-    if (lower.indexOf('notice') !== -1) return { cls: 'type-notice', icon: '\u{1F4E2}' };    // 📢
-    if (lower.indexOf('presidential') !== -1) return { cls: 'type-presidential', icon: '\u{1F3DB}\u{FE0F}' }; // 🏛️
-    if (lower.indexOf('correction') !== -1) return { cls: 'type-correction', icon: '\u{270F}\u{FE0F}' }; // ✏️
-    return { cls: 'type-other', icon: '' };
-  }
-  // Priority keywords — title or abstract matches → highlight
-  var priorityTerms = ['NPDWR', 'drinking water', 'maximum contaminant', 'MCL', 'rescission', 'rescind', 'CERCLA', 'hazardous substance', 'hazardous constituent', 'TSCA', 'biosolids', 'sewage sludge', 'destruction and disposal', 'CCL', 'contaminant candidate', 'UCMR', 'RCRA', 'compliance extension', 'effluent', 'AFFF', 'firefighting foam'];
-  function isPriority(title, abstract) {
-    var text = ((title || '') + ' ' + (abstract || '')).toLowerCase();
-    return priorityTerms.some(function(t) { return text.indexOf(t.toLowerCase()) !== -1; });
-  }
-
-  function loadFederalRegister() {
-    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&per_page=10&order=newest';
-    fetch(url)
-      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(function(data) {
-        var results = (data && data.results) || [];
-        if (frCount) frCount.textContent = results.length + (results.length === 1 ? ' item' : ' items');
-        if (!results.length) {
-          frContent.innerHTML = '<p style="color:#6b7c8c; font-size:13px;">No recent EPA PFAS items in the Federal Register.</p>';
-          return;
-        }
-        var rows = results.map(function(r) {
-          var date = fmtDate(r.publication_date);
-          var meta = typeMeta(r.type);
-          var typeBadge = r.type ? '<span class="badge ' + meta.cls + '">' + (meta.icon ? '<span class="type-icon">' + meta.icon + '</span>' : '') + escapeHtml(r.type) + '</span>' : '';
-          var priority = isPriority(r.title, r.abstract);
-          var priorityTag = priority ? '<span class="priority-tag">Priority</span>' : '';
-          var abstractText = (r.abstract || '').substring(0, 360);
-          if (r.abstract && r.abstract.length > 360) abstractText += '…';
-          return '<div class="fr-item' + (priority ? ' is-priority' : '') + '">' +
-            '<a class="fr-title" href="' + escapeHtml(r.html_url || '#') + '" target="_blank" rel="noopener">' + escapeHtml(r.title) + '</a>' + priorityTag +
-            '<div class="fr-meta">' + typeBadge + '<span class="badge">' + escapeHtml(date) + '</span>EPA &middot; Federal Register</div>' +
-            (abstractText ? '<div class="fr-abstract">' + escapeHtml(abstractText) + '</div>' : '') +
-            '</div>';
-        }).join('');
-        frContent.innerHTML = '<div class="fr-list">' + rows + '</div>';
-      })
-      .catch(function(err) {
-        if (frCount) frCount.textContent = 'error';
-        frContent.innerHTML = '<p style="color:#a04050; font-size:13px;">Could not load Federal Register data: ' + escapeHtml(err.message) + '. The federalregister.gov API may be temporarily unavailable.</p>';
-      });
-  }
-
-  loadFederalRegister();
-})();
-</script>
-
-<script>
-(function() {
-  var pills = document.querySelectorAll('#stateFilter .filter-pill');
-  if (!pills.length) return;
-  var section = document.getElementById('state-watchlist');
-  if (!section) return;
-  var cards = section.querySelectorAll('.rules-grid > .rule-card');
-  var countEl = document.getElementById('stateCount');
-  var labelMap = { all: 'All states', mcl: 'Drinking-water MCLs', products: 'Product bans', biosolids: 'Biosolids', cleanup: 'Cleanup standards' };
-
-  pills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      var filter = pill.dataset.filter;
-      pills.forEach(function(p) { p.classList.remove('is-active'); });
-      pill.classList.add('is-active');
-      var visibleCount = 0;
-      cards.forEach(function(card) {
-        var tags = (card.getAttribute('data-tags') || '').split(' ');
-        var show = (filter === 'all') || tags.indexOf(filter) !== -1;
-        card.style.display = show ? '' : 'none';
-        if (show) visibleCount++;
-      });
-      if (countEl) {
-        if (filter === 'all') {
-          countEl.textContent = visibleCount + ' states';
-        } else {
-          countEl.textContent = visibleCount + ' state' + (visibleCount === 1 ? '' : 's') + ' · ' + labelMap[filter];
-        }
-      }
-    });
-  });
-})();
-</script>
-<script>
-(function() {
-  var form = document.getElementById('submitForm');
-  if (!form) return;
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var fd = new FormData(form);
-    var type = fd.get('type') || '';
-    var url = fd.get('url') || '';
-    var title = fd.get('title') || '';
-    var why = fd.get('why') || '';
-    var content = fd.get('content') || '';
-    var notes = fd.get('notes') || '';
-
-    var subject = 'PFAS Tracker submission: ' + (title || type);
-    var bodyLines = [
-      '=== PFAS TRACKER SUBMISSION ===',
-      '',
-      'Content type: ' + type,
-      'Title: ' + title,
-    ];
-    if (url) bodyLines.push('Source URL: ' + url);
-    bodyLines.push('');
-    if (why) { bodyLines.push('--- WHY THIS MATTERS ---', why, ''); }
-    if (content) { bodyLines.push('--- PASTED CONTENT ---', content, ''); }
-    if (notes) { bodyLines.push('--- SUBMITTER NOTES ---', notes, ''); }
-    bodyLines.push('---');
-    bodyLines.push('To attach a PDF: drag the file into this email window before clicking Send.');
-    bodyLines.push('Submission generated from the PFAS Regulatory & Industry Tracker.');
-
-    var mailto = 'mailto:ehartley@integral-corp.com?subject=' + encodeURIComponent(subject) +
-                 '&body=' + encodeURIComponent(bodyLines.join('\n'));
-    // Length safety: most mail clients handle ~2000 chars; warn if longer
-    if (mailto.length > 6000) {
-      if (!confirm('This submission is very long (' + mailto.length + ' characters). Some email clients may truncate it. Continue?')) return;
-    }
-    window.location.href = mailto;
-  });
-})();
-</script>
-
-<script>
-(function() {
-  // Hide any .critical-updates or .key-dates callout whose <ul> has no <li> children
-  document.querySelectorAll('.critical-updates, .key-dates').forEach(function(callout) {
-    var list = callout.querySelector('ul');
-    if (list && list.children.length === 0) {
-      callout.style.display = 'none';
-    }
-  });
-})();
-</script>
-</body>
-</html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+      el.style.display = (view =
