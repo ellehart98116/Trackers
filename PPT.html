@@ -587,13 +587,6 @@ footer.foot a:hover { text-decoration: underline; }
 .trending-desc a { color: #0a4f6f; text-decoration: none; font-weight: 500; }
 .trending-desc a:hover { text-decoration: underline; }
 
-/* FR volume chart */
-.fr-chart-wrap { background: #fafcfe; border: 1px solid #cdddea; border-radius: 6px; padding: 12px 14px; margin: 8px 0 14px 0; }
-.fr-chart-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-.fr-chart-title { font-family: 'Lora', Georgia, serif; font-size: 13.5px; font-weight: 600; color: var(--integral-navy); }
-.fr-chart-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
-.fr-chart-loading { font-size: 11.5px; color: #6b7c8c; font-style: italic; padding: 12px 0; }
-
 /* Library Services Weekly Updates box */
 .lib-updates { background: linear-gradient(135deg, #eef4f9 0%, #fafcfe 100%); border: 1px solid #cdddea; border-left: 4px solid var(--integral-navy); border-radius: 6px; padding: 14px 18px; margin: 12px 0 22px 0; }
 .lib-updates-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(15, 42, 74, 0.18); }
@@ -675,7 +668,7 @@ footer.foot a:hover { text-decoration: underline; }
 
 <div class="lib-updates" id="lib-updates">
   <div class="lib-updates-header">
-    <span class="lib-updates-title">&#128218; Library Services &mdash; What's new this week</span>
+    <span class="lib-updates-title">&#128218; PFAS Tracker &mdash; What's new this week</span>
     <span class="lib-updates-note">Last 10 tracker additions &amp; updates &middot; rolling window</span>
   </div>
   <ul class="lib-updates-list">
@@ -683,11 +676,6 @@ footer.foot a:hover { text-decoration: underline; }
       <span class="lib-update-date">Jun 2</span>
       <span class="lib-update-section">State Watchlist</span>
       <span class="lib-update-desc">Updated <a href="#state-massachusetts">Massachusetts card</a> &mdash; added 2024 MassDEP Watershed Planning Program surface-water + biota monitoring report (PFAS in surface water, freshwater fish, coastal fish, invertebrates).</span>
-    </li>
-    <li>
-      <span class="lib-update-date">Jun 2</span>
-      <span class="lib-update-section">New features</span>
-      <span class="lib-update-desc">Launched <a href="#trending-now">Trending now</a> callout (hand-curated weekly) and a <a href="#federal-register">live FR volume bar chart</a> showing PFAS Federal Register activity over the last 6 months by type.</span>
     </li>
     <li>
       <span class="lib-update-date">Jun 2</span>
@@ -703,11 +691,6 @@ footer.foot a:hover { text-decoration: underline; }
       <span class="lib-update-date">Jun 1</span>
       <span class="lib-update-section">International</span>
       <span class="lib-update-desc">New cards: <a href="#intl-eu-ppwr">EU PPWR food-contact PFAS ban</a> (effective Aug 12, 2026) and <a href="#intl-eu-afff">EU AFFF foams restriction</a> (Reg. 2025/1988).</span>
-    </li>
-    <li>
-      <span class="lib-update-date">Jun 1</span>
-      <span class="lib-update-section">Critical Updates</span>
-      <span class="lib-update-desc">EU PPWR food-contact ban promoted to <a href="#intl-critical-updates">International Critical Updates</a> &mdash; finalized regulation, no grandfathering.</span>
     </li>
     <li>
       <span class="lib-update-date">Jun 1</span>
@@ -830,13 +813,6 @@ footer.foot a:hover { text-decoration: underline; }
     <span style="opacity:0.7; padding-left:6px;">|</span>
     <span class="priority-tag">Priority</span>
     <span style="opacity:0.85;">items matching Integral PFAS keywords are highlighted with a lime accent and 📌 marker.</span>
-  </div>
-  <div class="fr-chart-wrap">
-    <div class="fr-chart-header">
-      <span class="fr-chart-title">&#128202; PFAS Federal Register activity &mdash; last 6 months</span>
-      <span class="fr-chart-note">Live count of EPA PFAS notices by month, by type (federalregister.gov API)</span>
-    </div>
-    <div id="frChart"><div class="fr-chart-loading">Calculating monthly volume&hellip;</div></div>
   </div>
   <div id="frContent">
     <div class="loading"><span class="spinner"></span>Fetching latest PFAS rulemakings from federalregister.gov&hellip;</div>
@@ -1410,22 +1386,6 @@ footer.foot a:hover { text-decoration: underline; }
   <h2>International Overlay <span class="count">EU &middot; Canada &middot; UK</span></h2>
   <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Non-U.S. PFAS regulations with material reach into U.S. operations &mdash; EU REACH, Canada (CEPA + NPRI), and UK REACH actions that affect exporters, multinational manufacturers, and firefighting-foam transitions.</p>
 
-<div class="critical-updates" id="intl-critical-updates">
-    <div class="critical-updates-header">
-      <span class="critical-updates-title"><span class="critical-flame">&#128680;</span>International Critical Updates</span>
-      <span class="critical-updates-note">International items requiring attention right now</span>
-    </div>
-    <ul class="critical-updates-list">
-      <li>
-        <strong>EU Directive 2026/805 in force (May 11, 2026)</strong> &mdash; Establishes 4.4 ppt sum-of-four PFAS (PFHxS/PFOS/PFOA/PFNA) groundwater quality standard and 25-PFAS PFOA-equivalent surface water EQS across the EU. Member states transpose by Dec 22, 2027.
-        <span class="critical-links"><a href="#intl-eu-water">EU Water Framework card &rarr;</a></span>
-      </li>
-      <li>
-        <strong>EU PPWR PFAS ban &mdash; food-contact packaging</strong> &mdash; Regulation (EU) 2025/40 bans intentionally added PFAS in all food-contact packaging across the EU effective <strong>August 12, 2026</strong>. No grandfathering. Dual analytical threshold: 25 ppb per individual PFAS / 250 ppb sum / 50 ppm total fluorine.
-        <span class="critical-links"><a href="#intl-eu-ppwr">EU PPWR card &rarr;</a></span>
-      </li>
-    </ul>
-  </div>
 
   <div class="key-dates" id="intl-key-dates">
     <div class="key-dates-header">
@@ -2042,100 +2002,6 @@ footer.foot a:hover { text-decoration: underline; }
   }
 
   loadFederalRegister();
-
-  // FR volume chart — last 6 months, bucketed by month and type
-  function renderFrChart(buckets) {
-    var keys = Object.keys(buckets).sort();
-    var max = 0;
-    keys.forEach(function(k) {
-      var b = buckets[k];
-      var total = b['Proposed Rule'] + b['Rule'] + b['Notice'] + b['Other'];
-      if (total > max) max = total;
-    });
-    if (max === 0) max = 5;
-    max = Math.max(5, Math.ceil(max / 5) * 5);
-    var W = 460, H = 180, padL = 30, padR = 8, padT = 12, padB = 30;
-    var chartW = W - padL - padR;
-    var chartH = H - padT - padB;
-    var barGroupW = chartW / keys.length;
-    var barW = barGroupW * 0.62;
-    var colors = {
-      'Proposed Rule': '#f0c878',
-      'Rule': '#a3cf48',
-      'Notice': '#7fb3da',
-      'Other': '#cccccc'
-    };
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:520px; height:auto; display:block;">';
-    var yTicks = 5;
-    for (var t = 0; t <= yTicks; t++) {
-      var v = Math.round(max * t / yTicks);
-      var y = padT + chartH - (chartH * t / yTicks);
-      svg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="#e3e8ee" stroke-width="1"/>';
-      svg += '<text x="' + (padL - 4) + '" y="' + (y + 3) + '" text-anchor="end" font-size="9" fill="#6b7c8c">' + v + '</text>';
-    }
-    keys.forEach(function(k, i) {
-      var b = buckets[k];
-      var x = padL + i * barGroupW + (barGroupW - barW) / 2;
-      var yCursor = padT + chartH;
-      ['Proposed Rule', 'Rule', 'Notice', 'Other'].forEach(function(type) {
-        var count = b[type];
-        if (count === 0) return;
-        var h = chartH * count / max;
-        yCursor -= h;
-        svg += '<rect x="' + x + '" y="' + yCursor + '" width="' + barW + '" height="' + h + '" fill="' + colors[type] + '" stroke="#fff" stroke-width="0.5"><title>' + b.label + ' &mdash; ' + type + ': ' + count + '</title></rect>';
-      });
-      svg += '<text x="' + (x + barW / 2) + '" y="' + (H - padB + 14) + '" text-anchor="middle" font-size="10.5" fill="#3d4856" font-weight="500">' + b.label + '</text>';
-    });
-    svg += '<line x1="' + padL + '" y1="' + (padT + chartH) + '" x2="' + (W - padR) + '" y2="' + (padT + chartH) + '" stroke="#3d4856" stroke-width="1"/>';
-    svg += '</svg>';
-    var legend = '<div style="display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; font-size:11.5px; color:#3d4856; align-items:center;">';
-    ['Proposed Rule', 'Rule', 'Notice', 'Other'].forEach(function(type) {
-      legend += '<span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:12px; height:12px; background:' + colors[type] + '; border:1px solid #ddd; border-radius:2px;"></span>' + type + '</span>';
-    });
-    legend += '</div>';
-    return svg + legend;
-  }
-
-  function loadFrChart() {
-    var chartEl = document.getElementById('frChart');
-    if (!chartEl) return;
-    var now = new Date();
-    var months = [];
-    for (var i = 5; i >= 0; i--) {
-      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      var monthNum = d.getMonth() + 1;
-      months.push({
-        key: d.getFullYear() + '-' + (monthNum < 10 ? '0' + monthNum : monthNum),
-        label: d.toLocaleString('en-US', { month: 'short' })
-      });
-    }
-    var buckets = {};
-    months.forEach(function(m) {
-      buckets[m.key] = { label: m.label, 'Proposed Rule': 0, 'Rule': 0, 'Notice': 0, 'Other': 0 };
-    });
-    var startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-    var startStr = startDate.toISOString().slice(0, 10);
-    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&conditions[publication_date][gte]=' + startStr + '&per_page=1000&order=newest';
-    fetch(url)
-      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(function(data) {
-        (data.results || []).forEach(function(doc) {
-          var key = (doc.publication_date || '').slice(0, 7);
-          if (!buckets[key]) return;
-          var t = doc.type;
-          if (t === 'Proposed Rule') buckets[key]['Proposed Rule']++;
-          else if (t === 'Rule') buckets[key]['Rule']++;
-          else if (t === 'Notice') buckets[key]['Notice']++;
-          else buckets[key]['Other']++;
-        });
-        chartEl.innerHTML = renderFrChart(buckets);
-      })
-      .catch(function(err) {
-        chartEl.innerHTML = '<div class="fr-chart-loading" style="color:#a04050;">Could not load FR volume data (' + escapeHtml(err.message) + ').</div>';
-      });
-  }
-
-  loadFrChart();
 })();
 </script>
 
