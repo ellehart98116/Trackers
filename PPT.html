@@ -278,12 +278,12 @@ section h2 .count {
 .rule-card.status-active { border-left-color: #2a7fa1; }
 .rule-head {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 5px;
   margin-bottom: 6px;
 }
-.rule-title { font-size: 14.5px; font-weight: 600; color: #1a2733; }
+.rule-title { font-size: 14.5px; font-weight: 600; color: #1a2733; line-height: 1.3; }
 .rule-tag {
   font-size: 10px;
   padding: 2px 8px;
@@ -291,7 +291,9 @@ section h2 .count {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  line-height: 1.4;
 }
 .tag-final { background: #e0f0e8; color: #2d8659; }
 .tag-proposed { background: #fbf0db; color: #a06a13; }
@@ -662,7 +664,6 @@ footer.foot a:hover { text-decoration: underline; }
     <li><a href="#product-stewardship">Product Stewardship</a></li>
     <li><a href="#insideepa">InsideEPA News</a></li>
     <li><a href="#litigation">Litigation Trends</a></li>
-    <li><a href="#resources">Reference Pages</a></li>
   </ol>
 </nav>
 
@@ -674,7 +675,12 @@ footer.foot a:hover { text-decoration: underline; }
   <ul class="lib-updates-list">
     <li>
       <span class="lib-update-date">Jun 2</span>
-      <span class="lib-update-section">State Watchlist</span>
+      <span class="lib-update-section">International</span>
+      <span class="lib-update-desc">Added four new country cards: <a href="#intl-australia">Australia</a> (May 28, 2026 AU$2B Commonwealth v. 3M filing + NHMRC drinking-water guidelines), <a href="#intl-germany">Germany</a> (TrinkwV phased PFAS limits 2026/2028 + TFA classification), <a href="#intl-belgium">Belgium</a> (3M Zwijndrecht remediation precedent + cross-border liability rulings), <a href="#intl-brazil">Brazil</a> (PFAS bill pending; ANVISA + IBAMA framework).</span>
+    </li>
+    <li>
+      <span class="lib-update-date">Jun 2</span>
+      <span class="lib-update-section">Massachusetts</span>
       <span class="lib-update-desc">Updated <a href="#state-massachusetts">Massachusetts card</a> &mdash; added 2024 MassDEP Watershed Planning Program surface-water + biota monitoring report (PFAS in surface water, freshwater fish, coastal fish, invertebrates).</span>
     </li>
     <li>
@@ -705,12 +711,7 @@ footer.foot a:hover { text-decoration: underline; }
     <li>
       <span class="lib-update-date">Jun 1</span>
       <span class="lib-update-section">Key Dates</span>
-      <span class="lib-update-desc">Added Jan 31, 2027 (TSCA &sect;8(a)(7) reporting window opens) and Aug 12, 2026 / Oct 23, 2026 EU deadlines to <a href="#key-dates">Federal</a> + <a href="#intl-key-dates">International</a> calendars.</span>
-    </li>
-    <li>
-      <span class="lib-update-date">Jun 1</span>
-      <span class="lib-update-section">References</span>
-      <span class="lib-update-desc">Added <a href="#resources">3 new entries</a> &mdash; ITRC Vapor-forming PFAS fact sheet, Michigan EGLE Air Quality Workgroup, EPA VI Screening Level Calculator.</span>
+      <span class="lib-update-desc">Added Jan 31, 2027 to <a href="#key-dates">Federal Key Dates Ahead</a> (TSCA &sect;8(a)(7) reporting window opens).</span>
     </li>
   </ul>
 </div>
@@ -1085,40 +1086,7 @@ footer.foot a:hover { text-decoration: underline; }
 <section id="state-watchlist">
   <h2>State watchlist <span class="count" id="stateCount">19 states</span></h2>
   <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">States with significant PFAS regulatory activity.</p>
-<div class="critical-updates" id="state-critical-updates">
-    <div class="critical-updates-header">
-      <span class="critical-updates-title"><span class="critical-flame">&#128680;</span>State Critical Updates</span>
-      <span class="critical-updates-note">State items requiring attention right now</span>
-    </div>
-    <ul class="critical-updates-list">
-    </ul>
-  </div>
-
-  <div class="key-dates" id="state-key-dates">
-    <div class="key-dates-header">
-      <span class="key-dates-title">&#128197; State Key Dates Ahead</span>
-      <span class="key-dates-note">State calendar items</span>
-    </div>
-    <ul class="key-dates-list">
-      <li>
-        <span class="key-date">Aug 16, 2026</span>
-        <span class="key-date-gap">~12 weeks</span>
-        <span class="key-date-desc">MN Amara's Law extension/waiver requests must be postmarked by this date &middot; <a href="#state-watchlist">Minnesota card &rarr;</a></span>
-      </li>
-      <li>
-        <span class="key-date">Dec 14, 2026</span>
-        <span class="key-date-gap">~6.5 months</span>
-        <span class="key-date-desc">MN Amara's Law extended reporting deadline (for those who requested by Aug 16) &middot; <a href="#state-watchlist">Minnesota card &rarr;</a></span>
-      </li>
-      <li>
-        <span class="key-date">Jan 1, 2027</span>
-        <span class="key-date-gap">~7.5 months</span>
-        <span class="key-date-desc">NM PFAS Protection Act + RI Consumer PFAS Ban Act take effect &middot; <a href="#state-nm">NM &amp; RI cards &rarr;</a></span>
-      </li>
-    </ul>
-  </div>
-
-    <div class="state-filter" id="stateFilter">
+  <div class="state-filter" id="stateFilter">
     <span class="state-filter-label">Filter by:</span>
     <button class="filter-pill is-active" data-filter="all" type="button">All states <span class="pill-count">19</span></button>
     <button class="filter-pill" data-filter="mcl" type="button">Drinking-water MCLs <span class="pill-count">11</span></button>
@@ -1383,42 +1351,76 @@ footer.foot a:hover { text-decoration: underline; }
 </section>
 
 <section id="international">
-  <h2>International Overlay <span class="count">EU &middot; Canada &middot; UK</span></h2>
-  <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Non-U.S. PFAS regulations with material reach into U.S. operations &mdash; EU REACH, Canada (CEPA + NPRI), and UK REACH actions that affect exporters, multinational manufacturers, and firefighting-foam transitions.</p>
+  <h2>International Overlay <span class="count">EU &middot; UK &middot; Canada &middot; Australia &middot; Germany &middot; Belgium &middot; Brazil</span></h2>
+  <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Non-U.S. PFAS regulations and major actions with material reach into U.S. operations &mdash; jurisdictions Integral encounters through multinational clients, AFFF investigations, product-stewardship work, and cross-border litigation.</p>
 
 
-  <div class="key-dates" id="intl-key-dates">
-    <div class="key-dates-header">
-      <span class="key-dates-title">&#128197; International Key Dates Ahead</span>
-      <span class="key-dates-note">International calendar items</span>
-    </div>
-    <ul class="key-dates-list">
-      <li>
-        <span class="key-date">June 1, 2026</span>
-        <span class="key-date-gap">~2 weeks</span>
-        <span class="key-date-desc">Canada NPRI PFAS reporting due (releases during CY 2025; 131 PFAS) &middot; <a href="#intl-canada">Canada card &rarr;</a></span>
-      </li>
-      <li>
-        <span class="key-date">Aug 12, 2026</span>
-        <span class="key-date-gap">~10 weeks</span>
-        <span class="key-date-desc">&#128680; EU PPWR PFAS ban on food-contact packaging takes effect (Reg. EU 2025/40) &middot; <a href="#intl-eu-ppwr">EU PPWR card &rarr;</a></span>
-      </li>
-      <li>
-        <span class="key-date">Oct 23, 2026</span>
-        <span class="key-date-gap">~5 months</span>
-        <span class="key-date-desc">EU AFFF ban on portable fire extinguishers + labelling requirement (Reg. EU 2025/1988) &middot; <a href="#intl-eu-afff">EU AFFF foams card &rarr;</a></span>
-      </li>
-      <li>
-        <span class="key-date">Dec 22, 2027</span>
-        <span class="key-date-gap">~19 months</span>
-        <span class="key-date-desc">EU Directive 2026/805 transposition deadline (member states) &middot; <a href="#intl-eu-water">EU Water Framework card &rarr;</a></span>
-      </li>
-    </ul>
+  <div class="state-filter" id="intlFilter">
+    <span class="state-filter-label">Filter by country:</span>
+    <button class="filter-pill is-active" data-filter="all" type="button">All <span class="pill-count">10</span></button>
+    <button class="filter-pill" data-filter="australia" type="button">Australia <span class="pill-count">1</span></button>
+    <button class="filter-pill" data-filter="belgium" type="button">Belgium <span class="pill-count">1</span></button>
+    <button class="filter-pill" data-filter="brazil" type="button">Brazil <span class="pill-count">1</span></button>
+    <button class="filter-pill" data-filter="canada" type="button">Canada <span class="pill-count">1</span></button>
+    <button class="filter-pill" data-filter="eu" type="button">EU <span class="pill-count">4</span></button>
+    <button class="filter-pill" data-filter="germany" type="button">Germany <span class="pill-count">1</span></button>
+    <button class="filter-pill" data-filter="uk" type="button">UK <span class="pill-count">1</span></button>
   </div>
 
     <div class="rules-grid">
 
-    <div class="rule-card status-proposed" id="intl-eu-reach">
+    <div class="rule-card status-active" id="intl-australia" data-tags="australia">
+      <div class="rule-head">
+        <div class="rule-title">Australia &mdash; Commonwealth v. 3M + drinking-water guidelines</div>
+        <span class="rule-tag tag-active">Active litigation &middot; landmark claim</span>
+      </div>
+      <div class="rule-meta">Federal Court of Australia &middot; NHMRC + AICIS regulatory framework</div>
+      <div class="rule-body">
+        <strong>May 28, 2026:</strong> The Australian Government filed a <strong>AU$2 billion (US$1.43B) claim against 3M and 3M Australia</strong> in the Federal Court of Australia &mdash; the largest environmental claim ever brought by the Commonwealth against a private entity. The action covers <strong>28 Defence sites</strong> contaminated with PFAS from AFFF (firefighting foams). Defence has already spent AU$1.3B on impacts, including AU$408M in community-settlement payments. 3M's reported defense: it never manufactured PFAS in Australia, ceased product sales ~20 years ago, and Defence continued using PFAS-containing AFFF for ~2 more decades. Australia's <strong>NHMRC</strong> (National Health and Medical Research Council) updated its PFAS health-based guidance values in 2025 under the Australian Drinking Water Guidelines. <strong>AICIS</strong> (Australian Industrial Chemicals Introduction Scheme) is phasing in PFAS restrictions for new chemical introductions. <strong>Why this matters for scientists:</strong> a major government-vs-manufacturer cost-recovery case that will test exposure-pathway evidence and source-attribution methodology at Defence sites &mdash; relevant for international clients with Australian operations, multinational AFFF site investigations, and as a precedent for how courts handle PFAS cost-recovery against historical suppliers.
+        <div style="margin-top:6px;"><a class="xref" href="#litigation">Cross-ref to Litigation Trends</a><a class="xref" href="#dod-program">DoD AFFF parallel</a></div>
+      </div>
+      <a class="rule-link" href="https://www.dcceew.gov.au/environment/protection/chemicals-management/pfas" target="_blank" rel="noopener">DCCEEW PFAS page &rarr;</a>
+    </div>
+
+    <div class="rule-card status-active" id="intl-belgium" data-tags="belgium">
+      <div class="rule-head">
+        <div class="rule-title">Belgium &mdash; 3M Zwijndrecht remediation precedent</div>
+        <span class="rule-tag tag-active">Active remediation &middot; toxic-tort precedent</span>
+      </div>
+      <div class="rule-meta">Flemish Government settlement + Brussels Court rulings</div>
+      <div class="rule-body">
+        Major PFAS contamination at the <strong>3M Zwijndrecht site</strong> (Antwerp port area, discharge into the Scheldt River) revealed publicly in 2021. <strong>2022 Flemish Government settlement: &euro;571 million</strong> (&euro;100M direct payment plus comprehensive remediation of residential gardens, agricultural land, and dust-control programs). 3M subsequently idled PFAS production at Zwijndrecht. <strong>December 2025:</strong> 3M agreed to compensate <strong>Westerschelde (Dutch) businesses</strong> for downstream PFAS damages &mdash; cross-border liability recognized. Brussels Court has issued individual-family compensation orders, establishing toxic-tort precedent in European courts. <strong>Why this matters for scientists:</strong> the Zwijndrecht case is the closest European analog to U.S. AFFF MDL bellwether work &mdash; expect plaintiff attorneys to import its evidence theories (residential garden contamination, downstream waterway transport, individual health-impact attribution) into U.S. proceedings. Cross-border liability sets precedent for multinational facility risk assessment.
+        <div style="margin-top:6px;"><a class="xref" href="#litigation">Cross-ref to Litigation Trends</a></div>
+      </div>
+      <a class="rule-link" href="https://www.vlaanderen.be/en/environment-protection/pfas" target="_blank" rel="noopener">Flanders environment PFAS page &rarr;</a>
+    </div>
+
+    <div class="rule-card status-proposed" id="intl-brazil" data-tags="brazil">
+      <div class="rule-head">
+        <div class="rule-title">Brazil &mdash; PFAS bill in legislative process</div>
+        <span class="rule-tag tag-proposed">Pre-rulemaking &middot; bill pending since 2023</span>
+      </div>
+      <div class="rule-meta">ANVISA + IBAMA &middot; PL 4264/2023 (or successor)</div>
+      <div class="rule-body">
+        A federal PFAS bill has been working through Brazil's National Congress since 2023, proposing <strong>progressive reduction of PFAS in products and production processes</strong> with public-awareness components. The bill reached the first of four legislative commissions in July 2023; passage is not imminent. In the interim, <strong>ANVISA</strong> (health surveillance agency) regulates PFAS in cosmetics, sanitizers, medical products, and food-contact materials through pre-market approval and post-market surveillance. <strong>IBAMA</strong> (environment) regulates environmental impact and import/export controls on hazardous substances. Brazil's food-contact positive lists were revised in 2025 (regenerated cellulose films, food-contact plastics). <strong>Why this matters for scientists:</strong> emerging-economy regulatory regime &mdash; no comprehensive PFAS law yet, but trajectory is clear. U.S. exporters of consumer products, food packaging, or cosmetics to Brazil should monitor ANVISA notices; long-term clients with manufacturing operations in Brazil should track the PFAS bill's progression through legislative commissions.
+      </div>
+      <a class="rule-link" href="https://www.gov.br/anvisa/pt-br" target="_blank" rel="noopener">ANVISA &rarr;</a>
+    </div>
+
+    <div class="rule-card status-proposed" id="intl-canada" data-tags="canada">
+      <div class="rule-head">
+        <div class="rule-title">Canada PFAS Class Restriction</div>
+        <span class="rule-tag tag-proposed">Phase 1 proposed &middot; NPRI reporting June 2026</span>
+      </div>
+      <div class="rule-meta">Environment and Climate Change Canada + Health Canada</div>
+      <div class="rule-body">
+        <span class="pin-flag">&#128204; Pinned</span>
+        <strong>March 2025:</strong> ECCC + Health Canada finalized the State of PFAS Report concluding that the PFAS class (excluding fluoropolymers) meets CEPA criteria for risk management. Three-phase Risk Management Approach published. <strong>Phase 1 proposes prohibiting PFAS in firefighting foams</strong> (not currently regulated under CEPA). <strong>131 individual PFAS being added to Canada's National Pollutant Release Inventory (NPRI)</strong>; reporting due <strong>June 2026 for releases during calendar year 2025</strong>. USTR formally objected May 2026 citing trade harm to U.S. exporters.
+      </div>
+      <a class="rule-link" href="https://www.canada.ca/en/environment-climate-change/services/evaluating-existing-substances/risk-management-approach-per-polyfluoroalkyl-substances.html" target="_blank" rel="noopener">ECCC Risk Management Approach &rarr;</a>
+    </div>
+
+    <div class="rule-card status-proposed" id="intl-eu-reach" data-tags="eu">
       <div class="rule-head">
         <div class="rule-title">EU REACH PFAS Restriction (universal proposal)</div>
         <span class="rule-tag tag-proposed">ECHA opinions advancing</span>
@@ -1427,12 +1429,12 @@ footer.foot a:hover { text-decoration: underline; }
       <div class="rule-body">
         <span class="pin-flag">&#128204; Pinned</span>
         <strong>March 2026:</strong> ECHA's Committee for Risk Assessment (RAC) issued its <strong>final opinion supporting EU-wide restriction</strong> on intentionally added PFAS. The Committee for Socio-Economic Analysis (SEAC) released a draft opinion endorsing the restriction with time-limited use-specific derogations. <strong>SEAC public consultation closed May 25, 2026.</strong> SEAC final opinion expected end of 2026; Commission then has ~3 months to prepare a draft amendment. Major implication for U.S. manufacturers exporting to EU. <em>Pinned</em> until SEAC final opinion issues.
-        <div style="margin-top:6px;"><a class="xref" href="#key-dates">May 25 consultation deadline</a><a class="xref" href="#insideepa">USTR / Canada news</a></div>
+        <div style="margin-top:6px;"><a class="xref" href="#insideepa">USTR / Canada news</a></div>
       </div>
       <a class="rule-link" href="https://echa.europa.eu/hot-topics/perfluoroalkyl-chemicals-pfas" target="_blank" rel="noopener">ECHA PFAS hot topics &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" id="intl-eu-water">
+    <div class="rule-card status-final" id="intl-eu-water" data-tags="eu">
       <div class="rule-head">
         <div class="rule-title">EU Directive 2026/805 &mdash; Water Framework PFAS Standards</div>
         <span class="rule-tag tag-final">In force May 11, 2026</span>
@@ -1445,21 +1447,46 @@ footer.foot a:hover { text-decoration: underline; }
       <a class="rule-link" href="https://environment.ec.europa.eu/news/stricter-rules-protecting-water-eu-enter-force-2026-05-11_en" target="_blank" rel="noopener">EU Commission announcement &rarr;</a>
     </div>
 
-    <div class="rule-card status-proposed" id="intl-canada">
+    <div class="rule-card status-final" id="intl-eu-ppwr" data-tags="eu">
       <div class="rule-head">
-        <div class="rule-title">Canada PFAS Class Restriction</div>
-        <span class="rule-tag tag-proposed">Phase 1 proposed &middot; NPRI reporting June 2026</span>
+        <div class="rule-title">EU PPWR &mdash; Food-Contact Packaging PFAS Ban</div>
+        <span class="rule-tag tag-final">Final &middot; effective Aug 12, 2026</span>
       </div>
-      <div class="rule-meta">Environment and Climate Change Canada + Health Canada</div>
+      <div class="rule-meta">Regulation (EU) 2025/40 &middot; Packaging and Packaging Waste Regulation</div>
       <div class="rule-body">
-        <span class="pin-flag">&#128204; Pinned</span>
-        <strong>March 2025:</strong> ECCC + Health Canada finalized the State of PFAS Report concluding that the PFAS class (excluding fluoropolymers) meets CEPA criteria for risk management. Three-phase Risk Management Approach published. <strong>Phase 1 proposes prohibiting PFAS in firefighting foams</strong> (not currently regulated under CEPA). <strong>131 individual PFAS being added to Canada's National Pollutant Release Inventory (NPRI)</strong>; reporting due <strong>June 2026 for releases during calendar year 2025</strong>. USTR formally objected May 2026 citing trade harm to U.S. exporters. <em>Pinned</em> through the June 2026 NPRI deadline.
-        <div style="margin-top:6px;"><a class="xref" href="#key-dates">June 2026 NPRI deadline</a></div>
+        Regulation (EU) 2025/40 takes full effect <strong>August 12, 2026</strong>, banning intentionally added PFAS in food-contact packaging placed on the EU market across all 27 member states. <strong>No grandfathering provision</strong> &mdash; even packaging manufactured before August 2026 cannot be sold after. Concentration thresholds: <strong>25 ppb per individual PFAS</strong> (targeted analysis, excluding polymeric PFAS), <strong>250 ppb for the sum of targeted PFAS</strong>, and <strong>50 ppm total fluorine</strong> (including polymeric PFAS). Covers greaseproof paper, pizza boxes, baking trays, microwave packaging, food wrappers, and similar items. <strong>Why this matters for scientists:</strong> the dual-pathway analytical regime (targeted PFAS screening + total-fluorine screening) creates a new analytical protocol demand, and the 50 ppm TF threshold may catch fluoropolymer coatings previously considered low-concern. U.S. manufacturers and exporters selling packaged food to the EU must have reformulated or substituted packaging before this date; downstream certification and testing burden falls on the supply chain. Product stewardship specialists should flag this as an imminent hard deadline distinct from the broader REACH restriction timeline.
+        <div style="margin-top:6px;"><a class="xref" href="#product-stewardship">Product Stewardship</a></div>
       </div>
-      <a class="rule-link" href="https://www.canada.ca/en/environment-climate-change/services/evaluating-existing-substances/risk-management-approach-per-polyfluoroalkyl-substances.html" target="_blank" rel="noopener">ECCC Risk Management Approach &rarr;</a>
+      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/40/oj" target="_blank" rel="noopener">Regulation (EU) 2025/40 &rarr;</a>
     </div>
 
-    <div class="rule-card status-proposed">
+    <div class="rule-card status-final" id="intl-eu-afff" data-tags="eu">
+      <div class="rule-head">
+        <div class="rule-title">EU REACH Restriction &mdash; PFAS in Firefighting Foams</div>
+        <span class="rule-tag tag-final">Final &middot; phased 2026&ndash;2035</span>
+      </div>
+      <div class="rule-meta">Regulation (EU) 2025/1988 &middot; amends Annex XVII of REACH</div>
+      <div class="rule-body">
+        Adopted October 2025. Phased restriction on PFAS in firefighting foams at <strong>&ge;1 mg/L (sum of all PFAS)</strong>. <strong>First operative deadline &mdash; October 23, 2026:</strong> bans PFAS-containing firefighting foams placed on the market in <strong>portable fire extinguishers</strong> and requires labelling on all PFAS-containing foam agents sold after that date. <strong>October 23, 2030:</strong> ban extends to all firefighting foam uses. SEVESO industrial sites retain phased transitions through October 2035. <strong>Why this matters for scientists:</strong> the 1 mg/L sum-PFAS threshold is a new analytical trigger distinct from MCL or groundwater standards. EU facility operators with portable extinguisher inventories must restock with PFAS-free alternatives before October 2026; AFFF site investigators supporting international clients should track these phase-in dates alongside U.S. MDL and DoD guidance. PFAS foams are the primary contamination driver at ~60% of contaminated firefighting sites across Europe.
+        <div style="margin-top:6px;"><a class="xref" href="#dod-program">DoD AFFF program</a></div>
+      </div>
+      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/1988/oj" target="_blank" rel="noopener">Regulation (EU) 2025/1988 &rarr;</a>
+    </div>
+
+    <div class="rule-card status-final" id="intl-germany" data-tags="germany">
+      <div class="rule-head">
+        <div class="rule-title">Germany &mdash; Drinking Water Ordinance PFAS limits</div>
+        <span class="rule-tag tag-final">Final &middot; phased 2026&ndash;2028</span>
+      </div>
+      <div class="rule-meta">Trinkwasserverordnung (TrinkwV) &middot; UBA + BfR</div>
+      <div class="rule-body">
+        Germany's amended Drinking Water Ordinance phases in PFAS limits stricter than the EU minimum. <strong>January 12, 2026 (in force):</strong> PFAS-20 sum limit of <strong>0.1 &micro;g/L (100 ppt)</strong> across 20 PFAS compounds. <strong>January 12, 2028:</strong> stricter PFAS-4 sum limit of <strong>0.02 &micro;g/L (20 ppt)</strong> for PFOA, PFOS, PFHxS, and PFNA &mdash; below the EU's 0.5 &micro;g/L total-PFAS minimum. Negligent breach of limit values carries <strong>criminal penalties</strong>. Germany's <strong>BfR (Federal Institute for Risk Assessment)</strong> and <strong>UBA (Federal Environment Agency)</strong> have classified <strong>trifluoroacetic acid (TFA) as a toxic substance</strong> &mdash; aligned with the EU Directive 2026/805 TFA designation. Germany was a co-author of the EU REACH PFAS universal restriction proposal. <strong>Why this matters for scientists:</strong> U.S. multinational clients with German operations face stricter compliance than the EU floor; the PFAS-4 0.02 &micro;g/L sum standard is more demanding analytically than U.S. NPDWR equivalents. TFA classification has analytical-method implications for any project involving fluorinated pesticides or refrigerants.
+        <div style="margin-top:6px;"><a class="xref" href="#intl-eu-water">EU Directive 2026/805 (TFA cross-ref)</a><a class="xref" href="#intl-eu-reach">EU REACH proposal</a></div>
+      </div>
+      <a class="rule-link" href="https://www.umweltbundesamt.de/en/topics/chemicals/per-polyfluorinated-chemicals-pfc" target="_blank" rel="noopener">UBA PFAS &rarr;</a>
+    </div>
+
+    <div class="rule-card status-proposed" id="intl-uk" data-tags="uk">
       <div class="rule-head">
         <div class="rule-title">UK REACH PFAS Restriction (Firefighting Foams)</div>
         <span class="rule-tag tag-proposed">Consultation closed &middot; opinion pending</span>
@@ -1469,32 +1496,6 @@ footer.foot a:hover { text-decoration: underline; }
         <strong>Aug 2025 &ndash; Feb 18, 2026:</strong> HSE 6-month public consultation on UK REACH PFAS-in-firefighting-foam restriction (Annex 15 dossier) ran and is now closed. <strong>HSE final opinion expected 2026; UK Government decision in 2027.</strong> <strong>Feb 3, 2026:</strong> UK Government published comprehensive PFAS Plan covering monitoring, new restrictions, permitting/waste frameworks, and potential statutory limits across multiple sectors. Affects U.S. exporters to UK market.
       </div>
       <a class="rule-link" href="https://www.gov.uk/government/publications/pfas-plan/pfas-plan-building-a-safer-future-together" target="_blank" rel="noopener">UK PFAS Plan &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final" id="intl-eu-ppwr">
-      <div class="rule-head">
-        <div class="rule-title">EU PPWR &mdash; Food-Contact Packaging PFAS Ban</div>
-        <span class="rule-tag tag-final">Final &middot; effective Aug 12, 2026</span>
-      </div>
-      <div class="rule-meta">Regulation (EU) 2025/40 &middot; Packaging and Packaging Waste Regulation</div>
-      <div class="rule-body">
-        Regulation (EU) 2025/40 takes full effect <strong>August 12, 2026</strong>, banning intentionally added PFAS in food-contact packaging placed on the EU market across all 27 member states. <strong>No grandfathering provision</strong> &mdash; even packaging manufactured before August 2026 cannot be sold after. Concentration thresholds: <strong>25 ppb per individual PFAS</strong> (targeted analysis, excluding polymeric PFAS), <strong>250 ppb for the sum of targeted PFAS</strong>, and <strong>50 ppm total fluorine</strong> (including polymeric PFAS). Covers greaseproof paper, pizza boxes, baking trays, microwave packaging, food wrappers, and similar items. <strong>Why this matters for scientists:</strong> the dual-pathway analytical regime (targeted PFAS screening + total-fluorine screening) creates a new analytical protocol demand, and the 50 ppm TF threshold may catch fluoropolymer coatings previously considered low-concern. U.S. manufacturers and exporters selling packaged food to the EU must have reformulated or substituted packaging before this date; downstream certification and testing burden falls on the supply chain. Product stewardship specialists should flag this as an imminent hard deadline distinct from the broader REACH restriction timeline.
-        <div style="margin-top:6px;"><a class="xref" href="#intl-key-dates">Aug 12 effective date</a><a class="xref" href="#product-stewardship">Product Stewardship</a></div>
-      </div>
-      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/40/oj" target="_blank" rel="noopener">Regulation (EU) 2025/40 &rarr;</a>
-    </div>
-
-    <div class="rule-card status-final" id="intl-eu-afff">
-      <div class="rule-head">
-        <div class="rule-title">EU REACH Restriction &mdash; PFAS in Firefighting Foams</div>
-        <span class="rule-tag tag-final">Final &middot; phased 2026&ndash;2035</span>
-      </div>
-      <div class="rule-meta">Regulation (EU) 2025/1988 &middot; amends Annex XVII of REACH</div>
-      <div class="rule-body">
-        Adopted October 2025. Phased restriction on PFAS in firefighting foams at <strong>&ge;1 mg/L (sum of all PFAS)</strong>. <strong>First operative deadline &mdash; October 23, 2026:</strong> bans PFAS-containing firefighting foams placed on the market in <strong>portable fire extinguishers</strong> and requires labelling on all PFAS-containing foam agents sold after that date. <strong>October 23, 2030:</strong> ban extends to all firefighting foam uses. SEVESO industrial sites retain phased transitions through October 2035. <strong>Why this matters for scientists:</strong> the 1 mg/L sum-PFAS threshold is a new analytical trigger distinct from MCL or groundwater standards. EU facility operators with portable extinguisher inventories must restock with PFAS-free alternatives before October 2026; AFFF site investigators supporting international clients should track these phase-in dates alongside U.S. MDL and DoD guidance. PFAS foams are the primary contamination driver at ~60% of contaminated firefighting sites across Europe.
-        <div style="margin-top:6px;"><a class="xref" href="#intl-key-dates">Oct 23, 2026 deadline</a><a class="xref" href="#dod-program">DoD AFFF program</a></div>
-      </div>
-      <a class="rule-link" href="https://eur-lex.europa.eu/eli/reg/2025/1988/oj" target="_blank" rel="noopener">Regulation (EU) 2025/1988 &rarr;</a>
     </div>
 
   </div>
@@ -1656,92 +1657,12 @@ footer.foot a:hover { text-decoration: underline; }
   </div>
 </section>
 
-<section id="resources">
-  <h2>Reference Pages</h2>
-  <div class="resources">
-    <a class="res-card" href="https://www.epa.gov/pfas/key-epa-actions-address-pfas" target="_blank" rel="noopener">
-      <div class="res-title">EPA Key PFAS Actions</div>
-      <div class="res-desc">Master list of EPA PFAS rulemakings and guidance</div>
-    </a>
-    <a class="res-card" href="https://www.federalregister.gov/documents/search?conditions[term]=PFAS" target="_blank" rel="noopener">
-      <div class="res-title">Federal Register PFAS search</div>
-      <div class="res-desc">Browse all federal-agency PFAS rulemakings and notices (the live feed above is filtered to EPA only)</div>
-    </a>
-    <a class="res-card" href="https://www.acq.osd.mil/eie/eer/ecc/pfas/" target="_blank" rel="noopener">
-      <div class="res-title">DoD PFAS Task Force</div>
-      <div class="res-desc">Cleanup goals, site lists, interim guidance</div>
-    </a>
-    <a class="res-card" href="https://www.gao.gov/products/gao-25-107401" target="_blank" rel="noopener">
-      <div class="res-title">GAO-25-107401</div>
-      <div class="res-desc">DoD PFAS cleanup cost transparency report</div>
-    </a>
-    <a class="res-card" href="https://www.epa.gov/water-infrastructure/pfas-out" target="_blank" rel="noopener">
-      <div class="res-title">PFAS OUT initiative</div>
-      <div class="res-desc">EPA outreach initiative connecting water systems to PFAS funding, tools, and technical-assistance resources</div>
-    </a>
-    <a class="res-card" href="https://www.regulations.gov/search?filter=PFAS" target="_blank" rel="noopener">
-      <div class="res-title">Regulations.gov PFAS dockets</div>
-      <div class="res-desc">Public comments and supporting materials</div>
-    </a>
-    <a class="res-card" href="https://insideepa.com/" target="_blank" rel="noopener">
-      <div class="res-title">InsideEPA.com</div>
-      <div class="res-desc">Subscriber news service &mdash; PFAS coverage and biweekly newsletter</div>
-    </a>
-    <a class="res-card" href="https://pfas-1.itrcweb.org/" target="_blank" rel="noopener">
-      <div class="res-title">ITRC PFAS Guidance</div>
-      <div class="res-desc">Master technical reference (Jan 2026 update)</div>
-    </a>
-    <a class="res-card" href="https://pfas-1.itrcweb.org/wp-content/uploads/2026/01/ITRC_PFAS_VI_FactSheet_Dec2025_final.pdf" target="_blank" rel="noopener">
-      <div class="res-title">ITRC &mdash; Vapor-forming PFAS (Jan 2026)</div>
-      <div class="res-desc">Fact sheet on FTOHs, sulfonamides, ultrashort-chain PFAS, and the VI pathway</div>
-    </a>
-    <a class="res-card" href="https://www.michigan.gov/pfasresponse/workgroups/air-quality" target="_blank" rel="noopener">
-      <div class="res-title">Michigan EGLE &mdash; PFAS Air Quality Workgroup</div>
-      <div class="res-desc">State-level PFAS soil-gas and indoor-air investigation work (leading state on PFAS-VI)</div>
-    </a>
-    <a class="res-card" href="https://www.epa.gov/vaporintrusion/vapor-intrusion-screening-level-calculator" target="_blank" rel="noopener">
-      <div class="res-title">EPA VI Screening Level Calculator</div>
-      <div class="res-desc">Federal VI screening framework (general; no PFAS-specific calculator yet)</div>
-    </a>
-    <a class="res-card" href="https://www.fda.gov/food/environmental-contaminants-food/and-polyfluoroalkyl-substances-pfas" target="_blank" rel="noopener">
-      <div class="res-title">FDA PFAS in food</div>
-      <div class="res-desc">Food contact phase-out, Total Diet Study, infant formula testing</div>
-    </a>
-    <a class="res-card" href="https://www.fda.gov/food/process-contaminants-food/market-phase-out-grease-proofing-substances-containing-pfas" target="_blank" rel="noopener">
-      <div class="res-title">FDA Grease-proofing phase-out</div>
-      <div class="res-desc">Status tracker for the voluntary food contact PFAS phase-out</div>
-    </a>
-    <a class="res-card" href="https://www.cpsc.gov/" target="_blank" rel="noopener">
-      <div class="res-title">CPSC</div>
-      <div class="res-desc">Consumer Product Safety Commission &mdash; PFAS in non-food consumer products</div>
-    </a>
-    <a class="res-card" href="https://echa.europa.eu/hot-topics/perfluoroalkyl-chemicals-pfas" target="_blank" rel="noopener">
-      <div class="res-title">ECHA PFAS (EU REACH)</div>
-      <div class="res-desc">European Chemicals Agency &mdash; universal PFAS restriction proposal status</div>
-    </a>
-    <a class="res-card" href="https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/risk-assessment-management-pfas.html" target="_blank" rel="noopener">
-      <div class="res-title">ECCC PFAS (Canada)</div>
-      <div class="res-desc">Environment and Climate Change Canada &mdash; PFAS class restrictions in development</div>
-    </a>
-    <a class="res-card" href="https://www.gov.uk/government/publications/pfas-plan/pfas-plan-building-a-safer-future-together" target="_blank" rel="noopener">
-      <div class="res-title">HSE / UK PFAS Plan</div>
-      <div class="res-desc">UK Health and Safety Executive PFAS Plan &mdash; Annex 15 firefighting-foam dossier and broader strategy (Feb 2026)</div>
-    </a>
-    <a class="res-card" href="https://echo.epa.gov/trends/comparative-maps-dashboards/pfas-analytical-tools-dashboard" target="_blank" rel="noopener">
-      <div class="res-title">ECHO PFAS Analytical Tools</div>
-      <div class="res-desc">EPA's interactive dashboard for PFAS enforcement, sampling, and facility data</div>
-    </a>
-    <a class="res-card" href="https://www.epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener">
-      <div class="res-title">EPA UCMR 5 Occurrence Data</div>
-      <div class="res-desc">Quarterly PFAS monitoring results from public water systems (29 PFAS, 2023&ndash;2025)</div>
-    </a>
-  </div>
-</section>
+<!-- Reference Pages section moved to standalone Word doc (pfas-tracker-reference-library.docx) — linked from footer below. -->
 
 <footer class="foot">
   <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:14px 18px; margin-bottom:12px; font-size:12.5px; color:#1a2733; line-height:1.55; text-align:left;">
     <strong style="color:var(--integral-navy);">Contribute or report an issue.</strong>
-    To submit a PFAS article, regulatory document, or other item for tracker consideration, please use the <strong>Submit Content</strong> tab. To report broken links, incorrect information, or other tracker issues, contact <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:500;">Ellen Hartley</a> (Library Services). New to the tracker? See the <a href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-how-to-use.docx?d=w75a797962b8548f2bd5917817af62b46&amp;csf=1&amp;web=1&amp;e=Bxdolw" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">how-to-use guide</a> for daily, weekly, and project-specific usage modes, or the <a href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-curation-criteria.docx?d=w3c2b814f0237439ba4f9756b44e74fb7&amp;csf=1&amp;web=1&amp;e=mtgmcK" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">curation criteria document</a> for how items are selected.
+    To submit a PFAS article, regulatory document, or other item for tracker consideration, please use the <strong>Submit Content</strong> tab. To report broken links, incorrect information, or other tracker issues, contact <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:500;">Ellen Hartley</a> (Library Services). New to the tracker? See the <a href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-how-to-use.docx?d=w75a797962b8548f2bd5917817af62b46&amp;csf=1&amp;web=1&amp;e=Bxdolw" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">how-to-use guide</a> for daily, weekly, and project-specific usage modes, the <a href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-curation-criteria.docx?d=w3c2b814f0237439ba4f9756b44e74fb7&amp;csf=1&amp;web=1&amp;e=mtgmcK" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">curation criteria document</a> for how items are selected, or the <a href="https://icit.sharepoint.com/:w:/r/sites/Library/Library%20Services%20Documentation/pfas-tracker-reference-library.docx?d=wf4192f302dcf41a395b9a546802bc5be&amp;csf=1&amp;web=1&amp;e=mtprr6" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">reference library</a> for canonical PFAS sources.
   </div>
   <div style="font-size:11.5px; color:#6b7c8c;">
     Federal Register data via the public <a href="https://www.federalregister.gov/developers/api/v1" target="_blank" rel="noopener" style="color:#0a4f6f;">federalregister.gov API</a>.
@@ -2007,29 +1928,39 @@ footer.foot a:hover { text-decoration: underline; }
 
 <script>
 (function() {
-  var pills = document.querySelectorAll('#stateFilter .filter-pill');
-  if (!pills.length) return;
-  var section = document.getElementById('state-watchlist');
-  if (!section) return;
-  var cards = section.querySelectorAll('.rules-grid > .rule-card');
-  var countEl = document.getElementById('stateCount');
-  var labelMap = { all: 'All states', mcl: 'Drinking-water MCLs', products: 'Product bans', biosolids: 'Biosolids', cleanup: 'Cleanup standards' };
-
-  pills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      var filter = pill.dataset.filter;
-      pills.forEach(function(p) { p.classList.remove('is-active'); });
-      pill.classList.add('is-active');
-      var visibleCount = 0;
-      cards.forEach(function(card) {
-        var tags = (card.dataset.tags || '').split(/\s+/);
-        var match = (filter === 'all') || tags.indexOf(filter) !== -1;
-        card.style.display = match ? '' : 'none';
-        if (match) visibleCount++;
+  function wireFilter(pillContainerId, sectionId, countElId, labelMap, noun) {
+    var pills = document.querySelectorAll('#' + pillContainerId + ' .filter-pill');
+    if (!pills.length) return;
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    var cards = section.querySelectorAll('.rules-grid > .rule-card');
+    var countEl = countElId ? document.getElementById(countElId) : null;
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        var filter = pill.dataset.filter;
+        pills.forEach(function(p) { p.classList.remove('is-active'); });
+        pill.classList.add('is-active');
+        var visibleCount = 0;
+        cards.forEach(function(card) {
+          var tags = (card.dataset.tags || '').split(/\s+/);
+          var match = (filter === 'all') || tags.indexOf(filter) !== -1;
+          card.style.display = match ? '' : 'none';
+          if (match) visibleCount++;
+        });
+        if (countEl) {
+          countEl.textContent = visibleCount + ' ' + noun + (visibleCount === 1 ? '' : 's') + ' (' + (labelMap[filter] || filter) + ')';
+        }
       });
-      if (countEl) countEl.textContent = visibleCount + ' state' + (visibleCount === 1 ? '' : 's') + ' (' + (labelMap[filter] || filter) + ')';
     });
-  });
+  }
+
+  wireFilter('stateFilter', 'state-watchlist', 'stateCount',
+    { all: 'All states', mcl: 'Drinking-water MCLs', products: 'Product bans', biosolids: 'Biosolids', cleanup: 'Cleanup standards' },
+    'state');
+
+  wireFilter('intlFilter', 'international', null,
+    { all: 'All countries', australia: 'Australia', belgium: 'Belgium', brazil: 'Brazil', canada: 'Canada', eu: 'EU', germany: 'Germany', uk: 'UK' },
+    'item');
 })();
 </script>
 
