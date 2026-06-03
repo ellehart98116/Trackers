@@ -1,7 +1,29 @@
 {
-  "generated": "2026-06-03T10:49:19.001Z",
+  "generated": "2026-06-03T16:27:43.580Z",
   "count": 20,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "EPA Proposes Rescinding PFAS National Drinking Water Regulations",
+      "url": "https://www.jdsupra.com/legalnews/epa-proposes-rescinding-pfas-national-6723197/",
+      "date": "Wed, 03 Jun 2026 16:11:37 GMT",
+      "type": "Analysis",
+      "agency": "BCLP",
+      "tag": "PFAS",
+      "abstract": "The United States Environmental Protection Agency (“EPA”) issued two proposed rules on May 20, 2026, seeking to partially unwind the requirements imposed under the current National PFAS Drinking Water Regulations promulgated in 2024:  (1) first, EPA proposes rescinding the Maximu"
+    },
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "Minnesota Scales Back PFAS Disclosure Rules for Legacy Products",
+      "url": "https://www.jdsupra.com/legalnews/minnesota-scales-back-pfas-disclosure-1869576/",
+      "date": "Wed, 03 Jun 2026 15:41:51 GMT",
+      "type": "Analysis",
+      "agency": "Perkins Coie",
+      "tag": "PFAS",
+      "abstract": "On May 26, 2026, Governor Tim Walz signed a newly enacted budget bill (SF 4612) that significantly narrows Minnesota’s chemical disclosure requirements.     In a major legislative compromise, manufacturers are now exempt from reporting products or components manufactured before J"
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -199,28 +221,6 @@
       "agency": "Napoli Shkolnik",
       "tag": "PFAS",
       "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "EPA Adds Microplastics and Pharmaceuticals to Safe Drinking Water Contaminant Candidate List; States Await EPA Response to PFAS Clean Air Act Request; and New Mexico Adopts Expanded PFAS Labeling Requirements",
-      "url": "https://www.jdsupra.com/legalnews/epa-adds-microplastics-and-5100367/",
-      "date": "Fri, 01 May 2026 19:38:34 GMT",
-      "type": "Analysis",
-      "agency": "Shook, Hardy &amp; Bacon L.L.P.",
-      "tag": "PFAS",
-      "abstract": "Monthly newsletter Material Concerns: Legal Updates on Substances of Emerging Concern keeps clients informed on the latest legal, regulatory and scientific developments related to substances of emerging concern....By: Shook, Hardy &amp; Bacon L.L.P."
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "[Event] 3rd Annual Summit on PFAS Regulation, Compliance and Litigation - May 28th - 29th, New York, NY",
-      "url": "https://www.jdsupra.com/legalnews/event-3rd-annual-summit-on-pfas-6715793/",
-      "date": "Wed, 29 Apr 2026 19:32:22 GMT",
-      "type": "Analysis",
-      "agency": "American Conference Institute (ACI)",
-      "tag": "PFAS",
-      "abstract": "Between federal regulatory volatility, aggressive state PFAS bans, expanding reporting obligations, and litigation moving beyond the MDL, 2026 is shaping up to be one of the most pivotal years yet for PFAS compliance.  At ACI’s 3rd Annual Summit on PFAS Regulation, Compliance and"
     }
   ]
 }
