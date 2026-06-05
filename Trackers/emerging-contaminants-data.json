@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-05T09:37:27.674Z",
+  "generated": "2026-06-05T14:37:28.467Z",
   "count": 20,
   "items": [
     {
@@ -78,17 +78,6 @@
       "agency": "Perkins Coie",
       "tag": "PFAS",
       "abstract": "On May 26, 2026, Governor Tim Walz signed a newly enacted budget bill (SF 4612) that significantly narrows Minnesota’s chemical disclosure requirements.     In a major legislative compromise, manufacturers are now exempt from reporting products or components manufactured before J"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "Ninth Circuit Vacates Order Requiring EPA to Regulate Fluoridation of Drinking Water under TSCA",
-      "url": "https://www.jdsupra.com/legalnews/ninth-circuit-vacates-order-requiring-3426820/",
-      "date": "Tue, 02 Jun 2026 17:22:34 GMT",
-      "type": "Analysis",
-      "agency": "Beveridge &amp; Diamond PC",
-      "tag": "Environmental",
-      "abstract": "The U.S. Court of Appeals for the Ninth Circuit has vacated the district court order that required the U.S. Environmental Protection Agency (EPA) to regulate the “unreasonable risk” the court found to be posed by the fluoridation of drinking water. The Ninth Circuit issued a deci"
     },
     {
       "source": "JD Supra",
@@ -221,6 +210,17 @@
       "agency": "Bergeson &amp; Campbell, P.C.",
       "tag": "Glyphosate",
       "abstract": "On April 27, 2026, the U.S. Supreme Court heard oral argument in Monsanto Company v. Durnell, a closely watched case that could reshape the intersection of federal pesticide regulation and state tort law. At issue is whether failure to warn claims under state law, specifically th"
+    },
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "From Liability to Legacy: Leveraging CERCLA to Protect Public Water Systems",
+      "url": "https://www.jdsupra.com/legalnews/from-liability-to-legacy-leveraging-2111188/",
+      "date": "Tue, 05 May 2026 18:50:19 GMT",
+      "type": "Analysis",
+      "agency": "Napoli Shkolnik",
+      "tag": "PFAS",
+      "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
     }
   ]
 }
