@@ -594,6 +594,8 @@ footer.foot a:hover { text-decoration: underline; }
 .lib-updates-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(15, 42, 74, 0.18); }
 .lib-updates-title { font-family: 'Lora', Georgia, serif; font-size: 14px; font-weight: 600; color: var(--integral-navy); }
 .lib-updates-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.lib-subscribe-link { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; background: var(--integral-navy); color: #ffffff; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 12px; text-decoration: none; transition: background 0.15s; }
+.lib-subscribe-link:hover { background: #1a3d6b; }
 .lib-updates-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
 .lib-updates-list li { display: grid; grid-template-columns: 70px 130px 1fr; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px dotted rgba(15, 42, 74, 0.15); font-size: 13px; line-height: 1.5; }
 .lib-updates-list li:last-child { border-bottom: none; }
@@ -641,7 +643,7 @@ footer.foot a:hover { text-decoration: underline; }
 <nav class="toc">
   <div class="toc-title">Contents</div>
   <ol class="toc-list">
-    <li><a href="#lib-updates">What's New</a></li>
+    <li><a href="#lib-updates">Recent updates</a></li>
     <li><a href="#trending-now">Trending</a></li>
     <li><a href="#key-dates">Federal Key Dates Ahead</a></li>
     <li><a href="#federal-register">Live FR Stream</a></li>
@@ -656,8 +658,9 @@ footer.foot a:hover { text-decoration: underline; }
 
 <div class="lib-updates" id="lib-updates">
   <div class="lib-updates-header">
-    <span class="lib-updates-title">&#128218; PFAS Tracker &mdash; What's new this week</span>
-    <span class="lib-updates-note">Last 10 tracker additions &amp; updates &middot; rolling window</span>
+    <span class="lib-updates-title">&#128218; PFAS Tracker &mdash; Recent updates</span>
+    <span class="lib-updates-note">Last updated Jun 2, 2026 &middot; most recent additions and changes</span>
+    <a class="lib-subscribe-link" href="mailto:ehartley@integral-corp.com?subject=Subscribe%20to%20PFAS%20Tracker%20weekly%20updates&amp;body=Please%20add%20me%20to%20the%20weekly%20PFAS%20Tracker%20update%20distribution%20list.%0A%0AName%3A%20%0ARole%3A%20%0AAffiliation%3A%20%0A%0AThanks%21">&#128231; Subscribe to weekly email</a>
   </div>
   <ul class="lib-updates-list">
     <li>
