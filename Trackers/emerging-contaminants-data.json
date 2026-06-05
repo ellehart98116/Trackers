@@ -1,7 +1,18 @@
 {
-  "generated": "2026-06-05T14:37:28.467Z",
+  "generated": "2026-06-05T19:47:18.021Z",
   "count": 20,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "EPA Publishes Best Practices Report For Battery Recycling, Pennsylvania Bill Banning PFAS In Consumer Products Advances, and Connecticut Previews PFAS Reporting Form.",
+      "url": "https://www.jdsupra.com/legalnews/epa-publishes-best-practices-report-for-8511339/",
+      "date": "Fri, 05 Jun 2026 19:33:25 GMT",
+      "type": "Analysis",
+      "agency": "Shook, Hardy &amp; Bacon L.L.P.",
+      "tag": "PFAS",
+      "abstract": "Monthly newsletter Material Concerns: Legal Updates on Substances of Emerging Concern keeps clients informed on the latest legal, regulatory and scientific developments related to substances of emerging concern....By: Shook, Hardy &amp; Bacon L.L.P."
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -56,28 +67,6 @@
       "agency": "Bergeson &amp; Campbell, P.C.",
       "tag": "Environmental",
       "abstract": "On May 22, 2026, the U.S. Environmental Protection Agency (EPA) extended the reporting deadline for a rule under Section 8(d) of the Toxic Substances Control Act (TSCA) requiring manufacturers (including importers) of 16 chemicals to report data from unpublished health and safety"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "EPA Proposes Rescinding PFAS National Drinking Water Regulations",
-      "url": "https://www.jdsupra.com/legalnews/epa-proposes-rescinding-pfas-national-6723197/",
-      "date": "Wed, 03 Jun 2026 16:11:37 GMT",
-      "type": "Analysis",
-      "agency": "BCLP",
-      "tag": "PFAS",
-      "abstract": "The United States Environmental Protection Agency (“EPA”) issued two proposed rules on May 20, 2026, seeking to partially unwind the requirements imposed under the current National PFAS Drinking Water Regulations promulgated in 2024:  (1) first, EPA proposes rescinding the Maximu"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "Minnesota Scales Back PFAS Disclosure Rules for Legacy Products",
-      "url": "https://www.jdsupra.com/legalnews/minnesota-scales-back-pfas-disclosure-1869576/",
-      "date": "Wed, 03 Jun 2026 15:41:51 GMT",
-      "type": "Analysis",
-      "agency": "Perkins Coie",
-      "tag": "PFAS",
-      "abstract": "On May 26, 2026, Governor Tim Walz signed a newly enacted budget bill (SF 4612) that significantly narrows Minnesota’s chemical disclosure requirements.     In a major legislative compromise, manufacturers are now exempt from reporting products or components manufactured before J"
     },
     {
       "source": "JD Supra",
@@ -221,6 +210,17 @@
       "agency": "Napoli Shkolnik",
       "tag": "PFAS",
       "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
+    },
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "EPA Adds Microplastics and Pharmaceuticals to Safe Drinking Water Contaminant Candidate List; States Await EPA Response to PFAS Clean Air Act Request; and New Mexico Adopts Expanded PFAS Labeling Requirements",
+      "url": "https://www.jdsupra.com/legalnews/epa-adds-microplastics-and-5100367/",
+      "date": "Fri, 01 May 2026 19:38:34 GMT",
+      "type": "Analysis",
+      "agency": "Shook, Hardy &amp; Bacon L.L.P.",
+      "tag": "PFAS",
+      "abstract": "Monthly newsletter Material Concerns: Legal Updates on Substances of Emerging Concern keeps clients informed on the latest legal, regulatory and scientific developments related to substances of emerging concern....By: Shook, Hardy &amp; Bacon L.L.P."
     }
   ]
 }
