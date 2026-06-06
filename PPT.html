@@ -596,6 +596,16 @@ footer.foot a:hover { text-decoration: underline; }
 .lib-updates-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
 .lib-subscribe-link { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; background: var(--integral-navy); color: #ffffff; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 12px; text-decoration: none; transition: background 0.15s; }
 .lib-subscribe-link:hover { background: #1a3d6b; }
+
+/* Global industry filter (cross-section) */
+.global-filter { background: linear-gradient(135deg, #fafcfd 0%, #ffffff 100%); border: 1px solid #cdddea; border-left: 4px solid var(--integral-navy); border-radius: 6px; padding: 12px 16px; margin: 14px 0 22px 0; }
+.global-filter-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(15, 42, 74, 0.15); }
+.global-filter-title { font-family: 'Lora', Georgia, serif; font-size: 13.5px; font-weight: 600; color: var(--integral-navy); }
+.global-filter-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
+.global-filter-pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.global-filter-pills .filter-pill { font-size: 12px; padding: 4px 10px; }
+.global-filter-stats { font-size: 11.5px; color: #6b7c8c; margin-top: 10px; font-style: italic; }
+.global-filter-stats strong { color: var(--integral-navy); font-weight: 600; }
 .lib-updates-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
 .lib-updates-list li { display: grid; grid-template-columns: 70px 130px 1fr; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px dotted rgba(15, 42, 74, 0.15); font-size: 13px; line-height: 1.5; }
 .lib-updates-list li:last-child { border-bottom: none; }
@@ -738,6 +748,28 @@ footer.foot a:hover { text-decoration: underline; }
       <span class="trending-desc">PFAS litigation extending beyond manufacturers to <strong>data centers</strong> (cooling fluids), <strong>apparel</strong> (W.L. Gore GORE-TEX class action), and <strong>state AG enforcement of activewear</strong> (Texas AG CID on Lululemon). Each opens new site-investigation or product-stewardship work. <a href="#litigation">Litigation Trends</a></span>
     </li>
   </ul>
+</div>
+
+<div class="global-filter" id="globalFilter">
+  <div class="global-filter-header">
+    <span class="global-filter-title">&#127919; Filter the tracker by industry / practice area</span>
+    <span class="global-filter-note">Show only content relevant to a specific client segment</span>
+  </div>
+  <div class="global-filter-pills">
+    <button class="filter-pill is-active" data-segment="all" type="button">All <span class="pill-count" id="globalCountAll">47</span></button>
+    <button class="filter-pill" data-segment="drinking-water" type="button">Drinking Water <span class="pill-count">17</span></button>
+    <button class="filter-pill" data-segment="wastewater" type="button">Wastewater <span class="pill-count">2</span></button>
+    <button class="filter-pill" data-segment="biosolids" type="button">Biosolids <span class="pill-count">4</span></button>
+    <button class="filter-pill" data-segment="remediation" type="button">Remediation <span class="pill-count">26</span></button>
+    <button class="filter-pill" data-segment="AFFF" type="button">AFFF <span class="pill-count">6</span></button>
+    <button class="filter-pill" data-segment="product-stewardship" type="button">Product Stewardship <span class="pill-count">20</span></button>
+    <button class="filter-pill" data-segment="multinational" type="button">International <span class="pill-count">10</span></button>
+    <button class="filter-pill" data-segment="litigation" type="button">Litigation <span class="pill-count">3</span></button>
+    <button class="filter-pill" data-segment="air-pathway" type="button">Vapor / Air Pathway <span class="pill-count">1</span></button>
+  </div>
+  <div class="global-filter-stats" id="globalFilterStats">
+    Showing <strong>all 47 tagged cards</strong> across Federal Actions, State Watchlist, International, and Product Stewardship sections.
+  </div>
 </div>
 
 <div class="critical-updates" id="critical-updates">
@@ -1973,6 +2005,38 @@ footer.foot a:hover { text-decoration: underline; }
                '---\nSubmitted via the PFAS Policy Tracker (Submit Content tab).';
     var mailto = 'mailto:ehartley@integral-corp.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     window.location.href = mailto;
+  });
+})();
+</script>
+
+<script>
+(function() {
+  var pills = document.querySelectorAll('#globalFilter .filter-pill');
+  if (!pills.length) return;
+  var taggedCards = document.querySelectorAll('[data-segments]');
+  var statsEl = document.getElementById('globalFilterStats');
+  var segmentLabels = { 'all': 'all', 'drinking-water': 'Drinking Water', 'wastewater': 'Wastewater', 'biosolids': 'Biosolids', 'remediation': 'Remediation', 'AFFF': 'AFFF', 'product-stewardship': 'Product Stewardship', 'multinational': 'International', 'litigation': 'Litigation', 'air-pathway': 'Vapor / Air Pathway' };
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      var seg = pill.dataset.segment;
+      pills.forEach(function(p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      var visibleCount = 0;
+      taggedCards.forEach(function(card) {
+        var tags = (card.dataset.segments || '').split(/\s+/);
+        var match = (seg === 'all') || tags.indexOf(seg) !== -1;
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+      if (statsEl) {
+        if (seg === 'all') {
+          statsEl.innerHTML = 'Showing <strong>all ' + taggedCards.length + ' tagged cards</strong> across Federal Actions, State Watchlist, International, and Product Stewardship sections.';
+        } else {
+          var label = segmentLabels[seg] || seg;
+          statsEl.innerHTML = 'Showing <strong>' + visibleCount + ' card' + (visibleCount === 1 ? '' : 's') + ' tagged ' + label + '</strong>. Click <em>All</em> to reset.';
+        }
+      }
+    });
   });
 })();
 </script>
