@@ -1,7 +1,18 @@
 {
-  "generated": "2026-06-08T15:38:59.525Z",
+  "generated": "2026-06-08T20:07:16.774Z",
   "count": 19,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "2026 mid-year PFAS update: How federal and state regulation is shaping compliance and litigation risk",
+      "url": "https://www.jdsupra.com/legalnews/2026-mid-year-pfas-update-how-federal-5089856/",
+      "date": "Mon, 08 Jun 2026 15:42:27 GMT",
+      "type": "Analysis",
+      "agency": "DLA Piper",
+      "tag": "PFAS",
+      "abstract": "Federal and state regulation of per- and polyfluoroalkyl substances (PFAS), as well as related policy initiatives such as Make America Healthy Again (MAHA), continue to accelerate and evolve, with key compliance deadlines approaching in mid-2026 and early 2027....By: DLA Piper"
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -199,17 +210,6 @@
       "agency": "Bergeson &amp; Campbell, P.C.",
       "tag": "Glyphosate",
       "abstract": "On April 27, 2026, the U.S. Supreme Court heard oral argument in Monsanto Company v. Durnell, a closely watched case that could reshape the intersection of federal pesticide regulation and state tort law. At issue is whether failure to warn claims under state law, specifically th"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "From Liability to Legacy: Leveraging CERCLA to Protect Public Water Systems",
-      "url": "https://www.jdsupra.com/legalnews/from-liability-to-legacy-leveraging-2111188/",
-      "date": "Tue, 05 May 2026 18:50:19 GMT",
-      "type": "Analysis",
-      "agency": "Napoli Shkolnik",
-      "tag": "PFAS",
-      "abstract": "In April 2024, the U.S. EPA finalized National Primary Drinking Water Regulations, setting enforceable Maximum Contaminant Levels (MCLs) for six PFAS, including a stringent 4.0 parts per trillion (ppt) for PFOA and PFOS....By: Napoli Shkolnik"
     }
   ]
 }
