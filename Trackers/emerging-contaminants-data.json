@@ -1,7 +1,18 @@
 {
-  "generated": "2026-06-10T09:48:45.141Z",
+  "generated": "2026-06-10T15:21:45.763Z",
   "count": 20,
   "items": [
+    {
+      "source": "JD Supra",
+      "sourceType": "legal",
+      "title": "New Jersey Enacts the Protecting Against Forever Chemicals Act: Implications for Consumer Product Manufacturers",
+      "url": "https://www.jdsupra.com/legalnews/new-jersey-enacts-the-protecting-4044906/",
+      "date": "Wed, 10 Jun 2026 15:14:34 GMT",
+      "type": "Analysis",
+      "agency": "Husch Blackwell LLP",
+      "tag": "PFAS",
+      "abstract": "State regulation of per- and polyfluoroalkyl substances (PFAS), commonly known as “forever chemicals,” continues to accelerate nationwide. In April 2026, New Jersey enacted the Protecting Against Forever Chemicals Act (the “Act”), which prohibits the sale of certain consumer prod"
+    },
     {
       "source": "JD Supra",
       "sourceType": "legal",
@@ -210,17 +221,6 @@
       "agency": "Vinson &amp; Elkins LLP",
       "tag": "Microplastics",
       "abstract": "On April 2, 2026, the U.S. Environmental Protection Agency (“EPA”) proposed to add microplastics as a priority contaminant group to the Drinking Water Contaminant Candidate List 6 (“CCL 6”) under the Safe Drinking Water Act....By: Vinson &amp; Elkins LLP"
-    },
-    {
-      "source": "JD Supra",
-      "sourceType": "legal",
-      "title": "Supreme Court Grapples with Roundup®, Federal Preemption, and the Limits of EPA Authority",
-      "url": "https://www.jdsupra.com/legalnews/supreme-court-grapples-with-roundup-r-1007096/",
-      "date": "Wed, 06 May 2026 14:21:40 GMT",
-      "type": "Analysis",
-      "agency": "Bergeson &amp; Campbell, P.C.",
-      "tag": "Glyphosate",
-      "abstract": "On April 27, 2026, the U.S. Supreme Court heard oral argument in Monsanto Company v. Durnell, a closely watched case that could reshape the intersection of federal pesticide regulation and state tort law. At issue is whether failure to warn claims under state law, specifically th"
     }
   ]
 }
