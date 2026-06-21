@@ -629,6 +629,14 @@ footer.foot a:hover { text-decoration: underline; }
 
 .xref-related { color: #6b7c8c; font-size: 12.5px; font-weight: 400; }
 .xref-related a { color: #0a4f6f; font-weight: 600; text-decoration: underline; }
+
+/* External link indicator — adds ↗ icon to any http(s) link except those pointing to the tracker host */
+a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
+  content: " \2197";
+  font-size: 0.85em;
+  color: #6b7c8c;
+  font-weight: normal;
+}
 </style>
 </head>
 <body>
@@ -681,22 +689,22 @@ footer.foot a:hover { text-decoration: underline; }
         <li>
           <span class="lib-update-date">Jun 22</span>
           <span class="lib-update-section">Federal Actions</span>
-          <span class="lib-update-desc"><strong>FDA PFAS-in-Food citizen petition response due Jun 30, 2026.</strong> A federal court has ordered FDA to respond to the Center for Food Safety petition seeking enforceable tolerances for 30 PFAS in commodities. Watch item; FDA could respond in multiple ways (set tolerances, deny petition, request extension). <em>Find it in <a href="#key-dates">Federal Key Dates Ahead</a></em> <em class="xref-related"> &middot; Related: <a href="#fed-fda-tucson">Tucson v. FDA card</a></em></span>
+          <span class="lib-update-desc"><strong>FDA PFAS-in-Food citizen petition response due Jun 30, 2026.</strong> A federal court has ordered FDA to respond to the Center for Food Safety petition seeking enforceable tolerances for 30 PFAS in commodities. Watch item; FDA could respond in multiple ways (set tolerances, deny petition, request extension). <em>Find it in <a href="#key-dates">Federal Key Dates Ahead</a></em></span>
         </li>
         <li>
           <span class="lib-update-date">Jun 22</span>
           <span class="lib-update-section">InsideEPA News</span>
-          <span class="lib-update-desc">Added <strong>10th Circuit ruling</strong> (Jun 17, 2026) &mdash; Air Force allowed to challenge New Mexico&rsquo;s PFAS hazardous waste permit in federal court (reversing lower court). Sets federal-vs-state authority precedent at DoD-PFAS sites. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em> <em class="xref-related"> &middot; Related: <a href="#state-nm">NM card</a> &middot; <a href="#dod-program">DoD Cleanup Program card</a></em></span>
+          <span class="lib-update-desc">Added <strong>10th Circuit ruling</strong> (Jun 17, 2026) &mdash; Air Force allowed to challenge New Mexico&rsquo;s PFAS hazardous waste permit in federal court (reversing lower court). Sets federal-vs-state authority precedent at DoD-PFAS sites. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em></span>
         </li>
         <li>
           <span class="lib-update-date">Jun 22</span>
           <span class="lib-update-section">InsideEPA News</span>
-          <span class="lib-update-desc">Added <strong>EPA + Air Force AFFF cleaning research</strong> (Jun 2026) &mdash; PFAS from AFFF unlikely to be fully removed from firefighting systems even after cleaning. Affects source-characterization assumptions at AFFF-impacted sites and DoD foam-transition compliance. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em> <em class="xref-related"> &middot; Related: <a href="#dod-program">DoD Cleanup Program card</a></em></span>
+          <span class="lib-update-desc">Added <strong>EPA + Air Force AFFF cleaning research</strong> (Jun 2026) &mdash; PFAS from AFFF unlikely to be fully removed from firefighting systems even after cleaning. Affects source-characterization assumptions at AFFF-impacted sites and DoD foam-transition compliance. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em></span>
         </li>
         <li>
           <span class="lib-update-date">Jun 22</span>
           <span class="lib-update-section">InsideEPA News</span>
-          <span class="lib-update-desc">Added <strong>Senate Armed Services Committee</strong> (Jun 18, 2026) pressing DoD to begin interim cleanups at 50+ delayed sites (fall 2025 report flagged ~140 bases with slipped milestones). Sustained bicameral pressure with House FY2026 NDAA in Senate conference. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em> <em class="xref-related"> &middot; Related: <a href="#dod-program">DoD Cleanup Program card</a></em></span>
+          <span class="lib-update-desc">Added <strong>Senate Armed Services Committee</strong> (Jun 18, 2026) pressing DoD to begin interim cleanups at 50+ delayed sites (fall 2025 report flagged ~140 bases with slipped milestones). Sustained bicameral pressure with House FY2026 NDAA in Senate conference. <em>Find it in <a href="#insideepa">InsideEPA News &mdash; Latest News tab</a></em></span>
         </li>
         <li>
           <span class="lib-update-date">Jun 22</span>
@@ -741,7 +749,7 @@ footer.foot a:hover { text-decoration: underline; }
         <li>
           <span class="lib-update-date">Jun 22</span>
           <span class="lib-update-section">Reference Shelf</span>
-          <span class="lib-update-desc">Added <strong>European Commission PPWR Implementation Guidance &amp; FAQ (March 30, 2026)</strong> &mdash; guidance for the Aug 12, 2026 PFAS food-contact ban (25 ppb individual / 250 ppb sum; no grandfathering). <em>Find it in <a href="#trending-docs">Reference Shelf &mdash; bottom of Regulatory Reference tab</a></em> <em class="xref-related"> &middot; Related: <a href="#intl-eu-ppwr">EU PPWR card</a></em></span>
+          <span class="lib-update-desc">Added <strong>European Commission PPWR Implementation Guidance &amp; FAQ (March 30, 2026)</strong> &mdash; guidance for the Aug 12, 2026 PFAS food-contact ban (25 ppb individual / 250 ppb sum; no grandfathering). <em>Find it in <a href="#trending-docs">Reference Shelf &mdash; bottom of Regulatory Reference tab</a></em></span>
         </li>
       </ul>
 </div>
@@ -775,7 +783,7 @@ footer.foot a:hover { text-decoration: underline; }
     <li>
       <span class="trending-topic">Biosolids</span>
       <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Late May 2026)</span>
-      <span class="trending-desc">Federal PFOA/PFOS biosolids RA review accelerating &mdash; EPA work group convened, USDA coordination, tiered-risk approach signaled (aligned with NACWA model template). State cascade continues to fill the federal gap (MD HB0925, VA HB1443, MN, MI). <a href="#fed-biosolids">Federal card</a> &middot; <a href="#insideepa">InsideEPA coverage</a></span>
+      <span class="trending-desc">Federal PFOA/PFOS biosolids RA review accelerating &mdash; EPA work group convened, USDA coordination, tiered-risk approach signaled (aligned with NACWA model template). State cascade continues to fill the federal gap (MD HB0925, VA HB1443, MN, MI). <a href="#fed-biosolids">Biosolids card</a> &middot; <a href="#insideepa">InsideEPA coverage</a></span>
     </li>
     <li>
       <span class="trending-topic">Vapor pathways</span>
@@ -1107,9 +1115,7 @@ footer.foot a:hover { text-decoration: underline; }
     <a href="https://thehive.integral-corp.com/page/286/company-subscriptions" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">The Hive &rarr; Library Services &rarr; Company Subscriptions</a>.
   </div>
 
-  <div style="background:#fffbe6; border:1px solid #f0d4a8; border-left:4px solid #c98a1e; border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:12.5px; color:#1a2733;">
-    <strong style="color:#a06a13;">&#128218; Reference Shelf</strong> have moved to <a href="#trending-docs" style="color:#0a4f6f; font-weight:600;">their own section at the top of the Regulatory Reference tab &rarr;</a> &mdash; featuring quarterly/mid-year syntheses, government guidance documents, peer-reviewed reports, and major industry/advocacy analyses.
-  </div>
+  
 
   <div class="news-feed">
     <div class="fr-list">
@@ -1295,18 +1301,18 @@ footer.foot a:hover { text-decoration: underline; }
       </div>
       <div class="rule-meta">Sum-of-6 drinking water standard &middot; WPP surface-water + biota monitoring</div>
       <div class="rule-body">
-        State <strong>20 ppt sum-of-6 MCL</strong> for PFOS, PFOA, PFHxS, PFNA, PFHpA, PFDA remains in effect &mdash; one of the more stringent state frameworks. <strong>EPA Primacy Extension approved March 16, 2026:</strong> EPA granted MassDEP additional time &mdash; until <strong>April 26, 2028</strong> &mdash; to promulgate new state PFAS drinking water regulations aligned with federal MCLs. MassDEP will propose amendments and hold public hearings. The primacy extension removes near-term regulatory pressure and gives MassDEP flexibility to wait for federal regulatory clarity (post-May 2026 rescission proposal) before committing to final state MCL framework. No imminent state MCL change is expected before 2027 at the earliest. The proposed federal rescission of PFHxS and PFNA MCLs is directly relevant to MA&rsquo;s sum-of-6 framework &mdash; MA standards will remain more stringent than federal for those compounds if rescission is finalized. MassDEP&rsquo;s <strong>Watershed Planning Program (WPP) 2026 report</strong> on PFAS in surface water, freshwater fish and invertebrates, and coastal fish and shellfish &mdash; PFAS detected at 9 of 10 freshwater sites and 16 of 26 coastal locations.
+        State <strong>20 ppt sum-of-6 MCL</strong> for PFOS, PFOA, PFHxS, PFNA, PFHpA, PFDA remains in effect &mdash; one of the more stringent state frameworks. <strong>EPA Primacy Extension approved March 16, 2026:</strong> EPA granted MassDEP additional time &mdash; until <strong>April 26, 2028</strong> &mdash; to promulgate new state PFAS drinking water regulations aligned with federal MCLs. The primacy extension removes near-term regulatory pressure and gives MassDEP flexibility to wait for federal regulatory clarity (post-May 2026 rescission proposal). No imminent state MCL change is expected before 2027 at the earliest. The proposed federal rescission of PFHxS and PFNA MCLs is directly relevant to MA&rsquo;s sum-of-6 framework. MassDEP&rsquo;s <strong>Watershed Planning Program (WPP) 2026 report</strong> on PFAS in surface water, freshwater fish and invertebrates, and coastal fish and shellfish.
+        <ul style="margin:8px 0 4px 18px; padding:0; line-height:1.55;">
+          <li>PFAS detected at <strong>9 of 10 freshwater sites</strong> (lakes and rivers) and <strong>16 of 26 coastal locations</strong>.</li>
+          <li><strong>PFOA most frequently detected</strong> analyte in water; coastal concentrations significantly lower than freshwater.</li>
+          <li>All detected PFOA and PFOS levels in freshwater and coastal waters were <strong>below EPA&rsquo;s 2024 recommended aquatic life criteria and benchmarks</strong>.</li>
+          <li><strong>100% detection in freshwater fish</strong> (both filets and whole-body) and in <strong>coastal finfish filets at every sampled location</strong>.</li>
+          <li><strong>Whole fish &gt; filets</strong> &mdash; accumulation in non-muscle tissues; meaningful for fish-consumption risk characterization.</li>
+          <li>Invertebrates showed a broader range of PFAS detections than other tissue types.</li>
+        </ul>
+        <div style="margin-top:8px; font-size:12.5px;"><strong>Why this matters:</strong> empirical MA-specific occurrence baseline for surface water and aquatic biota &mdash; informs site-investigation aquatic-pathway exposure characterization, fish-consumption risk assessment, and cleanup-level decisions where surface water or aquatic biota are implicated. The whole-fish vs filet differential is a key risk-characterization input. Cross-reference to <a href="#litigation" style="color:#0a4f6f; font-weight:500;">Wild Virginia v. EPA</a> &mdash; same data type (state fish-tissue PFOS data), different programmatic context.</div>
+        <div style="margin-top:8px; font-size:12.5px;">Source: <a href="https://www.mass.gov/info-details/pfas-in-surface-water-and-biota" target="_blank" rel="noopener" style="color:#0a4f6f;">MassDEP WPP &mdash; PFAS in Surface Water and Biota</a> &middot; <a href="https://www.mass.gov/massdep-watershed-planning" target="_blank" rel="noopener" style="color:#0a4f6f;">WPP program page</a>.</div>
       </div>
-          <ul style="margin:8px 0 4px 18px; padding:0; line-height:1.55;">
-            <li>PFAS detected at <strong>9 of 10 freshwater sites</strong> (lakes and rivers) and <strong>16 of 26 coastal locations</strong>.</li>
-            <li><strong>PFOA most frequently detected</strong> analyte in water; coastal concentrations significantly lower than freshwater.</li>
-            <li>All detected PFOA and PFOS levels in freshwater and coastal waters were <strong>below EPA's 2024 recommended aquatic life criteria and benchmarks</strong>.</li>
-            <li><strong>100% detection in freshwater fish</strong> (both filets and whole-body) and in <strong>coastal finfish filets at every sampled location</strong>.</li>
-            <li><strong>Whole fish &gt; filets</strong> &mdash; accumulation in non-muscle tissues; meaningful for fish-consumption risk characterization.</li>
-            <li>Invertebrates showed a broader range of PFAS detections than other tissue types.</li>
-          </ul>
-          <div style="margin-top:8px; font-size:12.5px;"><strong>Why this matters:</strong> empirical MA-specific occurrence baseline for surface water and aquatic biota &mdash; informs site-investigation aquatic-pathway exposure characterization, fish-consumption risk assessment, and cleanup-level decisions where surface water or aquatic biota are implicated. The whole-fish vs filet differential is a key risk-characterization input. Cross-reference to <a href="#litigation" style="color:#0a4f6f; font-weight:500;">Wild Virginia v. EPA</a> &mdash; same data type (state fish-tissue PFOS data), different programmatic context.</div>
-          <div style="margin-top:8px; font-size:12.5px;">Source: <a href="https://www.mass.gov/info-details/pfas-in-surface-water-and-biota" target="_blank" rel="noopener" style="color:#0a4f6f;">MassDEP WPP &mdash; PFAS in Surface Water and Biota</a> &middot; <a href="https://www.mass.gov/massdep-watershed-planning" target="_blank" rel="noopener" style="color:#0a4f6f;">WPP program page</a>.  </div>
       <a class="rule-link" href="https://www.mass.gov/lists/massachusetts-pfas-drinking-water-standard-mcl" target="_blank" rel="noopener">MassDEP PFAS MCL &rarr;</a>
     </div>
 
@@ -1373,7 +1379,10 @@ footer.foot a:hover { text-decoration: underline; }
           <li><strong>Oct 31, 2026 CUU deadline:</strong> Currently Unavoidable Use proposals for Jan 2027 prohibited categories submitted by this date are deemed conditionally approved pending NMED review.</li>
           <li>Effective July 1, 2026: reporting infrastructure must be in place for manufacturers selling into NM.</li>
         </ul>
-        <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;"><strong style="color:#a06a13;">&#9878;&#65039; Litigation watch:</strong> 10th Circuit ruled Jun 17, 2026 that the Air Force can challenge NM&rsquo;s first-time PFAS hazardous waste permit in <strong>federal court</strong> rather than state court (reversing lower court). Sets a federal-vs-state authority precedent that may affect NM PFAS framework implementation at DoD facilities. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a></div><div style="margin-top:6px;"><strong>Why this matters:</strong> product stewardship specialists advising consumer goods, apparel, food-contact, cookware, and small-appliance clients should cross-reference the NM rule with Maine and Minnesota frameworks. The labeling regime drives demand for product-level PFAS screening protocols and supply-chain traceability.</div>
+        <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;">
+          <strong style="color:#a06a13;">&#9878;&#65039; Litigation watch:</strong> 10th Circuit ruled Jun 17, 2026 that the Air Force can challenge NM&rsquo;s first-time PFAS hazardous waste permit in <strong>federal court</strong> rather than state court (reversing lower court). Sets a federal-vs-state authority precedent that may affect NM PFAS framework implementation at DoD facilities. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a>
+        </div>
+        <div style="margin-top:8px; font-size:12.5px;"><strong>Why this matters:</strong> product stewardship specialists advising consumer goods, apparel, food-contact, cookware, and small-appliance clients should cross-reference the NM rule with Maine and Minnesota frameworks. The labeling regime drives demand for product-level PFAS screening protocols and supply-chain traceability.</div>
       </div>
       <a class="rule-link" href="https://www.env.nm.gov/pfas/pfas-protection-act-hb212/" target="_blank" rel="noopener">NMED PFAS Protection Act &rarr;</a>
     </div>
@@ -1697,16 +1706,16 @@ footer.foot a:hover { text-decoration: underline; }
   <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Government guidance documents, peer-reviewed reports, and major industry/advocacy analyses &mdash; the substantive PFAS references worth keeping handy. Each links to its source.</p>
   <ul class="trending-docs-list" style="background: linear-gradient(135deg, #f7fbed 0%, #fdfff8 100%); border: 1px solid #d8e8b8; border-left: 4px solid var(--integral-lime); border-radius: 6px; padding: 14px 22px; margin: 0; list-style: none;">
       <li>
-        <a href="https://www.jdsupra.com/legalnews/2026-mid-year-pfas-update-how-federal-5089856/" target="_blank" rel="noopener">2026 Mid-Year PFAS Update: How Federal and State Regulation is Shaping Compliance and Litigation Risk</a> <span class="ref-date-added" style="font-size:11px; font-weight:400; color:#6b7c8c; font-style:italic; margin-left:6px;">(added Jun 15, 2026)</span>
-        <div class="trending-meta"><span class="trending-date">Jun 2, 2026</span> &middot; DLA Piper PFAS Task Force &middot; 12-min synthesis with state product-restriction deadline table through Jan 2027 &middot; <a href="#federal-rules" style="color:#0a4f6f;">Federal Actions</a></div>
-      </li>
-      <li>
         <a href="https://insideepa.com/content/nrdc-report-finds-state-bans-curb-pfas-textiles" target="_blank" rel="noopener">NRDC Report: State Bans Curb PFAS in Textiles</a> <span class="ref-date-added" style="font-size:11px; font-weight:400; color:#6b7c8c; font-style:italic; margin-left:6px;">(added Jun 22, 2026)</span>
-        <div class="trending-meta"><span class="trending-date">Jun 2026</span> &middot; Natural Resources Defense Council &middot; State product-ban effectiveness study, with policy recommendations for stricter thresholds in NY/CA &middot; <a href="#product-stewardship" style="color:#0a4f6f;">Product Stewardship</a></div>
+        <div class="trending-meta"><span class="trending-date">Jun 18, 2026</span> &middot; Natural Resources Defense Council &middot; State product-ban effectiveness study, with policy recommendations for stricter thresholds in NY/CA &middot; <a href="#product-stewardship" style="color:#0a4f6f;">Product Stewardship</a></div>
       </li>
       <li>
         <a href="https://insideepa.com/content/senate-panel-report-urges-dod-speed-pfas-cleanups" target="_blank" rel="noopener">Senate Armed Services Committee Report on DoD PFAS Cleanups</a> <span class="ref-date-added" style="font-size:11px; font-weight:400; color:#6b7c8c; font-style:italic; margin-left:6px;">(added Jun 22, 2026)</span>
-        <div class="trending-meta"><span class="trending-date">Jun 2026</span> &middot; U.S. Senate Armed Services Committee &middot; Pressing DoD to begin interim cleanups at 50+ delayed sites &middot; <a href="#dod-program" style="color:#0a4f6f;">DoD program card</a></div>
+        <div class="trending-meta"><span class="trending-date">Jun 18, 2026</span> &middot; U.S. Senate Armed Services Committee &middot; Pressing DoD to begin interim cleanups at 50+ delayed sites &middot; <a href="#dod-program" style="color:#0a4f6f;">DoD program card</a></div>
+      </li>
+      <li>
+        <a href="https://www.jdsupra.com/legalnews/2026-mid-year-pfas-update-how-federal-5089856/" target="_blank" rel="noopener">2026 Mid-Year PFAS Update: How Federal and State Regulation is Shaping Compliance and Litigation Risk</a> <span class="ref-date-added" style="font-size:11px; font-weight:400; color:#6b7c8c; font-style:italic; margin-left:6px;">(added Jun 15, 2026)</span>
+        <div class="trending-meta"><span class="trending-date">Jun 2, 2026</span> &middot; DLA Piper PFAS Task Force &middot; 12-min synthesis with state product-restriction deadline table through Jan 2027 &middot; <a href="#federal-rules" style="color:#0a4f6f;">Federal Actions</a></div>
       </li>
       <li>
         <a href="https://www.federalregister.gov/documents/2026/05/20/2026-10085/rescission-of-regulatory-determinations-and-removal-of-related-provisions-for-four-pfas-substances" target="_blank" rel="noopener">EPA Proposed Rule: Rescission of Regulatory Determinations for PFHxS, PFNA, HFPO-DA &amp; Hazard Index (FR Doc 2026-10085)</a> <span class="ref-date-added" style="font-size:11px; font-weight:400; color:#6b7c8c; font-style:italic; margin-left:6px;">(added Jun 15, 2026)</span>
@@ -1921,7 +1930,7 @@ footer.foot a:hover { text-decoration: underline; }
   var tabs = document.querySelectorAll('.view-tab');
   if (!tabs.length) return;
   var allSections = document.querySelectorAll('.wrap > section');
-  var fullOnlyExtras = document.querySelectorAll('.wrap > .key-dates, .wrap > .critical-updates');
+  var fullOnlyExtras = document.querySelectorAll('.wrap > .key-dates, .wrap > .critical-updates, .wrap > .global-filter');
   var toc = document.querySelector('.toc');
   var newsIds = ['insideepa', 'litigation'];
   var submitIds = ['submit-content'];
