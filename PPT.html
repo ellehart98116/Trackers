@@ -161,7 +161,8 @@ html { scroll-behavior: smooth; }
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: saturate(140%) blur(4px);
 }
-.toc.is-stuck .toc-title { font-size: 13px; margin: 0 0 6px 0; padding-bottom: 6px; }
+.toc.is-stuck .toc-back-top:hover { color: #0a4f6f; text-decoration: underline; }
+.toc-title { font-size: 13px; margin: 0 0 6px 0; padding-bottom: 6px; }
 .toc.is-stuck .toc-list a { padding: 4px 6px; font-size: 13.5px; }
 .toc-list a.is-active { background: #eef5e3; color: var(--integral-navy); font-weight: 600; }
 .toc-list a.is-active::before { color: var(--integral-navy); }
@@ -639,7 +640,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 }
 </style>
 </head>
-<body>
+<body><a id="top"></a>
 <div class="wrap">
 
 <header class="hero">
@@ -678,6 +679,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <li><a href="#insideepa">InsideEPA News</a></li>
     <li><a href="#litigation">Litigation Trends</a></li>
   </ol>
+  <a href="#top" class="toc-back-top" style="display:block; margin-top:8px; padding-top:8px; border-top:1px solid #e3e8ee; font-size:11.5px; color:#6b7c8c; text-decoration:none; text-align:center;">&uarr; Back to top</a>
 </nav>
 
 <div class="lib-updates" id="lib-updates">
@@ -1086,7 +1088,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <div class="rule-meta">ITRC + state-level activity &middot; No federal PFAS-specific VI guidance yet</div>
       <div class="rule-body">
         Vapor-forming PFAS (notably <strong>fluorotelomer alcohols (FTOHs)</strong>, perfluoroalkyl sulfonamides, and ultrashort-chain PFAS including <strong>TFA</strong> and PFPrA) have been detected in soil gas, sewer gas, outdoor air, and indoor air &mdash; but a complete subsurface-to-indoor-air VI pathway has not yet been conclusively demonstrated. <strong>The 2015 OSWER VI Technical Guide remains the operative federal framework; no federal PFAS-specific VI screening levels exist.</strong>
-        <div style="margin-top:10px; padding:8px 10px; background:#f1f6f9; border-left:3px solid #0a4f6f; border-radius:4px; font-size:12.5px;"><strong style="color:#0a4f6f;">Recent developments worth tracking:</strong>
+        <div style="margin-top:10px; padding:8px 10px; background:#f1f6f9; border-left:3px solid #0a4f6f; border-radius:4px; font-size:12.5px;"><strong style="color:#0a4f6f;">Recent developments:</strong>
           <ul style="margin:6px 0 0 18px; padding:0; line-height:1.6;">
             <li><strong>ITRC &mdash; Jan 2026 Fact Sheet "Vapor-forming PFAS"</strong> (<a href="https://pfas-1.itrcweb.org/wp-content/uploads/2026/01/ITRC_PFAS_VI_FactSheet_Dec2025_final.pdf" target="_blank" rel="noopener" style="color:#0a4f6f;">PDF</a>) &mdash; formal technical synthesis of vapor-forming PFAS and VI pathway considerations, knowledge gaps in vapor pressure / Henry's law data, and inhalation toxicology needs.</li>
             <li><strong>Hawaii DOH &mdash; only state with interim PFAS VI screening levels</strong> (two subsurface vapor + six indoor air screening levels, including for TFA and PFPrA). Interim guidance does not yet require PFAS-VI assessments but signals direction.</li>
@@ -1108,13 +1110,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
   <div class="scope-box">
     <strong class="scope-title">What this section covers</strong>
-    <div style="margin-bottom:10px;">A heavily curated slice of <a href="https://insideepa.com/" target="_blank" rel="noopener" style="color:#0a4f6f;">InsideEPA</a>'s daily Inside PFAS Policy newsletter &mdash; final EPA/DoD rules, court rulings, new state laws crossing into effect, destruction/disposal guidance, and items with calendar dates worth tracking.</div>
+    <div style="margin-bottom:10px;">A heavily curated slice of <a href="https://insideepa.com/" target="_blank" rel="noopener" style="color:#0a4f6f;">InsideEPA</a>'s daily Inside PFAS Policy newsletter &mdash; final EPA/DoD rules, court rulings, new state laws crossing into effect, destruction/disposal guidance, and items with calendar dates.</div>
   </div>
 
   <div style="background:#fff3e6; border:1px solid #f0d4a8; border-left:4px solid #c98a1e; border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#1a2733;">
     <strong style="color:#a06a13;">&#128273; Access note:</strong>
-    Integral has a team subscription to InsideEPA. Login instructions are on
-    <a href="https://thehive.integral-corp.com/page/286/company-subscriptions" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">The Hive &rarr; Library Services &rarr; Company Subscriptions</a>.
+    InsideEPA articles require subscription. Please ask your librarian for login credentials.
   </div>
 
   
@@ -1762,7 +1763,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   <h2>Litigation trends <span class="count">curated</span><span class="news-marker">Litigation</span></h2>
 
   <h3 class="lit-subhead">Featured analyses</h3>
-  <p class="lit-subhead-desc">&#128240; Online articles curated from external legal-content publishers (JD Supra, Morgan Lewis, etc.) &mdash; click any title to read on the publisher's site.</p>
+  <p class="lit-subhead-desc">&#128240; Open-access articles curated from external legal-content publishers (JD Supra, Morgan Lewis, etc.) &mdash; click any title to read on the publisher's site. Some sources may require free registration.</p>
   <div class="fr-list">
       <div class="fr-item">
         <a class="fr-title" href="https://www.jdsupra.com/legalnews/contaminants-compass-may-2026-edition-8487867/" target="_blank" rel="noopener">McGuireWoods &mdash; Contaminants Compass: May 2026 Edition</a>
@@ -1782,7 +1783,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   </div>
 
   <h3 class="lit-subhead">Active matters worth watching</h3>
-  <p class="lit-subhead-desc">Specific cases and emerging defendant categories worth tracking &mdash; case status, motion practice, evidentiary standards being tested, new site types, and exposure-pathway theories at issue.</p>
+  <p class="lit-subhead-desc">Specific cases and emerging defendant categories &mdash; case status, motion practice, evidentiary standards being tested, new site types, and exposure-pathway theories at issue.</p>
   <div class="fr-list">
     <div class="fr-item">
       <a class="fr-title" href="https://www.kare11.com/article/news/local/courts-news/mpca-files-new-lawsuit-against-3m-over-ongoing-forever-chemical-pollution/89-bc0d267d-2ab4-43b1-9fa6-e63304dea1fa" target="_blank" rel="noopener">MPCA v. 3M (Washington Co., MN &rarr; D. Minn. 0:2026cv02440)</a>
@@ -1832,22 +1833,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   </div>
 
   <div class="lit-footnote">
-    <p><strong>About this section.</strong> Curated PFAS litigation coverage tracking active matters, MDL/bellwether status, motions, settlements, and emerging defendant categories. Each entry highlights the scientific, evidentiary, or procedural questions in dispute alongside case status and posture. Quarterly trend roundups complement specific-case coverage.</p>
-    <p><span class="lock-flag">&#128274; InsideEPA</span> badge marks content that requires an InsideEPA subscription. Integral has a team subscription &mdash; login instructions on <a href="https://thehive.integral-corp.com/page/286/company-subscriptions" target="_blank" rel="noopener" style="color:#0a4f6f;">The Hive &rarr; Library Services &rarr; Company Subscriptions</a>.</p>
+    <p><strong>About this section.</strong> Curated PFAS litigation coverage tracking active matters, MDL/bellwether status, motions, settlements, and emerging defendant categories. Each entry highlights the scientific, evidentiary, or procedural questions in dispute alongside case status and posture.</p>
+    <p><span class="lock-flag">&#128274; InsideEPA</span> badge marks content that requires an InsideEPA subscription. Please ask your librarian for login credentials.</p>
   </div>
 </section>
 
-<!-- Reference Pages section moved to standalone Word doc (pfas-tracker-reference-library.docx) — linked from footer below. -->
-
-<footer class="foot">
-  <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:14px 18px; margin-bottom:12px; font-size:12.5px; color:#1a2733; line-height:1.55; text-align:left;">
-    <strong style="color:var(--integral-navy);">Contribute or report an issue.</strong>
-    To submit a PFAS article, regulatory document, or other item for tracker consideration, please use the <strong>Submit Content</strong> tab. To report broken links, incorrect information, or other tracker issues, contact <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:500;">Ellen Hartley</a> (Library Services). New to the tracker? See the <a href="PPT-how-to-use.html" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">how-to-use guide</a> for daily, weekly, and project-specific usage modes; the <a href="#about-methodology" style="color:#0a4f6f; font-weight:500;">About &amp; Methodology tab</a> documents how items are selected; canonical PFAS sources are in the <a href="PPT-reference-library.html" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">reference library</a>.
-  </div>
-  <div style="font-size:11.5px; color:#6b7c8c;">
-    Federal Register data via the public <a href="https://www.federalregister.gov/developers/api/v1" target="_blank" rel="noopener" style="color:#0a4f6f;">federalregister.gov API</a>.
-  </div>
-</footer>
+<!-- footer relocated to end of .wrap (after about-methodology) -->
 
 <section id="submit-content">
   <h2>Submit content for the tracker <span class="count">Library Services review</span></h2>
@@ -1969,7 +1960,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <p style="margin:0 0 8px 0; font-size:14px; line-height:1.6;"><strong style="color:#a06a13;">Citing items from this tracker:</strong></p>
     <p style="margin:0; font-size:14px; line-height:1.6;">When referencing facts, regulatory developments, court rulings, or other content from this tracker in professional analysis, deliverables, or other citations, cite the <strong>underlying primary source</strong> (Federal Register notice, court order, agency publication, legislative text, etc.) rather than this tracker. The tracker functions as a discovery and navigation aid; the underlying primary sources remain the authoritative reference. Direct links to original sources are provided with each entry where available.</p>
   </div>
-  <p style="font-size:14px; line-height:1.6;">A small number of linked sources (notably InsideEPA articles) require subscription access. Integral has a companywide InsideEPA subscription; login credentials are available to Integral employees through The Hive Company Subscriptions page. Subscribers should review the access conditions of any source before citing.</p>
+  <p style="font-size:14px; line-height:1.6;">A small number of linked sources (notably InsideEPA articles) require subscription access. Please ask your librarian for login credentials. All readers should review the access conditions of any source before citing.</p>
 
   <h3 style="color:#0F2A4A; font-family: Lora, Georgia, serif; font-size:18px; margin: 22px 0 10px 0;">Editorial neutrality</h3>
   <p style="font-size:14px; line-height:1.6;">The tracker is publicly accessible and may be referenced by readers across a range of professional contexts. Library Services applies a neutrality discipline to every entry: factual statements and citations are preserved; value judgments, characterizations of parties' conduct, predictions, and prescriptive language are not used. Defendants, plaintiffs, federal and state agencies, and administrators are treated under the same editorial standard.</p>
@@ -1984,7 +1975,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   </ul>
 
   <h3 style="color:#0F2A4A; font-family: Lora, Georgia, serif; font-size:18px; margin: 22px 0 10px 0;">Update frequency &amp; scope</h3>
-  <p style="font-size:14px; line-height:1.6;">The tracker is updated weekly. The companion email digest is sent each Monday morning summarizing the past week's additions and updates. Scheduled scans run Friday afternoons; the Monday Federal Register check picks up anything that posted over the weekend. Last-updated date appears in the tracker header.</p>
+  <p style="font-size:14px; line-height:1.6;">The goal is weekly updates. The companion email digest is sent Monday morning summarizing the past week's additions and updates. Scheduled scans run Friday afternoons; the Monday Federal Register check picks up anything that posted over the weekend. Weekly is the target, though some weeks may slip depending on the Library Services calendar. Last-updated date appears in the tracker header.</p>
 
   <h3 style="color:#0F2A4A; font-family: Lora, Georgia, serif; font-size:18px; margin: 22px 0 10px 0;">Feedback &amp; content submissions</h3>
   <p style="font-size:14px; line-height:1.6;">Suggestions, corrections, and content submissions are welcome. Use the <a href="#submit-content" style="color:#0a4f6f; font-weight:600;">Submit Content</a> tab on the tracker, or email Ellen Hartley at <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:600;">ehartley@integral-corp.com</a>. Submissions are reviewed against the same curation gate.</p>
@@ -1993,6 +1984,15 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     Library Services &middot; Integral Consulting Inc.
   </div>
 </section>
+
+<footer class="foot">
+  <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:14px 18px; margin-bottom:12px; font-size:12.5px; color:#1a2733; line-height:1.55; text-align:left;">
+    <strong style="color:var(--integral-navy);">Contribute or report an issue.</strong>
+    To submit a PFAS article, regulatory document, or other item for tracker consideration, please use the <strong>Submit Content</strong> tab. To report broken links, incorrect information, or other tracker issues, contact <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:500;">Ellen Hartley</a> (Library Services). New to the tracker? See the <a href="PPT-how-to-use.html" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">how-to-use guide</a> for daily, weekly, and project-specific usage modes; the <a href="#about-methodology" style="color:#0a4f6f; font-weight:500;">About &amp; Methodology tab</a> documents how items are selected; canonical PFAS sources are in the <a href="PPT-reference-library.html" target="_blank" rel="noopener" style="color:#0a4f6f; font-weight:500;">reference library</a>.
+  </div>
+</footer>
+
+
 
 
 </div>
