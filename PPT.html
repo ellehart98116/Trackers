@@ -2352,10 +2352,11 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       if (t.dataset.view === view) t.classList.add('is-active');
       else t.classList.remove('is-active');
     });
+    allSections.forEach(function(s) {
       s.style.display = (viewForId(s.id) === view) ? '' : 'none';
     });
     // Extras (e.g. key-dates callout) appear only in the Regulatory Reference view
-        fullOnlyExtras.forEach(function(el) {
+    fullOnlyExtras.forEach(function(el) {
       el.style.display = (view === 'full') ? '' : 'none';
     });
     // Also hide lib-updates and trending-callout on non-full views (they're navy/amber, not red/lime)
