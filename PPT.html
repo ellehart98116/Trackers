@@ -585,6 +585,28 @@ footer.foot a:hover { text-decoration: underline; }
 .trending-title { font-family: 'Lora', Georgia, serif; font-size: 14px; font-weight: 600; color: #a06a13; }
 .trending-note { font-size: 11.5px; color: #6b7c8c; font-style: italic; }
 .trending-list { list-style: none; margin: 0; padding: 0; }
+
+/* Anchor-arrival highlight — confirms to newsletter readers that they landed on the right card.
+   Universal :target rule works for any card, section, or heading with an id. */
+:target { scroll-margin-top: 90px; }
+.rule-card:target,
+.fr-item:target {
+  animation: pfas-target-flash 2.8s ease-out;
+  border-radius: 8px;
+}
+@keyframes pfas-target-flash {
+  0%   { box-shadow: 0 0 0 4px #94d343, 0 0 0 14px rgba(148, 211, 67, 0.55); background-color: rgba(247, 251, 237, 0.9); }
+  40%  { box-shadow: 0 0 0 3px #94d343, 0 0 0 10px rgba(148, 211, 67, 0.35); background-color: rgba(247, 251, 237, 0.55); }
+  100% { box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent; background-color: transparent; }
+}
+h3:target,
+section:target > h2:first-of-type {
+  animation: pfas-heading-flash 2.8s ease-out;
+}
+@keyframes pfas-heading-flash {
+  0%   { background: linear-gradient(90deg, rgba(148, 211, 67, 0.65) 0%, rgba(148, 211, 67, 0.05) 100%); padding-left: 10px; border-left: 4px solid #94d343; }
+  100% { background: transparent; padding-left: 0; border-left: 0 solid transparent; }
+}
 .trending-list li { font-size: 13px; line-height: 1.55; color: #1a2733; padding: 8px 0; border-bottom: 1px dotted rgba(201, 138, 30, 0.2); }
 .trending-list li:last-child { border-bottom: none; }
 .trending-topic { display: inline-block; font-weight: 600; color: #a06a13; margin-right: 8px; }
@@ -686,94 +708,54 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div class="lib-updates" id="lib-updates">
   <div class="lib-updates-header">
     <span class="lib-updates-title">&#128218; PFAS Tracker &mdash; Recent updates</span>
-    <span class="lib-updates-note">Last updated Jul 5, 2026 &middot; most recent additions and changes &middot; <a href="#about-methodology" style="color:inherit; text-decoration:underline;">About &amp; methodology</a></span>
+    <span class="lib-updates-note">Last updated Jul 12, 2026 &middot; most recent additions and changes &middot; <a href="#about-methodology" style="color:inherit; text-decoration:underline;">About &amp; methodology</a></span>
     <a class="lib-subscribe-link" href="mailto:ehartley@integral-corp.com?subject=Subscribe%20to%20PFAS%20Tracker%20weekly%20updates&amp;body=Please%20add%20me%20to%20the%20weekly%20PFAS%20Tracker%20update%20distribution%20list.%0A%0AName%3A%20%0ARole%3A%20%0AAffiliation%3A%20%0A%0AThanks%21">&#128231; Subscribe to weekly email</a>
   </div>
   <ul class="lib-updates-list">
-        <!-- CRITICAL LEAD: NPDWR deadline elevation -->
+        <!-- CRITICAL LEAD: NPDWR comment deadline (~7 days out) -->
         <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">Federal Actions</span>
-          <span class="lib-update-desc">&#128680; <strong>EPA NPDWR rescission proposed rule &mdash; public hearing July 7, 2026 (~1 day) and written comments due July 20, 2026 (~14 days).</strong> The May 20, 2026 proposed rule would rescind the 2024 NPDWR MCLs for PFHxS, PFNA, HFPO-DA (GenX), and the Hazard Index for mixtures; MCLs for PFOA and PFOS are unaffected. EPA&rsquo;s own analysis estimates approximately $11.6 million per year in cost savings for public water systems against approximately $6.7 million per year in previously-estimated benefits from regulating these four compounds. <em>Find it in <a href="#npdwr-rule">NPDWR card</a></em></span>
+          <span class="lib-update-desc">&#128680; <strong>NPDWR rescission written-comment deadline July 20, 2026 (~7 days).</strong> Written comments on EPA's May 20, 2026 proposed rule to rescind the 2024 NPDWR MCLs for PFHxS, PFNA, HFPO-DA (GenX), and the Hazard Index for mixtures &mdash; and on the parallel proposed rule extending the PFOA/PFOS MCL compliance deadline to 2031 &mdash; must be submitted to Docket EPA-HQ-OW-2025-0654 by July 20. The virtual public hearing was held July 7, 2026. MCLs for PFOA and PFOS themselves are not part of the rescission proposal. <em>Find it in <a href="#npdwr-rule">NPDWR card</a></em></span>
         </li>
         <!-- Federal Actions -->
         <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">Federal Actions</span>
-          <span class="lib-update-desc">&#128680; <strong>EPA released draft biosolids risk-reduction guidance for PFOA and PFOS</strong> (July 1, 2026; Federal Register publication July 6, 2026; Docket EPA-HQ-OW-2026-2509). The guidance builds on EPA&rsquo;s 2025 draft sewage sludge risk assessment and recommends voluntary risk-reduction practices for land-applied biosolids; no numeric limits are established. 60-day comment period. <em>Find it in <a href="#fed-biosolids">federal biosolids card</a></em></span>
+          <span class="lib-update-desc"><strong>EPA advances "comprehensive PFAS strategy" and finalizes ~$5B IIJA emerging-contaminant grants to 40+ states.</strong> In press releases dated late June/early July 2026, EPA finalized the fifth (and final) annual installment of the Bipartisan Infrastructure Law $5B Emerging Contaminants in Small or Disadvantaged Communities allocation, distributed to more than 40 states and territories for testing, planning, and drinking-water infrastructure. Strategy statements reaffirm EPA's intent to advance technology-based effluent limitations and pretreatment standards for key PFAS-discharging industrial categories, protect "passive receivers" (utilities, farms, waste facilities) consistent with a polluter-pays framing, and update EPA's PFAS Destruction &amp; Disposal Guidance annually rather than every three years. <em>Find it in <a href="#fed-strategy-iija">Comprehensive strategy &amp; IIJA grants card</a></em></span>
         </li>
         <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">Federal Actions</span>
-          <span class="lib-update-desc"><strong>EPA published proposed UCMR 6</strong> (July 1, 2026) requiring public water systems to collect national occurrence data on 30 unregulated contaminants &mdash; including seven ultrashort-chain organofluorine PFAS &mdash; from January 2028 through December 2030. 60-day comment period; EPA public webinars scheduled August 11 and 12, 2026. EPA declined to include microplastics and pharmaceuticals citing research gaps. <em>Find it in <a href="#federal-rules">Federal Actions</a></em></span>
+          <span class="lib-update-desc"><strong>Peters&ndash;Rounds NDAA amendment would require DOD to initiate interim PFAS remedial actions at &ge;100 sites.</strong> Sens. Gary Peters (D-MI) and Mike Rounds (R-SD) filed an amendment (June 24, 2026) to S. 4784, the FY27 National Defense Authorization Act, that would require the Department of Defense within two years of enactment to "initiate interim remedial actions with respect to [PFAS] at no fewer than 100 covered sites" &mdash; defined as bases where DOD's September 30, 2025 assessment signaled delays to remedial investigation or feasibility study end dates. Bill cleared the Senate Armed Services Committee; floor consideration is scheduled after the Senate returns from recess July 13. Two other PFAS-related NDAA amendments were also filed: Sen. Pete Ricketts (R-NE) on Superfund liability relief for passive receivers, and Sen. Martin Heinrich (D-NM) on PFAS-free firefighter turnout gear R&amp;D grants. <em>Find it in <a href="#dod-program">DoD PFAS Cleanup Program card</a></em></span>
         </li>
+        <!-- Litigation Coverage / InsideEPA -->
         <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Federal Actions</span>
-          <span class="lib-update-desc"><strong>EPA approved three new single-fluorinated pesticide active ingredients</strong> (June 30 &ndash; July 1, 2026): trifludimoxazin, diflufenican, and epyrifenacil; EPA also extended uses of bifenthrin. EPA classifies single-fluorinated-carbon compounds as not PFAS under its 2023 two-fluorinated-carbon definition; OECD guidance and several U.S. states (including California AB 1603 as pending) apply a broader definition that would include these compounds. EPA&rsquo;s own internal cancer assessment noted &ldquo;suggestive evidence of carcinogenic potential&rdquo; for trifludimoxazin, and EPA&rsquo;s degradation analysis indicates it breaks down into 12 distinct PFAS degradates; EPA has separately published a fact-check page contesting the &ldquo;forever chemicals&rdquo; characterization. <em>Find it in <a href="#federal-rules">Federal Actions</a></em></span>
-        </li>
-        <!-- Litigation Coverage -->
-        <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">Litigation Coverage</span>
-          <span class="lib-update-desc"><strong>Sixth Circuit affirms remand of Michigan Dept. of Environment v. Gerald R. Ford International Airport Authority to state court</strong> (June 30, 2026, Case No. 24-1734). The panel rejected the airport authority&rsquo;s second federal-officer-removal attempt as barred by law-of-the-case, holding that FAA regulation does not equal &ldquo;acting under&rdquo; federal authority for removal purposes. Sets precedent for state enforcement PFAS cases against FAA-regulated airports. <em>Find it in <a href="#litigation">Litigation Coverage &mdash; Latest News tab</a></em></span>
+          <span class="lib-update-desc"><strong>North Carolina officials publicly criticize benefits of $450M EPA&ndash;Chemours settlement fund allocation.</strong> Coverage this week reports that North Carolina officials and the state attorney general argue that the bulk of relief funds &mdash; roughly $280M for alternative drinking water plus a ~$90M discharge-mitigation program &mdash; is weighted toward West Virginia and will do little to remediate Cape Fear River contamination. The consent decree does require GenX release controls at &ge;99% efficiency and third-party-engineered controls at the North Carolina facility. Federal Register 30-day public comment period on the consent decree closes July 29, 2026. <em>Find it in <a href="#lit-chemours-450m">Chemours settlement card</a></em></span>
         </li>
         <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">Litigation Coverage</span>
-          <span class="lib-update-desc"><strong>Federal Register notice opens 30-day public comment period on the Chemours consent decree</strong> (published June 29, 2026; comments through July 29, 2026). The $450M proposed consent decree resolves Clean Water Act, TSCA, and RCRA claims covering Chemours facilities in West Virginia, North Carolina, and New Jersey. DOJ described this as the first comprehensive federal PFAS settlement with a manufacturer. <em>Find it in <a href="#lit-chemours-450m">Chemours settlement card</a></em></span>
+          <span class="lib-update-desc"><strong>New York AG files statewide PFAS suit against 3M, DuPont de Nemours, EIDP, Chemours, and Corteva (July 9, 2026).</strong> AG Letitia James filed a 74-page complaint in New York State Supreme Court (Albany County) alleging the manufacturers knew for approximately 50 years that PFAS in consumer products were persistent, bioaccumulative, and associated with adverse health effects and sold them without warning consumers or regulators. The state seeks to halt sales of PFAS-containing products lacking adequate warnings, end allegedly misleading advertising, and obtain damages, disgorgement, restitution, penalties, and statewide cleanup funding &mdash; a consumer-protection-plus-environmental theory across a broad product universe (water- and stain-resistant fabrics, food packaging, non-stick cookware, cosmetics). <em>Find it in <a href="#lit-ny-ag-2026">New York AG statewide suit card</a></em></span>
         </li>
         <!-- State (alphabetical) -->
         <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Colorado</span>
-          <span class="lib-update-desc"><strong>Colorado SB24-081 artificial turf PFAS installation ban now in effect (July 1, 2026)</strong>. New installations of artificial turf containing intentionally added PFAS are prohibited statewide; existing turf installed before January 1, 2026 may be maintained. <em>Find it in <a href="#state-watchlist">State Watchlist</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Connecticut</span>
-          <span class="lib-update-desc"><strong>Connecticut PA 24-59 notification and labeling requirement now in effect (July 1, 2026)</strong>. Apparel, carpets/rugs, cleaning products, cookware, cosmetics, dental floss, fabric treatments, juvenile products, menstrual products, textile furnishings, ski wax, and upholstered furniture with intentionally added PFAS require notification to DEEP and approved-language labeling. Complete sales ban follows January 1, 2028. <em>Find it in <a href="#state-watchlist">State Watchlist</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Maine</span>
-          <span class="lib-update-desc"><strong>Maine DEP first-round CUU determinations</strong> (spring 2026 rulemaking) &mdash; MDEP received 11 Currently Unavoidable Use proposals for products subject to the January 1, 2026 PFAS prohibition and recommended only 2 for approval, both for cleaning product container components (internal cartridge valve and cap liner systems). Second-round rulemaking initiated for proposals received before May 1, 2026; later proposals deferred to 2027 rulemaking. <em>Find it in <a href="#state-maine">Maine card</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Minnesota</span>
-          <span class="lib-update-desc"><strong>Minnesota Amara&rsquo;s Law PFAS reporting deadline confirmed as September 15, 2026</strong> (extended by MPCA from the original July 1, 2026 date). A 90-day extension to December 14, 2026 remains available on request. PRISM portal has been operational since January 2026. <em>Find it in <a href="#state-watchlist">State Watchlist</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
+          <span class="lib-update-date">Jul 12</span>
           <span class="lib-update-section">New Mexico</span>
-          <span class="lib-update-desc"><strong>New Mexico Rule 20.13.2 NMAC (PFAS Protection Act, HB 212 implementing rule) took effect July 1, 2026</strong>. Reporting infrastructure for manufacturers selling into New Mexico is now live; first ban wave begins January 1, 2027 (cookware, dental floss, food packaging, firefighting foam, juvenile products). Universal PFAS label required on covered products manufactured after January 1, 2027. CUU proposals due October 31, 2026. <em>Find it in <a href="#state-nm">New Mexico card</a></em></span>
+          <span class="lib-update-desc"><strong>Multi-industry coalition files dual state and federal challenges to New Mexico PFAS Protection Act rule (July 1, 2026).</strong> <em>ACC v. Kenney</em>, No. 1:26-cv-02130 (D.N.M.), filed by a coalition including the American Chemistry Council, Alliance for Automotive Innovation, American Coatings Association, AHAM, NAM, NEMA, NFIB, New Mexico Retail Association, and Power Tool Institute, plus a parallel state-court action, seeks preliminary and permanent injunctions against Rule 20.13.2 NMAC. Core claims: the mandatory Erlenmeyer-flask label compels non-factual speech (First Amendment) and the rule's extraterritorial reach burdens interstate commerce (dormant Commerce Clause). Suit targets the labeling regime specifically, not the phased sale prohibitions. Implementation dates (July 1, 2026 reporting infrastructure; January 1, 2027 first ban wave) remain in force unless a court enjoins them. <em>Find it in <a href="#state-nm">New Mexico card</a></em></span>
         </li>
         <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Rhode Island</span>
-          <span class="lib-update-desc"><strong>Rhode Island Gov. McKee signed H7734/S2799 on June 19, 2026</strong>, amending the Consumer PFAS Ban Act. Adds enforcement notice by certified mail; a three-part exemption criteria (environmental or public health benefit, no technically feasible PFAS-free alternative, no comparable priced alternative); interstate coordination requirement; and up-to-five-year renewable exemptions. Penalties $1,000 per first offense and $5,000 per subsequent offense, effective 2027. <em>Find it in <a href="#state-ri">Rhode Island card</a></em></span>
+          <span class="lib-update-date">Jul 12</span>
+          <span class="lib-update-section">New York</span>
+          <span class="lib-update-desc"><strong>New York proposes first-in-nation landfill leachate PFAS and 1,4-dioxane treatment rule (July 2, 2026).</strong> NYSDEC proposed amendments to the Part 360-series solid-waste rules that would require treatment of leachate at active landfills expressly targeting PFAS and 1,4-dioxane &mdash; the first such state mandate. At least $75M in Water Quality Improvement Project / Consolidated Funding Application grants have been extended to municipal landfill leachate treatment. Public comment period closes September 9, 2026; public hearings September 2, 2026 (1 and 6 p.m.). <em>Find it in <a href="#state-ny">New York card</a></em></span>
         </li>
+        <!-- Reference Shelf -->
         <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Vermont</span>
-          <span class="lib-update-desc"><strong>Vermont DEC opened comment period on draft solid waste rules</strong> extending PFAS biosolids screening standards to Class B biosolids (beginning 2028) and to a paper-manufacturing byproduct. Resumes rulemaking previously paused since May 2025 citing EPA&rsquo;s rescission plans. <em>Find it in <a href="#state-watchlist">State Watchlist</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Washington</span>
-          <span class="lib-update-desc"><strong>Washington PFAS biosolids sampling guidance overdue.</strong> The statutorily-required guidance (RCW 70A.226.020, due July 1, 2026) had not been published by the Department of Ecology as of the July 5, 2026 tracker refresh. Sampling under the guidance is scheduled to begin no later than January 1, 2027 using EPA Method 1633A. Watch for publication. <em>Find it in <a href="#state-watchlist">State Watchlist</a></em></span>
-        </li>
-        <!-- International -->
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Canada</span>
-          <span class="lib-update-desc">&#128680; <strong>Canada Prohibition of Certain Toxic Substances Regulations, 2025 (SOR/2025-270) now in force (as of June 30, 2026); permit application window closes July 30, 2026 (~24 days).</strong> The 2025 Regulations replace the 2012 framework and narrow or eliminate exemptions for PFOS, PFOA, and long-chain PFCAs, their salts, and precursors. Affected sectors include textiles, upholstery, leather, paper/packaging, semiconductors, and firefighting foam. Entities without existing exemptions may apply for a one-year renewable permit (up to two renewals; three-year maximum) only during the July 1 &ndash; 30, 2026 window. New &ldquo;permitted concentration threshold&rdquo; trace levels apply for PFOS in AFFF. <em>Find it in <a href="#intl-canada">Canada card</a></em></span>
-        </li>
-        <li>
-          <span class="lib-update-date">Jul 5</span>
-          <span class="lib-update-section">Denmark</span>
-          <span class="lib-update-desc"><strong>Denmark national PFAS ban in clothing, footwear, and waterproofing textiles now in effect (July 1, 2026)</strong>. Total fluorine threshold: 50 mg F/kg. Denmark is the first EU member state to nationally implement a PFAS textile ban ahead of the pending EU-wide REACH universal restriction. Relevant to U.S. exporters with Danish market presence and to multi-jurisdiction textile compliance. <em>Find it in <a href="#intl-denmark">Denmark card</a></em></span>
+          <span class="lib-update-date">Jul 12</span>
+          <span class="lib-update-section">Reference Shelf</span>
+          <span class="lib-update-desc"><strong>Fox Rothschild &mdash; State and Federal PFAS Litigation, 2019 to Q2 2026</strong> (July 2026 quarterly roundup). Substantive synthesis tracking growth and diversification in claims and defendant categories, situating the ~15,000+ AFFF MDL filings alongside the expanding wave of state AG and consumer-protection actions against manufacturers. Useful standing reference for staff onboarding and for client briefings needing the litigation trend line in one place. <em>Find it in <a href="#trending-docs">Reference Shelf</a></em></span>
         </li>
       </ul>
 </div>
@@ -798,12 +780,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <li>
       <span class="trending-topic">State PFAS-in-products acceleration</span>
       <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Jun 15, 2026)</span>
-      <span class="trending-desc">A coordinated wave of state product-ban regimes is reaching effective dates within 6 months &mdash; <strong>New Mexico</strong> implementing rule 20.13.2 NMAC takes effect July 1, 2026 (universal label requirement); <strong>Maine</strong> expanded its cookware scope; <strong>Minnesota</strong> Amara&rsquo;s Law product-category bans phasing in; <strong>New Jersey</strong> S1042 effective January 2027; <strong>Rhode Island</strong> Consumer PFAS Ban effective January 2027. Manufacturers and brand owners face overlapping reporting, labeling, and ban requirements that no federal preemption resolves. <a href="#state-watchlist">State Watchlist</a></span>
+      <span class="trending-desc">A coordinated wave of state product-ban regimes has reached effective dates &mdash; <strong>Colorado</strong> turf ban (Jul 1); <strong>Connecticut</strong> notification/labeling (Jul 1); <strong>New Mexico</strong> Rule 20.13.2 NMAC (Jul 1 reporting; first ban wave Jan 1, 2027); <strong>Maine</strong> expanded cookware scope; <strong>Minnesota</strong> Amara's Law product-category bans phasing in (Sept 15 reporting deadline); <strong>New Jersey</strong> S1042 and <strong>Rhode Island</strong> Consumer PFAS Ban effective January 2027. <strong>Industry challenge:</strong> a multi-industry coalition filed <em>ACC v. Kenney</em> (D.N.M., July 1, 2026) seeking to enjoin New Mexico's mandatory Erlenmeyer-flask label on First Amendment and dormant Commerce Clause grounds &mdash; the first federal challenge to a state PFAS label mandate. Manufacturers and brand owners face overlapping reporting, labeling, and ban requirements that no federal preemption resolves. <a href="#state-watchlist">State Watchlist</a> &middot; <a href="#state-nm">New Mexico card</a></span>
     </li>
     <li>
       <span class="trending-topic">Product stewardship litigation expansion</span>
       <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Jun 15, 2026)</span>
-      <span class="trending-desc">A pattern is emerging in which state and federal regulatory standards designed for compliance are becoming evidence in consumer-product litigation &mdash; <em>Cavalier v. Apple</em> uses California&rsquo;s PFAS-in-textiles RSL as evidence of constructive knowledge; Texas AG sues GORE-TEX over consumer products; Lululemon receives PFAS CID. Liability exposure is expanding well beyond traditional manufacturers to brand owners, retailers, and downstream users. <a href="#product-stewardship">Product Stewardship</a> &middot; <a href="#litigation">Litigation Coverage</a></span>
+      <span class="trending-desc">A pattern is emerging in which state and federal regulatory standards designed for compliance are becoming evidence in consumer-product litigation &mdash; <em>Cavalier v. Apple</em> uses California&rsquo;s PFAS-in-textiles RSL as evidence of constructive knowledge; Texas AG sues GORE-TEX over consumer products; Lululemon receives PFAS CID. <strong>New York AG filed a statewide PFAS suit July 9, 2026</strong> against 3M, DuPont, EIDP, Chemours, and Corteva alleging 50-year knowledge, expanding the state AG-led theory to a broad consumer-product universe. Liability exposure continues to broaden beyond traditional manufacturers to brand owners, retailers, and downstream users. <a href="#product-stewardship">Product Stewardship</a> &middot; <a href="#lit-ny-ag-2026">NY AG suit card</a> &middot; <a href="#litigation">Litigation Coverage</a></span>
     </li>
     <li>
       <span class="trending-topic">Federal/state regulatory divergence</span>
@@ -813,7 +795,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <li>
       <span class="trending-topic">Biosolids</span>
       <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Late May 2026)</span>
-      <span class="trending-desc">Federal PFOA/PFOS biosolids RA review accelerating &mdash; EPA work group convened, USDA coordination, tiered-risk approach signaled (aligned with NACWA model template). State cascade continues to fill the federal gap (MD HB0925, VA HB1443, MN, MI). <a href="#fed-biosolids">Biosolids card</a> &middot; <a href="#insideepa">InsideEPA coverage</a></span>
+      <span class="trending-desc"><strong>EPA draft voluntary biosolids guidance published in the Federal Register July 6, 2026 (91 FR 41020); comments close Sept 4.</strong> Non-binding memorandum recommends risk-reduction practices with no numeric threshold; EPA's FR notice explicitly critiques the January 2025 Draft Risk Assessment as flawed. State cascade continues to fill the federal gap (MD HB0925, VA HB1443, MN, NY DMM-7a). <strong>New York adds a first-in-nation landfill leachate treatment mandate</strong> proposed July 2, 2026 (comments Sept 9). <a href="#fed-biosolids">Federal biosolids card</a> &middot; <a href="#state-ny">New York card</a> &middot; <a href="#insideepa">InsideEPA coverage</a></span>
     </li>
     <li>
       <span class="trending-topic">Vapor pathways</span>
@@ -828,7 +810,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <li>
       <span class="trending-topic">NPDWR amendments</span>
       <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Late May 2026)</span>
-      <span class="trending-desc">Two proposed rules published May 20, 2026 &mdash; compliance extension to 2031 + rescissions for PFHxS/PFNA/HFPO-DA/Hazard Index. Virtual public hearing July 7; comment period closes July 20. AWWA v. EPA D.C. Circuit challenge runs in parallel. <a href="#npdwr-rule">NPDWR card</a></span>
+      <span class="trending-desc">Two proposed rules published May 20, 2026 &mdash; compliance extension to 2031 + rescissions for PFHxS/PFNA/HFPO-DA/Hazard Index. Virtual public hearing was held July 7, 2026; <strong>written comments due July 20, 2026 (~7 days)</strong>. Reporting indicates ~15,000+ comments filed to date. AWWA v. EPA D.C. Circuit challenge runs in parallel (briefing complete; oral argument expected Fall 2026). <a href="#npdwr-rule">NPDWR card</a></span>
     </li>
   </ul>
 </div>
@@ -840,8 +822,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   </div>
   <ul class="critical-updates-list">
     <li>
-      <strong>EPA publishes two proposed NPDWR amendments</strong> (published May 20, 2026) &mdash; compliance extension to 2031 + rescissions of regulatory determinations for PFHxS / PFNA / HFPO-DA / Hazard Index mixture. Virtual public hearing <strong>July 7, 2026</strong>; comment period closes <strong>July 20, 2026</strong>.
+      <strong>NPDWR rescission &amp; compliance-extension comment deadline July 20, 2026 (~7 days).</strong> Written comments on EPA's May 20 proposed rules to rescind the 2024 MCLs for PFHxS/PFNA/HFPO-DA/Hazard Index and to extend PFOA/PFOS compliance to 2031 are due to Docket EPA-HQ-OW-2025-0654. Virtual public hearing was held July 7, 2026. AWWA v. EPA D.C. Circuit challenge runs in parallel (briefing complete; oral argument expected Fall 2026).
       <span class="critical-links"><a href="#npdwr-rule">NPDWR card &rarr;</a><a href="#insideepa">InsideEPA news &rarr;</a></span>
+    </li>
+    <li>
+      <strong>EPA PFOA/PFOS biosolids draft guidance published in Federal Register July 6, 2026 (91 FR 41020).</strong> 60-day comment period closes September 4, 2026 (Docket EPA-HQ-OW-2026-2509). Non-binding voluntary recommendations; no numeric threshold. FR notice explicitly reframes the January 2025 Draft Risk Assessment.
+      <span class="critical-links"><a href="#fed-biosolids">Federal biosolids card &rarr;</a></span>
     </li>
   </ul>
 </div>
@@ -852,41 +838,56 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <span class="key-dates-note">Federal calendar items &mdash; state and international dates in their respective sections below</span>
   </div>
   <ul class="key-dates-list">
-    
-    <li>
-      <span class="key-date">Jul 7, 2026</span>
-      <span class="key-date-gap">~1 day</span>
-      <span class="key-date-desc">&#128680; EPA NPDWR rescission proposed rule public hearing (virtual) &middot; <a href="#npdwr-rule">NPDWR card &rarr;</a></span>
-    </li>
+
     <li>
       <span class="key-date">Jul 20, 2026</span>
-      <span class="key-date-gap">~14 days</span>
-      <span class="key-date-desc">&#128680; EPA NPDWR rescission written comments due (Docket EPA-HQ-OW-2024-0114) &middot; <a href="#npdwr-rule">NPDWR card &rarr;</a></span>
+      <span class="key-date-gap">~7 days</span>
+      <span class="key-date-desc">&#128680; EPA NPDWR rescission written comments due (Docket EPA-HQ-OW-2025-0654) &middot; <a href="#npdwr-rule">NPDWR card &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Jul 29, 2026</span>
-      <span class="key-date-gap">~23 days</span>
+      <span class="key-date-gap">~16 days</span>
       <span class="key-date-desc">Chemours proposed consent decree public comment deadline &middot; <a href="#lit-chemours-450m">Chemours card &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Jul 30, 2026</span>
-      <span class="key-date-gap">~24 days</span>
+      <span class="key-date-gap">~17 days</span>
       <span class="key-date-desc">Canada Prohibition Regulations, 2025 permit application window closes &middot; <a href="#intl-canada">Canada card &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Jul 30, 2026</span>
-      <span class="key-date-gap">~24 days</span>
+      <span class="key-date-gap">~17 days</span>
       <span class="key-date-desc">California OEHHA Proposition 65 workshop (in-person and online) &middot; <a href="#state-watchlist">State Watchlist &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Aug 11&ndash;12, 2026</span>
-      <span class="key-date-gap">~5 weeks</span>
-      <span class="key-date-desc">EPA public webinars on proposed UCMR 6 (identical sessions) &middot; <a href="#federal-rules">Federal Actions &rarr;</a></span>
+      <span class="key-date-gap">~4 weeks</span>
+      <span class="key-date-desc">EPA public webinars on proposed UCMR 6 (identical sessions) &middot; <a href="#fed-ucmr6">UCMR 6 card &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Aug 12, 2026</span>
-      <span class="key-date-gap">~5 weeks</span>
+      <span class="key-date-gap">~4 weeks</span>
       <span class="key-date-desc">EU PPWR food-contact PFAS ban in effect &middot; <a href="#intl-eu-ppwr">EU PPWR card &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Aug 16, 2026</span>
+      <span class="key-date-gap">~5 weeks</span>
+      <span class="key-date-desc">Minnesota Amara's Law 90-day extension applications postmark deadline ($300 fee) &middot; <a href="#state-mn">Minnesota card &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Sep 2, 2026</span>
+      <span class="key-date-gap">~7 weeks</span>
+      <span class="key-date-desc">New York Part 360 landfill-leachate rulemaking public hearings (1 &amp; 6 p.m.) &middot; <a href="#state-ny">New York card &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Sep 4, 2026</span>
+      <span class="key-date-gap">~7 weeks</span>
+      <span class="key-date-desc">EPA PFOA/PFOS biosolids draft-guidance comment period closes (91 FR 41020) &middot; <a href="#fed-biosolids">Federal biosolids card &rarr;</a></span>
+    </li>
+    <li>
+      <span class="key-date">Sep 9, 2026</span>
+      <span class="key-date-gap">~8 weeks</span>
+      <span class="key-date-desc">New York Part 360 landfill-leachate rulemaking comment period closes &middot; <a href="#state-ny">New York card &rarr;</a></span>
     </li>
     <li>
       <span class="key-date">Sep 15, 2026</span>
@@ -975,7 +976,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-proposed" id="fed-ccl6" data-segments="drinking-water">
       <div class="rule-head">
-        <div class="rule-title">Draft Contaminant Candidate List 6 (CCL 6) &mdash; PFAS as a class</div>
+        <div class="rule-title">CCL 6 &mdash; PFAS as a class</div>
         <span class="rule-tag tag-proposed">Pre-rulemaking &middot; public comment open</span>
       </div>
       <div class="rule-meta">EPA Office of Water &middot; SDWA &sect; 1412(b)(1)(B)</div>
@@ -988,7 +989,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-active" id="fed-dd-guidance" data-segments="remediation AFFF">
       <div class="rule-head">
-        <div class="rule-title">EPA 2026 Interim Guidance on Destruction &amp; Disposal of PFAS</div>
+        <div class="rule-title">PFAS Destruction &amp; Disposal Guidance</div>
         <span class="rule-tag tag-active">Interim guidance &middot; non-binding</span>
       </div>
       <div class="rule-meta">EPA OLEM &middot; Updated 2026 from 2024 baseline</div>
@@ -1001,7 +1002,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-proposed" id="fed-rcra" data-segments="remediation">
       <div class="rule-head">
-        <div class="rule-title">RCRA Listing &mdash; 9 PFAS as Hazardous Constituents</div>
+        <div class="rule-title">RCRA Listing &mdash; 9 PFAS</div>
         <span class="rule-tag tag-proposed">Final-rule stage &middot; pending publication</span>
       </div>
       <div class="rule-meta">EPA OLEM &middot; 40 CFR 261 Appendix VIII</div>
@@ -1014,7 +1015,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-active" id="fed-ucmr5" data-segments="drinking-water">
       <div class="rule-head">
-        <div class="rule-title">UCMR 5 PFAS Occurrence Data</div>
+        <div class="rule-title">UCMR 5 &mdash; Occurrence Data</div>
         <span class="rule-tag tag-active">Monitoring &middot; ~95% data released</span>
       </div>
       <div class="rule-meta">EPA Office of Water &middot; SDWA monitoring</div>
@@ -1027,7 +1028,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-review" id="fed-tsca" data-segments="product-stewardship">
       <div class="rule-head">
-        <div class="rule-title">TSCA Section 8(a)(7) PFAS Reporting</div>
+        <div class="rule-title">TSCA 8(a)(7) Reporting</div>
         <span class="rule-tag tag-review">Window locked &middot; substantive rule pending</span>
       </div>
       <div class="rule-meta">EPA OPPT &middot; 40 CFR 705</div>
@@ -1039,20 +1040,59 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-proposed" id="fed-biosolids" data-segments="biosolids remediation">
       <div class="rule-head">
-        <div class="rule-title">Biosolids Sewage Sludge Risk Assessment (PFOA/PFOS)</div>
-        <span class="rule-tag tag-proposed">Draft &middot; pending finalization</span>
+        <div class="rule-title">Federal Biosolids &mdash; PFOA/PFOS Risk Assessment &amp; Draft Voluntary Guidance</div>
+        <span class="rule-tag tag-proposed">Draft &middot; comments open through Sept 4, 2026</span>
       </div>
-      <div class="rule-meta">EPA OW &middot; CWA Section 405</div>
+      <div class="rule-meta">EPA OW &middot; CWA Section 405 &middot; Docket EPA-HQ-OW-2026-2509</div>
       <div class="rule-body">
-        <strong>Draft assessment, not enforceable limits.</strong> EPA released the Draft Sewage Sludge Risk Assessment for PFOA/PFOS on Jan 14, 2025; public comment period closed Aug 14, 2025. EPA found that <strong>modeled human-health risks may exceed acceptable thresholds in some scenarios at 1 ppb PFOA or PFOS</strong> in sewage sludge land-applied at typical agronomic rates. Final timeline uncertain. Any future regulation would come after the final risk assessment, and would be under <strong>CWA &sect; 405</strong> if warranted &mdash; could inform future risk-management actions and POTW effluent guidelines.
-        <div style="margin-top:6px;"><a class="xref" href="#state-watchlist">VA &amp; MD biosolids laws</a><a class="xref" href="#insideepa">Sludge news (InsideEPA)</a></div>
+        <span style="display:inline-block; background:#fdf2f2; padding:2px 8px; border-radius:3px; color:#a73d32; font-weight:600; border:1px solid #f5c7c7;">&#128680; Published Jul 6, 2026: Draft voluntary guidance in the Federal Register</span> &mdash; <strong>91 FR 41020; comments close September 4, 2026.</strong>
+        <p style="margin: 10px 0;">EPA published in the Federal Register (July 6, 2026) a request for comment on the <em>Draft Guidance for Reducing Risk from Perfluorooctanoic Acid (PFOA) and Perfluorooctane Sulfonic Acid (PFOS) in Biosolids</em> (Docket EPA-HQ-OW-2026-2509). The draft memorandum provides <strong>non-binding, voluntary recommendations</strong> for wastewater treatment plant operators, landowners and farmers, and State/Tribal water agencies &mdash; e.g., avoiding land application of biosolids near waterways or on lands where children play, and avoiding use on crops with higher human-exposure potential. <strong>No numeric federal biosolids threshold is established.</strong> 60-day comment period.</p>
+        <p style="margin: 10px 0;">The Federal Register notice states that EPA has determined the Biden-era January 14, 2025 <strong>Draft Risk Assessment</strong> "exhibited a number of flaws" &mdash; specifically the absence of a national occurrence survey, the exclusive focus on higher-risk hypothetical scenarios "that do not reflect the majority of land application in the U.S.," and the 1 ppb starting concentration that EPA now emphasizes "was not intended to be interpreted as a 'safe level.'" EPA is soliciting feedback on next steps for the Draft Risk Assessment and on non-risk-based source-reduction approaches implemented by several states. Any future rulemaking would come after these decisions and would proceed under <strong>CWA &sect; 405</strong> if warranted.</p>
+        <p style="margin: 10px 0; font-size: 12.5px; color: #3d4856;"><strong>Land-application context (from FR notice):</strong> approximately 60% of the nation's sewage sludge is land-applied as a soil conditioner or fertilizer (~32% agricultural, ~28% other lands including reclamation sites, home lawns, and golf courses); ~25% is disposed of in monofills or MSW landfills; ~14% is incinerated.</p>
+        <div style="margin-top:6px;"><a class="xref" href="#state-watchlist">State biosolids laws (MD, VA, NY, MN)</a><a class="xref" href="#insideepa">Sludge coverage (InsideEPA)</a></div>
       </div>
-      <a class="rule-link" href="https://www.epa.gov/biosolids/and-polyfluoroalkyl-substances-pfas-sewage-sludge" target="_blank" rel="noopener">EPA biosolids PFAS page &rarr;</a>
+      <a class="rule-link" href="https://www.federalregister.gov/documents/2026/07/06/2026-13615/draft-guidance-for-reducing-risk-from-perfluorooctanoic-acid-pfoa-and-perfluorooctane-sulfonic-acid" target="_blank" rel="noopener">Federal Register notice &mdash; 91 FR 41020 &rarr;</a>
+    </div>
+
+    <div class="rule-card status-proposed" id="fed-ucmr6" data-segments="drinking-water">
+      <div class="rule-head">
+        <div class="rule-title">UCMR 6 &mdash; Proposed Rule (ultrashort organofluorines)</div>
+        <span class="rule-tag tag-proposed">Proposed &middot; comments open</span>
+      </div>
+      <div class="rule-meta">EPA OW &middot; SDWA &sect; 1445(a)(2) &middot; monitoring 2028&ndash;2030</div>
+      <div class="rule-body">
+        EPA released the pre-publication Federal Register notice for the Sixth Unregulated Contaminant Monitoring Rule (UCMR 6) on <strong>June 26&ndash;30, 2026</strong>. UCMR 6 would require public water systems (all CWSs and NTNCWSs serving &gt;10,000, all CWSs/NTNCWSs serving 3,300&ndash;10,000, and a representative sample of 800 systems serving &lt;3,300) to monitor for <strong>30 unregulated contaminants</strong> during a 12-month period between January 2028 and December 2030.
+        <p style="margin: 10px 0;"><strong>Seven ultrashort organofluorine compounds</strong> are included, all analyzed by <strong>EPA Method 563</strong>. EPA classifies <strong>four as PFAS</strong> under the CCL 5 structural definition &mdash; PFPrS, PFPrA, PFEtS, and PFMOAA &mdash; and <strong>three (TFA, TFMS, TFSI) as non-PFAS</strong> but includes them for monitoring "due to their persistence in the environment, adverse health effects, mobility, and wide use," and because Method 563 can capture them. Other contaminants in UCMR 6 include chlorinated solvents, chemical intermediates, pesticides, and pesticide metabolites analyzed by EPA Methods 524.3, 525.3, and 540.</p>
+        <p style="margin: 10px 0;"><strong>Public webinars August 11 &amp; 12, 2026.</strong> Large PWSs (&gt;10,000 people) are responsible for their own analytical costs; EPA covers costs for small PWSs, subject to annual appropriations and laboratory capacity. EPA declined petitions to add microplastics and pharmaceuticals to UCMR 6, citing the absence of validated analytical methods.</p>
+        <p style="margin: 10px 0; font-size: 12.5px; color: #3d4856;"><strong>Definitional context:</strong> EPA's inclusion of TFA for monitoring sits alongside its June 30, 2026 pesticide-registration decisions (epyrifenacil, diflufenican, trifludimoxazin) treating certain single-fluorinated-carbon compounds as non-PFAS under the Office of Pesticide Programs' definition. Environmentalists (CBD, EWG) have noted the split. In the EU, ECHA's RAC has separately recommended classifying TFA as reproductive toxicant 1B and PMT/vPvM.</p>
+        <div style="margin-top:6px;"><a class="xref" href="#fed-ucmr5">UCMR 5 (PFAS occurrence data)</a><a class="xref" href="#intl-eu-tfa">EU/Germany TFA classification</a></div>
+      </div>
+      <a class="rule-link" href="https://www.epa.gov/dwucmr/proposed-sixth-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener">EPA UCMR 6 proposed rule page &rarr;</a>
+    </div>
+
+    <div class="rule-card status-active" id="fed-strategy-iija" data-segments="drinking-water remediation wastewater">
+      <div class="rule-head">
+        <div class="rule-title">EPA Comprehensive PFAS Strategy &amp; ~$5B IIJA Grants</div>
+        <span class="rule-tag tag-active">Announced &middot; grants finalized</span>
+      </div>
+      <div class="rule-meta">EPA Office of the Administrator &middot; Bipartisan Infrastructure Law &sect; 50105</div>
+      <div class="rule-body">
+        In late June and early July 2026, EPA issued a series of press releases framing a "comprehensive PFAS strategy" and finalized the fifth (and final) annual installment of the Bipartisan Infrastructure Law <strong>Emerging Contaminants in Small or Disadvantaged Communities</strong> program, distributing the ~$5 billion cumulative allocation to more than 40 states and territories for testing, planning, and drinking-water infrastructure investments.
+        <p style="margin: 10px 0;"><strong>Strategy commitments include:</strong></p>
+        <ul style="margin:8px 0 6px 18px; padding:0; font-size:13px; line-height:1.55;">
+          <li><strong>Effluent Limitation Guidelines &amp; pretreatment standards</strong> for key PFAS-discharging industrial categories &mdash; including chemical manufacturers &mdash; consistent with a polluter-pays framing (see <a href="#fed-elg" style="color:#0a4f6f;">ELG card</a> for the OCPSF and metal-finishing rulemakings already in progress).</li>
+          <li><strong>Protecting "passive receivers"</strong> (water and wastewater utilities, farms, and other downstream recipients of PFAS contamination) from Superfund liability for contamination they did not create.</li>
+          <li><strong>PFAS Destruction &amp; Disposal Guidance</strong> updated annually rather than every three years (see <a href="#fed-dd-guidance" style="color:#0a4f6f;">D&amp;D Guidance card</a>).</li>
+        </ul>
+        <p style="margin: 10px 0; font-size: 12.5px; color: #3d4856;">The strategy statements pair the May 2026 NPDWR compliance-extension and rescission proposals (see <a href="#npdwr-rule" style="color:#0a4f6f;">NPDWR card</a>) with continued investment in treatment infrastructure and discharge controls at the source. Water systems gain near-term funding pathways via state grant sub-allocations; industrial dischargers should anticipate forthcoming OCPSF ELG rulemaking momentum.</p>
+        <div style="margin-top:6px;"><a class="xref" href="#fed-elg">Effluent Limitation Guidelines</a><a class="xref" href="#npdwr-rule">NPDWR rescission &amp; extension</a><a class="xref" href="#fed-dd-guidance">D&amp;D Guidance</a></div>
+      </div>
+      <a class="rule-link" href="https://www.epa.gov/newsreleases" target="_blank" rel="noopener">EPA newsroom (press-release series) &rarr;</a>
     </div>
 
     <div class="rule-card status-proposed" id="fed-elg" data-segments="wastewater remediation paper-textiles">
       <div class="rule-head">
-        <div class="rule-title">Effluent Limitation Guidelines (ELGs) for PFAS &mdash; industrial wastewater</div>
+        <div class="rule-title">PFAS Effluent Limitation Guidelines (ELGs)</div>
         <span class="rule-tag tag-proposed">Proposed &middot; multiple sectors advancing</span>
       </div>
       <div class="rule-meta">EPA OW &middot; Clean Water Act &sect; 304(b) &middot; 40 CFR Parts 414, 433, 463, 466, etc.</div>
@@ -1100,7 +1140,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-active" id="fed-neci" data-segments="remediation wastewater drinking-water">
       <div class="rule-head">
-        <div class="rule-title">EPA PFAS National Enforcement &amp; Compliance Initiative (NECI)</div>
+        <div class="rule-title">PFAS Enforcement Initiative (NECI)</div>
         <span class="rule-tag tag-active">Enforcement priority &middot; FY2024&ndash;2027</span>
       </div>
       <div class="rule-meta">EPA OECA &middot; National enforcement priority</div>
@@ -1128,7 +1168,10 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
           <strong style="color:#a06a13;">&#128300; Technical signal (Jun 2026):</strong> EPA + Air Force research finds PFAS <strong>unlikely to be completely removed</strong> from firefighting systems even after cleaning. Affects source-characterization assumptions at AFFF-impacted sites and DoD foam-transition compliance. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a>
         </div>
         <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;">
-          <strong style="color:#a06a13;">&#127963;&#65039; Congressional pressure (Jun 18, 2026):</strong> Senate Armed Services Committee pressing DoD to begin interim cleanups at <strong>50+ delayed sites</strong> (fall 2025 report flagged ~140 bases with slipped milestones). Pairs with House FY2026 NDAA PFAS provisions in Senate conference. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a>
+          <strong style="color:#a06a13;">&#127963;&#65039; Congressional pressure (June&ndash;July 2026):</strong>
+          <p style="margin: 6px 0 0 0;"><strong>Peters&ndash;Rounds NDAA amendment (filed June 24, 2026):</strong> Sens. Gary Peters (D-MI) and Mike Rounds (R-SD) filed an amendment to S. 4784 (FY27 NDAA) that would require DOD within two years of enactment to "initiate interim remedial actions with respect to [PFAS] at no fewer than 100 covered sites" &mdash; defined as bases where DOD's September 30, 2025 assessment signaled delays to RI/FS end dates. Amendment builds on non-binding report language already attached to the pending bill directing action at &ge;50 sites. Bill cleared Senate Armed Services Committee; floor consideration scheduled after Senate recess ends July 13. Two other PFAS-related NDAA amendments filed: Sen. Pete Ricketts (R-NE) on Superfund passive-receiver liability relief; Sen. Martin Heinrich (D-NM) on PFAS-free firefighter turnout gear R&amp;D grants.</p>
+          <p style="margin: 6px 0 0 0;"><strong>Peters&ndash;Gillibrand letter (June 26, 2026):</strong> 24-senator Democratic letter to Defense Secretary Hegseth urging reversal of additional delays flagged at &gt;170 sites in the September 2025 DOD timetable.</p>
+          <p style="margin: 6px 0 0 0;">Earlier Senate Armed Services Committee report language (June 2026) pressed DoD to begin interim cleanups at 50+ delayed sites. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a></p>
         </div>
       </div>
         </div>
@@ -1175,7 +1218,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   
     <div class="rule-card status-proposed" id="fed-olem-soil" data-segments="remediation">
       <div class="rule-head">
-        <div class="rule-title">OLEM Engagement on Low-Level PFAS in Soil</div>
+        <div class="rule-title">OLEM &mdash; Low-Level PFAS in Soil</div>
         <span class="rule-tag tag-proposed">Pre-rulemaking &middot; engagement complete</span>
       </div>
       <div class="rule-meta">EPA Office of Land &amp; Emergency Management (OLEM)</div>
@@ -1331,7 +1374,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   <p style="font-size:11.5px; color:#6b7c8c; font-style:italic; margin: -10px 0 14px 4px;">Many states belong to more than one category &mdash; clicking a pill shows every state with at least one matching regulation type.</p>
 
   <div class="rules-grid">
-    <div class="rule-card status-final" data-tags="mcl products" data-segments="drinking-water product-stewardship paper-textiles">
+    <div class="rule-card status-final" id="state-ca" data-tags="mcl products" data-segments="drinking-water product-stewardship paper-textiles">
       <div class="rule-head">
         <div class="rule-title">California</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1369,7 +1412,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://portal.ct.gov/DEEP-PFAS" target="_blank" rel="noopener">CT DEEP PFAS hub &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="cleanup products" data-segments="remediation product-stewardship paper-textiles">
+    <div class="rule-card status-final" id="state-il" data-tags="cleanup products" data-segments="remediation product-stewardship paper-textiles">
       <div class="rule-head">
         <div class="rule-title">Illinois</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1394,7 +1437,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://www.maine.gov/dep/spills/topics/pfas/PFAS-products/" target="_blank" rel="noopener">Maine DEP PFAS in Products &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="biosolids products mcl" data-segments="biosolids remediation">
+    <div class="rule-card status-final" id="state-md" data-tags="biosolids products mcl" data-segments="biosolids remediation">
       <div class="rule-head">
         <div class="rule-title">Maryland</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1429,7 +1472,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://www.mass.gov/lists/massachusetts-pfas-drinking-water-standard-mcl" target="_blank" rel="noopener">MassDEP PFAS MCL &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="mcl biosolids cleanup" data-segments="drinking-water remediation">
+    <div class="rule-card status-final" id="state-mi" data-tags="mcl biosolids cleanup" data-segments="drinking-water remediation">
       <div class="rule-head">
         <div class="rule-title">Michigan</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1448,14 +1491,14 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       </div>
       <div class="rule-meta">Product law + cleanup screening &middot; Minn. Stat. &sect; 116.943 + MPCA SRVs</div>
       <div class="rule-body">
-        Amara&rsquo;s Law remains the most expansive state PFAS-in-products law &mdash; banning all products with intentionally added PFAS by Jan 1, 2032, with category bans (carpets, cleaning products, cookware, etc.) in effect since Jan 2025. <strong>MPCA formally adopted PFAS reporting rule Dec 8, 2025</strong> &mdash; manufacturers of products with intentionally added PFAS sold in Minnesota must file initial reports by <strong>September 15, 2026</strong> and pay associated fees. Subsequent reports due annually each February 1. A separate CUU (currently unavoidable use) determination rulemaking is underway and will govern any exemptions. <strong>Minnesota Soil Reference Values (SRVs)</strong> &mdash; site-specific PFOA, PFOS, PFHxS, PFBS, PFHxA values for residential, recreational, and industrial scenarios. In Apr 2026, MPCA filed <em>MPCA v. 3M</em> in Washington Co.; 3M removed to federal court (D. Minn.).
+        Amara&rsquo;s Law remains the most expansive state PFAS-in-products law &mdash; banning all products with intentionally added PFAS by Jan 1, 2032, with category bans (carpets, cleaning products, cookware, etc.) in effect since Jan 2025. <strong>MPCA formally adopted PFAS reporting rule Dec 8, 2025</strong> &mdash; manufacturers of products with intentionally added PFAS sold in Minnesota must file initial reports by <strong>September 15, 2026</strong> and pay associated fees. Subsequent reports due annually each February 1. <strong>Extension mechanics (June 2026 amendment):</strong> a 90-day extension to December 14, 2026 is available on request &mdash; applications must be postmarked by <strong>August 16, 2026</strong> and accompanied by a $300 fee. The June 2026 amendment also <strong>excludes products manufactured before July 1, 2023</strong> from the reporting requirement. A separate CUU (currently unavoidable use) determination rulemaking is underway and will govern any exemptions. <strong>Minnesota Soil Reference Values (SRVs)</strong> &mdash; site-specific PFOA, PFOS, PFHxS, PFBS, PFHxA values for residential, recreational, and industrial scenarios. In Apr 2026, MPCA filed <em>MPCA v. 3M</em> in Washington Co.; 3M removed to federal court (D. Minn.).
       
         <div style="margin-top:10px; font-size:12.5px;">Current 2026 SRV values are published in the MPCA <a href="https://www.pca.state.mn.us/document/c-r1-06xlsx" target="_blank" rel="noopener" style="color:#0a4f6f;">SRV spreadsheet (c-r1-06.xlsx)</a> &mdash; chemicals with revised 2026 values are tagged in the "SRV Revision Year" column. Methodology in the <a href="https://www.pca.state.mn.us/sites/default/files/c-r1-05.pdf" target="_blank" rel="noopener" style="color:#0a4f6f;">SRV Technical Support Document</a>; underlying toxicology in <a href="https://www.health.state.mn.us/communities/environment/water/pfasvalues.html" target="_blank" rel="noopener" style="color:#0a4f6f;">MDH PFAS toxicity values</a>. Environmental consultants should update SRV reporting templates to reflect 2026 values. <strong>Federal parallel:</strong> EPA OLEM is now evaluating low-level PFAS soil thresholds at the federal level &mdash; see <a href="#fed-olem-soil" style="color:#0a4f6f; font-weight:500;">OLEM engagement card</a>.</div>
       </div>
       <a class="rule-link" href="https://www.pca.state.mn.us/air-water-land-climate/pfas-use-prohibitions-and-reporting" target="_blank" rel="noopener">MPCA PFAS use prohibitions &amp; reporting &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="mcl" data-segments="drinking-water">
+    <div class="rule-card status-final" id="state-nh" data-tags="mcl" data-segments="drinking-water">
       <div class="rule-head">
         <div class="rule-title">New Hampshire</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1467,7 +1510,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://www.pfas.des.nh.gov/response-areas/drinking-water" target="_blank" rel="noopener">NHDES PFAS &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="mcl products cleanup" data-segments="drinking-water product-stewardship remediation paper-textiles">
+    <div class="rule-card status-final" id="state-nj" data-tags="mcl products cleanup" data-segments="drinking-water product-stewardship remediation paper-textiles">
       <div class="rule-head">
         <div class="rule-title">New Jersey</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1493,14 +1536,16 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
           <li><strong>July 1, 2026 (now in effect):</strong> reporting infrastructure requirement is live &mdash; manufacturers selling into NM must have reporting systems in place.</li>
         </ul>
         <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;">
-          <strong style="color:#a06a13;">&#9878;&#65039; Litigation watch:</strong> 10th Circuit ruled Jun 17, 2026 that the Air Force can challenge NM&rsquo;s first-time PFAS hazardous waste permit in <strong>federal court</strong> rather than state court (reversing lower court). Sets a federal-vs-state authority precedent that may affect NM PFAS framework implementation at DoD facilities. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a>
+          <strong style="color:#a06a13;">&#9878;&#65039; Litigation watch:</strong>
+          <p style="margin: 6px 0 0 0;"><strong>Industry coalition filed dual state and federal challenges July 1, 2026:</strong> <em>ACC v. Kenney</em>, No. 1:26-cv-02130 (D.N.M.), filed by the American Chemistry Council, Alliance for Automotive Innovation, American Coatings Association, AHAM, NAM, NEMA, NFIB, New Mexico Retail Association, and Power Tool Institute, plus a parallel state-court action, seeks preliminary and permanent injunctions against Rule 20.13.2 NMAC. Core claims: the mandatory Erlenmeyer-flask label compels non-factual speech (First Amendment) and the rule's extraterritorial reach burdens interstate commerce (dormant Commerce Clause). Suit targets the labeling regime specifically, not the phased sale prohibitions. Implementation dates remain in force unless a court enjoins them. Product-stewardship staff advising on NM label compliance should track the preliminary-injunction ruling before treating the flask label as settled.</p>
+          <p style="margin: 6px 0 0 0;"><strong>10th Circuit &mdash; Air Force v. NM permit challenge (June 17, 2026):</strong> Ruled the Air Force can challenge NM's first-time PFAS hazardous waste permit in <strong>federal court</strong> rather than state court (reversing lower court). Sets a federal-vs-state authority precedent that may affect NM PFAS framework implementation at DoD facilities. <a href="#insideepa" style="color:#0a4f6f; font-weight:500;">See InsideEPA News</a></p>
         </div>
         <div style="margin-top:8px; font-size:12.5px;"> product stewardship specialists advising consumer goods, apparel, food-contact, cookware, and small-appliance clients should cross-reference the NM rule with Maine and Minnesota frameworks. The labeling regime drives demand for product-level PFAS screening protocols and supply-chain traceability.</div>
       </div>
       <a class="rule-link" href="https://www.env.nm.gov/pfas/pfas-protection-act-hb212/" target="_blank" rel="noopener">NMED PFAS Protection Act &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="mcl products biosolids" data-segments="product-stewardship drinking-water biosolids paper-textiles">
+    <div class="rule-card status-final" id="state-ny" data-tags="mcl products biosolids" data-segments="product-stewardship drinking-water biosolids paper-textiles">
       <div class="rule-head">
         <div class="rule-title">New York</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1509,11 +1554,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <div class="rule-body">
         Apparel restriction: no new apparel with intentionally added PFAS effective Jan 1, 2025; outdoor apparel for severe wet conditions Jan 1, 2028. DEC held a virtual pre-rulemaking meeting Aug 25, 2025 on the apparel PFAS prohibition; formal proposed regulations expected during 2026. Food packaging ban (Hazardous Packaging) already in effect. Carpet PFAS ban in effect. <strong>Menstrual products PFAS ban signed Dec 2025</strong> by Governor Hochul, effective approximately Dec 2026 (one year after signing). No children&rsquo;s/juvenile-product ban enacted &mdash; staff should not conflate NY with states (RI, NM) that explicitly include juvenile products.
         <p style="margin: 10px 0 0 0;"><strong>DMM-7a biosolids policy (adopted June 10, 2026):</strong> DEC's interim Program Policy DMM-7a requires PFAS sampling and analysis of biosolids-derived soil products &mdash; compost and heat-dried biosolids &mdash; from facilities permitted under 6 NYCRR Subpart 361-3, as well as biosolids imported into New York. Data collected will inform a future formal biosolids PFAS rulemaking.</p>
+        <p style="margin: 10px 0 0 0;"><strong>Part 360 landfill leachate treatment rulemaking (proposed July 2, 2026):</strong> DEC proposed amendments to the Part 360-series solid-waste rules that would make New York the first state to require treatment of leachate at active landfills, expressly targeting PFAS and 1,4-dioxane. Leachate is a documented PFAS pathway to POTWs and surface water, so a source-treatment requirement shifts the compliance endpoint for municipal landfill operators and the WWTPs that receive their leachate. At least $75M in Water Quality Improvement Project / Consolidated Funding Application grants have been extended to municipal landfill leachate treatment. <strong>Public comment period closes September 9, 2026; public hearings September 2, 2026 (1 and 6 p.m.).</strong> Relevant to remediation engineers and wastewater practitioners scoping leachate treatment trains (GAC, ion exchange, RO, foam fractionation) and to biosolids/residuals-management practice, given leachate's disproportionate PFAS mass loading.</p>
       </div>
       <a class="rule-link" href="https://dec.ny.gov/environmental-protection/per-and-polyfluoroalkyl-substances-pfas" target="_blank" rel="noopener">NYSDEC PFAS &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="cleanup" data-segments="drinking-water remediation">
+    <div class="rule-card status-final" id="state-nc" data-tags="cleanup" data-segments="drinking-water remediation">
       <div class="rule-head">
         <div class="rule-title">North Carolina</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1525,7 +1571,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://www.deq.nc.gov/news/key-issues/emerging-compounds/water-quality-pfas-standards-north-carolina" target="_blank" rel="noopener">NCDEQ PFAS standards &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="products cleanup" data-segments="product-stewardship remediation paper-textiles">
+    <div class="rule-card status-final" id="state-or" data-tags="products cleanup" data-segments="product-stewardship remediation paper-textiles">
       <div class="rule-head">
         <div class="rule-title">Oregon</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1563,7 +1609,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       <a class="rule-link" href="https://dec.vermont.gov/water/drinking-water/water-quality-monitoring/pfas" target="_blank" rel="noopener">VT DEC PFAS &rarr;</a>
     </div>
 
-    <div class="rule-card status-final" data-tags="biosolids" data-segments="biosolids remediation aquatic-pathway">
+    <div class="rule-card status-final" id="state-va" data-tags="biosolids" data-segments="biosolids remediation aquatic-pathway">
       <div class="rule-head">
         <div class="rule-title">Virginia</div>
         <span class="rule-tag tag-final">Active</span>
@@ -1833,7 +1879,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 
     <div class="rule-card status-review" data-segments="product-stewardship">
       <div class="rule-head">
-        <div class="rule-title">TSCA PFAS Risk Management, Testing &amp; SNUR Actions</div>
+        <div class="rule-title">TSCA Risk Management &amp; SNURs</div>
         <span class="rule-tag tag-review">In progress</span>
       </div>
       <div class="rule-meta">EPA OPPT &middot; multiple TSCA authorities</div>
@@ -2052,7 +2098,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     <div class="fr-item" id="lit-chemours-450m">
       <a class="fr-title" href="https://www.justice.gov/opa/pr/chemours-agrees-450m-landmark-settlement-agreement-releases-pfas-forever-chemicals-west" target="_blank" rel="noopener">EPA/DOJ/WV Settlement with Chemours &mdash; $450M Federal PFAS Enforcement (June 24, 2026)</a>
       <div class="fr-meta"><span class="pin-flag">&#128204; Pinned</span><span class="badge">Jun 24, 2026</span>Federal enforcement settlement &middot; First comprehensive federal PFAS settlement with a manufacturer</div>
-      <div class="fr-abstract">On June 24, 2026, the U.S. Department of Justice, U.S. EPA, and the West Virginia Department of Environmental Protection announced a proposed consent decree with The Chemours Company resolving allegations of PFAS releases at three facilities: Washington Works (West Virginia), Fayetteville Works (North Carolina), and Chambers Works (New Jersey). The proposed settlement totals more than $450 million and asserts claims under the Clean Water Act, Resource Conservation and Recovery Act, Toxic Substances Control Act, and the West Virginia Water Pollution Control Act. <strong>Settlement components:</strong> $22.5 million civil penalty; ~$90 million multi-year PFAS discharge mitigation program; ~$60 million in PFAS pollution controls for surface-water discharges and air emissions at the West Virginia facility; ~$280 million to supply clean drinking water for more than a decade to communities surrounding the West Virginia and New Jersey facilities; and a separate obligation to evaluate options to reduce PFAS releases from the North Carolina facility. The settlement permits Chemours to continue manufacturing PFAS for &ldquo;critical commercial and military applications.&rdquo; The consent decree is subject to final court approval; the Federal Register notice opening the 30-day public comment period was published June 29, 2026, with written comments due July 29, 2026. The settlement does not extend to DuPont, which owned the facilities prior to spinning off Chemours in 2015. <strong>State pushback:</strong> North Carolina officials have publicly disagreed with the settlement and indicated that the state will continue its separate state-court action seeking to hold Chemours liable for PFAS contamination in North Carolina. <strong>Sources:</strong> <a href="https://www.justice.gov/opa/pr/chemours-agrees-450m-landmark-settlement-agreement-releases-pfas-forever-chemicals-west" target="_blank" rel="noopener">DOJ press release</a> &middot; <a href="https://www.epa.gov/newsreleases/epa-obtains-over-450-million-penalties-and-relief-agreement-chemours-settle-claims" target="_blank" rel="noopener">EPA press release</a> &middot; <a href="https://investors.chemours.com/news-releases/news-release-details/chemours-reaches-agreement-us-epa-resolve-claims-relating-pfas" target="_blank" rel="noopener">Chemours investor release</a>.</div>
+      <div class="fr-abstract">On June 24, 2026, the U.S. Department of Justice, U.S. EPA, and the West Virginia Department of Environmental Protection announced a proposed consent decree with The Chemours Company resolving allegations of PFAS releases at three facilities: Washington Works (West Virginia), Fayetteville Works (North Carolina), and Chambers Works (New Jersey). The proposed settlement totals more than $450 million and asserts claims under the Clean Water Act, Resource Conservation and Recovery Act, Toxic Substances Control Act, and the West Virginia Water Pollution Control Act. <strong>Settlement components:</strong> $22.5 million civil penalty; ~$90 million multi-year PFAS discharge mitigation program; ~$60 million in PFAS pollution controls for surface-water discharges and air emissions at the West Virginia facility; ~$280 million to supply clean drinking water for more than a decade to communities surrounding the West Virginia and New Jersey facilities; and a separate obligation to evaluate options to reduce PFAS releases from the North Carolina facility. The settlement permits Chemours to continue manufacturing PFAS for &ldquo;critical commercial and military applications.&rdquo; The consent decree is subject to final court approval; the Federal Register notice opening the 30-day public comment period was published June 29, 2026, with written comments due July 29, 2026. The settlement does not extend to DuPont, which owned the facilities prior to spinning off Chemours in 2015. <strong>State pushback (July 2026 update):</strong> North Carolina officials and the state attorney general have publicly criticized the settlement's fund allocation, arguing the bulk of relief funds &mdash; roughly $280M for alternative drinking water plus a ~$90M discharge-mitigation program &mdash; is weighted toward West Virginia and will do little to remediate Cape Fear River contamination. The consent decree does require GenX release controls at &ge;99% efficiency and third-party-engineered controls at the North Carolina facility. North Carolina has indicated it will continue its separate state-court action seeking to hold Chemours liable for contamination in North Carolina. <strong>Sources:</strong> <a href="https://www.justice.gov/opa/pr/chemours-agrees-450m-landmark-settlement-agreement-releases-pfas-forever-chemicals-west" target="_blank" rel="noopener">DOJ press release</a> &middot; <a href="https://www.epa.gov/newsreleases/epa-obtains-over-450-million-penalties-and-relief-agreement-chemours-settle-claims" target="_blank" rel="noopener">EPA press release</a> &middot; <a href="https://investors.chemours.com/news-releases/news-release-details/chemours-reaches-agreement-us-epa-resolve-claims-relating-pfas" target="_blank" rel="noopener">Chemours investor release</a>.</div>
+    </div>
+    <div class="fr-item" id="lit-ny-ag-2026">
+      <a class="fr-title" href="https://www.usnews.com/news/us/articles/2026-07-09/new-york-sues-3m-dupont-and-other-companies-over-so-called-forever-chemicals" target="_blank" rel="noopener">New York AG Statewide PFAS Suit &mdash; 3M, DuPont de Nemours, EIDP, Chemours, Corteva (filed July 9, 2026)</a>
+      <div class="fr-meta"><span class="badge">Jul 9, 2026</span>State enforcement &middot; N.Y. Sup. Ct. (Albany Co.) &middot; Consumer-protection + environmental theory</div>
+      <div class="fr-abstract">On July 9, 2026, New York Attorney General Letitia James filed a 74-page complaint in New York State Supreme Court (Albany County) against 3M Company, DuPont de Nemours, EIDP Inc., The Chemours Company, and Corteva, alleging the companies knew for approximately 50 years that PFAS in consumer products were persistent, bioaccumulative, and associated with adverse health effects and sold them without warning consumers or regulators. <strong>Relief sought:</strong> halt sales of PFAS-containing products lacking adequate warnings, end allegedly misleading advertising, and obtain damages, disgorgement, restitution, penalties, and statewide cleanup funding. <strong>Theory:</strong> the state's complaint blends consumer-protection / failure-to-warn claims with environmental and public-health liability across a broad product universe (water- and stain-resistant fabrics, food packaging, non-stick cookware, cosmetics) &mdash; a knowledge-based marketing theory rather than a discrete-site contamination theory. The scope broadens potential exposure and document-discovery relative to site-specific cases. Signals continued expansion of manufacturer liability into consumer-product exposure pathways. Practice implications: product stewardship and exposure-assessment teams should watch for parallel state filings and for discovery that may surface new exposure data.</div>
     </div>
     <div class="fr-item">
       <a class="fr-title" href="https://www.kare11.com/article/news/local/courts-news/mpca-files-new-lawsuit-against-3m-over-ongoing-forever-chemical-pollution/89-bc0d267d-2ab4-43b1-9fa6-e63304dea1fa" target="_blank" rel="noopener">MPCA v. 3M (Washington Co., MN &rarr; D. Minn. 0:2026cv02440)</a>
@@ -2302,306 +2353,4 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       else t.classList.remove('is-active');
     });
     allSections.forEach(function(s) {
-      s.style.display = (viewForId(s.id) === view) ? '' : 'none';
-    });
-    // Extras (e.g. key-dates callout) appear only in the Regulatory Reference view
-        fullOnlyExtras.forEach(function(el) {
-      el.style.display = (view === 'full') ? '' : 'none';
-    });
-    // Also hide lib-updates and trending-callout on non-full views (they're navy/amber, not red/lime)
-    document.querySelectorAll('.wrap > .lib-updates, .wrap > .trending-callout').forEach(function(el) {
-      el.style.display = (view === 'full') ? '' : 'none';
-    });
-    var tocItems = document.querySelectorAll('.toc-list li');
-    for (var i = 0; i < tocItems.length; i++) {
-      var li = tocItems[i];
-      var a = li.querySelector('a');
-      if (!a) continue;
-      var id = a.getAttribute('href').substring(1);
-      li.style.display = (viewForId(id) === view) ? '' : 'none';
-    }
-    // Hide entire TOC on About and Reference Shelf tabs
-    if (toc) toc.style.display = (view === 'about' || view === 'reference') ? 'none' : '';
-    if (scrollTarget) {
-      var el = document.getElementById(scrollTarget);
-      if (el) setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() { setView(tab.dataset.view); });
-  });
-
-  // Back-to-top link in TOC: scroll to first visible section in current tab
-  var backToTopLink = document.querySelector('.toc-back-top');
-  if (backToTopLink) {
-    backToTopLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (history.replaceState) {
-        history.replaceState(null, '', window.location.pathname + window.location.search);
-      }
-    });
-  }
-
-  // Walk up the DOM from an element to find the containing section's view
-  function viewForElement(el) {
-    while (el && el !== document.body) {
-      if (el.tagName === 'SECTION' && el.id) {
-        return viewForId(el.id);
-      }
-      el = el.parentNode;
-    }
-    return 'full';
-  }
-
-  // Cross-tab navigation: anchor clicks switch tabs if target (or its parent section) lives in a different view
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest && e.target.closest('a[href^="#"]');
-    if (!link) return;
-    var href = link.getAttribute('href');
-    if (!href || href === '#' || href.length < 2) return;
-    var targetId = href.substring(1);
-    var targetEl = document.getElementById(targetId);
-    if (!targetEl) return;
-    // First try direct ID lookup, then fall back to parent-section lookup
-    var targetView = viewForId(targetId);
-    if (targetView === 'full') {
-      // Maybe the target is INSIDE a non-full section (e.g., #lit-nj-pact inside #litigation)
-      targetView = viewForElement(targetEl);
-    }
-    var activeTab = document.querySelector('.view-tab.is-active');
-    var currentView = activeTab ? activeTab.dataset.view : 'full';
-    if (targetView !== currentView) {
-      e.preventDefault();
-      setView(targetView, targetId);
-    }
-  });
-
-  setView('full');
-
-  // On page load, if URL has a fragment (e.g., from an email link), switch to the right tab
-  if (window.location.hash) {
-    var hashId = window.location.hash.substring(1);
-    var hashEl = document.getElementById(hashId);
-    if (hashEl) {
-      var hashView = viewForId(hashId);
-      if (hashView === 'full') {
-        hashView = viewForElement(hashEl);
-      }
-      if (hashView !== 'full') {
-        setView(hashView, hashId);
-      } else {
-        // Same tab; just scroll to it (after layout settles)
-        setTimeout(function() { hashEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
-      }
-    }
-  }
-})();
-</script>
-
-<script>
-// Sticky TOC + active section highlighting
-(function() {
-  var toc = document.querySelector('.toc');
-  if (!toc) return;
-  var tocLinks = toc.querySelectorAll('.toc-list a');
-  var sections = Array.prototype.map.call(tocLinks, function(a) {
-    var id = a.getAttribute('href').substring(1);
-    return document.getElementById(id);
-  }).filter(Boolean);
-
-  var sentinel = document.createElement('div');
-  sentinel.style.cssText = 'position:absolute; top:0; height:1px; width:1px;';
-  toc.parentNode.insertBefore(sentinel, toc);
-  if (typeof IntersectionObserver !== 'undefined') {
-    var stickyObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (!e.isIntersecting && e.boundingClientRect.top < 0) toc.classList.add('is-stuck');
-        else toc.classList.remove('is-stuck');
-      });
-    }, { threshold: 0 });
-    stickyObserver.observe(sentinel);
-
-    var sectionObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          var id = e.target.id;
-          tocLinks.forEach(function(a) {
-            if (a.getAttribute('href') === '#' + id) a.classList.add('is-active');
-            else a.classList.remove('is-active');
-          });
-        }
-      });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-    sections.forEach(function(s) { sectionObserver.observe(s); });
-  }
-})();
-</script>
-
-<script>
-(function() {
-  var frContent = document.getElementById('frContent');
-  var frCount = document.getElementById('frCount');
-  if (!frContent) return;
-
-  function escapeHtml(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
-  }
-  function fmtDate(s) {
-    if (!s) return '';
-    var d = new Date(s);
-    if (isNaN(d)) return s;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  function loadFederalRegister() {
-    var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[term]=PFAS&conditions[agencies][]=environmental-protection-agency&per_page=20&order=newest';
-    fetch(url)
-      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(function(data) {
-        var rawResults = data.results || [];
-        // Filter to items where PFAS (or perfluoro/polyfluoro nomenclature) appears in the
-        // title or abstract, not just buried in the body. Drops marginal hits like the
-        // May 26 HFC rule that mentions PFAS only in a footnote.
-        function isSubstantivePfas(doc) {
-          var hay = ((doc.title || '') + ' ' + (doc.abstract || '')).toLowerCase();
-          return hay.indexOf('pfas') !== -1 ||
-                 hay.indexOf('perfluoro') !== -1 ||
-                 hay.indexOf('polyfluoro') !== -1;
-        }
-        var results = rawResults.filter(isSubstantivePfas).slice(0, 10);
-        if (frCount) frCount.textContent = results.length + (results.length === 1 ? ' item' : ' items');
-        if (!results.length) {
-          frContent.innerHTML = '<p style="color:#6b7c8c; font-size:13px;">No recent EPA PFAS items in the Federal Register.</p>';
-          return;
-        }
-        var rows = results.map(function(doc) {
-          var title = doc.title || '(untitled)';
-          var abstract = doc.abstract || '';
-          return '<div class="fr-item">' +
-            '<a class="fr-title" href="' + (doc.html_url || '#') + '" target="_blank" rel="noopener">' + escapeHtml(title) + '</a>' +
-            '<div class="fr-meta">' +
-              '<span class="badge">' + escapeHtml(doc.type || 'Document') + '</span>' +
-              '<span>' + escapeHtml(fmtDate(doc.publication_date)) + '</span>' +
-              (doc.document_number ? '<span>FR Doc ' + escapeHtml(doc.document_number) + '</span>' : '') +
-            '</div>' +
-            (abstract ? '<div class="fr-abstract">' + escapeHtml(abstract).slice(0, 400) + (abstract.length > 400 ? '&hellip;' : '') + '</div>' : '') +
-            '</div>';
-        }).join('');
-        frContent.innerHTML = '<div class="fr-list">' + rows + '</div>';
-      })
-      .catch(function(err) {
-        if (frCount) frCount.textContent = 'error';
-        frContent.innerHTML = '<p style="color:#a04050; font-size:13px;">Could not load Federal Register data: ' + escapeHtml(err.message) + '. The federalregister.gov API may be temporarily unavailable.</p>';
-      });
-  }
-
-  loadFederalRegister();
-})();
-</script>
-
-<script>
-(function() {
-  function wireFilter(pillContainerId, sectionId, countElId, labelMap, noun) {
-    var pills = document.querySelectorAll('#' + pillContainerId + ' .filter-pill');
-    if (!pills.length) return;
-    var section = document.getElementById(sectionId);
-    if (!section) return;
-    var cards = section.querySelectorAll('.rules-grid > .rule-card');
-    var countEl = countElId ? document.getElementById(countElId) : null;
-    pills.forEach(function(pill) {
-      pill.addEventListener('click', function() {
-        var filter = pill.dataset.filter;
-        pills.forEach(function(p) { p.classList.remove('is-active'); });
-        pill.classList.add('is-active');
-        var visibleCount = 0;
-        cards.forEach(function(card) {
-          var tags = (card.dataset.tags || '').split(/\s+/);
-          var match = (filter === 'all') || tags.indexOf(filter) !== -1;
-          card.style.display = match ? '' : 'none';
-          if (match) visibleCount++;
-        });
-        if (countEl) {
-          countEl.textContent = visibleCount + ' ' + noun + (visibleCount === 1 ? '' : 's') + ' (' + (labelMap[filter] || filter) + ')';
-        }
-      });
-    });
-  }
-
-  wireFilter('stateFilter', 'state-watchlist', 'stateCount',
-    { all: 'All states', mcl: 'Drinking-water MCLs', products: 'Product bans', biosolids: 'Biosolids', cleanup: 'Cleanup standards' },
-    'state');
-
-  wireFilter('intlFilter', 'international', null,
-    { all: 'All countries', australia: 'Australia', belgium: 'Belgium', brazil: 'Brazil', canada: 'Canada', eu: 'EU', germany: 'Germany', uk: 'UK' },
-    'item');
-})();
-</script>
-
-<script>
-(function() {
-  var form = document.getElementById('submitForm');
-  if (!form) return;
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var data = new FormData(form);
-    var type = data.get('type') || '';
-    var title = data.get('title') || '';
-    var url = data.get('url') || '';
-    var why = data.get('why') || '';
-    var content = data.get('content') || '';
-    var notes = data.get('notes') || '';
-    var subject = 'PFAS Tracker submission: ' + (title || type || 'new item');
-    var body = 'Content type: ' + type + '\n\n' +
-               'Title: ' + title + '\n\n' +
-               (url ? 'Source URL: ' + url + '\n\n' : '') +
-               (why ? 'Why this matters:\n' + why + '\n\n' : '') +
-               (content ? 'Pasted content:\n' + content + '\n\n' : '') +
-               (notes ? 'Submitter notes:\n' + notes + '\n\n' : '') +
-               '---\nSubmitted via the PFAS Policy Tracker (Contribute content section, About & Methodology tab).';
-    var mailto = 'mailto:ehartley@integral-corp.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    window.location.href = mailto;
-  });
-})();
-</script>
-
-<script>
-(function() {
-  var pills = document.querySelectorAll('#globalFilter .filter-pill');
-  if (!pills.length) return;
-  var taggedCards = document.querySelectorAll('[data-segments]');
-  var statsEl = document.getElementById('globalFilterStats');
-  var segmentLabels = { 'all': 'all', 'drinking-water': 'Drinking Water', 'wastewater': 'Wastewater', 'biosolids': 'Biosolids', 'remediation': 'Remediation', 'AFFF': 'AFFF', 'product-stewardship': 'Product Stewardship', 'multinational': 'International', 'litigation': 'Litigation', 'air-pathway': 'Vapor / Air Pathway' };
-  pills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      var seg = pill.dataset.segment;
-      pills.forEach(function(p) { p.classList.remove('is-active'); });
-      pill.classList.add('is-active');
-      var visibleCount = 0;
-      taggedCards.forEach(function(card) {
-        var tags = (card.dataset.segments || '').split(/\s+/);
-        var match = (seg === 'all') || tags.indexOf(seg) !== -1;
-        card.style.display = match ? '' : 'none';
-        if (match) visibleCount++;
-      });
-      if (statsEl) {
-        if (seg === 'all') {
-          statsEl.innerHTML = 'Showing <strong>all ' + taggedCards.length + ' tagged cards</strong> across Federal Actions, State Watchlist, International, and Product Stewardship sections.';
-        } else {
-          var label = segmentLabels[seg] || seg;
-          statsEl.innerHTML = 'Showing <strong>' + visibleCount + ' card' + (visibleCount === 1 ? '' : 's') + ' tagged ' + label + '</strong>. Click <em>All</em> to reset.';
-        }
-      }
-    });
-  });
-})();
-
-</script>
-
-</body>
-</html>
+      s.style.display = (viewForId(s.id) === view) 
