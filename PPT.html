@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-<!-- saved from url=(0049)https://ellehart98116.github.io/Trackers/PPT.html -->
-<html lang="en"><!-- PFAS Tracker consolidated weekly update: 2026-08-30 --><!-- PFAS Tracker working update: 2026-08-30 --><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+
+<html lang="en"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>PFAS Regulatory &amp; Industry Tracker</title>
 <link href="https://fonts.googleapis.com/" rel="preconnect"/>
@@ -279,7 +279,7 @@ section h2 .count {
   display: inline-block;
   width: 100%;
 }
-/* International Overlay: force 3 columns explicitly via column-count (no column-width fallback) to preserve the masonry layout as jurisdictions are added. */
+/* International: force 3 columns explicitly via column-count (no column-width fallback) to preserve the masonry layout as jurisdictions are added. */
 #international .rules-grid {
   column-count: 3;
   columns: unset;
@@ -620,7 +620,6 @@ footer.foot a:hover { text-decoration: underline; }
 .filter-pill.is-active .pill-count { opacity: 0.9; background: rgba(255,255,255,0.18); color: #fff; }
 
 
-
 .submit-form { max-width: 760px; padding: 0; margin: 0; }
 .form-row { margin-bottom: 16px; }
 .form-row label { display: block; font-family: 'IBM Plex Sans', sans-serif; font-size: 12.5px; font-weight: 600; color: var(--integral-navy); margin-bottom: 6px; letter-spacing: 0.02em; text-transform: uppercase; }
@@ -789,6 +788,37 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* Grouped TOC — jurisdictional structure + cross-jurisdictional overlays */
+.toc-list.toc-grouped { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px 22px; counter-reset: toc; align-items:start; }
+.toc-list.toc-grouped > .toc-group { counter-increment: none; min-width:0; }
+.toc-group-label { display:block; margin:0 0 5px 6px; padding-bottom:5px; border-bottom:1px solid #dfe6eb; color:#6b7c8c; font-size:10.5px; font-weight:800; letter-spacing:.055em; text-transform:uppercase; }
+.toc-sublist { list-style:none; margin:0; padding:0; }
+.toc-sublist li { counter-increment:toc; }
+.toc-sublist a { padding:5px 6px; font-size:13.5px; }
+.toc-sublist a::before { font-size:14px; min-width:18px; margin-right:7px; }
+.toc-overlay-links { margin-left:10px; padding-left:9px; border-left:2px solid #dce8b9; }
+.toc-overlay-links a { font-size:13px; }
+.toc-view-simple { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.toc-view-simple .toc-indent { margin-left:18px; }
+.toc-view-simple .toc-indent a { font-size:13px; color:#53616d; }
+.toc-view-simple .toc-indent a::before { content:"↳"; font-family:'IBM Plex Sans',sans-serif; font-size:12px; color:#8aa0ae; min-width:16px; }
+@media (max-width:760px){ .toc-view-simple .toc-indent { margin-left:10px; } }
+
+.overlay-intro { background:#f7fafb; border:1px solid #dce4e9; border-left:4px solid var(--integral-lime); }
+.overlay-role-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+.overlay-role { padding:8px 10px; border-radius:5px; background:#fff; border:1px solid #e1e7eb; font-size:12px; line-height:1.35; color:#465563; }
+.overlay-role strong { display:block; color:var(--integral-navy); margin-bottom:2px; }
+.overlay-columns { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px; }
+.overlay-column { background:#f8fafb; border:1px solid #e0e6ea; border-radius:6px; padding:11px 12px; }
+.overlay-column h3 { margin:0 0 7px; font-family:'Lora',Georgia,serif; color:var(--integral-navy); font-size:14px; }
+.overlay-column p, .overlay-column li { font-size:12.5px; line-height:1.5; }
+.overlay-column ul { margin:6px 0 0; padding-left:18px; }
+.overlay-link-cloud { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.overlay-link-cloud a { display:inline-block; padding:3px 6px; border:1px solid #d8e2e7; border-radius:999px; background:#fff; color:#0a4f6f; font-size:11.5px; text-decoration:none; }
+.overlay-link-cloud a:hover { text-decoration:underline; background:#eef5e3; }
+.overlay-scope-note { margin-top:10px; padding:8px 10px; background:#fdfaf3; border-left:3px solid #c98a1e; border-radius:4px; font-size:12px; color:#4b5965; }
+@media (max-width: 900px) { .toc-list.toc-grouped, .overlay-columns, .overlay-role-strip { grid-template-columns:1fr; } .toc-overlay-links { margin-left:4px; } }
 </style>
 <style>
 .lib-update-find{
@@ -818,7 +848,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <span class="hero-draft-tag">AI-Assisted, Human-Curated Tracker</span>
 <div class="hero-breadcrumb">Integral Consulting<span class="hero-breadcrumb-sep">›</span>Library Services</div>
 <h1><span class="accent">PFAS</span> Regulatory &amp; Industry Tracker</h1>
-<p>Federal rules, state watchlist, international developments, and curated industry news for tracking PFAS across practice areas.</p>
+<p>Federal rules, state watchlist, international developments, cross-jurisdictional overlays, and curated industry news for tracking PFAS across practice areas.</p>
 <div class="toolbar">
 <div>
 <div class="share-note">Refreshed weekly</div>
@@ -834,19 +864,49 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 </div>
 <nav class="toc">
 <div class="toc-title">Contents</div>
-<ol class="toc-list">
-<li><a href="#lib-updates">Recent updates</a></li>
+<ol class="toc-list toc-grouped toc-view" data-toc-view="full">
+<li class="toc-group"><span class="toc-group-label">Current Activity</span><ul class="toc-sublist">
+<li><a href="#lib-updates">Recent Updates</a></li>
 <li><a href="#trending-now">Trending</a></li>
-<li><a href="#key-dates">PFAS Alerts &amp; Key Dates</a></li>
+<li><a href="#key-dates">Alerts &amp; Key Dates</a></li>
 <li><a href="#federal-register">Live FR Stream</a></li>
+</ul></li>
+<li class="toc-group"><span class="toc-group-label">Regulatory Landscape</span><ul class="toc-sublist">
 <li><a href="#federal-rules">Federal Actions</a></li>
 <li><a href="#state-watchlist">State Watchlist</a></li>
-<li><a href="#international">International Overlay</a></li>
+<li><a href="#international">International</a></li>
+</ul></li>
+<li class="toc-group"><span class="toc-group-label">Cross-Jurisdictional Overlays</span><ul class="toc-sublist toc-overlay-links">
 <li><a href="#product-stewardship">Products</a></li>
-<li style="display: none;"><a href="#regulatory-analyses">Regulatory Analyses &amp; Guidance</a></li>
-<li style="display: none;"><a href="#peer-reviewed">Peer-Reviewed Research</a></li>
-<li style="display: none;"><a href="#insideepa">InsideEPA News</a></li>
-<li style="display: none;"><a href="#litigation">Selected Legal Developments</a></li>
+<li><a href="#overlay-afff">AFFF / Firefighting Foam</a></li>
+<li><a href="#overlay-waste-residuals">Waste &amp; Residuals</a></li>
+</ul></li>
+</ol>
+<ol class="toc-list toc-view toc-view-simple" data-toc-view="news" style="display:none;">
+<li><a href="#insideepa">Recent trade-press coverage</a></li>
+<li><a href="#litigation">Selected Legal Developments</a></li>
+<li class="toc-indent"><a href="#lit-roundups">PFAS roundups &amp; syntheses</a></li>
+<li class="toc-indent"><a href="#lit-cases">Cases with regulatory, scientific, or industry implications</a></li>
+<li class="toc-indent"><a href="#lit-foundational">Ongoing foundational legal matters</a></li>
+</ol>
+<ol class="toc-list toc-view toc-view-simple" data-toc-view="reference" style="display:none;">
+<li><a href="#trending-docs">Reference Shelf overview</a></li>
+<li class="toc-indent"><a href="#regulatory-analyses">Regulatory Analyses &amp; Guidance</a></li>
+<li class="toc-indent"><a href="#peer-reviewed">Peer-Reviewed Research</a></li>
+</ol>
+<ol class="toc-list toc-grouped toc-view" data-toc-view="about" style="display:none;">
+<li class="toc-group"><span class="toc-group-label">About &amp; Methodology</span><ul class="toc-sublist">
+<li><a href="#about-methodology">About this tracker</a></li>
+<li><a href="#about-inclusion">Inclusion criteria</a></li>
+<li><a href="#about-sections">How the tracker sections work</a></li>
+<li><a href="#about-workflow">Editorial workflow</a></li>
+<li><a href="#about-ai">AI use &amp; limitations</a></li>
+<li><a href="#about-source-standards">Source &amp; editorial standards</a></li>
+<li><a href="#about-disclaimers">Disclaimers &amp; update scope</a></li>
+</ul></li>
+<li class="toc-group"><span class="toc-group-label">Contribute</span><ul class="toc-sublist">
+<li><a href="#submit-content">Contribute content / feedback</a></li>
+</ul></li>
 </ol>
 <a class="toc-back-home" href="#" style="display:block; margin-top:10px; padding-top:8px; border-top:1px solid #e3e8ee; font-size:11.5px; color:#6b7c8c; text-decoration:none; text-align:center;">🏠 Back to home</a>
 <a class="toc-back-top" href="#" style="display:block; margin-top:4px; font-size:11.5px; color:#6b7c8c; text-decoration:none; text-align:center;">↑ Back to top</a>
@@ -857,11 +917,10 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <span class="lib-updates-note">Most recent additions and changes · <a href="#about-methodology" style="color:inherit; text-decoration:underline;">About &amp; methodology</a></span>
 <a class="lib-subscribe-link" href="mailto:ehartley@integral-corp.com?subject=Subscribe%20to%20PFAS%20Tracker%20weekly%20updates&amp;body=Please%20add%20me%20to%20the%20weekly%20PFAS%20Tracker%20update%20distribution%20list.%0A%0AName%3A%20%0ARole%3A%20%0AAffiliation%3A%20%0A%0AThanks%21">📧 Subscribe to weekly email</a>
 </div>
-<!-- BUCKET ORDER (do not reorder without checking this comment first): Federal -> States -> International -> Reference Shelf -> Selected Legal. This mirrors the tracker's own page section order (Federal Actions, State Watchlist, International, Products, Reference Shelf, Selected Legal Developments). Verify this order top-to-bottom before saving any edit to this list. -->
+
 <ul class="lib-updates-list">
-<!-- Federal -->
-<!-- States -->
-<!-- Selected Legal -->
+
+
 <li><span class="lib-update-date">Aug 30</span><span class="lib-update-section">Federal</span><span class="lib-update-desc"><strong>EPA releases final UCMR 5 PFAS occurrence dataset.</strong> EPA now reports that the completed UCMR 5 dataset is available for 29 PFAS and lithium following 2023–2025 drinking-water monitoring. EPA notes that these occurrence data do not themselves determine MCL compliance. <span class="lib-update-find">Find it in the <a class="internal-card-link" href="#fed-ucmr5">UCMR 5 card →</a></span></span></li><li>
 <span class="lib-update-date">Aug 30</span>
 <span class="lib-update-section">Federal</span>
@@ -913,7 +972,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <li>
 <span class="trending-topic">CERCLA designation upheld; passive-receiver liability remains unresolved</span>
 <span class="trending-date-added" style="font-size: 11px; font-weight: 400; color: #6b7c8c; font-style: italic; margin-left: 0;">(added Aug 18, 2026; refreshed Aug 30, 2026)</span>
-<span class="trending-desc">On Aug. 18, the D.C. Circuit upheld EPA's 2024 designation of PFOA and PFOS as CERCLA hazardous substances, denying the consolidated industry challenges. The designation remains operative. Separately, liability protection for entities that receive PFAS through waste or wastewater streams remains unresolved: EPA's enforcement-discretion policy is not a statutory exemption and doesn't prevent third-party claims; EPA has said congressional action is needed for durable protection. H.R. 1267, which would provide specified protections for certain water-sector entities, remains pending in committee. <a href="#fed-cercla">CERCLA Designation</a> · <a href="#fed-cercla-passive-receiver">Passive-Receiver Liability</a> Following the Aug. 18 ruling, wastewater and biosolids-sector organizations have renewed requests for targeted congressional liability protections for certain passive receivers; <strong>no new statutory exemption has been enacted</strong>.</span>
+<span class="trending-desc">On Aug. 18, the D.C. Circuit upheld EPA's 2024 designation of PFOA and PFOS as CERCLA hazardous substances, denying the consolidated industry challenges. The designation remains operative. Separately, liability protection for entities that receive PFAS through waste or wastewater streams remains unresolved: EPA's enforcement-discretion policy is not a statutory exemption and doesn't prevent third-party claims; EPA has said congressional action is needed for durable protection. H.R. 1267, which would provide specified protections for certain water-sector entities, remains pending in committee. <a href="#fed-cercla">CERCLA Designation</a> · <a href="#fed-cercla-passive-receiver">Passive-Receiver Liability</a> Following the Aug. 18 ruling, wastewater and biosolids-sector organizations have renewed requests for targeted congressional liability protections for certain passive receivers; <strong>no new statutory exemption has been enacted</strong>. · <a href="#overlay-waste-residuals"><strong>See Waste &amp; Residuals overlay →</strong></a></span>
 </li>
 <li>
 <span class="trending-topic">DoD PFAS transition, cleanup &amp; oversight</span>
@@ -927,7 +986,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
                 Department's PFAS program: transition away from AFFF and oversight of investigation/interim-response
                 implementation.
                 <a href="#dod-program">DoD PFAS Cleanup Program</a>
-</span>
+ · <a href="#overlay-afff"><strong>See AFFF / Firefighting Foam overlay →</strong></a></span>
 </li>
 <li>
 <span class="trending-topic">EU/UK/France/Sweden — PFAS implementation and consultation milestones</span>
@@ -942,11 +1001,11 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
                 Sweden is separately consulting on a national PFAS restriction for specified consumer products through
                 Nov. 30. The EU universal REACH restriction remains in the opinion-development process, with no new
                 committee milestone identified this week.
-                <a href="#international">International Overlay</a> ·
+                <a href="#international">International</a> ·
                 <a href="#intl-uk">Great Britain card</a> ·
                 <a href="#intl-france">France card</a> ·
                 <a href="#intl-sweden">Sweden card</a>
-</span>
+ · <a href="#product-stewardship"><strong>Products overlay →</strong></a> · <a href="#overlay-afff"><strong>AFFF overlay →</strong></a></span>
 </li>
 <li>
 <span class="trending-topic">Biosolids — federal, state &amp; appellate tracks</span>
@@ -1707,14 +1766,16 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 </div>
 </section>
 <section id="state-watchlist">
-<h2>State watchlist <span class="count" id="stateCount">25 states</span></h2>
+<h2>State watchlist <span class="count" id="stateCount">28 states</span></h2>
 <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">States with significant PFAS regulatory activity. Cards below surface the primary/headline figures (e.g., a state's combined standard, or the PFOA/PFOS values) rather than every individual compound and media value — for exhaustive numeric detail across all PFAS compounds and media types, see <a href="https://www.integral-corp.com/services/pfas/pfas-map/" rel="noopener" style="color:#0a4f6f; font-weight:500;" target="_blank">Integral's PFAS Dashboard</a>.</p>
 <div style="background:#f7fbed; border:1px solid #d8e8b8; border-left:4px solid var(--integral-lime); border-radius:6px; padding:12px 14px; margin: 4px 0 16px 0;">
 <div style="display:flex; flex-wrap:wrap; gap:20px;">
 <div style="display:flex; flex-direction:column; gap:4px; min-width:220px;">
 <label for="stateJumpSelect" style="font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--integral-navy);">📍 Jump to a state</label>
 <select id="stateJumpSelect" style="font-size:13px; padding:4px 8px; border:1px solid #c9d3dd; border-radius:4px; background:#fff; color:#1a2733;">
-<option value="all">All states (25)</option>
+<option value="all">All states (28)</option>
+<option value="state-al">AL — Alabama</option>
+<option value="state-az">AZ — Arizona</option>
 <option value="state-ca">CA — California</option>
 <option value="state-co">CO — Colorado</option>
 <option value="state-ct">CT — Connecticut</option>
@@ -1727,6 +1788,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <option value="state-massachusetts">MA — Massachusetts</option>
 <option value="state-mi">MI — Michigan</option>
 <option value="state-mn">MN — Minnesota</option>
+<option value="state-mt">MT — Montana</option>
 <option value="state-nh">NH — New Hampshire</option>
 <option value="state-nj">NJ — New Jersey</option>
 <option value="state-nm">NM — New Mexico</option>
@@ -1745,13 +1807,13 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div style="display:flex; flex-direction:column; gap:4px; min-width:220px;">
 <label for="topicFilterSelect" style="font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--integral-navy);">📋 Filter by regulation type</label>
 <select id="topicFilterSelect" style="font-size:13px; padding:4px 8px; border:1px solid #c9d3dd; border-radius:4px; background:#fff; color:#1a2733;">
-<option value="all">All states (25)</option>
+<option value="all">All states (28)</option>
 <option value="mcl">Drinking-water MCLs (16)</option>
 <option value="products">Product bans (17)</option>
 <option value="biosolids">Biosolids (10)</option>
 <option value="cleanup">Cleanup standards (25)</option>
 <option value="afff">Firefighting foam (19)</option>
-<option value="fish">Fish consumption (17)</option>
+<option value="fish">Fish consumption (21)</option>
 <option value="groundwater">Groundwater standards (16)</option>
 <option value="surface-water">Surface water criteria (10)</option>
 <option value="soil">Soil standards (15)</option>
@@ -1762,6 +1824,40 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div id="stateFilterStats" style="font-size:12.5px; color:#3d4856; margin: 8px 0 0 0;"></div>
 </div>
 <div class="rules-grid">
+<div class="rule-card status-final" data-segments="aquatic-pathway" data-tags="fish" id="state-al">
+<div class="rule-head">
+<div class="rule-title">Alabama</div>
+<span class="rule-tag tag-final">Active · PFOS fish advisories</span>
+</div>
+<div class="state-summary">Alabama is included in the state watchlist because its statewide fish-consumption advisory program contains active PFOS-based restrictions. The current 2026 advisory booklet identifies PFOS as an advisory contaminant in portions of the Tennessee River/Wheeler Reservoir system.</div>
+<div class="rule-body">
+<div class="state-track">
+<div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS-specific advisories</span></div>
+<div class="state-track-body">The Alabama Department of Public Health's <strong>June 2026</strong> Fish Consumption Advisories booklet continues to list PFOS-based restrictions in the Tennessee Basin. Examples include <strong>Do Not Eat any species</strong> from Baker's Creek embayment at Wheeler Reservoir (Morgan County), a one-meal-per-month largemouth-bass advisory at Fox Creek that is attributed to mercury and PFOS, and PFOS-based one-meal-per-month largemouth-bass advice for specified portions of Wheeler Reservoir. The booklet distinguishes these PFOS advisories from the state's much more numerous mercury- and PCB-based restrictions. Fish-consumption advisories are health recommendations; they do not by themselves mean the waterbody is unsafe for recreation.</div>
+<span class="state-track-source"><a href="https://www.alabamapublichealth.gov/tox/fish-advisories.html" rel="noopener" target="_blank">ADPH Fish Advisories</a><span class="link-sep">·</span><a href="https://www.alabamapublichealth.gov/tox/assets/2026_fishadvisory.pdf" rel="noopener" target="_blank">2026 Alabama Advisory Booklet</a></span>
+</div>
+</div>
+<div class="state-card-footer">
+<a class="rule-link" href="https://www.alabamapublichealth.gov/tox/fish-advisories.html" rel="noopener" target="_blank">Alabama fish-advisory program</a>
+</div>
+</div>
+<div class="rule-card status-final" data-segments="aquatic-pathway" data-tags="fish" id="state-az">
+<div class="rule-head">
+<div class="rule-title">Arizona</div>
+<span class="rule-tag tag-final">Active · PFOS fish advisories added 2026</span>
+</div>
+<div class="state-summary">Arizona expanded its fish-consumption advisory program to PFOS in 2026. ADEQ now uses PFOS fish-tissue thresholds derived from Great Lakes Consortium guidance within its Green Light / Orange Light / Red Light advisory framework.</div>
+<div class="rule-body">
+<div class="state-track">
+<div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS-specific advisories</span></div>
+<div class="state-track-body">ADEQ, the Arizona Department of Health Services, and Arizona Game and Fish Department expanded the state's fish-advisory program to include <strong>PFOS in May 2026</strong>, using the Great Lakes Consortium's 2025 PFOS best-practice guidance. Arizona's system classifies advice as Green Light (standard dietary guidance), Orange Light (limited consumption), or Red Light (do not consume). On <strong>June 23, 2026</strong>, ADEQ and AZGFD issued a <strong>Red Light / Do Not Consume</strong> advisory for largemouth bass from Watson Lake in Yavapai County after fish-tissue testing showed elevated PFOS. ADEQ's current advisory page and interactive map should control for subsequent waterbody-specific additions or changes.</div>
+<span class="state-track-source"><a href="https://azdeq.gov/fca" rel="noopener" target="_blank">ADEQ Fish Consumption Advisories</a><span class="link-sep">·</span><a href="https://azdeq.gov/pr/fca-pfos" rel="noopener" target="_blank">ADEQ PFOS Program Expansion (May 2026)</a></span>
+</div>
+</div>
+<div class="state-card-footer">
+<a class="rule-link" href="https://www.azdeq.gov/pfas-resources" rel="noopener" target="_blank">ADEQ PFAS resources</a>
+</div>
+</div>
 <div class="rule-card status-final" data-segments="drinking-water product-stewardship paper-textiles remediation" data-tags="mcl products cleanup afff groundwater soil" id="state-ca">
 <div class="rule-head">
 <div class="rule-title">California</div>
@@ -1846,12 +1942,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <a class="rule-link" href="https://cdphe.colorado.gov/pfas-laws" rel="noopener" target="_blank">CDPHE PFAS hub</a>
 </div>
 </div>
-<div class="rule-card status-final" data-segments="drinking-water remediation paper-textiles" data-tags="mcl products cleanup afff" id="state-ct">
+<div class="rule-card status-final" data-segments="drinking-water remediation paper-textiles" data-tags="mcl products cleanup afff fish" id="state-ct">
 <div class="rule-head">
 <div class="rule-title">Connecticut</div>
 <span class="rule-tag tag-final">Active</span>
 </div>
-<div class="state-summary">Connecticut regulates PFAS through phased product notification, labeling, and category-specific bans; a firefighting-foam use ban and take-back program; health-based state drinking-water Action Levels for 10 compounds alongside the federal PFAS MCLs; and site-specific remediation criteria approved through the Additional Polluting Substances process under the state's new Release-Based Cleanup Program. Connecticut has not promulgated its own PFAS drinking-water MCLs. Connecticut also regulates PFAS through biosolids/soil-amendment limits and wastewater permitting not detailed here.</div>
+<div class="state-summary">Connecticut regulates PFAS through phased product notification, labeling, and category-specific bans; a firefighting-foam use ban and take-back program; health-based state drinking-water Action Levels for 10 compounds alongside the federal PFAS MCLs; site-specific remediation criteria under the Release-Based Cleanup Program; and PFOS-based fish-consumption advisories at multiple waterbodies. Connecticut has not promulgated its own PFAS drinking-water MCLs. Connecticut also regulates PFAS through biosolids/soil-amendment limits and wastewater permitting not detailed here.</div>
 <div class="rule-body">
 <div class="state-track">
 <div class="state-track-head"><span class="state-track-label">📦 Products</span><span class="state-track-badge badge-enforceable">Enforceable</span></div>
@@ -1872,6 +1968,11 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div class="state-track-head"><span class="state-track-label">🚶 Site Remediation</span><span class="state-track-badge badge-guidance">APS criteria; site-specific approval required</span></div>
 <div class="state-track-body">Connecticut's Release-Based Cleanup Regulations (RBCRs), effective <strong>March 1, 2026</strong>, replaced the former Transfer Act framework — a fundamental shift from transaction-triggered to discovery-triggered cleanup obligations. PFAS are not among the pollutants with promulgated numeric cleanup criteria in the RBCRs, so PFAS remediation continues via the Additional Polluting Substances (APS) process. DEEP currently publishes fast-track criteria applying to the sum of PFOA+PFOS+PFNA+PFHxS+PFHpA: residential direct exposure 1.35 mg/kg; industrial/commercial direct exposure 41 mg/kg; GA pollutant mobility 1.4 µg/kg; GB pollutant mobility 14 µg/kg; groundwater protection 70 ng/L; surface water protection criteria remain in development. <strong>Important qualification:</strong> these are not automatically applicable statewide standards — fast-track APS criteria may be used only after written DEEP approval for the particular site or release area. DEEP continues to state these legacy summed-PFAS criteria are being updated to reflect DPH's newer individual Action Levels above. <strong>Analytical update:</strong> Connecticut's Reasonable Confidence Protocol for EPA Method 1633 became effective July 1, 2026, covering PFAS analysis in aqueous, solid, and tissue matrices — superseding older DEEP webpage references to "Draft Method 1633."</div>
 <span class="state-track-source"><a href="https://portal.ct.gov/DEEP/Remediation--Site-Clean-Up/Contaminants-of-Emerging-Concern/PFAS-Information-for-Environmental-Professionals" rel="noopener" target="_blank">CT DEEP PFAS for Environmental Professionals</a></span>
+</div>
+<div class="state-track">
+<div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS-specific advisories</span></div>
+<div class="state-track-body">Connecticut DPH maintains waterbody- and species-specific fish-consumption advisories based on PFOS. In June 2023, after evaluating PFOS concentrations in fish tissue sampled during 2017–2022 from 14 waterbodies, DPH issued new or modified consumption advice for certain species in <strong>11 waterbodies</strong>. Recommendations vary by waterbody and species and include one-meal-per-month and Do Not Eat advice. The program remains dynamic: in February 2025, DPH loosened the Hockanum River advisory in several sections after newer PFOS data showed lower concentrations, while retaining more restrictive advice in specified reaches. DPH's current annual fish-advisory materials should control for the latest waterbody-specific advice; separate statewide mercury guidance also applies.</div>
+<span class="state-track-source"><a href="https://portal.ct.gov/dph/environmental-health/environmental-and-occupational-health-assessment/ct-fish-consumption-advisory-and-the-safe-eating-of-fish-caught-in-connecticut" rel="noopener" target="_blank">CT DPH Fish Consumption Advisory</a><span class="link-sep">·</span><a href="https://portal.ct.gov/dph/newsroom/press-releases---2025/hockanum-river-fish" rel="noopener" target="_blank">DPH Hockanum PFOS Update (Feb. 2025)</a></span>
 </div>
 </div>
 <div class="state-card-footer">
@@ -1910,12 +2011,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <a class="rule-link" href="https://floridadep.gov/waste/waste-cleanup/content/dep%E2%80%99s-efforts-address-pfas-environment" rel="noopener" target="_blank">Florida DEP PFAS hub</a>
 </div>
 </div>
-<div class="rule-card status-final" data-segments="remediation product-stewardship paper-textiles drinking-water" data-tags="cleanup products mcl afff groundwater" id="state-il">
+<div class="rule-card status-final" data-segments="remediation product-stewardship paper-textiles drinking-water" data-tags="cleanup products mcl afff groundwater fish" id="state-il">
 <div class="rule-head">
 <div class="rule-title">Illinois</div>
 <span class="rule-tag tag-final">Active</span>
 </div>
-<div class="state-summary">Illinois has enforceable PFAS standards across drinking water, groundwater, selected products, and firefighting foam. A June 2026 federal-backstop law prevents weaker federal changes from automatically rolling back existing Illinois standards. Part 620 groundwater values also feed directly into Illinois cleanup-program decisions, while additional wastewater-focused PFAS legislation remains pending.</div>
+<div class="state-summary">Illinois has enforceable PFAS standards across drinking water, groundwater, selected products, and firefighting foam, and now maintains a statewide PFAS fish-tissue monitoring and advisory program. A June 2026 federal-backstop law prevents weaker federal changes from automatically rolling back existing Illinois standards. Part 620 groundwater values also feed directly into Illinois cleanup-program decisions, while additional wastewater-focused PFAS legislation remains pending.</div>
 <div class="rule-body">
 <div class="state-track">
 <div class="state-track-head"><span class="state-track-label">📦 Products</span><span class="state-track-badge badge-enforceable">Enforceable</span></div>
@@ -1940,7 +2041,12 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 </div>
 <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;">
 <strong style="color:#a06a13;">⚖️ Watch item — PFAS Wastewater Citizen Protection Act (HB 2955):</strong> Would establish more robust PFAS monitoring requirements for wastewater discharges at major facilities, plus a PFAS Wastewater Citizen Protection Committee and PFAS Action Plan. Passed both houses and sent to the Governor June 26, 2026; not yet confirmed signed as of this refresh. This is a separate legislative history from both the 2025 products law and the Part 620 groundwater rule — it does not itself create the wastewater/biosolids monitoring obligations described in earlier drafts of this card.
-      </div>
+      <div class="state-track">
+<div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS/PFUnA-specific advisories</span></div>
+<div class="state-track-body">Illinois incorporates PFAS into its statewide Fish Contaminant Monitoring Program. Statewide PFAS fish-tissue monitoring began in <strong>2023</strong> with 25 Method 1633 analytes and expanded to <strong>40 PFAS in 2026</strong>. Current PFAS-driven advisories are based on elevated <strong>PFOS and PFUnA</strong>. Illinois EPA identifies Do Not Eat advisories for several species in Franklin Creek because of PFUnA and for largemouth bass in Monee Reservoir and SIU Campus Lake because of PFOS. IDPH's April 2026 annual update, using more stringent PFOS advisory guidance, also added or tightened meal-frequency recommendations at multiple waters. A precautionary PFUnA advisory for Mill Pond was removed in April 2026 after follow-up testing found concentrations low enough for unrestricted consumption. Advisories are public-health guidance, not enforceable water-quality standards.</div>
+<span class="state-track-source"><a href="https://epa.illinois.gov/topics/water-quality/pfas/pfas-fish-sampling.html" rel="noopener" target="_blank">Illinois EPA PFAS Fish Sampling</a><span class="link-sep">·</span><a href="https://dph.illinois.gov/resource-center/news/2026/april/release-20260415.html" rel="noopener" target="_blank">IDPH 2026 Fish Advisory Update</a></span>
+</div>
+</div>
 <div class="state-card-footer">
 <a class="rule-link" href="https://epa.illinois.gov/topics/water-quality/pfas.html" rel="noopener" target="_blank">Illinois EPA PFAS hub</a>
 </div>
@@ -2238,6 +2344,23 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <a class="rule-link" href="https://www.pca.state.mn.us/air-water-land-climate/pfas" rel="noopener" target="_blank">MPCA PFAS hub</a>
 </div>
 </div>
+<div class="rule-card status-final" data-segments="aquatic-pathway" data-tags="fish" id="state-mt">
+<div class="rule-head">
+<div class="rule-title">Montana</div>
+<span class="rule-tag tag-final">Active · statewide PFAS fish guidance updated Apr. 2026</span>
+</div>
+<div class="state-summary">Montana added substantial PFAS-specific fish-consumption guidance in April 2026 following targeted statewide fish-tissue and surface-water sampling. The interagency program produced 21 new or updated fish-consumption advisories and is part of Montana's broader PFAS Action Plan work.</div>
+<div class="rule-body">
+<div class="state-track">
+<div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFAS-specific advisories issued 2026</span></div>
+<div class="state-track-body">On <strong>April 24, 2026</strong>, Montana DPHHS, DEQ, and Fish, Wildlife &amp; Parks announced updated PFAS fish-consumption guidance based on 2023–2024 fish-tissue and surface-water sampling at selected waterbodies. The Interagency Fish Consumption Advisory Group used ATSDR's Minimum Risk Level as the health-guidance basis, resulting in <strong>21 new or updated fish-consumption advisories</strong>. At least one PFAS was detected in fish tissue at <strong>12 of 14</strong> targeted locations; surface-water PFAS was detected at 2 of 14. The agencies caution that the targeted locations were selected near confirmed or potential PFAS sources and important regional fisheries, so the results are not representative of all Montana waters. Fish advisories are public-health recommendations, not regulatory standards.</div>
+<span class="state-track-source"><a href="https://dphhs.mt.gov/News/2026/April/DPHHS-DEQ-FWP-PFAS-fish" rel="noopener" target="_blank">Montana DPHHS/DEQ/FWP PFAS Fish Advisory Update</a><span class="link-sep">·</span><a href="https://deq.mt.gov/News/pressrelease-folder/pfas-fish-tissue-study" rel="noopener" target="_blank">Montana DEQ Study Release</a></span>
+</div>
+</div>
+<div class="state-card-footer">
+<a class="rule-link" href="https://deq.mt.gov/cleanupandrec/programs/pfas" rel="noopener" target="_blank">Montana DEQ PFAS hub</a>
+</div>
+</div>
 <div class="rule-card status-final" data-segments="drinking-water remediation" data-tags="mcl cleanup afff fish groundwater surface-water soil" id="state-nh">
 <div class="rule-head">
 <div class="rule-title">New Hampshire</div>
@@ -2356,7 +2479,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <a class="rule-link" href="https://dep.nj.gov/pfas/" rel="noopener" target="_blank">NJDEP PFAS hub</a>
 </div>
 </div>
-<div class="rule-card status-final" data-segments="product-stewardship paper-textiles remediation drinking-water" data-tags="products cleanup fish groundwater soil" id="state-nm">
+<div class="rule-card status-final" data-segments="product-stewardship paper-textiles remediation drinking-water" data-tags="products cleanup groundwater soil" id="state-nm">
 <div class="rule-head">
 <div class="rule-title">New Mexico</div>
 <span class="rule-tag tag-final">Active · rule effective Jul 2026; first bans/labeling Jan 2027</span>
@@ -2567,7 +2690,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div class="state-track">
 <div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS-specific advisories</span></div>
 <div class="state-track-body">Pennsylvania uses PFOS fish-tissue concentrations in its Fish Consumption Advisory Program, with <strong>0.04 ppm (40 ng/g)</strong> as the Do Not Eat level. On Feb 27, 2026, DEP, DOH, and the Fish and Boat Commission issued Do Not Eat advisories for all fish species in specified portions of Briar Creek and throughout the Middle Spring Creek watershed after sampled fish exceeded that level; 30 point-of-entry treatment systems were installed in the Briar Creek watershed with another 24 planned in Middle Spring at the time of the announcement. DEP is separately investigating PFAS sources in both watersheds under the Hazardous Sites Cleanup Act. A PFOS-based Do Not Eat advisory also remains in effect for the Neshaminy Creek watershed (affecting trout stocking there since 2022). Waters without a more restrictive contaminant-specific advisory remain subject to Pennsylvania's general advice of no more than one half-pound meal per week of recreationally caught sport fish.</div>
-<span class="state-track-source"><a href="https://www.pa.gov/agencies/dep/newsroom/2026-02-27-pennsylvanians-advised-to-not-eat-fish-from-portions-of-briar-creek-and-middle-spring-creek" rel="noopener" target="_blank">PA DEP Fish Consumption Advisory</a></span>
+<span class="state-track-source"><a href="https://www.pa.gov/agencies/dep/programs-and-services/water/clean-water/water-quality/fish-consumption-advisories" rel="noopener" target="_blank">PA DEP Fish Consumption Advisories</a><span class="link-sep">·</span><a href="https://www.pa.gov/agencies/dep/newsroom/2026-02-27-pennsylvanians-advised-to-not-eat-fish-from-portions-of-briar-creek-and-middle-spring-creek" rel="noopener" target="_blank">Feb. 2026 PFOS Advisory</a></span>
 </div>
 </div>
 <div style="margin-top:8px; padding:8px 10px; background:#fdf6ea; border-left:3px solid #c98a1e; border-radius:4px; font-size:12.5px;">
@@ -2846,7 +2969,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div class="state-track">
 <div class="state-track-head"><span class="state-track-label">🐟 Fish Consumption</span><span class="state-track-badge badge-guidance">PFOS-specific freshwater advisories</span></div>
 <div class="state-track-body">Washington maintains PFOS-based fish-consumption advisories for Lake Washington, Lake Sammamish, and Lake Meridian, first issued in December 2022 after PFOS was identified as the principal PFAS in fish tissue. <strong>2026 update:</strong> on June 12, DOH and the Yakima Health District issued a new PFOS advisory for <strong>Elton Pond</strong> in East Selah, with consumption limits for largemouth bass and rainbow trout that are more restrictive for East Selah residents already exposed to PFAS through drinking water (Do Not Eat largemouth bass, ≤2 rainbow-trout meals/month) than for other anglers (≤1 largemouth-bass meal/month, ≤8 rainbow-trout meals/month). DOH currently reports no PFAS fish advisories for saltwater species; state freshwater and marine PFAS fish-tissue monitoring continues.</div>
-<span class="state-track-source"><a href="https://doh.wa.gov/community-and-environment/food/fish/advisories" rel="noopener" target="_blank">WA DOH Fish Advisories</a></span>
+<span class="state-track-source"><a href="https://doh.wa.gov/community-and-environment/food/fish/advisories" rel="noopener" target="_blank">WA DOH Fish Advisories</a><span class="link-sep">·</span><a href="https://doh.wa.gov/community-and-environment/food/fish/advisories/publications" rel="noopener" target="_blank">WA DOH Advisory Publications</a></span>
 </div>
 </div>
 <div class="state-card-footer">
@@ -2856,7 +2979,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 </div>
 </section>
 <section id="international">
-<h2>International Overlay <span class="count">EU · UK · Canada · Australia · France · Germany · Belgium · Brazil · Denmark · Sweden</span></h2>
+<h2>International <span class="count">EU · UK · Canada · Australia · France · Germany · Belgium · Brazil · Denmark · Sweden</span></h2>
 <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Non-U.S. PFAS regulations and major actions with material relevance to U.S. operations, product stewardship, supply chains, and cross-border compliance.</p>
 <div class="state-filter" id="intlFilter">
 <span class="state-filter-label">Filter by country:</span>
@@ -3120,7 +3243,16 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 </div>
 </div>
 </section>
-<!-- Law360 section removed May 16, 2026 per Ellen's request. Archived PDFs remain in the Library Services SharePoint folder (PFAS Law360 Archives) if needed. -->
+
+<section class="overlay-intro" id="cross-overlays">
+<h2>Cross-Jurisdictional Overlays <span class="count">Federal · State · International</span></h2>
+<p style="font-size:12.5px; color:#4b5965; margin:-4px 0 0 0;">Thematic views that synthesize PFAS developments across federal, state, and international jurisdictions. An overlay is used when a durable regulatory or business theme has meaningful activity in all three layers and a cross-jurisdictional comparison adds value beyond the individual cards. Overlays summarize patterns and implementation differences; the underlying jurisdictional cards remain the source for detailed status, dates, and primary links.</p>
+<div class="overlay-role-strip">
+<div class="overlay-role"><strong>🔥 Trending = signal</strong>Surfaces topics with current momentum or near-term milestones.</div>
+<div class="overlay-role"><strong>🧭 Overlay = synthesis</strong>Organizes durable themes that repeatedly cut across jurisdictions.</div>
+<div class="overlay-role"><strong>📑 Cards = detail</strong>Federal, state, and international cards retain the authoritative status and sources.</div>
+</div>
+</section>
 <section id="product-stewardship">
 <h2>Products &amp; Product Stewardship — Cross-Jurisdictional Overlay <span class="count">index</span></h2>
 <p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Cross-jurisdictional view of PFAS requirements affecting products, packaging, manufacture, import, sale, labeling, reporting, and unavoidable-use/exemption processes — tailored for Integral's <a href="https://www.integral-corp.com/services/toxicology-and-health-sciences/product-stewardship/" rel="noopener" style="color:#0a4f6f;" target="_blank">Product Stewardship practice</a>. Detailed legal and regulatory status is maintained in the corresponding Federal, State, and International cards; this section is a product-focused index only — follow each link for full status, dates, and sources.</p>
@@ -3165,6 +3297,42 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <li><strong>UK</strong> — SVHC candidate-list consultations affecting product supply chains → <a class="xref" href="#intl-uk">UK card</a></li>
 </ul>
 </div>
+</section><section id="overlay-afff">
+<h2>AFFF / Firefighting Foam — Cross-Jurisdictional Overlay <span class="count">19 state cards + federal + international</span></h2>
+<p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Cross-jurisdictional view of PFAS-containing firefighting-foam restrictions, transition deadlines, operational exceptions, cleanup obligations, stock management, and disposal controls. Use this overlay to compare the theme; follow the linked cards for jurisdiction-specific legal status and sources.</p>
+<div class="overlay-columns">
+<div class="overlay-column"><h3>Federal / DoD</h3><ul>
+<li><a class="xref" href="#dod-program">DoD PFAS Cleanup Program</a> — military AFFF transition, waiver timing, investigation and cleanup.</li>
+<li><a class="xref" href="#fed-dd-guidance">Destruction &amp; Disposal Guidance</a> — management considerations for PFAS-containing materials and wastes.</li>
+<li><a class="xref" href="#fed-cercla">CERCLA designation</a> — liability/cleanup context for PFOA and PFOS releases.</li>
+</ul></div>
+<div class="overlay-column"><h3>States</h3><p><strong>19 current state cards</strong> carry an AFFF/firefighting-foam tag. State approaches commonly address manufacture/sale, training and testing, operational use, airport/refinery or other exceptions, release reporting, and take-back or transition provisions.</p><div class="overlay-link-cloud"><a href="#state-ca">California</a><a href="#state-co">Colorado</a><a href="#state-ct">Connecticut</a><a href="#state-il">Illinois</a><a href="#state-in">Indiana</a><a href="#state-maine">Maine</a><a href="#state-md">Maryland</a><a href="#state-massachusetts">Massachusetts</a><a href="#state-mi">Michigan</a><a href="#state-mn">Minnesota</a><a href="#state-nh">New Hampshire</a><a href="#state-nj">New Jersey</a><a href="#state-ny">New York</a><a href="#state-nc">North Carolina</a><a href="#state-or">Oregon</a><a href="#state-ri">Rhode Island</a><a href="#state-tx">Texas</a><a href="#state-vt">Vermont</a><a href="#state-va">Virginia</a></div></div>
+<div class="overlay-column"><h3>International</h3><ul>
+<li><a class="xref" href="#intl-eu-afff">European Union</a> — final REACH firefighting-foam restriction with phased controls and transition periods.</li>
+<li><a class="xref" href="#intl-uk">Great Britain</a> — UK REACH firefighting-foam restriction process and related controls.</li>
+<li><a class="xref" href="#intl-canada">Canada</a> — 2025 federal regulations phase out C8 AFFF through staged deadlines and time-limited critical-use exemptions; broader PFAS firefighting-foam restrictions are also under development.</li>
+<li><a class="xref" href="#intl-australia">Australia</a> — PFAS NEMP 3.1 and IChEMS provide nationally coordinated guidance and chemical-management standards relevant to firefighting-foam use, contaminated materials, and disposal.</li>
+</ul></div>
+</div>
+<div class="overlay-scope-note"><strong>What this overlay helps compare:</strong> use vs. sale restrictions · training/testing prohibitions · military/airport/refinery exceptions · transition deadlines · stock/take-back management · cleanup and waste handling.</div>
+</section><section id="overlay-waste-residuals">
+<h2>Waste, Residuals &amp; Disposal — Cross-Jurisdictional Overlay <span class="count">biosolids · leachate · disposal · residuals</span></h2>
+<p style="font-size:12px; color:#6b7c8c; margin:-6px 0 12px 0;">Cross-jurisdictional view of PFAS issues that move through waste and residual-management systems, including biosolids/sludge, landfill leachate, destruction and disposal, wastewater residuals, and passive-receiver liability. This overlay is intentionally broader than a biosolids-only index because the regulatory pathways increasingly overlap.</p>
+<div class="overlay-columns">
+<div class="overlay-column"><h3>Federal</h3><ul>
+<li><a class="xref" href="#fed-biosolids">Federal Biosolids</a> — PFOA/PFOS risk assessment and draft risk-reduction guidance.</li>
+<li><a class="xref" href="#fed-dd-guidance">Destruction &amp; Disposal Guidance</a> — disposal/destruction options and management considerations.</li>
+<li><a class="xref" href="#fed-cercla-passive-receiver">Passive-Receiver Liability</a> — wastewater, biosolids, landfill and similar receiver concerns under CERCLA.</li>
+<li><a class="xref" href="#fed-rcra">RCRA PFAS track</a> and <a class="xref" href="#fed-methods">CWA analytical methods</a> provide additional waste/residual context.</li>
+</ul></div>
+<div class="overlay-column"><h3>States</h3><p><strong>10 current state cards</strong> are specifically tagged for biosolids, while additional cards address landfill leachate, wastewater, cleanup and disposal through other regulatory pathways.</p><div class="overlay-link-cloud"><a href="#state-fl">Florida</a><a href="#state-maine">Maine</a><a href="#state-md">Maryland</a><a href="#state-mi">Michigan</a><a href="#state-mn">Minnesota</a><a href="#state-ny">New York</a><a href="#state-pa">Pennsylvania</a><a href="#state-va">Virginia</a><a href="#state-wi">Wisconsin</a><a href="#state-wa">Washington</a></div><p style="margin-top:8px;">Also see <a href="#state-ny">New York</a> for landfill-leachate rulemaking and state cleanup/wastewater cards for related PFAS management requirements.</p></div>
+<div class="overlay-column"><h3>International</h3><ul>
+<li><a class="xref" href="#intl-australia">Australia</a> — PFAS NEMP 3.1 includes nationally coordinated guidance for contaminated materials, biosolids/resource recovery, and waste, while IChEMS establishes chemical-management standards covering use and disposal.</li>
+<li><a class="xref" href="#intl-eu-afff">European Union</a> — firefighting-foam controls include collection/treatment and PFAS-containing waste-management requirements.</li>
+<li><a class="xref" href="#intl-france">France</a> — industrial PFAS discharge monitoring/levy adds a wastewater-management dimension.</li>
+</ul></div>
+</div>
+<div class="overlay-scope-note"><strong>Why it qualifies as an overlay:</strong> the same PFAS mass can move among wastewater, sludge/biosolids, landfill/leachate, contaminated-site cleanup and disposal systems, while legal duties differ by jurisdiction and by the entity receiving rather than producing the PFAS.</div>
 </section>
 <section class="section-rules" id="trending-docs" style="display: none;">
 <h2>📚 Reference Shelf <span class="count">curated PFAS references</span></h2>
@@ -3294,14 +3462,14 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         D’Aoust et al. (June 2026). <strong><a href="https://doi.org/10.1016/j.jenvman.2026.130297" rel="noopener" style="color:#0F2A4A; text-decoration:none;" target="_blank">Disproportionate PFAS mass loading from landfill leachate: Implications for biosolids management policy</a></strong>. <em>Journal of Environmental Management</em>.
       </div>
 <div style="color:#3d4856; margin: 4px 0 6px 0;">Analysis showing landfill leachate contributes disproportionate PFAS loading to wastewater treatment plants, complicating biosolids management policy. Relevant to NY DEC’s landfill-leachate rulemaking, MD SB 719/HB925, VA HB1443/SB386, and EPA’s July 2026 draft voluntary biosolids guidance.</div>
-<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#fed-biosolids" style="color:#0a4f6f; font-weight:500;">federal biosolids card →</a> · <a href="#state-watchlist" style="color:#0a4f6f; font-weight:500;">State Watchlist card →</a></div>
+<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#fed-biosolids" style="color:#0a4f6f; font-weight:500;">federal biosolids card →</a> · <a href="#state-watchlist" style="color:#0a4f6f; font-weight:500;">State Watchlist →</a></div>
 </div>
 <div class="peer-research-entry" style="padding: 12px 0; border-bottom: 1px solid #e3e8ee; font-size: 13.5px; line-height: 1.55;">
 <div style="margin-bottom: 4px;">
         Fabiano et al. (May 2026). <strong><a href="https://doi.org/10.1093/inteam/vjag090" rel="noopener" style="color:#0F2A4A; text-decoration:none;" target="_blank">Identifying PFAS sources using groundwater fingerprints in the Veneto Plain (Italy)</a></strong>. <em>Integrated Environmental Assessment and Management</em>.
       </div>
 <div style="color:#3d4856; margin: 4px 0 6px 0;">Compositional PCA, ternary diagrams, and RGB fingerprinting applied to 511 groundwater points in Italy’s Veneto Plain resolved discrete vs. mixed PFAS sources — including a former PFAS-plant plume (PFOA up to 1,240 ng/L), a pharmaceutical facility, tanning districts, and a landfill. Practice-relevant methodology for site source attribution in an EU regulatory context.</div>
-<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#international" style="color:#0a4f6f; font-weight:500;">International Overlay card →</a></div>
+<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#international" style="color:#0a4f6f; font-weight:500;">International card →</a></div>
 </div>
 <div class="peer-research-entry" style="padding: 12px 0; border-bottom: 1px solid #e3e8ee; font-size: 13.5px; line-height: 1.55;">
 <div style="margin-bottom: 4px;">
@@ -3322,7 +3490,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         Li et al. (June 2026). <strong><a href="https://doi.org/10.1016/j.tifs.2026.105667" rel="noopener" style="color:#0F2A4A; text-decoration:none;" target="_blank">Per- and polyfluoroalkyl substances in food contact materials: Migration, health risks and sustainable alternatives</a></strong>. <em>Trends in Food Science &amp; Technology</em>.
       </div>
 <div style="color:#3d4856; margin: 4px 0 6px 0;">Review of PFAS migration from food contact materials, associated health risks, and sustainable packaging alternatives. Direct relevance to FDA’s June 2026 petition denial, the EU PPWR August 12 food-contact ban, and state food packaging bans.</div>
-<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#product-stewardship" style="color:#0a4f6f; font-weight:500;">Products card →</a> · <a href="#state-watchlist" style="color:#0a4f6f; font-weight:500;">State Watchlist card →</a></div>
+<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#product-stewardship" style="color:#0a4f6f; font-weight:500;">Products overlay →</a> · <a href="#state-watchlist" style="color:#0a4f6f; font-weight:500;">State Watchlist →</a></div>
 </div>
 <div class="peer-research-entry" style="padding: 12px 0; border-bottom: 1px solid #e3e8ee; font-size: 13.5px; line-height: 1.55;">
 <div style="margin-bottom: 4px;">
@@ -3336,7 +3504,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         Owens and Johansson (March 2026). <strong><a href="https://doi.org/10.1111/reel.70048" rel="noopener" style="color:#0F2A4A; text-decoration:none;" target="_blank">Who pays for PFAS contamination? A comparative analysis of environmental liability in the US and Sweden</a></strong>. <em>Review of European, Comparative &amp; International Environmental Law</em>.
       </div>
 <div style="color:#3d4856; margin: 4px 0 6px 0;">Comparative legal analysis of environmental liability for PFAS contamination in the US and Sweden. Relevant to the Chemours federal settlement, the Belgium 3M litigation, and state Attorney General enforcement actions.</div>
-<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#litigation" style="color:#0a4f6f; font-weight:500;">Selected Legal Developments card →</a> · <a href="#international" style="color:#0a4f6f; font-weight:500;">International Overlay card →</a></div>
+<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#litigation" style="color:#0a4f6f; font-weight:500;">Selected Legal Developments card →</a> · <a href="#international" style="color:#0a4f6f; font-weight:500;">International card →</a></div>
 </div>
 <div class="peer-research-entry" style="padding: 12px 0; border-bottom: 1px solid #e3e8ee; font-size: 13.5px; line-height: 1.55;">
 <div style="margin-bottom: 4px;">
@@ -3371,13 +3539,13 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         Wang et al. (April 2026). <strong><a href="https://doi.org/10.1007/s10570-026-07054-8" rel="noopener" style="color:#0F2A4A; text-decoration:none;" target="_blank">PFAS-free molded pulp trays: Effects of pulp type, refining level, and cellulose nanofibrils or biowax addition on tray performance</a></strong>. <em>Cellulose</em>.
       </div>
 <div style="color:#3d4856; margin: 4px 0 6px 0;">Engineered PFAS-free molded pulp food trays using bleached softwood kraft plus bio-wax and alkyl ketene dimer — softwood outperformed hardwood, and direct refining beat cellulose-nanofibril reinforcement on energy. Direct relevance to paper/textiles-industry alternatives to PFAS-coated food packaging ahead of state and EU bans.</div>
-<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#product-stewardship" style="color:#0a4f6f; font-weight:500;">Products card →</a></div>
+<div style="font-size: 12px; color:#6b7c8c;"><strong style="color:#3d4856;">Connects to:</strong> <a href="#product-stewardship" style="color:#0a4f6f; font-weight:500;">Products overlay →</a></div>
 </div>
 </div>
 </section>
 <section class="section-news" id="litigation" style="display: none;">
 <h2>Selected Legal Developments <span class="count">curated</span><span class="news-marker">Legal</span></h2>
-<h3 class="lit-subhead">PFAS roundups and syntheses</h3>
+<h3 class="lit-subhead" id="lit-roundups">PFAS roundups and syntheses</h3>
 <p class="lit-subhead-desc">📰 Periodic cross-topic syntheses of PFAS regulatory, litigation, and policy developments — useful as catch-up reading covering multiple PFAS topics at once. Open-access articles from external publishers; click any title to read on the publisher's site. Some sources may require free registration.</p>
 <div class="fr-list">
 <div class="fr-item">
@@ -3396,7 +3564,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <div class="fr-abstract">Quarterly state-of-the-field roundup covering PFAS regulatory and litigation developments through Q2 2026 — including the May 2026 NPDWR proposals, TSCA §8(a)(7) reporting delays, draft CCL 6, extensive state legislative/enforcement activity, the June 3 Fourth Circuit Chemours ruling, Michigan landfill CERCLA litigation, and the Tenth Circuit's New Mexico/Air Force jurisdiction ruling. Quarterly cadence. <em>Pinned</em> until the Q3 update appears.</div>
 </div>
 </div>
-<h3 class="lit-subhead">Cases with regulatory, scientific, or industry implications</h3>
+<h3 class="lit-subhead" id="lit-cases">Cases with regulatory, scientific, or industry implications</h3>
 <p style="font-size:12.5px; color:#6b7c8c; margin: -6px 0 14px 0;">Selected public-source cases with material regulatory, scientific, or industry implications, shown in reverse chronological order. This is not a comprehensive litigation docket. Summaries focus on public procedural posture, rulings, and filings and do not reflect a view on the merits. Older closed matters rotate off once their lasting significance is captured in a substantive card or the Reference Shelf.</p><div class="lit-locator-note" style="font-size:12px; color:#3d4856; background:#f7fbed; border-left:3px solid var(--integral-lime); padding:7px 10px; margin:-4px 0 12px 0; border-radius:4px;">Tip: links from Recent Updates jump directly to the specific legal entry and briefly highlight it.</div>
 <div class="lit-cards"><div class="fr-item" id="lit-nix-trespass">
 <a class="fr-title" href="https://www.cohenmilstein.com/chemours-dupont-liable-of-trespass-in-pfas-case-headed-to-trial/" rel="noopener" target="_blank">Nix v. Chemours — Court Grants Partial Summary Judgment on PFAS Trespass Liability</a>
@@ -3493,7 +3661,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <p><span class="lock-flag">🔒 InsideEPA</span> badge marks content that requires an InsideEPA subscription. Please ask your librarian for login credentials.</p>
 </div>
 </section>
-<!-- footer relocated to end of .wrap (after about-methodology) -->
+
 <section id="submit-content" style="display: none;">
 <h2 style="color:#0F2A4A; font-family: Lora, Georgia, serif; font-size:24px; margin: 8px 0 8px 0;">Contribute content to the tracker</h2>
 <p style="font-size:14px; color:#3d4856; line-height:1.6; margin: 0 0 14px 0;">Have a PFAS article, regulatory document, deadline, or other item that should be in the tracker? Use the structured form below or email <a href="mailto:ehartley@integral-corp.com" style="color:#0a4f6f; font-weight:600;">ehartley@integral-corp.com</a> directly. Submissions are reviewed against the same curation gate documented elsewhere on this tab.</p>
@@ -3563,7 +3731,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         without changing the underlying editorial standard.
       </p>
 </div>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-inclusion" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Inclusion criteria (curation gate)
     </h3>
 <p style="font-size:14px; line-height:1.6;">
@@ -3584,7 +3752,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       are normally kept in the underlying card, Key Dates, Trending Now, the News feed, or the
       <strong>👀 On the radar</strong> watch rather than promoted to Recent Updates.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-sections" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       How the tracker sections work
     </h3>
 <ul style="font-size:14px; line-height:1.6;">
@@ -3616,7 +3784,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         likely to remain useful beyond the current news cycle.
       </li>
 </ul>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-workflow" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Editorial workflow (human-in-the-loop)
     </h3>
 <ol style="font-size:14px; line-height:1.6;">
@@ -3652,7 +3820,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
         links, source links, duplicate identifiers, section placement, filters, and other structural issues before publication.
       </li>
 </ol>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-ai" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       AI use disclosure
     </h3>
 <p style="font-size:14px; line-height:1.6;">The tracker is AI-assisted. AI may be used to:</p>
@@ -3674,7 +3842,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       Every substantive tracker change is human-reviewed before publication. The
       <strong>AI-Assisted, Human-Curated Tracker</strong> label reflects that workflow.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-limitations" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Known limitations and bias mitigation
     </h3>
 <p style="font-size:14px; line-height:1.6;">
@@ -3688,7 +3856,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       cross-source checks where needed, neutral rewriting, explicit attribution, and human review of every substantive
       change. These practices reduce but do not eliminate error or bias.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-source-standards" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Source citation policy
     </h3>
 <div style="background:#fffbe6; border:1px solid #f0d4a8; border-left:4px solid #c98a1e;
@@ -3706,7 +3874,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       Some linked trade-press or legal sources require subscription access. Where possible, the substantive card also
       links to an open primary source. Readers who need access to a subscription source may ask Library Services.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-neutrality" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Editorial neutrality
     </h3>
 <p style="font-size:14px; line-height:1.6;">
@@ -3715,7 +3883,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       characterizations of parties' conduct are excluded. Defendants, plaintiffs, agencies, regulators, industry
       groups, and advocacy organizations are treated under the same editorial standard.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-disclaimers" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Disclaimers
     </h3>
 <ul style="font-size:14px; line-height:1.6;">
@@ -3725,7 +3893,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <li>The tracker is provided for awareness, discovery, and orientation rather than as an authoritative legal reference.</li>
 <li>Inclusion of a source does not constitute endorsement of that source's analysis or conclusions.</li>
 </ul>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-update-scope" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Update frequency &amp; scope
     </h3>
 <p style="font-size:14px; line-height:1.6;">
@@ -3733,7 +3901,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
       warranted. The header shows the most recent tracker update. Coverage is curated rather than exhaustive, and the
       tracked jurisdictions, programs, and topics may evolve as the PFAS regulatory landscape changes.
     </p>
-<h3 style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
+<h3 id="about-feedback" style="color:#0F2A4A; font-family:Lora,Georgia,serif; font-size:18px; margin:22px 0 10px 0;">
       Feedback &amp; content submissions
     </h3>
 <p style="font-size:14px; line-height:1.6;">
@@ -3760,9 +3928,9 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
   var allSections = document.querySelectorAll('.wrap > section');
   var fullOnlyExtras = document.querySelectorAll('.wrap > .key-dates, .wrap > .critical-updates, .wrap > .global-filter');
   var toc = document.querySelector('.toc');
-  var newsIds = ['insideepa', 'litigation'];
+  var newsIds = ['insideepa', 'litigation', 'lit-roundups', 'lit-cases', 'lit-foundational'];
   var referenceIds = ['trending-docs', 'regulatory-analyses', 'peer-reviewed'];
-  var aboutIds = ['about-methodology', 'submit-content'];
+  var aboutIds = ['about-methodology', 'submit-content', 'about-inclusion', 'about-sections', 'about-workflow', 'about-ai', 'about-limitations', 'about-source-standards', 'about-neutrality', 'about-disclaimers', 'about-update-scope', 'about-feedback'];
 
   function viewForId(id) {
     if (newsIds.indexOf(id) !== -1) return 'news';
@@ -3787,16 +3955,11 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
     document.querySelectorAll('.wrap > .lib-updates, .wrap > .trending-callout').forEach(function(el) {
       el.style.display = (view === 'full') ? '' : 'none';
     });
-    var tocItems = document.querySelectorAll('.toc-list li');
-    for (var i = 0; i < tocItems.length; i++) {
-      var li = tocItems[i];
-      var a = li.querySelector('a');
-      if (!a) continue;
-      var id = a.getAttribute('href').substring(1);
-      li.style.display = (viewForId(id) === view) ? '' : 'none';
-    }
-    // Hide entire TOC on the About tab only (Reference Shelf now keeps it, for Back to home/top)
-    if (toc) toc.style.display = (view === 'about') ? 'none' : '';
+    document.querySelectorAll('.toc-view').forEach(function(list) {
+      list.style.display = (list.getAttribute('data-toc-view') === view) ? '' : 'none';
+    });
+    // Each tab has its own contents list, so keep the navigation shell visible in every view.
+    if (toc) toc.style.display = '';
     if (scrollTarget) {
       var el = document.getElementById(scrollTarget);
       if (el) setTimeout(function() {
