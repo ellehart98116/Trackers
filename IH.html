@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IH &amp; Occupational Health Regulatory Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --accent:          #3b82c4;
+  --accent-deep:     #2a6aab;
+  --accent-soft:     #e8f1fa;
+  --accent-mid:      #5a9fd4;
+  --osha-navy:       #133259;
+  --osha-navy-deep:  #0d2440;
+  --osha-silver:     #E8ECF0;
+  --osha-mid:        #4A5568;
+  --osha-gold:       #D4A017;
+  --osha-gold-soft:  #fdf3d8;
+  --text-main:       #1a2230;
+  --text-muted:      #5a6474;
+  --border:          #d8dfe8;
+  --bg-page:         #f4f5f7;
+  --bg-card:         #ffffff;
+  /* legacy aliases so existing references still resolve */
+  --osha-red:        #3b82c4;
+  --osha-red-deep:   #2a6aab;
+  --osha-red-soft:   #e8f1fa;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  margin: 0;
+  padding: 24px;
+  line-height: 1.5;
+}
+.wrap { max-width: 1160px; margin: 0 auto; }
+
+/* ── HERO ── */
+header.hero {
+  background: var(--osha-navy);
+  background-image:
+    linear-gradient(160deg, #1B2A47 0%, #0e1a2e 100%);
+  color: #fff;
+  border-radius: 4px;
+  border-left: 6px solid var(--accent);
+  padding: 30px 36px 28px;
+  margin-bottom: 4px;
+  box-shadow: 0 4px 18px rgba(27,42,71,0.28);
+  position: relative;
+  overflow: hidden;
+}
+/* Subtle diagonal stripe texture */
+header.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 18px,
+    rgba(255,255,255,0.018) 18px,
+    rgba(255,255,255,0.018) 19px
+  );
+  pointer-events: none;
+}
+/* Red bar accent bottom */
+header.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, rgba(59,130,196,0.3) 100%);
+}
+.hero-eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.hero-draft-tag {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.38);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+header.hero h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  margin: 0 0 8px 0;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+}
+header.hero h1 .accent { color: #7ec8f0; }
+header.hero p { margin: 0; opacity: 0.82; font-size: 13.5px; max-width: 680px; }
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.refresh-info { font-size: 11.5px; opacity: 0.75; }
+.refresh-btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
+}
+.refresh-btn:hover { background: var(--accent-deep); }
+.refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Red utility bar below hero */
+.utility-bar {
+  background: var(--accent);
+  border-radius: 0 0 4px 4px;
+  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.utility-bar span { opacity: 0.6; }
+.utility-bar a { color: #fff; text-decoration: none; opacity: 0.88; }
+.utility-bar a:hover { opacity: 1; text-decoration: underline; }
+
+/* ── VIEW TABS ── */
+.view-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--border);
+}
+.view-tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 9px 18px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.12s, border-color 0.12s;
+  text-transform: uppercase;
+  font-size: 11.5px;
+}
+.view-tab:hover { color: var(--osha-navy); }
+.view-tab.is-active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-icon { font-size: 14px; }
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--osha-navy);
+  border-radius: 3px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.stat.stat-hot { border-top-color: var(--accent); }
+.stat.stat-watch { border-top-color: var(--osha-gold); }
+.stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; }
+.stat-value { font-size: 24px; font-weight: 700; color: var(--osha-navy); margin-top: 4px; }
+.stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── TOC ── */
+html { scroll-behavior: smooth; }
+.toc {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 3px;
+  padding: 16px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(27,42,71,0.07);
+  position: sticky;
+  top: 12px;
+  z-index: 50;
+  transition: padding 0.18s, box-shadow 0.18s;
+}
+.toc.is-stuck {
+  padding: 10px 18px;
+  box-shadow: 0 4px 16px rgba(27,42,71,0.12);
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: saturate(140%) blur(4px);
+}
+.toc-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--osha-navy);
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.toc-title::after {
+  content: "Jump to section";
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.toc-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3px 20px; margin: 0; padding: 0; list-style: none; counter-reset: toc; }
+.toc-list li { counter-increment: toc; }
+.toc-list a { display: flex; align-items: baseline; font-size: 13px; font-weight: 500; color: var(--osha-navy); text-decoration: none; padding: 6px 6px; border-radius: 2px; transition: background 0.1s; }
+.toc-list a::before { content: counter(toc) "."; font-weight: 700; color: var(--accent); margin-right: 9px; min-width: 18px; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; }
+.toc-list a:hover { background: var(--accent-soft); }
+.toc-list a.is-active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.toc-list a.is-active::before { color: var(--accent); }
+
+/* ── RECENT UPDATES BOX ── */
+.lib-updates {
+  background: #f8f9fb;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--osha-navy);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.lib-updates-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.lib-updates-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--osha-navy); }
+.lib-updates-note { font-size: 11.5px; color: var(--text-muted); font-style: italic; }
+.lib-subscribe-link { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 2px; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: background 0.15s; }
+.lib-subscribe-link:hover { background: var(--accent-deep); }
+.lib-updates-list { list-style: none; margin: 0; padding: 0; }
+.lib-updates-list li { display: grid; grid-template-columns: 58px 120px 1fr; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px dotted var(--border); font-size: 13px; line-height: 1.5; }
+.lib-updates-list li:last-child { border-bottom: none; }
+.lib-update-date { font-weight: 700; color: var(--osha-navy); font-size: 12px; }
+.lib-update-section { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.lib-update-desc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.lib-update-desc a:hover { text-decoration: underline; }
+@media (max-width: 600px) { .lib-updates-list li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ── HOT TOPIC CALLOUT ── */
+.hot-callout {
+  background: linear-gradient(135deg, #f0f6fc 0%, #f8fbff 100%);
+  border: 1px solid #bdd5ee;
+  border-left: 4px solid var(--accent);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin: 0 0 20px 0;
+}
+.hot-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(59,130,196,0.2); }
+.hot-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; font-weight: 600; color: var(--osha-navy); }
+.hot-note { font-size: 11px; color: var(--text-muted); font-style: italic; }
+.hot-list { list-style: none; margin: 0; padding: 0; }
+.hot-list li { font-size: 13.5px; line-height: 1.55; color: var(--text-main); padding: 7px 0; border-bottom: 1px dotted rgba(59,130,196,0.2); }
+.hot-list li:last-child { border-bottom: none; }
+.hot-list strong { color: var(--osha-navy); }
+.hot-links { display: inline-flex; gap: 12px; margin-left: 6px; font-size: 11.5px; font-weight: 500; }
+.hot-links a { color: var(--accent); text-decoration: none; }
+.hot-links a:hover { text-decoration: underline; }
+
+/* ── SECTIONS ── */
+section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+section h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 14px 0;
+  color: var(--osha-navy);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.005em;
+}
+section h2 .count {
+  font-size: 10.5px;
+  background: #e8ecf0;
+  color: var(--osha-navy);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-family: 'IBM Plex Sans', sans-serif;
+  letter-spacing: 0;
+}
+section.section-hot {
+  background: #f6fafe;
+  border-color: #bdd5ee;
+}
+section.section-hot h2 { border-bottom-color: var(--accent); }
+
+/* ── RULE CARDS ── */
+.rules-grid { columns: 3 320px; column-gap: 12px; }
+.rules-grid > .rule-card {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 12px;
+  display: inline-block;
+  width: 100%;
+}
+.rule-card {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--osha-navy);
+  border-radius: 3px;
+  padding: 14px 16px;
+  background: #fafbfc;
+}
+.rule-card.status-final    { border-left-color: #2d7a5a; }
+.rule-card.status-proposed { border-left-color: var(--osha-gold); }
+.rule-card.status-watch    { border-left-color: var(--accent); }
+.rule-card.status-active   { border-left-color: var(--osha-navy); }
+.rule-card:target { animation: targetFlash 2.2s ease-out; }
+@keyframes targetFlash {
+  0% { background-color: #ffe5e9; }
+  100% { background-color: transparent; }
+}
+.rule-head { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-bottom: 6px; }
+.rule-title { font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+.rule-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 2px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+}
+.tag-final    { background: #dff0e8; color: #1f6342; }
+.tag-proposed { background: var(--osha-gold-soft); color: #8a6010; }
+.tag-watch    { background: var(--accent-soft); color: var(--accent-deep); }
+.tag-active   { background: #e4e9f0; color: var(--osha-navy); }
+.rule-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+.rule-body { font-size: 13px; color: #2c3a4a; line-height: 1.55; }
+.rule-body strong { color: var(--osha-navy); }
+.rule-link { display: inline-block; margin-top: 8px; font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; }
+.rule-link:hover { text-decoration: underline; }
+
+/* ── FR FEED ── */
+.fr-list { display: flex; flex-direction: column; gap: 10px; }
+.fr-item {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  background: #fafbfc;
+  transition: background 0.1s;
+}
+.fr-item:hover { background: #f2f5f8; }
+.fr-title { font-size: 13.5px; font-weight: 600; color: var(--osha-navy); text-decoration: none; display: block; margin-bottom: 4px; }
+.fr-title:hover { text-decoration: underline; color: var(--accent); }
+.fr-meta { font-size: 11px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.fr-meta .badge {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border: 1px solid #bdd5ee;
+  padding: 1px 7px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.fr-abstract { font-size: 12.5px; color: #4a5568; margin-top: 6px; line-height: 1.5; }
+
+/* ── AI DIGEST BOX ── */
+.ai-digest {
+  background: linear-gradient(135deg, #f4f5f7 0%, #ffffff 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--osha-navy);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.ai-digest-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.ai-digest-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--osha-navy); }
+.ai-badge {
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  background: var(--osha-navy); color: #fff; padding: 2px 8px; border-radius: 2px;
+}
+.ai-digest-note { font-size: 11px; color: var(--text-muted); font-style: italic; margin-left: auto; }
+.ai-run-btn {
+  background: var(--osha-navy);
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-run-btn:hover { background: var(--accent); }
+.ai-run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ai-output {
+  font-size: 13.5px;
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 40px;
+}
+.ai-output p { margin: 0 0 10px 0; }
+.ai-output p:last-child { margin-bottom: 0; }
+.ai-output ul { margin: 6px 0 10px 20px; padding: 0; }
+.ai-output li { margin-bottom: 5px; }
+.ai-placeholder { color: var(--text-muted); font-style: italic; font-size: 13px; }
+.ai-loading { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13px; }
+.ai-spinner {
+  width: 16px; height: 16px; border: 2px solid #ddd;
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ai-ts { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; border-top: 1px dotted var(--border); padding-top: 8px; }
+
+/* ── OEL TABLE ── */
+.oel-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.oel-table th {
+  background: var(--osha-navy);
+  color: #fff;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  padding: 8px 10px;
+  text-align: left;
+}
+.oel-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.oel-table tr:last-child td { border-bottom: none; }
+.oel-table tr:nth-child(even) td { background: #f7f8fa; }
+.oel-table tr:hover td { background: #eef1f5; }
+.oel-status { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+.oel-new { background: var(--accent-soft); color: var(--accent-deep); border: 1px solid #bdd5ee; }
+.oel-update { background: var(--osha-gold-soft); color: #7a5800; border: 1px solid #f0d080; }
+.oel-watch { background: #e4e9f0; color: var(--osha-navy); border: 1px solid #c8d0dc; }
+
+/* ── FILTER PILLS ── */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center; }
+.filter-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-right: 4px; }
+.filter-pill {
+  font-size: 12px; padding: 4px 12px; border-radius: 2px; cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--text-muted);
+  font-weight: 500; transition: all 0.12s;
+}
+.filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+.filter-pill.is-active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+
+/* ── SOURCES LIST ── */
+.sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.source-card {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  background: #fafbfc;
+  border-top: 3px solid var(--osha-navy);
+}
+.source-card.src-blue { border-top-color: var(--accent); }
+.source-card.src-gold { border-top-color: var(--osha-gold); }
+.source-name { font-size: 13.5px; font-weight: 700; color: var(--osha-navy); margin-bottom: 3px; }
+.source-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.source-link { display: inline-block; margin-top: 6px; font-size: 11.5px; color: var(--accent); font-weight: 600; text-decoration: none; }
+.source-link:hover { text-decoration: underline; }
+
+/* ── METHODOLOGY / ABOUT ── */
+.about-block { max-width: 720px; }
+.about-block h3 { font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--osha-navy); margin: 20px 0 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.about-block p, .about-block li { font-size: 13.5px; color: #2c3a4a; line-height: 1.6; }
+.about-block ul { padding-left: 20px; }
+.about-block li { margin-bottom: 4px; }
+
+/* ── MISC ── */
+:target { scroll-margin-top: 90px; }
+a[href^="http"]:not([href*="localhost"])::after {
+  content: " \2197";
+  font-size: 0.82em;
+  color: var(--text-muted);
+  font-weight: normal;
+}
+.xref { display: inline-block; font-size: 12px; color: var(--accent); font-weight: 600; text-decoration: none; margin-right: 10px; border-bottom: 1px dashed rgba(59,130,196,0.35); }
+.xref:hover { border-bottom-color: var(--accent); }
+.section-intro { font-size: 13px; color: var(--text-muted); margin: -8px 0 14px 0; font-style: italic; }
+.empty-state { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 16px 0; }
+
+/* hide views */
+[data-view-panel] { display: none; }
+[data-view-panel].is-active { display: block; }
+</style>
+</head>
+<body>
+<a id="top"></a>
+<div class="wrap">
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<header class="hero">
+  <span class="hero-draft-tag">AI-Assisted · Human-Curated</span>
+  <div class="hero-eyebrow">Integral Consulting &rsaquo; Library Services &rsaquo; Occupational Health &amp; IH</div>
+  <h1><span class="accent">IH</span> &amp; Occupational Health Regulatory Tracker</h1>
+  <p>Curated IH/occupational health news from OSHA, NIOSH, ACGIH, AIHA, and peer-reviewed literature.</p>
+  <div class="toolbar">
+    <div class="refresh-info">AI-Assisted &middot; Human-Curated &middot; Integral Library Services</div>
+    <button class="refresh-btn" onclick="window.location.reload()">&#8635; Reload page</button>
+  </div>
+</header>
+<div class="utility-bar">
+  <span>Quick links:</span>
+  <a href="https://www.osha.gov/laws-regs/federalregister/rulemaking" target="_blank" rel="noopener">OSHA Rulemaking</a>
+  <a href="https://www.cdc.gov/niosh/index.html" target="_blank" rel="noopener">NIOSH</a>
+  <a href="https://www.acgih.org/tlv-bei-guidelines/" target="_blank" rel="noopener">ACGIH TLVs</a>
+  <a href="https://www.aiha.org/public-policy/oehl-updates/" target="_blank" rel="noopener">AIHA OELs</a>
+  <a href="https://www.tandfonline.com/toc/uoeh20/current" target="_blank" rel="noopener">JOEH</a>
+</div>
+
+<!-- ══════════════════ TABS ══════════════════ -->
+<div class="view-tabs">
+  <button class="view-tab is-active" data-tab="main" type="button"><span class="tab-icon">📋</span>Regulatory Reference</button>
+  <button class="view-tab" data-tab="news" type="button"><span class="tab-icon">📰</span>Latest News</button>
+  <button class="view-tab" data-tab="oel" type="button"><span class="tab-icon">⚗️</span>OEL Watchlist</button>
+  <button class="view-tab" data-tab="about" type="button"><span class="tab-icon">ℹ️</span>Sources &amp; About</button>
+</div>
+
+<!-- ══════════════════ MAIN TAB ══════════════════ -->
+<div data-view-panel="main" class="is-active">
+
+  <!-- Stats row -->
+  <div class="stats-row">
+    <div class="stat stat-hot">
+      <div class="stat-label">🔥 Hot Topic</div>
+      <div class="stat-value">AS/Silica</div>
+      <div class="stat-sub">Artificial stone regulations active</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">OSHA Rules tracked</div>
+      <div class="stat-value">6</div>
+      <div class="stat-sub">Active rulemakings &amp; guidance</div>
+    </div>
+    <div class="stat stat-watch">
+      <div class="stat-label">OELs under review</div>
+      <div class="stat-value">5</div>
+      <div class="stat-sub">ACGIH, NIOSH, OSHA actions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Refreshed</div>
+      <div class="stat-value" id="refreshDate">—</div>
+      <div class="stat-sub">Refreshed monthly</div>
+    </div>
+  </div>
+
+  <!-- Recent updates -->
+  <div class="lib-updates" id="lib-updates">
+    <div class="lib-updates-header">
+      <span class="lib-updates-title">📋 Tracker — Recent Updates</span>
+      <span class="lib-updates-note">Most recent additions &amp; changes</span>
+      <a class="lib-subscribe-link" href="mailto:ehartley@integral-corp.com?subject=Subscribe%20to%20IH%20Tracker%20updates&body=Please%20add%20me%20to%20the%20IH%20Tracker%20distribution%20list.">✉ Subscribe</a>
+    </div>
+    <ul class="lib-updates-list">
+      <li>
+        <span class="lib-update-date">Aug 21</span>
+        <span class="lib-update-section">AS / Silica</span>
+        <span class="lib-update-desc"><strong>MSHA silica NPRM imminent.</strong> OMB completed review Aug 10; proposed rule will clarify 2024 Biden-era rule provisions. 8th Circuit stay still in effect. <em><a href="#as-2026-msha-nprm">2026 timeline →</a></em></span>
+      </li>
+      <li>
+        <span class="lib-update-date">Aug 21</span>
+        <span class="lib-update-section">AS / Silica</span>
+        <span class="lib-update-desc"><strong>H.R. 5437 passed House Judiciary Committee Jun 3, 16–7.</strong> Bill would ban silicosis lawsuits against stone manufacturers and retroactively dismiss ~500 pending CA cases. Pending full House. <em><a href="#as-2026-hr5437">2026 timeline →</a></em></span>
+      </li>
+      <li>
+        <span class="lib-update-date">Aug 21</span>
+        <span class="lib-update-section">AS / Silica</span>
+        <span class="lib-update-desc"><strong>Cal/OSHA ban rulemaking launched May 21.</strong> Standards board unanimously granted WOEMA Petition 609; emergency rulemaking directed. 562 confirmed cases, 31 deaths in CA as of May 2026. <em><a href="#as-2026-calosha-ban">2026 timeline →</a></em></span>
+      </li>
+      <li>
+        <span class="lib-update-date">Aug 21</span>
+        <span class="lib-update-section">AS / Silica</span>
+        <span class="lib-update-desc"><strong>MSHA card updated</strong> to reflect 2024 rule stay, litigation status, and pending NPRM. Cal/OSHA card updated to reflect SB 20, permanent rules, and May 2026 ban petition. <em><a href="#as-section">AS section →</a></em></span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Hot topic callout: Artificial Stone -->
+  <div class="hot-callout" id="as-hot">
+    <div class="hot-header">
+      <span class="hot-title">🔥 Hot Topic — Artificial Stone &amp; Engineered Stone Silica</span>
+      <span class="hot-note">Active legislative and regulatory movement in multiple jurisdictions</span>
+    </div>
+    <ul class="hot-list">
+      <li>
+        <strong>California — Ban rulemaking launched (May 2026).</strong> Cal/OSHA Standards Board voted unanimously May 21 to direct emergency rulemaking to prohibit fabrication/installation of stone with &gt;1% crystalline silica. As of May 2026: 562 confirmed silicosis cases, 31 deaths in CA. Rulemaking process ongoing; board authority to ban (vs. regulate) legally contested.
+        <span class="hot-links"><a href="#as-2026-calosha-ban">2026 timeline entry →</a> <a href="https://www.dir.ca.gov/DIRNews/2026/2026-45.html" target="_blank" rel="noopener">Cal DIR release →</a></span>
+      </li>
+      <li>
+        <strong>H.R. 5437 — Federal bill to ban silicosis lawsuits (pending full House).</strong> Passed House Judiciary Committee 16–7 on June 3, 2026. Would grant immunity to stone slab manufacturers and retroactively dismiss ~500 pending lawsuits filed by sick California workers. Contentious partisan split; worker safety advocates strongly opposed.
+        <span class="hot-links"><a href="#as-2026-hr5437">2026 timeline entry →</a> <a href="https://www.congress.gov/bill/119th-congress/house-bill/5437/text" target="_blank" rel="noopener">Bill text →</a></span>
+      </li>
+      <li>
+        <strong>MSHA 2024 Silica Rule — Stayed; NPRM imminent.</strong> Biden-era rule (50 μg/m³ PEL for all mines) stayed by 8th Circuit April 2025. MSHA pursuing "limited rulemaking"; OMB completed review Aug 10, 2026. NPRM expected to clarify, not weaken, the 2024 rule — but labor groups are watching closely.
+        <span class="hot-links"><a href="#as-2026-msha-nprm">2026 timeline entry →</a> <a href="https://www.msha.gov/silica-final-rule-30-cfr-part-60-resources" target="_blank" rel="noopener">MSHA resources →</a></span>
+      </li>
+      <li>
+        <strong>Australia — Ban in effect (July 1, 2024).</strong> First country to ban engineered stone. Post-ban data: no job losses, multiple substitutes at comparable prices, ~1 in 4 fabrication workers screened had silicosis — suggesting US national caseload may be far higher than documented. Cited as model in CA rulemaking proceedings.
+        <span class="hot-links"><a href="https://www.safeworkaustralia.gov.au/safety-topic/hazards/silica-and-silicosis/engineered-stone" target="_blank" rel="noopener">Safe Work Australia →</a></span>
+      </li>
+      <li>
+        <strong>JOEH &amp; AIHA literature surge.</strong> JOEH and AIHA's Synergist have published multiple pieces on silicosis clusters in countertop fabricators. Key finding: resin-coated high-silica engineered stone generates finer, more lung-penetrating dust than natural stone or mining silica — workers develop silicosis faster and die younger.
+        <span class="hot-links"><a href="https://www.tandfonline.com/doi/full/10.1080/15459624.2023.2213793" target="_blank" rel="noopener">JOEH silicosis cluster study →</a></span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TOC for main tab -->
+  <nav class="toc" id="toc-main">
+    <div class="toc-title">Contents</div>
+    <ol class="toc-list">
+      <li><a href="#osha-rules">OSHA Rulemakings</a></li>
+      <li><a href="#federal-register-ih">Live FR Stream</a></li>
+      <li><a href="#as-section">Artificial Stone / Silica</a></li>
+      <li><a href="#niosh-guidance">NIOSH Guidance</a></li>
+      <li><a href="#intl-section">International Standards</a></li>
+    </ol>
+    <a href="#top" style="display:block; margin-top:10px; padding-top:8px; border-top:1px solid var(--border); font-size:11.5px; color:var(--text-muted); text-decoration:none; text-align:right;">↑ Back to top</a>
+  </nav>
+
+  <!-- ── OSHA Rules Section ── -->
+  <section id="osha-rules">
+    <h2>⚖️ OSHA Federal Rulemakings <span class="count">5 items</span></h2>
+    <p class="section-intro">Active and pending OSHA standards with IH/occupational health relevance.</p>
+
+    <div class="filter-bar" id="oshaFilter">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-pill is-active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="final">Final</button>
+      <button class="filter-pill" data-filter="proposed">Proposed/NPRM</button>
+      <button class="filter-pill" data-filter="watch">Watch</button>
+    </div>
+
+    <div class="rules-grid" id="oshaRulesGrid">
+
+      <div class="rule-card status-final" data-tags="final" id="rule-silica">
+        <div class="rule-head">
+          <div class="rule-title">Crystalline Silica Standards (GI &amp; Construction)</div>
+          <span class="rule-tag tag-final">Final · 2017, Enforcement ongoing</span>
+        </div>
+        <div class="rule-meta">29 CFR 1910.1053 &amp; 1926.1153 · OSHA</div>
+        <div class="rule-body">PEL 50 μg/m³; action level 25 μg/m³. Mandatory exposure assessment, engineering controls, medical surveillance. Countertop fabrication enforcement emphasis active. <a href="#silica-rule" class="xref">Full detail →</a></div>
+        <a class="rule-link" href="https://www.osha.gov/silica-crystalline" target="_blank" rel="noopener">OSHA Silica page →</a>
+      </div>
+
+      <div class="rule-card status-proposed" data-tags="proposed" id="rule-heat">
+        <div class="rule-head">
+          <div class="rule-title">Heat Illness Prevention in Outdoor and Indoor Work Settings</div>
+          <span class="rule-tag tag-proposed">NPRM · Pending</span>
+        </div>
+        <div class="rule-meta">29 CFR Part 1910 / 1926 · OSHA · Docket OSHA-2021-0009</div>
+        <div class="rule-body">OSHA published an NPRM for a comprehensive heat illness prevention standard in 2024. Would establish heat trigger levels (80°F initial, 90°F high), require rest breaks, water, shade/cool areas, acclimatization, emergency response, and training. Final rule timeline uncertain under current administration priorities. IH monitoring responsibilities expected in final rule.
+        </div>
+        <a class="rule-link" href="https://www.osha.gov/heat-exposure/rulemaking" target="_blank" rel="noopener">OSHA Heat Rulemaking →</a>
+      </div>
+
+      <div class="rule-card status-proposed" data-tags="proposed" id="rule-wv">
+        <div class="rule-head">
+          <div class="rule-title">Workplace Violence Prevention in Healthcare &amp; Social Assistance</div>
+          <span class="rule-tag tag-proposed">NPRM · 2024</span>
+        </div>
+        <div class="rule-meta">29 CFR Part 1910 Subpart Z · OSHA</div>
+        <div class="rule-body">OSHA's 2024 NPRM would require healthcare employers to develop and implement a workplace violence prevention plan. Includes hazard identification, engineering and administrative controls, training, incident reporting, and program review. Public comment period closed; final rule under development.</div>
+        <a class="rule-link" href="https://www.osha.gov/workplace-violence" target="_blank" rel="noopener">OSHA WPV Rulemaking →</a>
+      </div>
+
+      <div class="rule-card status-watch" data-tags="watch" id="rule-pel">
+        <div class="rule-head">
+          <div class="rule-title">OSHA PEL Reform (Comprehensive Update — Long-Term Watch)</div>
+          <span class="rule-tag tag-watch">Watch · No active rulemaking</span>
+        </div>
+        <div class="rule-meta">OSHA · Multiple substance PELs · Pre-rulemaking</div>
+        <div class="rule-body">Hundreds of OSHA PELs remain frozen at 1971 ACGIH TLV levels — widely regarded as outdated. Despite ongoing NIOSH REL and ACGIH TLV updates, no comprehensive PEL reform rulemaking is currently on OSHA's agenda. AIHA and ACGIH continue to advocate. IH practitioners are advised to use the lowest feasible exposure limits in practice regardless of PEL vintage.</div>
+        <a class="rule-link" href="https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.1000" target="_blank" rel="noopener">OSHA Z-tables (PELs) →</a>
+      </div>
+
+      <div class="rule-card status-proposed" data-tags="proposed" id="rule-hazcom">
+        <div class="rule-head">
+          <div class="rule-title">HazCom 2024 — GHS Rev. 7 Alignment</div>
+          <span class="rule-tag tag-proposed">Final Rule · 2024</span>
+        </div>
+        <div class="rule-meta">29 CFR 1910.1200 · OSHA · Effective May 20, 2024</div>
+        <div class="rule-body">OSHA's revised Hazard Communication Standard aligns with GHS Revision 7, adding new hazard classes (desensitized explosives, non-flammable aerosols, etc.), updating SDS requirements, and modifying labeling provisions. <strong>Compliance deadlines phased through 2028</strong>. IH professionals should confirm updated SDSs are in use and labeling programs are revised.</div>
+        <a class="rule-link" href="https://www.osha.gov/hazcom" target="_blank" rel="noopener">OSHA HazCom →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Live Federal Register Feed ── -->
+  <section id="federal-register-ih">
+    <h2>📡 Live Federal Register Stream — OSHA/IH <span class="count" id="frIHCount">loading…</span></h2>
+    <p class="section-intro">Recent Federal Register documents from OSHA and related agencies. Pulled live on page load.</p>
+    <div id="frIHContent"><div class="ai-loading"><div class="ai-spinner"></div> Loading Federal Register…</div></div>
+  </section>
+
+  <!-- ── Artificial Stone / Silica Section ── -->
+  <section id="as-section">
+    <h2>🪨 Artificial Stone &amp; Crystalline Silica</h2>
+    <p class="section-intro">Regulatory, legislative, and enforcement developments on engineered/artificial stone silica. 2026 developments logged chronologically; standing reference cards below.</p>
+
+    <!-- 2026 Timeline -->
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'Source Serif 4',Georgia,serif; font-size:14px; font-weight:600; color:var(--osha-navy); margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; gap:10px;">
+        📅 2026 Developments
+        <span style="font-family:'IBM Plex Sans',sans-serif; font-size:10.5px; font-weight:400; color:var(--text-muted); font-style:italic;">Most recent first · Updated from InsideOSHA monthly scan</span>
+      </div>
+
+      <div style="position:relative; padding-left:20px;">
+        <div style="position:absolute; left:7px; top:4px; bottom:4px; width:2px; background:var(--border);"></div>
+
+        <!-- Aug 11, 2026 — MSHA NPRM poised -->
+        <div id="as-2026-msha-nprm" style="position:relative; padding-bottom:16px;">
+          <div style="position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--accent); border:2px solid #fff; box-shadow:0 0 0 1px var(--accent);"></div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Aug 11, 2026</div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:2px;">MSHA poised to propose changes to Biden-era silica rule after OMB review</div>
+          <div style="font-size:13px; color:#2c3a4a; margin-top:4px; line-height:1.55;">MSHA is poised to publish an NPRM after OMB completed pre-publication review Aug. 10. The proposed rule would "clarify and modify" provisions of the 2024 silica rule — covering exposure monitoring, methods of compliance, respiratory protection, and medical surveillance — while stating changes would be "cost-neutral or cost-savings" without reducing miner protections. The 8th Circuit stay of compliance deadlines remains in effect; MSHA has been under pressure from industry (who want relaxation) and labor unions (who oppose any rollback). A legal challenge from miner advocacy groups is anticipated if any weakening of the 50 μg/m³ PEL occurs. OMB held 14 stakeholder meetings before completing review.</div>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a href="https://www.reginfo.gov/public/do/eAgendaViewRule?pubId=202507&RIN=1219-AB93" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">Unified Agenda entry →</a>
+            <a href="https://www.federalregister.gov/documents/2026/04/06/2026-06584/lowering-miners-exposure-to-respirable-crystalline-silica-and-improving-respiratory-protection-delay" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">FR — stay notification (Apr 6) →</a>
+            <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:1px 7px; border-radius:2px;">📰 <a href="https://insideosha.com/topic/silica" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none;">InsideOSHA Aug 11</a> <em style="font-size:10.5px;">(subscription — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent);">request article</a>)</em></span>
+          </div>
+        </div>
+
+        <!-- May 26, 2026 — Cal/OSHA ban petition -->
+        <div id="as-2026-calosha-ban" style="position:relative; padding-bottom:16px;">
+          <div style="position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--osha-navy); border:2px solid #fff; box-shadow:0 0 0 1px var(--osha-navy);"></div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">May 26, 2026</div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:2px;">Cal/OSHA Standards Board grants petition to ban artificial stone fabrication</div>
+          <div style="font-size:13px; color:#2c3a4a; margin-top:4px; line-height:1.55;">In a <strong>unanimous vote on May 21</strong>, the Cal/OSHA Standards Board granted WOEMA Petition No. 609, directing Cal/OSHA to prepare an emergency rulemaking finding to prohibit fabrication and installation of artificial stone products containing more than 1% crystalline silica. The board also directed Cal/OSHA to convene scientific and technical advisory committees. As of May 2026, CDPH has confirmed <strong>562 cases</strong> of silicosis and <strong>31 deaths</strong> linked to engineered stone in California (median age at diagnosis: 46). Experts note legal questions about whether the standards board has authority to ban a currently legal industry without legislative backing — lawsuits expected if a ban is adopted. Industry favors certification (ISFA proposal) over a ban. Emergency rulemaking process will take months; additional board vote required before any prohibition takes effect.</div>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a href="https://www.dir.ca.gov/DIRNews/2026/2026-45.html" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">Cal DIR press release (official) →</a>
+            <a href="https://ehsleaders.org/2026/05/california-advances-ban-on-engineered-stone/" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">EHS Leaders summary →</a>
+            <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:1px 7px; border-radius:2px;">📰 <a href="https://insideosha.com/topic/silica" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none;">InsideOSHA May 26</a> <em style="font-size:10.5px;">(subscription — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent);">request article</a>)</em></span>
+          </div>
+        </div>
+
+        <!-- Feb 25, 2026 — Cal/OSHA asks DAs -->
+        <div id="as-2026-das" style="position:relative; padding-bottom:16px;">
+          <div style="position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--osha-gold); border:2px solid #fff; box-shadow:0 0 0 1px var(--osha-gold);"></div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Feb 25, 2026</div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:2px;">Cal/OSHA board asks county DAs to prosecute shops over silica violations</div>
+          <div style="font-size:13px; color:#2c3a4a; margin-top:4px; line-height:1.55;">Cal/OSHA's standards board formally requested district attorneys in <strong>seven California counties</strong> expand enforcement and bring criminal charges against engineered stone fabrication shop owners violating crystalline silica standards. Reflects frustration with civil enforcement pace as silicosis cases continue rising.</div>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a href="https://www.dir.ca.gov/dosh/doshreg/Crystalline-Silica/" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">Cal/OSHA Silica program →</a>
+            <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:1px 7px; border-radius:2px;">📰 <a href="https://insideosha.com/topic/silica" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none;">InsideOSHA Feb 25</a> <em style="font-size:10.5px;">(subscription — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent);">request article</a>)</em></span>
+          </div>
+        </div>
+
+        <!-- Jan 21, 2026 — HR 5437 -->
+        <div id="as-2026-hr5437" style="position:relative; padding-bottom:16px;">
+          <div style="position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--osha-navy); border:2px solid #fff; box-shadow:0 0 0 1px var(--osha-navy);"></div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Jan 21, 2026 · updated Jun 3, 2026</div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:2px;">H.R. 5437 — House bill to ban silicosis lawsuits against stone manufacturers</div>
+          <div style="font-size:13px; color:#2c3a4a; margin-top:4px; line-height:1.55;"><em>Protection of Lawful Commerce in Stone Slab Products Act</em>, introduced by Rep. Tom McClintock (R-CA). Would <strong>prohibit all civil actions</strong> against manufacturers and sellers of stone slabs for silica injury caused during third-party fabrication — and would <strong>retroactively dismiss ~500 pending lawsuits</strong>, the majority filed by California workers with silicosis. House Judiciary subcommittee hearing Jan. 14; committee passed 16–7 on <strong>June 3, 2026</strong>, along party lines. Now pending before full House. David Michaels (former OSHA head) testified in opposition, noting current OSHA PEL was set before engineered stone existed and that resin-coated high-silica slabs are uniquely dangerous. Democrats characterized the bill as manufacturer immunity at workers' expense.</div>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a href="https://www.congress.gov/bill/119th-congress/house-bill/5437/text" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">H.R. 5437 bill text (Congress.gov) →</a>
+            <a href="https://www.safetyandhealthmagazine.com/on-the-move-bill-that-would-shield-stone-slab-manufacturers-from-silicosis-lawsuits/" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">Safety+Health Magazine →</a>
+            <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:1px 7px; border-radius:2px;">📰 <a href="https://insideosha.com/topic/silica" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none;">InsideOSHA Jan 21</a> <em style="font-size:10.5px;">(subscription — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent);">request article</a>)</em></span>
+          </div>
+        </div>
+
+        <!-- Jan 16, 2026 — ISFA certification -->
+        <div id="as-2026-isfa" style="position:relative; padding-bottom:4px;">
+          <div style="position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--osha-gold); border:2px solid #fff; box-shadow:0 0 0 1px var(--osha-gold);"></div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Jan 16, 2026</div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--text-main); margin-top:2px;">ISFA proposes nationwide certification program as alternative to ban</div>
+          <div style="font-size:13px; color:#2c3a4a; margin-top:4px; line-height:1.55;">The International Surface Fabricators Association (ISFA) proposed a nationwide shop certification and licensing program as an industry counter to the ban push, arguing fabrication can be done safely with proper controls. Worker safety advocates criticized the plan as too slow — ISFA projected 2027 implementation, during which an estimated 62 additional workers would develop silicosis (with ~10% fatality rate). Cal/OSHA board chair questioned enforcement mechanisms; ISFA did not provide specifics. Australia's post-ban data presented at same meeting: no job losses, multiple low-silica substitutes available at similar price points.</div>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a href="https://www.ifabricators.com/" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none;">ISFA →</a>
+            <span style="font-size:11px; color:var(--text-muted); border:1px solid var(--border); padding:1px 7px; border-radius:2px;">📰 <a href="https://insideosha.com/topic/silica" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none;">InsideOSHA Jan 16</a> <em style="font-size:10.5px;">(subscription — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent);">request article</a>)</em></span>
+          </div>
+        </div>
+
+      </div><!-- end timeline -->
+    </div>
+
+    <!-- Standing Reference Cards -->
+    <div style="font-family:'Source Serif 4',Georgia,serif; font-size:14px; font-weight:600; color:var(--osha-navy); margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border);">
+      📋 Standing Reference
+    </div>
+    <div class="rules-grid">
+
+      <div class="rule-card status-final" id="silica-rule">
+        <div class="rule-head">
+          <div class="rule-title">Federal OSHA — Crystalline Silica Standards (GI &amp; Construction)</div>
+          <span class="rule-tag tag-final">Final Rule · In Effect</span>
+        </div>
+        <div class="rule-meta">29 CFR 1910.1053 (GI) · 29 CFR 1926.1153 (Construction) · Effective 2017</div>
+        <div class="rule-body">
+          PEL <strong>50 μg/m³</strong> (8-hr TWA); action level 25 μg/m³. Engineering controls, respiratory protection, exposure assessment, medical surveillance, and hazard communication required. <strong>Engineered stone countertop fabrication</strong> falls under the General Industry standard. OSHA's National Emphasis Program on Silica (CPL 03-00-023, 2023) targets fabrication shops. Note: the OSHA PEL was set before the engineered stone industry existed — current research indicates resin-coated high-silica stone is more hazardous than the silica studied during the rulemaking.
+        </div>
+        <a class="rule-link" href="https://www.osha.gov/silica-crystalline/standards" target="_blank" rel="noopener">OSHA Silica Standards →</a>
+      </div>
+
+      <div class="rule-card status-watch" id="as-cal-osha">
+        <div class="rule-head">
+          <div class="rule-title">California — SB 20 (STOP Act), Permanent Silica Rules &amp; Ban Rulemaking</div>
+          <span class="rule-tag tag-watch">Active rulemaking · Ban petition granted May 2026</span>
+        </div>
+        <div class="rule-meta">SB 20 (signed Oct 2025) · Cal/OSHA Permanent Silica Standard (adopted Feb 2025) · Petition No. 609 (granted May 2026)</div>
+        <div class="rule-body">
+          California has the most active regulatory track. SB 20 (Silicosis Training, Outreach, and Prevention Act) classified silicosis as a serious illness and mandated data-sharing between Cal/OSHA and CDPH. Permanent silica standards adopted Feb 2025. Cal/OSHA's Silica Special Emphasis Program has issued <strong>900+ citations</strong> and $1.9M in penalties; 95% of shops visited not in full compliance. May 2026: standards board unanimously directed Cal/OSHA to prepare emergency rulemaking to ban fabrication of stone with &gt;1% crystalline silica. Legal authority to ban (vs. regulate) is contested.
+        </div>
+        <a class="rule-link" href="https://www.dir.ca.gov/DIRNews/2026/2026-45.html" target="_blank" rel="noopener">Cal DIR — May 2026 press release →</a>
+      </div>
+
+      <div class="rule-card status-watch" id="as-msha">
+        <div class="rule-head">
+          <div class="rule-title">MSHA — 2024 Silica Rule (Stayed) &amp; Pending NPRM</div>
+          <span class="rule-tag tag-watch">Stayed · NPRM imminent as of Aug 2026</span>
+        </div>
+        <div class="rule-meta">30 CFR Part 60 · Biden-era final rule (Apr 2024) · 8th Circuit stay (Apr 2025) · SMI v. MSHA</div>
+        <div class="rule-body">
+          MSHA's 2024 rule set a <strong>50 μg/m³ PEL</strong> for all mines — first-ever for coal, halved limit for metal/nonmetal. Stayed by the 8th Circuit Apr 2025 while industry litigation proceeds. MSHA announced it would pursue "limited rulemaking to reconsider" the rule; OMB completed review Aug 10, 2026. NPRM expected imminently. Stated goal: clarify/modify without reducing protections. Mine Act § 101(a)(9) prohibits MSHA from reducing existing protections — any weakening will face legal challenge from labor and miner health groups.
+        </div>
+        <a class="rule-link" href="https://www.msha.gov/silica-final-rule-30-cfr-part-60-resources" target="_blank" rel="noopener">MSHA Silica Rule resources →</a>
+      </div>
+
+      <div class="rule-card status-final" id="as-australia">
+        <div class="rule-head">
+          <div class="rule-title">Australia — Engineered Stone Ban (July 1, 2024)</div>
+          <span class="rule-tag tag-final">Ban in Effect · Key international comparator</span>
+        </div>
+        <div class="rule-meta">Safe Work Australia Model WHS Regulations · All states and territories implementing</div>
+        <div class="rule-body">
+          Australia became the first country to <strong>prohibit the supply, processing, and installation</strong> of engineered stone. Multiple low-silica substitutes (natural stone, solid surface, ultra-compact porcelain, crushed glass) are available at similar price points. Post-ban: no job losses reported; worker shortage in the sector. Screening program found ~1 in 4 fabrication workers (19.5%) had developed silicosis — suggesting US national case count may be in the tens of thousands. Cited as model by Cal/OSHA and WOEMA; contested by industry.
+        </div>
+        <a class="rule-link" href="https://www.safeworkaustralia.gov.au/safety-topic/hazards/silica-and-silicosis/engineered-stone" target="_blank" rel="noopener">Safe Work Australia →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── NIOSH Guidance Section ── -->
+  <section id="niosh-guidance">
+    <h2>🏥 NIOSH Guidance &amp; RELs <span class="count">3 items</span></h2>
+    <p class="section-intro">Recent NIOSH health hazard evaluations, criteria documents, and recommended exposure limits relevant to IH practice.</p>
+    <div class="rules-grid">
+
+      <div class="rule-card status-final" id="niosh-silica">
+        <div class="rule-head">
+          <div class="rule-title">NIOSH — Criteria Document: Occupational Exposure to Silica</div>
+          <span class="rule-tag tag-final">Criteria Doc · Current</span>
+        </div>
+        <div class="rule-meta">NIOSH DHHS Publication No. 2002-129 · Updated guidance ongoing</div>
+        <div class="rule-body">NIOSH REL for respirable crystalline silica is <strong>0.05 mg/m³</strong> as a 10-hr TWA. NIOSH considers this a risk-based limit, not a zero-risk limit — residual cancer and silicosis risk persists at the REL. NIOSH has issued HHEs for multiple engineered stone fabrication shops (2019–2024) documenting exceedances well above the REL and acute silicosis cases.</div>
+        <a class="rule-link" href="https://www.cdc.gov/niosh/docs/2002-129/default.html" target="_blank" rel="noopener">NIOSH Silica Criteria Doc →</a>
+      </div>
+
+      <div class="rule-card status-active" id="niosh-erd">
+        <div class="rule-head">
+          <div class="rule-title">NIOSH — Current Intelligence Bulletins &amp; HHEs (Stone Fabrication)</div>
+          <span class="rule-tag tag-active">Ongoing · Multiple publications</span>
+        </div>
+        <div class="rule-meta">NIOSH HHE Program · 2019–present</div>
+        <div class="rule-body">NIOSH has conducted health hazard evaluations at countertop fabrication facilities in California, Texas, Colorado, and other states. Findings consistently document silica exposures exceeding 10× the REL, progressive massive fibrosis in young workers, and inadequate engineering controls. CIB on occupational exposure to RCS during engineered stone processing under development.</div>
+        <a class="rule-link" href="https://www.cdc.gov/niosh/hhe/default.html" target="_blank" rel="noopener">NIOSH HHE Program →</a>
+      </div>
+
+      <div class="rule-card status-proposed" id="niosh-cancer">
+        <div class="rule-head">
+          <div class="rule-title">NIOSH — Occupational Carcinogens: Updated REL Framework</div>
+          <span class="rule-tag tag-proposed">In Development</span>
+        </div>
+        <div class="rule-meta">NIOSH · Risk-based REL updates · Ongoing</div>
+        <div class="rule-body">NIOSH is updating its approach to RELs for carcinogens to include risk characterization at the REL (excess risk per 1,000 workers) per the 2023 NIOSH Strategic Plan. This affects a range of IH-relevant chemicals. Crystalline silica (IARC Group 1 carcinogen) is among the substances affected. Practitioners should monitor NIOSH for updated criteria documents.</div>
+        <a class="rule-link" href="https://www.cdc.gov/niosh/programs/rel/default.html" target="_blank" rel="noopener">NIOSH REL Program →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── International Section ── -->
+  <section id="intl-section">
+    <h2>🌐 International Standards &amp; Developments <span class="count">4 items</span></h2>
+    <p class="section-intro">Major international OEL-setting bodies and regulatory developments outside the US.</p>
+    <div class="rules-grid">
+
+      <div class="rule-card status-final" id="intl-eu">
+        <div class="rule-head">
+          <div class="rule-title">EU — Chemical Agents Directive (OEL for RCS)</div>
+          <span class="rule-tag tag-final">Binding OEL · In Effect</span>
+        </div>
+        <div class="rule-meta">Directive 2017/164/EU · Amended by 2019/130/EU · 0.1 mg/m³ respirable RCS</div>
+        <div class="rule-body">EU binding OEL for respirable crystalline silica (quartz) is <strong>0.1 mg/m³</strong>, higher than US NIOSH/OSHA limits. Social partner agreement (NEPSI) on RCS provides voluntary practical recommendations. Engineered stone not separately banned in EU but member states are monitoring Australia's experience. ECHA reviewing additional silica-related classifications.</div>
+        <a class="rule-link" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32017L0164" target="_blank" rel="noopener">EU CAD →</a>
+      </div>
+
+      <div class="rule-card status-final" id="intl-uk">
+        <div class="rule-head">
+          <div class="rule-title">UK — HSE Silica &amp; Engineered Stone Guidance</div>
+          <span class="rule-tag tag-final">WEL · 0.1 mg/m³ RCS</span>
+        </div>
+        <div class="rule-meta">EH40 Workplace Exposure Limits · HSE · Updated 2020</div>
+        <div class="rule-body">UK Workplace Exposure Limit for RCS is <strong>0.1 mg/m³</strong> (8-hr TWA). HSE has published specific guidance for stone fabrication (including engineered stone), noting the severe silicosis risk and requiring wet working and LEV. No ban proposed; enforcement-based approach. HSE consulted on potential WEL reductions post-Brexit.</div>
+        <a class="rule-link" href="https://www.hse.gov.uk/pubns/priced/eh40.pdf" target="_blank" rel="noopener">UK EH40 →</a>
+      </div>
+
+      <div class="rule-card status-active" id="intl-acgih-intl">
+        <div class="rule-head">
+          <div class="rule-title">ACGIH TLV — Crystalline Silica (Quartz), Respirable</div>
+          <span class="rule-tag tag-active">TLV · 0.025 mg/m³</span>
+        </div>
+        <div class="rule-meta">ACGIH 2024 TLV-TWA · A2 Suspected Human Carcinogen</div>
+        <div class="rule-body">ACGIH's TLV for respirable quartz is <strong>0.025 mg/m³</strong> — half the OSHA/NIOSH PEL/REL — with an A2 carcinogen designation. Tridymite TLV is half the quartz TLV. ACGIH reviews TLVs annually; silica classification has been stable but ACGIH-BEI documentation updated to reflect engineered stone evidence. No BEI established.</div>
+        <a class="rule-link" href="https://www.acgih.org/silica-crystalline-tlv-chemical-substances-7th-edition-documentation/" target="_blank" rel="noopener">ACGIH Silica TLV Doc →</a>
+      </div>
+
+      <div class="rule-card status-watch" id="intl-spain">
+        <div class="rule-head">
+          <div class="rule-title">Spain — Engineered Stone Regulation (Significant Activity)</div>
+          <span class="rule-tag tag-watch">Watch · Regulatory action ongoing</span>
+        </div>
+        <div class="rule-meta">RD 1432/2023 (Spain) · Ministry of Labour</div>
+        <div class="rule-body">Spain enacted Royal Decree 1432/2023 introducing strict controls on artificial stone processing, including mandatory wet cutting, LEV, respiratory protection, and medical surveillance. Spain was an early mover in Europe given documented silicosis cases in the countertop sector (particularly Andalucía). Implementation monitoring ongoing; other EU member states watching for potential model legislation.</div>
+        <a class="rule-link" href="https://www.boe.es/buscar/doc.php?id=BOE-A-2023-25059" target="_blank" rel="noopener">BOE RD 1432/2023 →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- end main tab -->
+
+<!-- ══════════════════ NEWS TAB ══════════════════ -->
+<div data-view-panel="news">
+
+<div style="background:#f0f6fc; border:1px solid #bdd5ee; border-left:4px solid var(--accent); border-radius:3px; padding:10px 16px; margin-bottom:16px; font-size:13px; color:var(--text-main); display:flex; align-items:baseline; flex-wrap:wrap; gap:8px;">
+    <strong style="color:var(--osha-navy);">📚 InsideOSHA access note:</strong>
+    InsideOSHA content referenced in this tracker is available by <strong>subscription only</strong>. To request a specific article, contact <strong>Ellen in Library Services</strong> — <a href="mailto:ehartley@integral-corp.com" style="color:var(--accent); font-weight:600;">ehartley@integral-corp.com</a>.
+  </div>
+
+  <!-- AI-powered digest -->
+  <div class="ai-digest" id="ai-digest-section">
+    <div class="ai-digest-header">
+      <span class="ai-digest-title">🤖 AI Monthly Digest</span>
+      <span class="ai-badge">Claude-powered</span>
+      <span class="ai-digest-note">Summarizes recent news across tracked topics on demand</span>
+      <button class="ai-run-btn" id="aiRunBtn">
+        <span id="aiRunSpinner" style="display:none;" class="ai-spinner"></span>
+        <span id="aiRunLabel">▶ Run monthly digest</span>
+      </button>
+    </div>
+    <div class="ai-output" id="aiOutput">
+      <p class="ai-placeholder">Click "Run monthly digest" to generate a summary of recent developments across artificial stone regulation, OSHA/IH rulemaking, and OEL updates. The digest pulls from public sources and your tracked topics.</p>
+    </div>
+  </div>
+
+  <section id="news-as" class="section-hot">
+    <h2>🔥 Artificial Stone &amp; Silica News</h2>
+    <p class="section-intro">Manually curated news items — add recent InsideOSHA clips, AIHA Synergist pieces, or JOEH papers here each week.</p>
+
+    <div class="fr-list">
+      <div class="fr-item">
+        <span class="fr-title" style="color: var(--osha-navy); font-size:13.5px; font-weight:600;">📌 This section: add notable InsideOSHA items here each month</span>
+        <div class="fr-meta"><span class="badge">Placeholder</span> Paste in significant items from the InsideOSHA daily digest worth tracking over time</div>
+        <div class="fr-abstract">This tracker is designed to complement (not replace) your daily InsideOSHA feed by providing a monthly summary layer. Use this section to log the most significant items: new citations/enforcement actions, proposed rules, silicosis case clusters, and legislation.
+          <br><br><strong>📚 InsideOSHA access:</strong> InsideOSHA content is available by subscription. If you need a specific article, contact <strong>Ellen in Library Services</strong> — <a href="mailto:ehartley@integral-corp.com">ehartley@integral-corp.com</a>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news-regs">
+    <h2>📋 IH/OHS Regulation &amp; Standards News</h2>
+    <p class="section-intro">Major regulatory/standard changes. Seed with InsideOSHA highlights; supplement from ACGIH, AIHA Synergist, and JOEH.</p>
+    <div class="fr-list">
+      <div class="fr-item">
+        <a class="fr-title" href="https://www.osha.gov/hazcom" target="_blank" rel="noopener">HazCom 2024 Final Rule (GHS Rev. 7) — Effective May 20, 2024</a>
+        <div class="fr-meta"><span class="badge">Final Rule</span> OSHA · 29 CFR 1910.1200 · Phased compliance through 2028</div>
+        <div class="fr-abstract">OSHA's revised HazCom standard aligns with GHS Rev. 7 and adds new hazard classes. IH professionals should audit SDS libraries and labeling programs. Chemical suppliers have a 1-year transition; employers updating programs through 2026–2028.</div>
+      </div>
+      <div class="fr-item">
+        <a class="fr-title" href="https://www.osha.gov/heat-exposure/rulemaking" target="_blank" rel="noopener">Heat Illness Prevention NPRM — Status Watch</a>
+        <div class="fr-meta"><span class="badge">NPRM</span> OSHA · 2024 · Final rule timing uncertain</div>
+        <div class="fr-abstract">OSHA's heat NPRM remains one of the highest-profile occupational health rulemakings. Monitor for finalization or withdrawal under current administration. Significant IH and industrial monitoring implications if finalized.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news-lit">
+    <h2>📚 JOEH &amp; AIHA Literature Highlights</h2>
+    <p class="section-intro">Peer-reviewed and trade publication items of particular IH/OHS relevance. Add new JOEH papers and AIHA Synergist features each week.</p>
+    <div class="fr-list">
+      <div class="fr-item">
+        <a class="fr-title" href="https://www.tandfonline.com/doi/full/10.1080/15459624.2023.2213793" target="_blank" rel="noopener">JOEH (2023) — Silicosis Cluster Among Engineered Stone Countertop Workers, California</a>
+        <div class="fr-meta"><span class="badge">Peer-Reviewed</span> Journal of Occupational and Environmental Hygiene · 2023</div>
+        <div class="fr-abstract">Key study documenting accelerated silicosis and PMF in young countertop fabricators. Drove OSHA enforcement emphasis and Cal/OSHA legislative response. Recommended as foundational reading for practitioners in the AS space.</div>
+      </div>
+      <div class="fr-item">
+        <span class="fr-title" style="color: var(--osha-navy);">📌 Add new JOEH / AIHA Synergist items here each week</span>
+        <div class="fr-meta"><span class="badge">Placeholder</span> Rotating literature highlights</div>
+        <div class="fr-abstract">Use this section for notable new papers in the Journal of Occupational and Environmental Hygiene (JOEH), AIHA's Synergist, AIHAJ, and occupational health literature. Focus on: silica/AS, new OELs, emerging chemical hazards, IH methodology.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end news tab -->
+
+<!-- ══════════════════ OEL TAB ══════════════════ -->
+<div data-view-panel="oel">
+
+  <section id="oel-section">
+    <h2>⚗️ OEL Watchlist — ACGIH, NIOSH, OSHA, AIHA <span class="count">5 substances</span></h2>
+    <p class="section-intro">Occupational exposure limits currently under review, recently updated, or of particular IH relevance. Updated with each ACGIH TLV cycle (annual) and NIOSH/OSHA actions.</p>
+
+    <table class="oel-table">
+      <thead>
+        <tr>
+          <th>Substance</th>
+          <th>OSHA PEL</th>
+          <th>NIOSH REL</th>
+          <th>ACGIH TLV (2024)</th>
+          <th>Status / Notes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Crystalline Silica (Quartz), Respirable</strong></td>
+          <td>50 μg/m³ (TWA)</td>
+          <td>50 μg/m³ (REL, Ca)</td>
+          <td>25 μg/m³ (TWA, A2)</td>
+          <td><span class="oel-status oel-update">Active ↑</span> ACGIH TLV half the OSHA PEL; engineered stone driving enforcement focus</td>
+          <td><a href="https://www.osha.gov/silica-crystalline" target="_blank" rel="noopener" class="rule-link">OSHA →</a></td>
+        </tr>
+        <tr>
+          <td><strong>Isocyanates (MDI, TDI — group)</strong></td>
+          <td>0.02 mg/m³ ceiling (TDI)</td>
+          <td>0.005 mg/m³ (REL-C, TDI)</td>
+          <td>0.005 mg/m³ (TLV-C, MDI)</td>
+          <td><span class="oel-status oel-watch">Watch</span> NIOSH considering updated REL; widespread IH concern in polyurethane/spray foam industries</td>
+          <td><a href="https://www.cdc.gov/niosh/topics/isocyanates/" target="_blank" rel="noopener" class="rule-link">NIOSH →</a></td>
+        </tr>
+        <tr>
+          <td><strong>Lead (inorganic)</strong></td>
+          <td>50 μg/m³ (TWA); AL 30 μg/m³</td>
+          <td>50 μg/m³ (REL)</td>
+          <td>0.05 mg/m³ (TWA, A3)</td>
+          <td><span class="oel-status oel-update">Review</span> OSHA planning PEL revision; blood lead BEI proposed by ACGIH; renovation/demolition sector focus</td>
+          <td><a href="https://www.osha.gov/lead" target="_blank" rel="noopener" class="rule-link">OSHA →</a></td>
+        </tr>
+        <tr>
+          <td><strong>Styrene</strong></td>
+          <td>100 ppm (TWA PEL)</td>
+          <td>50 ppm (REL-TWA); 100 ppm STEL</td>
+          <td>20 ppm (TWA, A4)</td>
+          <td><span class="oel-status oel-watch">Watch</span> ACGIH TLV significantly below OSHA PEL; neurotoxicity/possible carcinogenicity concerns; composites/fiberglass industry relevance</td>
+          <td><a href="https://www.acgih.org/styrene/" target="_blank" rel="noopener" class="rule-link">ACGIH →</a></td>
+        </tr>
+        <tr>
+          <td><strong>Hexavalent Chromium (Cr(VI))</strong></td>
+          <td>5 μg/m³ (TWA); AL 2.5 μg/m³</td>
+          <td>0.2 μg/m³ (REL, Ca)</td>
+          <td>0.01 mg/m³ (TWA, A1)</td>
+          <td><span class="oel-status oel-update">Active</span> ACGIH TLV 0.01 mg/m³ vs OSHA PEL 0.005 mg/m³ — ongoing discussion; welding/chrome plating emphasis</td>
+          <td><a href="https://www.osha.gov/chromium" target="_blank" rel="noopener" class="rule-link">OSHA →</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">⚠️ <strong>Note:</strong> OELs are subject to annual ACGIH updates (published each February) and periodic NIOSH revision. Always verify current limits against the most recent ACGIH TLV/BEI booklet. OSHA PELs require rulemaking to change and many remain at 1971 levels. Table last reviewed: Initial tracker build.</p>
+  </section>
+
+  <section id="oel-acgih-cycle">
+    <h2>📅 ACGIH TLV Annual Cycle — What to Watch</h2>
+    <p class="section-intro">ACGIH publishes its TLV/BEI booklet each February. Track the Notice of Intended Changes (NIC) list for advance warning.</p>
+    <div class="rules-grid">
+      <div class="rule-card status-proposed">
+        <div class="rule-head">
+          <div class="rule-title">2025 NIC (Notice of Intended Changes) — Substances Under Review</div>
+          <span class="rule-tag tag-proposed">NIC · 2025 Cycle</span>
+        </div>
+        <div class="rule-meta">ACGIH · Annual publication · Check current NIC list</div>
+        <div class="rule-body">Consult the ACGIH website each February for the official NIC list. Substances on the NIC are being considered for new or revised TLVs in the following year's booklet. This is a 1–3 year lead indicator. Add specific NIC substances here after each February publication.</div>
+        <a class="rule-link" href="https://www.acgih.org/tlv-bei-guidelines/tlv-chemical-substances-introduction/notice-of-intended-changes-nic/" target="_blank" rel="noopener">ACGIH NIC Page →</a>
+      </div>
+      <div class="rule-card status-active">
+        <div class="rule-head">
+          <div class="rule-title">AIHA WEEL (Workplace Environmental Exposure Levels)</div>
+          <span class="rule-tag tag-active">Ongoing · Supplements OSHA/ACGIH</span>
+        </div>
+        <div class="rule-meta">AIHA WEEL Committee · Substances without OSHA PEL or ACGIH TLV</div>
+        <div class="rule-body">AIHA publishes WEELs for chemicals that lack OSHA PELs or ACGIH TLVs. These are widely used by IH practitioners as the basis for exposure guidelines where regulatory limits are absent. Monitor AIHA's WEEL committee publications for updates relevant to emerging chemicals and process byproducts.</div>
+        <a class="rule-link" href="https://www.aiha.org/public-policy/oehl-updates/" target="_blank" rel="noopener">AIHA OEL Updates →</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end OEL tab -->
+
+<!-- ══════════════════ ABOUT TAB ══════════════════ -->
+<div data-view-panel="about">
+
+  <section id="sources-section">
+    <h2>📚 Tracked Sources</h2>
+    <div class="sources-grid">
+      <div class="source-card src-blue">
+        <div class="source-name">OSHA</div>
+        <div class="source-desc">Federal rulemakings, enforcement actions, National Emphasis Programs, enforcement stats, and standards updates.</div>
+        <a class="source-link" href="https://www.osha.gov" target="_blank" rel="noopener">osha.gov →</a>
+      </div>
+      <div class="source-card">
+        <div class="source-name">NIOSH</div>
+        <div class="source-desc">RELs, criteria documents, HHEs (Health Hazard Evaluations), current intelligence bulletins, and research publications.</div>
+        <a class="source-link" href="https://www.cdc.gov/niosh" target="_blank" rel="noopener">cdc.gov/niosh →</a>
+      </div>
+      <div class="source-card src-blue">
+        <div class="source-name">InsideOSHA</div>
+        <div class="source-desc">Daily regulatory and enforcement news. <strong>Subscription required.</strong> This tracker surfaces notable items monthly. Need a specific article? Contact Ellen in Library Services.</div>
+        <a class="source-link" href="mailto:ehartley@integral-corp.com?subject=InsideOSHA%20article%20request">Request an article →</a>
+      </div>
+      <div class="source-card">
+        <div class="source-name">ACGIH</div>
+        <div class="source-desc">Annual TLV/BEI booklet, Notice of Intended Changes (NIC), and chemical substance documentation updates.</div>
+        <a class="source-link" href="https://www.acgih.org/tlv-bei-guidelines/" target="_blank" rel="noopener">acgih.org →</a>
+      </div>
+      <div class="source-card src-gold">
+        <div class="source-name">AIHA</div>
+        <div class="source-desc">WEEL updates, Synergist trade publication, OEL policy statements, and occupational health position papers.</div>
+        <a class="source-link" href="https://www.aiha.org" target="_blank" rel="noopener">aiha.org →</a>
+      </div>
+      <div class="source-card src-gold">
+        <div class="source-name">JOEH</div>
+        <div class="source-desc">Journal of Occupational and Environmental Hygiene — peer-reviewed research on IH methods, exposures, and health outcomes.</div>
+        <a class="source-link" href="https://www.tandfonline.com/toc/uoeh20/current" target="_blank" rel="noopener">JOEH →</a>
+      </div>
+      <div class="source-card">
+        <div class="source-name">Federal Register</div>
+        <div class="source-desc">Live stream of OSHA, NIOSH, and related agency rulemaking actions. Pulled via federalregister.gov API.</div>
+        <a class="source-link" href="https://www.federalregister.gov" target="_blank" rel="noopener">federalregister.gov →</a>
+      </div>
+      <div class="source-card">
+        <div class="source-name">Safe Work Australia</div>
+        <div class="source-desc">Australian engineered stone ban implementation, silicosis registry, and model WHS regulations — key international comparator.</div>
+        <a class="source-link" href="https://www.safeworkaustralia.gov.au" target="_blank" rel="noopener">safeworkaustralia.gov.au →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about-section">
+    <h2>ℹ️ About &amp; Methodology</h2>
+    <div class="about-block">
+      <h3>Purpose</h3>
+      <p>This tracker is an Integral Library Services product providing a monthly digest of IH and occupational health regulatory developments. It covers OSHA rulemaking, OEL updates from ACGIH/NIOSH/AIHA, and topic-specific deep dives (such as artificial stone/silica) added as practice needs evolve.</p>
+
+      <h3>How to use</h3>
+      <ul>
+        <li><strong>Monthly:</strong> Add notable InsideOSHA highlights and new regulatory actions to the News tab. Log date, source, and a brief summary.</li>
+        <li><strong>Each February:</strong> Check the ACGIH NIC list and update the OEL Watchlist with new TLV changes.</li>
+        <li><strong>As-needed:</strong> Add new JOEH/AIHA Synergist papers to the Literature section. Update rule cards when OSHA publishes NPRMs, final rules, or enforcement guidance.</li>
+        <li><strong>AI Digest:</strong> Use the "Run monthly digest" button on the News tab for an on-demand AI summary of recent developments.</li>
+        <li><strong>Need a paywalled article?</strong> InsideOSHA and some journal content requires a subscription. Contact <strong>Ellen in Library Services</strong> at <a href="mailto:ehartley@integral-corp.com">ehartley@integral-corp.com</a> to request access to a specific article.</li>
+      </ul>
+
+      <h3>Adding new topic areas</h3>
+      <p>This tracker is designed to grow. New topic sections (beyond artificial stone/silica) can be added as practice needs are identified — contact Library Services to request a new area of coverage.</p>
+
+      <h3>What this tracker does NOT cover</h3>
+      <ul>
+        <li>General environmental (EPA, state DEQ) regulations unless directly IH-relevant</li>
+        <li>Individual enforcement case tracking (handled through InsideOSHA daily)</li>
+        <li>Clinical occupational medicine (medical surveillance interpretation, clinical management)</li>
+      </ul>
+
+      <h3>Submitting additions</h3>
+      <p>To suggest additions, corrections, or new topic areas, contact <strong>Ellen in Library Services</strong> at <a href="mailto:ehartley@integral-corp.com">ehartley@integral-corp.com</a>. Include a source URL, date, and a brief note on relevance.</p>
+    </div>
+  </section>
+
+</div><!-- end about tab -->
+
+</div><!-- .wrap -->
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+
+<script>
+// ── Set today's date ──
+(function() {
+  var el = document.getElementById('refreshDate');
+  if (el) {
+    var d = new Date();
+    el.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+})();
+</script>
+
+<script>
+// ── Tab switching ──
+(function() {
+  var tabs = document.querySelectorAll('.view-tab[data-tab]');
+  var panels = document.querySelectorAll('[data-view-panel]');
+
+  function setTab(id) {
+    tabs.forEach(function(t) {
+      t.classList.toggle('is-active', t.dataset.tab === id);
+    });
+    panels.forEach(function(p) {
+      p.classList.toggle('is-active', p.dataset.viewPanel === id);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() { setTab(tab.dataset.tab); });
+  });
+})();
+</script>
+
+<script>
+// ── Sticky TOC ──
+(function() {
+  var toc = document.querySelector('.toc');
+  if (!toc) return;
+  var sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;';
+  toc.parentNode.insertBefore(sentinel, toc);
+  if (typeof IntersectionObserver !== 'undefined') {
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting && e.boundingClientRect.top < 0) toc.classList.add('is-stuck');
+        else toc.classList.remove('is-stuck');
+      });
+    }, { threshold: 0 }).observe(sentinel);
+  }
+})();
+</script>
+
+<script>
+// ── OSHA filter pills ──
+(function() {
+  var pills = document.querySelectorAll('#oshaFilter .filter-pill');
+  var grid = document.getElementById('oshaRulesGrid');
+  if (!grid || !pills.length) return;
+  var cards = grid.querySelectorAll('.rule-card');
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      var f = pill.dataset.filter;
+      pills.forEach(function(p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      cards.forEach(function(c) {
+        var tags = (c.dataset.tags || '').split(/\s+/);
+        c.style.display = (f === 'all' || tags.indexOf(f) !== -1) ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+
+<script>
+// ── Live Federal Register stream (OSHA/silica/occupational health) ──
+(function() {
+  var content = document.getElementById('frIHContent');
+  var count = document.getElementById('frIHCount');
+  if (!content) return;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function fmtDate(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    return isNaN(d) ? s : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  // Search for OSHA + silica docs
+  var url = 'https://www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=occupational-safety-and-health-administration&per_page=20&order=newest&fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=document_number&fields[]=type&fields[]=html_url&fields[]=agencies';
+
+  fetch(url)
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
+      var results = (data.results || []).slice(0, 12);
+      if (count) count.textContent = results.length + ' items';
+      if (!results.length) {
+        content.innerHTML = '<p class="empty-state">No recent OSHA Federal Register documents found.</p>';
+        return;
+      }
+      var html = '<div class="fr-list">' + results.map(function(doc) {
+        var agency = doc.agencies && doc.agencies.length ? doc.agencies.map(function(a){ return a.name; }).join(', ') : '';
+        var abs = doc.abstract || '';
+        return '<div class="fr-item">' +
+          '<a class="fr-title" href="' + esc(doc.html_url || '#') + '" target="_blank" rel="noopener">' + esc(doc.title || '(untitled)') + '</a>' +
+          '<div class="fr-meta">' +
+            '<span class="badge">' + esc(doc.type || 'Doc') + '</span>' +
+            '<span>' + esc(fmtDate(doc.publication_date)) + '</span>' +
+            (agency ? '<span>' + esc(agency) + '</span>' : '') +
+            (doc.document_number ? '<span>FR Doc ' + esc(doc.document_number) + '</span>' : '') +
+          '</div>' +
+          (abs ? '<div class="fr-abstract">' + esc(abs).slice(0, 380) + (abs.length > 380 ? '&hellip;' : '') + '</div>' : '') +
+          '</div>';
+      }).join('') + '</div>';
+      content.innerHTML = html;
+    })
+    .catch(function(err) {
+      if (count) count.textContent = 'error';
+      content.innerHTML = '<p style="color:#8a0b1e; font-size:13px;">Could not load Federal Register data: ' + esc(err.message) + '</p>';
+    });
+})();
+</script>
+
+<script>
+// ── AI Weekly Digest (Claude API) ──
+(function() {
+  var btn = document.getElementById('aiRunBtn');
+  var spinner = document.getElementById('aiRunSpinner');
+  var label = document.getElementById('aiRunLabel');
+  var output = document.getElementById('aiOutput');
+  if (!btn) return;
+
+  btn.addEventListener('click', function() {
+    btn.disabled = true;
+    spinner.style.display = 'inline-block';
+    label.textContent = 'Generating…';
+    output.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div> Claude is searching for recent developments…</div>';
+
+    var today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var prompt = 'You are an industrial hygiene and occupational health regulatory intelligence assistant. Today is ' + today + '. Generate a concise weekly digest (3–5 bullet points per section, 2–3 sentences each) covering the most recent developments in these areas:\n\n1. **Artificial Stone / Engineered Stone Silica Regulation** — any new enforcement actions, bans, citations, state legislation, international moves, or scientific findings\n2. **OSHA & Occupational Health Rulemaking** — any NPRM publications, final rules, withdrawal of rules, enforcement guidance, or Congressional activity\n3. **OEL Updates** — any ACGIH TLV or BEI changes, NIOSH REL updates, AIHA WEEL publications, or OSHA PEL reform news\n4. **IH Literature** — notable recent papers in JOEH, AIHA Synergist, or other peer-reviewed occupational health journals\n\nFor each item, note the date, source, and why it matters to IH practitioners. Be specific and factual. If you are not aware of very recent developments (within the last month), say so honestly and summarize the most recent known status instead. Format as HTML using <h4> for section headers and <ul><li> for bullet points.';
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var text = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('\n');
+      if (!text) text = '<p class="ai-placeholder">No response received. Check API connectivity.</p>';
+      output.innerHTML = text + '<div class="ai-ts">Generated ' + today + ' · Claude Sonnet · Sources may not reflect events after knowledge cutoff</div>';
+    })
+    .catch(function(err) {
+      output.innerHTML = '<p style="color:var(--accent-deep);">Error: ' + err.message + '</p>';
+    })
+    .finally(function() {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      label.textContent = '▶ Run monthly digest';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
