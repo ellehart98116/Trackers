@@ -3,69 +3,37 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Public reference guide for Lake Koocanusa meeting and fact-sheet materials.">
-  <title>Lake Koocanusa | Public Reference Guide</title>
+  <meta name="description" content="Draft companion resource list.">
+  <title>Draft Resource List</title>
   <style>
     :root {
-      --integral-blue: #13335a;
-      --sky-blue: #6cb6ec;
-      --muted-blue: #6689b2;
-      --bright-green: #a1e06e;
-      --pale-gray: #f5f5f5;
-      --oyster: #e2e6df;
-      --ink: #17324f;
+      --text: #262626;
+      --muted: #666;
+      --rule: #cfcfcf;
+      --paper: #fff;
+      --ground: #f4f4f4;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      color: var(--ink);
-      background: var(--pale-gray);
-      font-family: "Proxima Nova", "Avenir Next", Arial, sans-serif;
+      color: var(--text);
+      background: var(--ground);
+      font-family: Arial, sans-serif;
       font-size: 17px;
       line-height: 1.55;
     }
 
     .masthead {
-      min-height: 270px;
-      padding: 34px max(7vw, 32px) 54px;
-      position: relative;
-      overflow: hidden;
-      color: var(--integral-blue);
-      background:
-        radial-gradient(circle at 18% 113%, rgba(161, 224, 110, .9) 0 11%, transparent 31%),
-        radial-gradient(circle at 72% 22%, rgba(108, 182, 236, .72) 0 18%, transparent 40%),
-        linear-gradient(124deg, #fff 6%, #f8fbff 35%, #87d3eb 100%);
-    }
-
-    .masthead::after {
-      content: "";
-      position: absolute;
-      width: 1050px;
-      height: 330px;
-      right: -225px;
-      bottom: -170px;
-      border-top: 2px solid rgba(19, 51, 90, .28);
-      border-radius: 50%;
-      transform: rotate(-8deg);
-      box-shadow: 0 -9px 0 -7px rgba(108, 182, 236, .65), 0 -18px 0 -16px rgba(19, 51, 90, .18);
-    }
-
-    .wordmark {
-      position: relative;
-      z-index: 1;
-      font-family: "Larken", Georgia, serif;
-      font-size: 2.45rem;
-      font-weight: 400;
-      letter-spacing: -.09em;
-      line-height: 1;
+      min-height: 210px;
+      padding: 48px max(7vw, 32px) 52px;
+      color: #fff;
+      background: #303030;
     }
 
     .eyebrow {
-      position: relative;
-      z-index: 1;
-      margin: 57px 0 8px;
+      margin: 0 0 10px;
       font-size: .76rem;
       font-weight: 700;
       letter-spacing: .12em;
@@ -73,11 +41,9 @@
     }
 
     h1 {
-      position: relative;
-      z-index: 1;
       max-width: 800px;
       margin: 0;
-      font-family: "Larken", Georgia, serif;
+      font-family: Georgia, serif;
       font-weight: 400;
       font-size: clamp(2.25rem, 5vw, 4.35rem);
       line-height: 1.04;
@@ -95,9 +61,9 @@
       max-width: 790px;
       margin: 0 0 48px;
       padding: 27px 31px;
-      background: #fff;
-      border-left: 5px solid var(--bright-green);
-      box-shadow: 0 10px 26px rgba(19, 51, 90, .09);
+      background: var(--paper);
+      border-left: 4px solid #777;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .07);
     }
 
     .intro p { margin: 0; }
@@ -106,8 +72,8 @@
 
     h2 {
       margin: 0 0 17px;
-      color: var(--integral-blue);
-      font-family: "Larken", Georgia, serif;
+      color: var(--text);
+      font-family: Georgia, serif;
       font-size: clamp(1.7rem, 3vw, 2.35rem);
       font-weight: 400;
       letter-spacing: -.025em;
@@ -117,43 +83,42 @@
       height: 2px;
       width: 100%;
       margin-bottom: 21px;
-      background: linear-gradient(90deg, var(--integral-blue), var(--sky-blue), var(--bright-green));
+      background: #444;
     }
 
     .references {
       list-style: none;
       margin: 0;
       padding: 0;
-      border-top: 1px solid #c9d5dd;
+      border-top: 1px solid var(--rule);
     }
 
     .references li {
       padding: 22px 2px 23px;
-      border-bottom: 1px solid #c9d5dd;
+      border-bottom: 1px solid var(--rule);
     }
 
     .citation { margin: 0; }
 
     .use {
       margin: 7px 0 0;
-      color: #4d6579;
+      color: var(--muted);
       font-size: .94rem;
     }
 
     a {
-      color: #0b5e9c;
+      color: #174a78;
       font-weight: 700;
-      text-decoration-color: var(--bright-green);
-      text-decoration-thickness: 2px;
+      text-decoration-thickness: 1px;
       text-underline-offset: 3px;
     }
 
-    a:hover { color: var(--integral-blue); }
+    a:hover { color: #000; }
 
     footer {
       padding: 35px max(7vw, 32px) 42px;
       color: #fff;
-      background: var(--integral-blue);
+      background: #303030;
     }
 
     footer p {
@@ -163,8 +128,7 @@
     }
 
     @media (max-width: 650px) {
-      .masthead { min-height: 230px; padding-top: 28px; }
-      .eyebrow { margin-top: 42px; }
+      .masthead { min-height: 190px; padding-top: 35px; }
       .intro { padding: 22px; }
       main { width: min(100% - 28px, 1060px); }
     }
@@ -175,20 +139,19 @@
       main { width: auto; margin: 0 28px; }
       .intro { box-shadow: none; }
       section { break-inside: avoid; }
-      a { color: var(--integral-blue); }
+      a { color: #000; }
     }
   </style>
 </head>
 <body>
   <header class="masthead">
-    <div class="wordmark" aria-label="Integral Consulting">integral</div>
-    <p class="eyebrow">Lake Koocanusa</p>
-    <h1>Public Reference Guide</h1>
+    <p class="eyebrow">Draft</p>
+    <h1>Resource List</h1>
   </header>
 
   <main>
     <div class="intro">
-      <p>This guide provides publicly available sources supporting the Lake Koocanusa meeting materials and fact sheet. Sources are organized by their principal use. It is a reference guide, not a statement of regulatory position.</p>
+      <p>This draft list provides links to selected publicly available resources. It is intended as a companion resource for reference only.</p>
     </div>
 
     <section>
@@ -200,11 +163,19 @@
           <p class="use"><a href="https://deq.mt.gov/files/Water/WQPB/Standards/Koocanusa/TSD_Lake%20Koocanusa_Sep2020_Final.pdf">View public PDF</a></p>
         </li>
         <li>
+          <p class="citation">DeForest, D. K., and W. J. Adams. 2020. <em>Comments on Koocanusa Reservoir Selenium Modeling and Recommendations for Site-Specific Selenium Criteria.</em> Appendix to Montana Department of Environmental Quality, <em>Derivation of a Site-Specific Water Column Selenium Standard for Lake Koocanusa, Montana.</em></p>
+          <p class="use"><a href="https://deq.mt.gov/files/Water/WQPB/Standards/Koocanusa/TSD_Lake%20Koocanusa_Sep2020_Final.pdf">View public technical-support record and appendices</a></p>
+        </li>
+        <li>
           <p class="citation">Administrative Rules of Montana. ARM 17.30.632. <em>Selenium Standards for Lake Koocanusa and the Kootenai River.</em></p>
           <p class="use"><a href="https://deq.mt.gov/water/Programs/standards">View Montana DEQ standards page</a></p>
         </li>
         <li>
-          <p class="citation">U.S. Environmental Protection Agency. 2021. <em>Aquatic Life Ambient Water Quality Criterion for Selenium - Freshwater: 2016 - 2021 Revision.</em></p>
+          <p class="citation">Montana Department of Environmental Quality. <em>Circular DEQ-7: Montana Numeric Water Quality Standards.</em></p>
+          <p class="use"><a href="https://deq.mt.gov/files/Water/WQPB/Standards/PDF/DEQ7/DEQ-7.pdf">View public Circular DEQ-7 PDF</a></p>
+        </li>
+        <li>
+          <p class="citation">U.S. Environmental Protection Agency. 2016, revised 2021. <em>Aquatic Life Ambient Water Quality Criterion for Selenium - Freshwater.</em></p>
           <p class="use"><a href="https://www.epa.gov/wqc/aquatic-life-criterion-selenium">View EPA criterion page</a></p>
         </li>
         <li>
@@ -221,7 +192,7 @@
     <section>
       <h2>Lake Koocanusa monitoring and biological evidence</h2>
       <div class="rule"></div>
-      <ol class="references" start="6">
+      <ol class="references" start="8">
         <li>
           <p class="citation">Schmidt, T. S., et al. 2025. <em>Preparation and Analysis Methods for Fish Tissue Collected from Lake Koocanusa, Montana.</em> U.S. Geological Survey Open-File Report 2025-1034.</p>
           <p class="use"><a href="https://pubs.usgs.gov/publication/ofr20251034">View USGS report</a></p>
@@ -240,7 +211,7 @@
     <section>
       <h2>Selenium tissue interpretation and toxicity research</h2>
       <div class="rule"></div>
-      <ol class="references" start="9">
+      <ol class="references" start="11">
         <li>
           <p class="citation">Brix, K. V., L. M. Tear, J. Elphick, J. Ings, C. Detering, M. Carr, K. Raes, M. C. Arnold, M. Adzic, M. Hecker, A. de Bruyn, and D. K. DeForest. 2025. <em>Oocyte Developmental Stage Influences Ovary Selenium Concentrations in Fish - Implications for Ovary Selenium Monitoring.</em> <em>Environmental Toxicology and Chemistry</em> 44(6): 1561-1574.</p>
           <p class="use"><a href="https://doi.org/10.1093/etojnl/vgaf024">View DOI record</a> | <a href="https://kevinbrix.com/wp-content/uploads/2025/05/brix-et-al.-2025a.pdf">View public full text</a></p>
@@ -259,7 +230,7 @@
     <section>
       <h2>Recreation and public use</h2>
       <div class="rule"></div>
-      <ol class="references" start="12">
+      <ol class="references" start="14">
         <li>
           <p class="citation">Montana Fish, Wildlife &amp; Parks. 2023. <em>Statewide Angling Pressure Estimates for Waterbodies by Region and Drainage Sorted Alphabetically for the Entire Year (March-February).</em></p>
           <p class="use"><a href="https://fwp.mt.gov/binaries/content/assets/fwp/fish/angling-pressure-surveys/2023/appendix-g-annual-angling-pressure-by-region-and-drainage-2023.pdf">View public PDF</a></p>
@@ -270,10 +241,21 @@
         </li>
       </ol>
     </section>
+
+    <section>
+      <h2>Science transparency</h2>
+      <div class="rule"></div>
+      <ol class="references" start="16">
+        <li>
+          <p class="citation">Executive Order 14303. 2025. <em>Restoring Gold Standard Science.</em></p>
+          <p class="use"><a href="https://www.federalregister.gov/documents/2025/05/23/2025-09802/restoring-gold-standard-science">View Federal Register notice</a></p>
+        </li>
+      </ol>
+    </section>
   </main>
 
   <footer>
-    <p>Integral Consulting Inc. | Lake Koocanusa public reference guide</p>
+    <p>Draft companion resource list</p>
   </footer>
 
 
