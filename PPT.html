@@ -706,6 +706,7 @@ footer.foot a:hover { text-decoration: underline; }
   100% { box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent; background-color: transparent; }
 }
 h3:target,
+h3.pfas-flash,
 section:target > h2:first-of-type {
   animation: pfas-heading-flash 5s ease-out;
 }
@@ -3926,6 +3927,27 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
     return 'full';
   }
 
+  function flashTrackerTarget(el) {
+    if (!el) return;
+    el.classList.remove('pfas-flash');
+    // Force reflow so repeated visits to the same card restart the animation.
+    void el.offsetWidth;
+    el.classList.add('pfas-flash');
+    setTimeout(function() { el.classList.remove('pfas-flash'); }, 5100);
+  }
+
+  function scrollToTrackerTarget(el) {
+    if (!el) return;
+    setTimeout(function() {
+      // Keep the destination fully visible below the sticky contents panel.
+      var tocHeight = toc ? toc.getBoundingClientRect().height : 0;
+      var offset = Math.min(Math.max(tocHeight + 28, 110), 300);
+      var top = window.pageYOffset + el.getBoundingClientRect().top - offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      flashTrackerTarget(el);
+    }, 80);
+  }
+
   function setView(view, scrollTarget) {
     tabs.forEach(function(t) {
       if (t.dataset.view === view) t.classList.add('is-active');
@@ -3949,15 +3971,7 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
     if (toc) toc.style.display = '';
     if (scrollTarget) {
       var el = document.getElementById(scrollTarget);
-      if (el) setTimeout(function() {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Re-trigger the anchor-arrival highlight after tab reveal so the flash is visible
-        el.classList.remove('pfas-flash');
-        // Force reflow to restart the CSS animation
-        void el.offsetWidth;
-        el.classList.add('pfas-flash');
-        setTimeout(function() { el.classList.remove('pfas-flash'); }, 5100);
-      }, 50);
+      if (el) scrollToTrackerTarget(el);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -4021,7 +4035,14 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
     var currentView = activeTab ? activeTab.dataset.view : 'full';
     if (targetView !== currentView) {
       e.preventDefault();
+      if (history.pushState) history.pushState(null, '', '#' + targetId);
+      else window.location.hash = targetId;
       setView(targetView, targetId);
+    } else {
+      e.preventDefault();
+      if (history.pushState) history.pushState(null, '', '#' + targetId);
+      else window.location.hash = targetId;
+      scrollToTrackerTarget(targetEl);
     }
   });
 
@@ -4039,8 +4060,8 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
       if (hashView !== 'full') {
         setView(hashView, hashId);
       } else {
-        // Same tab; just scroll to it (after layout settles)
-        setTimeout(function() { hashEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+        // Same tab; position the destination below the sticky contents panel.
+        scrollToTrackerTarget(hashEl);
       }
     }
   }
