@@ -887,7 +887,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <button class="view-tab" data-view="reference" type="button"><span class="tab-icon">📚</span>Reference Shelf</button>
 <button class="view-tab" data-view="about" type="button"><span class="tab-icon">ℹ️</span>About &amp; Methodology</button>
 </div>
-<div style="position: absolute; top: 0px; height: 1px; width: 1px;"></div><nav class="toc">
+<div style="position: absolute; top: 0px; height: 1px; width: 1px;"></div><nav class="toc is-stuck">
 <div class="toc-title">Contents</div>
 <ol class="toc-list toc-grouped toc-view" data-toc-view="full" style="">
 <li class="toc-group"><span class="toc-group-label">Current Activity</span><ul class="toc-sublist">
@@ -4551,6 +4551,31 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
   });
 
   applyFilter();
+})();
+</script>
+
+<script>
+/*
+  Publication safety net: a browser-saved local copy may rewrite same-page
+  fragment links as file:///.../PPT.html#section. If such a copy is ever
+  uploaded accidentally, keep same-page navigation portable and prevent any
+  remaining local-file destination from being exposed to readers.
+*/
+(function enforcePortablePublishedLinks() {
+  document.querySelectorAll('[href], [src]').forEach(function(element) {
+    ['href', 'src'].forEach(function(attribute) {
+      if (!element.hasAttribute(attribute)) return;
+      var value = element.getAttribute(attribute) || '';
+      if (!/^file:/i.test(value) && !/^[a-z]:[\\/]/i.test(value)) return;
+
+      if (attribute === 'href' && value.indexOf('#') !== -1) {
+        element.setAttribute('href', value.slice(value.indexOf('#')));
+      } else {
+        element.removeAttribute(attribute);
+        element.setAttribute('data-local-link-removed', 'true');
+      }
+    });
+  });
 })();
 </script>
 
