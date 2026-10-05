@@ -163,7 +163,7 @@ html { scroll-behavior: smooth; }
 .toc.is-stuck .toc-back-top:hover { color: #0a4f6f; text-decoration: underline; }
 .toc-title { font-size: 13px; margin: 0 0 6px 0; padding-bottom: 6px; }
 .toc.is-stuck .toc-list a { padding: 4px 6px; font-size: 13.5px; }
-.toc-list a.is-active { background: #eef5e3; color: var(--integral-navy); font-weight: 600; }
+.toc-list a.is-active { background: #eef5e3; color: var(--integral-navy); font-weight: 600; box-shadow: inset 3px 0 0 var(--integral-lime); }
 .toc-list a.is-active::before { color: var(--integral-navy); }
 .toc-title {
   font-family: 'Lora', Georgia, serif;
@@ -887,7 +887,7 @@ a[href^="http"]:not([href*="ellehart98116.github.io"])::after {
 <button class="view-tab" data-view="reference" type="button"><span class="tab-icon">📚</span>Reference Shelf</button>
 <button class="view-tab" data-view="about" type="button"><span class="tab-icon">ℹ️</span>About &amp; Methodology</button>
 </div>
-<div style="position: absolute; top: 0px; height: 1px; width: 1px;"></div><nav class="toc is-stuck">
+<div style="position: absolute; top: 0px; height: 1px; width: 1px;"></div><nav class="toc">
 <div class="toc-title">Contents</div>
 <ol class="toc-list toc-grouped toc-view" data-toc-view="full" style="">
 <li class="toc-group"><span class="toc-group-label">Current Activity</span><ul class="toc-sublist">
@@ -4057,6 +4057,55 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
     return document.getElementById(id);
   }).filter(Boolean);
 
+  function setActiveTocLink(id) {
+    if (!id) return;
+    var exactMatch = false;
+    tocLinks.forEach(function(a) {
+      if (a.getAttribute('href') === '#' + id) exactMatch = true;
+    });
+
+    // Some links target a card nested inside a TOC-listed section. In that
+    // case, highlight the nearest containing section represented in the TOC.
+    if (!exactMatch) {
+      var target = document.getElementById(id);
+      while (target && target !== document.body) {
+        if (target.id) {
+          var parentMatch = Array.prototype.some.call(tocLinks, function(a) {
+            return a.getAttribute('href') === '#' + target.id;
+          });
+          if (parentMatch) {
+            id = target.id;
+            exactMatch = true;
+            break;
+          }
+        }
+        target = target.parentNode;
+      }
+    }
+
+    if (!exactMatch) return;
+    tocLinks.forEach(function(a) {
+      a.classList.toggle('is-active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  // A TOC click should update the visual state immediately. Repeat after the
+  // smooth scroll settles so the observer cannot leave an earlier item active.
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var id = link.getAttribute('href').substring(1);
+    setActiveTocLink(id);
+    setTimeout(function() { setActiveTocLink(id); }, 900);
+  });
+
+  window.addEventListener('hashchange', function() {
+    setActiveTocLink(window.location.hash.substring(1));
+  });
+  if (window.location.hash) {
+    setActiveTocLink(window.location.hash.substring(1));
+  }
+
   var sentinel = document.createElement('div');
   sentinel.style.cssText = 'position:absolute; top:0; height:1px; width:1px;';
   toc.parentNode.insertBefore(sentinel, toc);
@@ -4073,13 +4122,10 @@ S3207-B/A8634-B would tighten the MCL to 4 ppt for PFOA/PFOS and add
       entries.forEach(function(e) {
         if (e.isIntersecting) {
           var id = e.target.id;
-          tocLinks.forEach(function(a) {
-            if (a.getAttribute('href') === '#' + id) a.classList.add('is-active');
-            else a.classList.remove('is-active');
-          });
+          setActiveTocLink(id);
         }
       });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    }, { rootMargin: '-85px 0px -70% 0px', threshold: 0 });
     sections.forEach(function(s) { sectionObserver.observe(s); });
   }
 })();
