@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Where our AI documents differ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,300&display=swap" rel="stylesheet">
+<style>:root{
+ --brand:#13335A; --green:#A1E06E; --sky:#6CB6EC; --muted:#6689B2; --oyster:#E2E6DF;
+ --head-bg:#E2E6DF; --bg:#F5F5F5; --surface:#FFFFFF; --ink:#13335A; --ink-2:#3F5573; --line:#E2E6DF; --line-2:#C5CCC1; --dot:#13335A; --hl:#E6F2FB;
+ --conflict-bg:#13335A; --conflict-fg:#FFFFFF; --differs-bg:#6CB6EC; --differs-fg:#0B2340;
+ --gap-fg:#13335A; --gap-bd:#13335A; --outdated-bg:#E2E6DF; --outdated-fg:#13335A; --outdated-bd:#6689B2;
+ --aligned-bg:#A1E06E; --aligned-fg:#13335A;
+ --bar-conflict:#13335A; --bar-differs:#6CB6EC; --bar-gap:#13335A; --bar-outdated:#6689B2; --bar-aligned:#A1E06E;
+ --serif:'Larken','Newsreader',Georgia,'Times New Roman',serif;
+ --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+ box-sizing:border-box;
+ padding-top:env(safe-area-inset-top,0px);
+ padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+ :root:not([data-theme="light"]){
+  --head-bg:#112A47; --bg:#0B1B2E; --surface:#112A47; --ink:#E9EEF4; --ink-2:#B4C2D3; --line:#24415F; --line-2:#35567A; --dot:#6CB6EC; --hl:#16385C;
+  --conflict-bg:#E9EEF4; --conflict-fg:#13335A; --differs-bg:#6CB6EC; --differs-fg:#0B2340;
+  --gap-fg:#6CB6EC; --gap-bd:#6CB6EC; --outdated-bg:#24415F; --outdated-fg:#E9EEF4; --outdated-bd:#6689B2;
+  --aligned-bg:#A1E06E; --aligned-fg:#13335A;
+  --bar-conflict:#E9EEF4; --bar-differs:#6CB6EC; --bar-gap:#6CB6EC; --bar-outdated:#6689B2; --bar-aligned:#A1E06E;
+ }
+}
+:root[data-theme="dark"]{
+ --head-bg:#112A47; --bg:#0B1B2E; --surface:#112A47; --ink:#E9EEF4; --ink-2:#B4C2D3; --line:#24415F; --line-2:#35567A; --dot:#6CB6EC; --hl:#16385C;
+ --conflict-bg:#E9EEF4; --conflict-fg:#13335A; --differs-bg:#6CB6EC; --differs-fg:#0B2340;
+ --gap-fg:#6CB6EC; --gap-bd:#6CB6EC; --outdated-bg:#24415F; --outdated-fg:#E9EEF4; --outdated-bd:#6689B2;
+ --aligned-bg:#A1E06E; --aligned-fg:#13335A;
+ --bar-conflict:#E9EEF4; --bar-differs:#6CB6EC; --bar-gap:#6CB6EC; --bar-outdated:#6689B2; --bar-aligned:#A1E06E;
+}
+html{background:var(--head-bg);scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--tabs-h,3.2rem) + 4.5rem)}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:70rem;margin:0 auto;padding:0 1.25rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:2px}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+
+.top{background:var(--head-bg);color:var(--ink);padding:2rem 0 1.75rem;border-bottom:6px solid var(--green)}
+.eyebrow{margin:0 0 .9rem;font:500 .75rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
+.eyebrow.dark{color:var(--ink-2)}
+h1,h2,h3{font-family:var(--serif);font-weight:300;margin:0}
+h1{font-size:clamp(2.1rem,5vw,3.25rem);line-height:1.08;letter-spacing:-.01em;max-width:30ch}
+.lede{margin:0;max-width:44rem;font-size:1.08rem;color:var(--ink)}
+h1+.lede{margin-top:1.25rem}
+.lede+.lede{text-indent:1.25em}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem 2.25rem;margin:1.75rem 0 0}
+.meta div{display:block;max-width:19rem}
+.meta dt{font-size:.75rem;color:var(--ink-2)}
+.meta dd{margin:0;font-weight:500}
+
+.panel{padding:2.25rem 0 3rem}
+.panel:focus-visible{outline-offset:-3px}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);line-height:1.15}
+h3{font-size:1.5rem;margin:2.25rem 0 .75rem}
+.sub{max-width:46rem;margin:.6rem 0 1.25rem;color:var(--ink-2)}
+
+.docs{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.docs li{display:grid;grid-template-columns:12rem 1fr 11rem;gap:.25rem 1rem;padding:.65rem 0;border-top:1px solid var(--line)}
+.docs .k{font-weight:500}
+.docs .d{color:var(--ink-2);font-size:.92rem;text-align:right}
+
+.scroll{position:relative;overflow-x:auto;background:var(--surface);border:1px solid var(--line)}
+table.xref{border-collapse:collapse;min-width:46rem;width:100%}
+.xref th,.xref td{padding:.7rem .75rem;border-top:1px solid var(--line)}
+.xref thead th{font-size:.8rem;font-weight:500;border-top:0;border-bottom:1px solid var(--line-2);text-align:center;vertical-align:bottom}
+.xref thead th:first-child,.xref tbody th{text-align:left}
+.xref tbody th{font-weight:500;font-size:.92rem;white-space:nowrap}
+.xref td{text-align:center}
+.xref .hl{background:var(--hl)}
+.xref thead th.hl{border-bottom:3px solid var(--sky)}
+.xref td.self{background:repeating-linear-gradient(135deg,transparent 0 5px,var(--line) 5px 6px)}
+.dot{display:inline-block;width:.9rem;height:.9rem;border-radius:50%;vertical-align:middle}
+.dot.full{background:var(--dot)}
+.dot.half{border:1.5px solid var(--dot);background:linear-gradient(90deg,var(--dot) 50%,transparent 50%)}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.25rem;margin:.8rem 0 0;font-size:.88rem;color:var(--ink-2)}
+.legend .dot,.legend .older{margin-right:.35rem}
+.legend>span{display:inline-flex;align-items:center}
+.older{color:var(--ink-2);font-weight:500}
+.legend .blank{margin-left:.25rem}
+
+.filterbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--tabs-h,3.2rem));z-index:5;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:0 0 0;padding:.7rem 0;background:var(--bg);border-bottom:1px solid var(--line)}
+.chip,.chipbtn{display:inline-block;border-radius:999px;border:1.5px solid transparent;padding:.22rem .8rem;font:500 .8rem/1.4 var(--sans);white-space:nowrap}
+.chipbtn{cursor:pointer;padding:.38rem .9rem;font-size:.86rem;background:var(--surface);color:var(--ink);border-color:var(--line-2)}
+.chipbtn b{margin-left:.4rem;font-weight:700}
+.chipbtn[aria-pressed="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.cyc.chip,.conflict.chip,.conflict.chipbtn{background:var(--conflict-bg);color:var(--conflict-fg);border-color:var(--conflict-bg)}
+.differs.chip,.differs.chipbtn{background:var(--differs-bg);color:var(--differs-fg);border-color:var(--differs-bg)}
+.dead.chip,.gap.chip,.gap.chipbtn{background:transparent;color:var(--gap-fg);border:1.5px dashed var(--gap-bd)}
+.outdated.chip,.outdated.chipbtn{background:var(--outdated-bg);color:var(--outdated-fg);border-color:var(--outdated-bd)}
+.aligned.chip,.aligned.chipbtn{background:var(--aligned-bg);color:var(--aligned-fg);border-color:var(--aligned-bg)}
+.expand{margin-left:auto;background:none;border:0;padding:.3rem .2rem;font:500 .86rem var(--sans);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.defs{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;margin:.9rem 0 .25rem;font-size:.86rem;color:var(--ink-2)}
+.defs div{display:block}
+.defs dt{display:inline;font-weight:500;color:var(--ink)}
+.defs dt::after{content:": "}
+.defs dd{display:inline;margin:0}
+
+.finding{background:var(--surface);border:1px solid var(--line);border-left-width:6px;margin:0 0 .6rem}
+.finding.conflict{border-left-color:var(--bar-conflict)}
+.finding.differs{border-left-color:var(--bar-differs)}
+.finding.gap{border-left:6px dashed var(--bar-gap)}
+.finding.outdated{border-left-color:var(--bar-outdated)}
+.finding.aligned{border-left-color:var(--bar-aligned)}
+.finding summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:6.4rem 1fr 1.25rem;gap:1rem;align-items:start;padding:1rem 1.1rem}
+.finding summary::-webkit-details-marker{display:none}
+.finding summary::after{content:"";width:.55rem;height:.55rem;margin-top:.45rem;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(45deg);transition:transform .15s}
+.finding details[open] summary::after{transform:rotate(-135deg);margin-top:.7rem}
+.finding summary .chip{justify-self:start;text-align:center;width:6rem;min-width:0;padding-left:0;padding-right:0}
+.ftitle{display:block;font-weight:500;font-size:1.06rem}
+.fsum{display:block;margin-top:.1rem;color:var(--ink-2);font-size:.95rem}
+.fbody{padding:0 1.1rem 1.25rem calc(1.1rem + 6.4rem + 1rem)}
+.fbody h4{margin:.1rem 0 .4rem;font:500 .88rem/1.3 var(--sans);color:var(--ink-2)}
+ul.says{list-style:none;margin:0;padding:0}
+.says li{display:grid;grid-template-columns:11rem 8.5rem 1fr;gap:.2rem 1rem;padding:.6rem 0;border-top:1px solid var(--line)}
+.says .doc{font-weight:500}
+.says .where{color:var(--ink-2);font-size:.9rem}
+.note{margin:.9rem 0 0;padding:.7rem .95rem;border-left:3px solid var(--sky);background:var(--hl)}
+.resolve{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 1.75rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line-2)}
+.resolve p{margin:0}
+
+.trailcard{background:var(--surface);border:1px solid var(--line);padding:1.1rem 1.25rem 1.25rem;margin:0 0 1rem}
+.th{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem}
+.th .chip{min-width:5.6rem;text-align:center}
+.tq{margin:0;font-size:1.35rem;line-height:1.25}
+.flow{--gap:1.7rem;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:0 var(--gap);margin-top:1.1rem}
+.stop{position:relative;background:var(--bg);border:1px solid var(--line-2);padding:.8rem .9rem .9rem}
+.stop.end{border-style:dashed}
+.stop .n{display:inline-grid;place-items:center;width:1.4rem;height:1.4rem;margin-right:.45rem;border-radius:50%;background:var(--ink);color:var(--surface);font:500 .78rem/1 var(--sans)}
+.stop .who{font-weight:500}
+.stop .says{display:block;margin-top:.4rem;color:var(--ink-2);font-size:.93rem}
+.stop+.stop::before{content:"";position:absolute;left:calc(-1 * var(--gap) + .15rem);top:1.35rem;width:calc(var(--gap) - .55rem);height:2px;background:var(--ink-2)}
+.stop+.stop::after{content:"";position:absolute;left:-.5rem;top:calc(1.35rem - 4px);border-left:7px solid var(--ink-2);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.loop{position:relative;height:1.9rem;margin:0 calc((100% - var(--gap)) / 4) 1.1rem;border:2px solid var(--ink-2);border-top:0;border-radius:0 0 12px 12px}
+.loop::before{content:"";position:absolute;left:-7px;top:-7px;border-bottom:8px solid var(--ink-2);border-left:5.5px solid transparent;border-right:5.5px solid transparent}
+.loop span{position:absolute;left:50%;bottom:-.72rem;transform:translateX(-50%);padding:0 .6rem;background:var(--surface);color:var(--ink-2);font-size:.84rem;white-space:nowrap}
+.trailcard h4{margin:.1rem 0 .4rem;font:500 .88rem/1.3 var(--sans);color:var(--ink-2)}
+.trailcard .note{margin-top:1rem}
+.trailcard .resolve{margin-top:1rem}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line-2)}
+.tabs .wrap{display:flex;gap:.15rem;overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:.9rem 1rem .75rem;font:500 .95rem/1.2 var(--sans);color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tab .ct{margin-left:.45rem;padding:.05rem .45rem;border-radius:999px;background:var(--line);color:var(--ink-2);font-size:.78rem}
+.tab[aria-selected="true"] .ct{background:var(--green);color:#13335A}
+.barrow{display:flex;justify-content:flex-end;margin:0 0 .5rem}
+.plain{margin:0;max-width:46rem;color:var(--ink-2)}
+.plain+.plain{text-indent:1.25em}
+.list{margin-top:1rem}
+.filterbar+.defs{margin-top:.9rem}
+
+.limits{margin-top:2rem;border-top:1px solid var(--line-2);padding-bottom:3rem}
+.limits p{margin:0;max-width:46rem;color:var(--ink-2)}
+.limits h2{margin-bottom:.6rem}
+.limits p+p{text-indent:1.25em}
+
+@media (max-width:760px){
+ .docs li{grid-template-columns:1fr}
+ .docs .d{text-align:left}
+ .finding summary{grid-template-columns:1fr 1.25rem}
+ .finding summary .chip{grid-column:1/-1}
+ .finding summary::after{grid-column:2;grid-row:2}
+ .fbody{padding:0 1.1rem 1.25rem}
+ .says li{grid-template-columns:1fr}
+ .says .where{margin-top:-.1rem}
+ .flow{grid-template-columns:1fr;gap:1.6rem 0}
+ .stop+.stop::before{left:1.1rem;top:-1.6rem;width:2px;height:1.1rem}
+ .stop+.stop::after{left:calc(1.1rem - 4px);top:-.55rem;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--ink-2);border-bottom:0}
+ .loop{grid-column:auto !important;height:auto;margin:-.6rem 0 0 !important;border:0;border-radius:0}
+ .loop::before{display:none}
+ .loop span{position:static;transform:none;padding:0;background:none;white-space:normal;display:block;color:var(--ink-2)}
+ .loop span::before{content:"\21A9  "}
+ .resolve{grid-template-columns:1fr}
+ .filterbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .chipbtn,.expand{flex:none}
+ .expand{margin-left:0}
+}
+@media (prefers-reduced-motion: reduce){.finding summary::after{transition:none}}
+@media print{
+ .panel[hidden]{display:block !important}
+ .tabs,.barrow{display:none}
+ html,body{background:#fff}
+ body{color:#000}
+ .top{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .filterbar,.defs{display:none}
+ .finding{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .finding summary::after{display:none}
+ .scroll{overflow:visible}
+}
+
+.q{margin:.6rem 0 .4rem;max-width:40rem;font:300 1.4rem/1.3 var(--serif);color:var(--ink)}
+.docgroup{margin:1.25rem 0 0;padding:1rem 1.15rem .35rem;background:var(--hl);border:1px solid var(--line-2);border-left:6px solid var(--sky)}
+.docgroup h3{margin:0 0 .15rem;font-size:1.3rem}
+.docgroup .hint{margin:0 0 .4rem;font-size:.9rem;color:var(--ink-2)}
+.docgroup .docs{border-bottom:0}
+h3.gh{margin:1.75rem 0 .5rem}
+
+.panel h2+.filterbar,.panel h2+.barrow{margin-top:1.1rem}
+
+.loop.future{border-style:dashed}
+.gpt{list-style:none;margin:1.1rem 0 0;padding:0;border-bottom:1px solid var(--line)}
+.gpt li{display:grid;grid-template-columns:10.5rem 8.5rem 12.5rem 1fr;gap:.3rem 1rem;padding:.85rem 0;border-top:1px solid var(--line);align-items:start}
+.gpt .doc{font-weight:500}
+.gpt .where{color:var(--ink-2);font-size:.9rem}
+.tag{display:inline-block;justify-self:start;padding:.15rem .7rem;border:1.5px solid var(--ink-2);border-radius:999px;background:var(--surface);color:var(--ink);font:500 .82rem/1.4 var(--sans)}
+@media (max-width:760px){.gpt li{grid-template-columns:1fr}.gpt .where{margin-top:-.15rem}}
+
+.resolve.one{grid-template-columns:1fr}
+.says .tag{display:block;width:fit-content;margin-bottom:.35rem}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="wrap">
+  <p class="eyebrow">AI policy alignment review</p>
+  <h1>Where our AI documents differ</h1>
+  <p class="lede">QMP v.3 has no AI section. These are the documents a new one must draw on, and where they disagree.</p>
+  <dl class="meta"><div><dt>Prepared by</dt><dd>Ellen Hartley</dd></div><div><dt>Date</dt><dd>October 5, 2026</dd></div><div><dt>Preparation</dt><dd>AI-assisted (Claude)</dd></div><div><dt>Status</dt><dd>Draft for discussion. Internal.</dd></div></dl>
+ </div>
+</header>
+<nav class="tabs" aria-label="Sections">
+ <div class="wrap" role="tablist">
+  <button type="button" role="tab" class="tab" id="tab-docs" aria-controls="panel-docs" aria-selected="true">Documents<span class="ct">10</span></button>
+  <button type="button" role="tab" class="tab" id="tab-map" aria-controls="panel-map" aria-selected="false" tabindex="-1">Who cites whom</button>
+  <button type="button" role="tab" class="tab" id="tab-trails" aria-controls="panel-trails" aria-selected="false" tabindex="-1">Reference trails<span class="ct">3</span></button>
+  <button type="button" role="tab" class="tab" id="tab-findings" aria-controls="panel-findings" aria-selected="false" tabindex="-1">Where it differs<span class="ct">14</span></button>
+  <button type="button" role="tab" class="tab" id="tab-agree" aria-controls="panel-agree" aria-selected="false" tabindex="-1">Where we agree<span class="ct">7</span></button>
+  <button type="button" role="tab" class="tab" id="tab-basis" aria-controls="panel-basis" aria-selected="false" tabindex="-1">What this is based on</button>
+ </div>
+</nav>
+<main class="wrap">
+
+<section class="panel" id="panel-docs" role="tabpanel" aria-labelledby="tab-docs" tabindex="0">
+ <h2>Ten documents, one question</h2>
+ <p class="q">What do I have to do when I use AI at Integral, and where is that written?</p>
+ <div class="docgroup">
+  <h3>QMP v.3</h3>
+  <p class="hint">Not the AI QM Policy below.</p>
+  <ul class="docs"><li><span class="k">QMP v.3</span><span class="n">Quality Management Plan, Version 3 (no AI content)</span><span class="d">June 2022</span></li></ul>
+ </div>
+ <h3 class="gh">Policies and plans</h3>
+ <ul class="docs"><li><span class="k">AUP</span><span class="n">Artificial Intelligence Acceptable Use Policy</span><span class="d">October 22, 2025</span></li><li><span class="k">AI QM Policy</span><span class="n">Quality Management Policy for Generative AI Use</span><span class="d">March 2026</span></li><li><span class="k">Non-lit disclosure</span><span class="n">Policy for Disclosure of Generative AI Use in Non-Litigation Projects</span><span class="d">March 2026</span></li><li><span class="k">Litigation disclosure</span><span class="n">Policy for Disclosure of Generative AI Use in Litigation Projects</span><span class="d">March 2026</span></li><li><span class="k">Retention policy</span><span class="n">Project Document Retention and Disposition Policy</span><span class="d">April 15, 2021</span></li><li><span class="k">Employee Handbook</span><span class="n">Employee Handbook (Sections 3, 4, 7.2 and 10.3.3)</span><span class="d">2026</span></li><li><span class="k">Reimbursement page</span><span class="n">AI Tool Reimbursement, as provided</span><span class="d">Updated July 17, 2026</span></li><li><span class="k">Strategic Plan</span><span class="n">2027–2029 Strategic Plan (pp. 2, 12–13)</span><span class="d">2027–2029</span></li><li><span class="k">NJ LSRP guidance</span><span class="n">Guidance on LSRP Use of Artificial Intelligence (NJ Site Remediation Professional Licensing Board)</span><span class="d">August 3, 2026</span></li></ul>
+</section>
+
+
+<section class="panel" id="panel-map" role="tabpanel" aria-labelledby="tab-map" tabindex="0" hidden>
+ <h2>Who cites whom</h2>
+ <p class="sub">Rows cite columns. QMP v.3 (June 2022) predates the AI policies and has no AI content.</p>
+ <div class="scroll" role="region" aria-label="Cross-reference table" tabindex="0"><table class="xref"><caption class="sr">Which documents cite which. Rows cite the columns.</caption><thead><tr><th scope="col">Document (cites →)</th><th scope="col">AUP</th><th scope="col" class="hl">AI QM Policy</th><th scope="col">Non-lit</th><th scope="col">Litigation</th><th scope="col">QMP v.3</th><th scope="col">Handbook</th><th scope="col" class="hl">Retention</th></tr></thead><tbody><tr><th scope="row">QMP v.3 (June 2022)</th><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td class="hl"><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td class="self"><span class="sr">Same document</span></td><td><span class="dot half" role="img" aria-label="Mentions generally or copies text"></span></td><td class="hl"><span class="dot full" role="img" aria-label="Cites by name"></span></td></tr><tr><th scope="row">AUP</th><td class="self"><span class="sr">Same document</span></td><td class="hl"><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="hl"><span class="sr">Does not cite</span></td></tr><tr><th scope="row">AI QM Policy</th><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="self"><span class="sr">Same document</span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="sr">Does not cite</span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="sr">Does not cite</span></td><td class="hl"><span class="sr">Does not cite</span></td></tr><tr><th scope="row">Non-lit disclosure</th><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="hl"><span class="sr">Does not cite</span></td><td class="self"><span class="sr">Same document</span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td><span class="sr">Does not cite</span></td><td><span class="sr">Does not cite</span></td><td class="hl"><span class="sr">Does not cite</span></td></tr><tr><th scope="row">Litigation disclosure</th><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="hl"><span class="sr">Does not cite</span></td><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="self"><span class="sr">Same document</span></td><td><span class="sr">Does not cite</span></td><td><span class="sr">Does not cite</span></td><td class="hl"><span class="sr">Does not cite</span></td></tr><tr><th scope="row">Employee Handbook (§4, §10.3.3)</th><td><span class="dot full" role="img" aria-label="Cites by name"></span></td><td class="hl"><span class="sr">Does not cite</span></td><td><span class="sr">Does not cite</span></td><td><span class="sr">Does not cite</span></td><td><span class="dot half" role="img" aria-label="Mentions generally or copies text"></span></td><td class="self"><span class="sr">Same document</span></td><td class="hl"><span class="dot full" role="img" aria-label="Cites by name"></span></td></tr><tr><th scope="row">Retention policy (2021)</th><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td class="hl"><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td><span class="older" aria-hidden="true">–</span><span class="sr">Predates this document, so cannot cite it</span></td><td class="self"><span class="sr">Same document</span></td></tr></tbody></table></div>
+ <p class="legend"><span><span class="dot full" aria-hidden="true"></span>Cites by name</span> <span><span class="dot half" aria-hidden="true"></span>Mentions generally or copies text</span> <span><span class="older" aria-hidden="true">–</span> Predates the document, so cannot cite it</span> <span>Blank: does not cite</span></p>
+</section>
+
+<section class="panel" id="panel-trails" role="tabpanel" aria-labelledby="tab-trails" tabindex="0" hidden>
+ <h2>Three questions the references do not fully answer</h2>
+ <article class="trailcard" id="trail-protected"><header class="th"><span class="chip dead">Dead end</span><h3 class="tq">What makes a tool “protected”?</h3></header><div class="flow" style="--n:3"><div class="stop"><span class="n">1</span><span class="who">Employee Handbook, §10.3.3, p. 60</span><span class="says">Staff may not use generative AI that does not comply with the AUP.</span></div><div class="stop"><span class="n">2</span><span class="who">AUP, p. 2</span><span class="says">Describes protected and non-protected tools by example only. No criteria are given.</span></div><div class="stop end"><span class="n">3</span><span class="who">No definition reached</span><span class="says">A reader cannot tell whether a particular tool is protected.</span></div></div><p class="note">The definition is in footnote 1 of the AI QM Policy, which points back to the AUP.</p><div class="resolve"><div><h4>Result</h4><p>Ends at examples. No document points to the criteria.</p></div><div><h4>Fix at the source</h4><p>Put the definition in the AUP and list designated tools.</p></div></div></article><article class="trailcard" id="trail-documentation"><header class="th"><span class="chip dead">General rules only</span><h3 class="tq">What does QMP v.3 require for AI-assisted work?</h3></header><div class="flow" style="--n:3"><div class="stop"><span class="n">1</span><span class="who">AUP, p. 2</span><span class="says">AI output must be verified consistent with the QMP.</span></div><div class="stop"><span class="n">2</span><span class="who">AI QM Policy, p. 3</span><span class="says">Non-material records must be sufficient for QA/QC review and audit, consistent with the QMP.</span></div><div class="stop end"><span class="n">3</span><span class="who">QMP v.3, §3.6 and §6</span><span class="says">QA reviews must be adequately documented, review records kept in the project file, and record procedures set in the project work plan. AI is not mentioned.</span></div></div><p class="note">The retention policy (2021) does not mention AI either.</p><div class="resolve"><div><h4>Result</h4><p>The general rules apply to AI work by implication. Nothing says what is adequate for AI records.</p></div><div><h4>Fix at the source</h4><p>QMP: one sentence that its review and records rules apply to AI work. AI QM Policy: what is adequate for non-material use.</p></div></div></article><article class="trailcard" id="trail-litigation"><header class="th"><span class="chip cyc">Loop</span><h3 class="tq">Which disclosure policy governs a non-testifying expert on a litigation project?</h3></header><div class="flow" style="--n:2"><div class="stop"><span class="n">1</span><span class="who">Non-lit disclosure, p. 1</span><span class="says">Litigation projects must follow the separate litigation policy.</span></div><div class="stop"><span class="n">2</span><span class="who">Litigation disclosure, p. 1</span><span class="says">For an exclusively non-testifying expert, the non-litigation policy remains in effect.</span></div><div class="loop" style="grid-column:1 / span 2;margin:0 calc((100% - 1 * var(--gap)) / 4) 1.1rem"><span>Points back to step 1</span></div></div><p class="note">The litigation policy adds some voluntary-disclosure guidance for this role.</p><div class="resolve"><div><h4>Result</h4><p>Each sends the reader to the other. Neither says which governs.</p></div><div><h4>Fix at the source</h4><p>Add one sentence to both stating which governs.</p></div></div></article>
+</section>
+
+<section class="panel" id="panel-findings" role="tabpanel" aria-labelledby="tab-findings" tabindex="0" hidden>
+ <h2>Fourteen topics</h2>
+ <div class="filterbar" role="group" aria-label="Filter by status">
+  <button type="button" class="chipbtn" data-filter="all" aria-pressed="true">All <b></b></button>
+  <button type="button" class="chipbtn conflict" data-filter="conflict" aria-pressed="false">Conflict <b></b></button>
+  <button type="button" class="chipbtn differs" data-filter="differs" aria-pressed="false">Differs <b></b></button>
+  <button type="button" class="chipbtn gap" data-filter="gap" aria-pressed="false">Gap <b></b></button>
+  <button type="button" class="chipbtn outdated" data-filter="outdated" aria-pressed="false">Outdated <b></b></button>
+  <button type="button" class="expand">Expand all</button>
+ </div>
+ <dl class="defs">
+  <div><dt>Conflict</dt><dd>cannot both be followed</dd></div>
+  <div><dt>Differs</dt><dd>same topic, different wording</dd></div>
+  <div><dt>Gap</dt><dd>not covered or defined</dd></div>
+  <div><dt>Outdated</dt><dd>needs refreshing</dd></div>
+ </dl>
+ <div class="list">
+  <article class="finding conflict" id="protected" data-status="conflict"><details open><summary><span class="chip conflict">Conflict</span><span class="head"><span class="ftitle">Is ChatGPT a protected tool?</span><span class="fsum">Six documents, no single answer.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Employee Handbook</span><span class="where">§10.3.3, p. 60</span><span class="txt"><span class="tag">Named as a risk</span>Names ChatGPT and Microsoft Copilot, the recommended tool, as sources of confidentiality risk. Staff may not use generative AI that does not comply with the AUP.</span></li><li><span class="doc">AUP</span><span class="where">p. 2</span><span class="txt"><span class="tag">Depends on settings</span>ChatGPT with data controls is protected. ChatGPT with limited or no data controls is non-protected. Examples only, no criteria.</span></li><li><span class="doc">AUP</span><span class="where">p. 5</span><span class="txt"><span class="tag">Settings may not count</span>Treat information in non-protected tools as public, regardless of the setting selected.</span></li><li><span class="doc">AI QM Policy</span><span class="where">footnote 1, p. 1</span><span class="txt"><span class="tag">Depends on controls</span>Repeats the two examples. Protected means data controls and privacy safeguards, a definition it attributes to the AUP.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 2</span><span class="txt"><span class="tag">Reimbursable after approval</span>Names ChatGPT as a tool staff can be reimbursed for after AI Council pre-approval. Does not say whether it is protected.</span></li><li><span class="doc">Disclosure policies</span><span class="where">Exhibit 2 (non-lit p. 8, litigation p. 7)</span><span class="txt"><span class="tag">Used on client work</span>Sample disclosure statements name ChatGPT-4.5 and GPT-4o as tools used on reports and client communications.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>Put the definition in the AUP, list designated protected tools, say whether consumer subscriptions qualify, and reconcile the setting line.</p></div></div></div></details></article><article class="finding conflict" id="ask" data-status="conflict"><details><summary><span class="chip conflict">Conflict</span><span class="head"><span class="ftitle">Who do I ask about an AI tool?</span><span class="fsum">Contacts differ across five documents.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 3</span><span class="txt">Questions about protected or non-protected tools go to the director of strategic initiatives and innovation and the director of information technology.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§10.3.3, p. 60</span><span class="txt">Questions about the generative AI rule go to the Director of IT.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 2</span><span class="txt">Questions about additional tools go to your Sponsor or the AI Council. The page also refers to an AI Committee.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">If a client requests a different AI tool, staff need prior approval from the director of strategic initiatives and innovation and the director of contracts and risk services.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">p. 1</span><span class="txt">Disclosure questions go to the principal-in-charge, who consults the same two directors if uncertain.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI Council: confirm one contact for tool and data questions and one for contract and disclosure questions. Align the Handbook and reimbursement page.</p></div></div></div></details></article><article class="finding differs" id="approval" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">How does an AI tool get approved?</span><span class="fsum">Five routes, and none says how protected status is checked.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Reimbursement page</span><span class="where">Tier 1</span><span class="txt">Copilot is the company-supported starting point. The page points to setup instructions and describes no approval step.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 2</span><span class="txt"><span class="tag">AI Council reviews</span>Other tools, such as ChatGPT or Claude Pro, need a one-time pre-approval form with a business case, reviewed by the AI Council. Reimbursement is up to $25 a month. Staff must follow the AUP and are strongly encouraged to use two-factor authentication and an Integral email address.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 3</span><span class="txt">Automation and development needs go to IT and the AI Committee.</span></li><li><span class="doc">Strategic Plan</span><span class="where">p. 13</span><span class="txt">Describes an enterprise AI subscription reimbursement program for staff adopting AI tools for client-facing work and internal operations.</span></li><li><span class="doc">AUP</span><span class="where">p. 3</span><span class="txt">Questions about protected or non-protected tools go to the director of strategic initiatives and innovation and the director of information technology.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">If a client requests a different AI tool, staff need prior approval from the director of strategic initiatives and innovation and the director of contracts and risk services.</span></li><li><span class="doc">QMP v.3</span><span class="where">§7.2</span><span class="txt">Nonstandard software needs a written business justification approved by the PIC or project manager and by the operations director or vice president of operations. IT verifies the need for high-risk or high-cost items. AI is not mentioned.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI Council and IT: state one approval route for AI tools, say how protected status is checked before a tool is reimbursed, and align the QMP software justification (7.2) with it.</p></div></div></div></details></article><article class="finding differs" id="material" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">What counts as material AI use?</span><span class="fsum">Same test, different outcomes.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Non-lit disclosure</span><span class="where">p. 4, Exhibit 1</span><span class="txt">Material means the AI output substantively shapes conclusions, recommendations or opinions. Voluntary disclosure may be considered.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 1, Exhibit 1</span><span class="txt">Same test, applied to expert opinions. Disclosure to the client is recommended or required, and an added question asks whether AI is a key step in the expert’s reasoning.</span></li><li><span class="doc">AI QM Policy</span><span class="where">pp. 2–3</span><span class="txt">Uses materiality to set the level of documentation but points only to the non-litigation policy for its meaning.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>Have the AI QM Policy cite both disclosure policies.</p></div></div></div></details></article><article class="finding differs" id="document" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">What must be documented, and where does it go?</span><span class="fsum">Same five items, different strength, and a different rule for litigation.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 2</span><span class="txt">Says AI output must be verified consistent with QMP v.3.</span></li><li><span class="doc">AI QM Policy</span><span class="where">p. 3</span><span class="txt">For material use, staff should keep prompts, outputs, review steps, modifications and the rationale. For non-material use, records must be sufficient for QA/QC review and audit, consistent with QMP v.3.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">Staff must keep contemporaneous records of the same five items, mark and segregate them as privileged, and limit internal distribution. The records may be discoverable.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">p. 5</span><span class="txt">Suggests considering a record of why AI use was or was not disclosed.</span></li><li><span class="doc">QMP v.3</span><span class="where">§3.6, §6</span><span class="txt">Has no AI section. Its general rules cover documented QA review and project records, but say nothing on AI records.</span></li><li><span class="doc">Retention policy</span><span class="where">pp. 1–2, 8</span><span class="txt">Written in April 2021. Covers project documents in general but does not mention AI prompts, outputs or verification notes.</span></li></ul><p class="note">Both policies defer to QMP v.3. Its general QA and records rules apply, but neither it nor the retention policy mentions AI records.</p><div class="resolve one"><div><h4>Suggested next step</h4><p>Say where AI records are kept and which rule applies on litigation projects. Update the 2021 retention policy to mention AI.</p></div></div></div></details></article><article class="finding gap" id="nonmaterial" data-status="gap"><details><summary><span class="chip gap">Gap</span><span class="head"><span class="ftitle">What is enough documentation for non-material AI use?</span><span class="fsum">The policy defers to the QMP, and the QMP has no AI-specific standard.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AI QM Policy</span><span class="where">p. 3</span><span class="txt">For non-material use, keep documentation in sufficient detail for internal QA/QC review and external audit, consistent with the QMP.</span></li><li><span class="doc">AUP</span><span class="where">p. 2</span><span class="txt">Says AI output must be verified consistent with the QMP.</span></li><li><span class="doc">QMP v.3</span><span class="where">§2, §3.6, §6</span><span class="txt">General rules: QA reviews must be adequately documented and review records kept in the project file. AI is not mentioned.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">Exhibit 1, p. 5</span><span class="txt">Recommends internal tracking of non-material AI use, to comply with court rules. Litigation only.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">p. 5</span><span class="txt">Suggests considering a record of why AI use was or was not disclosed. Says nothing on records of non-material use.</span></li><li><span class="doc">Retention policy</span><span class="where">all</span><span class="txt">Written in 2021. Does not mention AI.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI QM Policy owner: state what is sufficient for non-material use, such as what to record and for how long. The QMP can stay high level.</p></div></div></div></details></article><article class="finding gap" id="outside" data-status="gap"><details><summary><span class="chip gap">Gap</span><span class="head"><span class="ftitle">Who tracks outside AI rules, and what wins?</span><span class="fsum">Our policies say follow outside rules, but name no tracker or tie-break.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 3</span><span class="txt">Says to follow legal and contractual obligations. Does not mention licensing boards or who tracks new guidance.</span></li><li><span class="doc">AI QM Policy</span><span class="where">all</span><span class="txt">Does not mention outside requirements.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">pp. 1–4</span><span class="txt">As of March 2026, no law, regulation or guidance required disclosure. Staff are to stay informed about client-specific laws, a list that does not include licensing boards. Voluntary disclosure needs written PIC approval, and minor use usually is not disclosed.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 3</span><span class="txt">Testifying experts review local court rules before submitting AI-generated work.</span></li><li><span class="doc">NJ LSRP guidance</span><span class="where">pp. 1–2</span><span class="txt"><span class="tag">Recommends disclosure</span>Applies existing board rules to AI: independent judgment, documented decision-making, verification of AI results, certification only after a good-faith effort. Recommends that LSRPs always disclose in writing when AI contributed to their documents.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>Contracts and risk group: keep a dated list of outside AI rules (licensing boards, agencies, courts) and say who decides when one is stricter than ours. Confirm how LSRPs should handle the board's disclosure recommendation.</p></div></div></div></details></article><article class="finding differs" id="keep" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">Do AI prompts and outputs have to be kept?</span><span class="fsum">AI policies say keep. The retention policy says drafts are normally not kept.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AI QM Policy</span><span class="where">p. 3</span><span class="txt">For material use, staff should keep prompts, AI-generated outputs, review steps, modifications and the rationale for using AI.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">Staff must preserve versions of documents that show when and how AI tools were used.</span></li><li><span class="doc">Retention policy</span><span class="where">Attachment B, p. 8</span><span class="txt">Draft and interim versions are replaced by later versions and are not retained unless they are the final work product or a necessary basis for it, unless a written agreement requires otherwise.</span></li><li><span class="doc">Retention policy</span><span class="where">pp. 2–4</span><span class="txt">A legal hold overrides any destruction schedule. Work products that may become the focus of litigation are preserved indefinitely, with an annual review. Otherwise the basic legal period is generally three years after completion, or longer if the contract says so.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>State that AI documentation counts as a necessary basis for final work products, and update the retention policy to mention AI records.</p></div></div></div></details></article><article class="finding differs" id="where" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">Where do project records live?</span><span class="fsum">Drives, servers, or SharePoint?</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Retention policy</span><span class="where">Attachment B, pp. 6–8</span><span class="txt">Active digital project documents go on the L: drive and, after completion or an approved period of dormancy, are moved to the N: drive archive.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§4, pp. 14–15</span><span class="txt">Company documents must be stored on internal company drives in folders set up under the Mapped Drives policy.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§10.3.3, p. 60</span><span class="txt">Sensitive company data must be kept on approved storage systems, with SharePoint, OneDrive and Letter Drives given as examples.</span></li><li><span class="doc">QMP v.3</span><span class="where">§6.2</span><span class="txt">Permanent electronic records must be stored on Integral’s servers.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>IT: confirm current practice, then update the retention policy.</p></div></div></div></details></article><article class="finding differs" id="names" data-status="differs"><details><summary><span class="chip differs">Differs</span><span class="head"><span class="ftitle">Names and titles</span><span class="fsum">Same program, committee or role, different names.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AI QM Policy</span><span class="where">pp. 1, 3</span><span class="txt">Refers to the Quality Management Program in the opening and the Quality Management Plan at the end.</span></li><li><span class="doc">AUP</span><span class="where">p. 2</span><span class="txt">Quality Management Plan, linked to a Hive address that ends in “program.”</span></li><li><span class="doc">Employee Handbook</span><span class="where">§4, p. 14</span><span class="txt">Quality Management Program.</span></li><li><span class="doc">QMP v.3</span><span class="where">§6.3</span><span class="txt">Refers to the Integral Employee Manual. The current document is the Employee Handbook.</span></li><li><span class="doc">AUP, retention policy, disclosure policies, QMP v.3</span><span class="where">various</span><span class="txt">Director of contracts and risk services.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§4, p. 15; §7.2</span><span class="txt">Director of Contracts and Legal Services.</span></li><li><span class="doc">Retention policy</span><span class="where">pp. 1, 2–13</span><span class="txt">Titled “Disposition” on the first page but “Destruction” in the running headers and Attachment C.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 2</span><span class="txt">Uses both AI Council and AI Committee. The AUP and Strategic Plan say AI Council.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>Fix at the source: HR (Handbook), AI Council (its name), policy owner (retention title). Confirm the contracts title.</p></div></div></div></details></article><article class="finding gap" id="scope" data-status="gap"><details><summary><span class="chip gap">Gap</span><span class="head"><span class="ftitle">What does the AI guidance cover?</span><span class="fsum">Internally built tools are not addressed.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 1</span><span class="txt">Focuses on commercially available generative AI tools.</span></li><li><span class="doc">AI QM Policy</span><span class="where">p. 1</span><span class="txt">Applies to generative AI in external and internal work, with protected and non-protected tools.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">Exhibit 1</span><span class="txt">Treats traditional machine learning, such as regression, as non-material and says to describe it like other scientific methods.</span></li><li><span class="doc">Strategic Plan</span><span class="where">pp. 2, 13</span><span class="txt">Plans to deploy AI across operations and client work and funds internal tools through R&amp;D.</span></li><li><span class="doc">QMP v.3</span><span class="where">§7</span><span class="txt">Covers purchased hardware and software evaluated by IT. Internally developed tools are not addressed.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI Council and IT: decide how internally built tools are verified.</p></div></div></div></details></article><article class="finding gap" id="training" data-status="gap"><details><summary><span class="chip gap">Gap</span><span class="head"><span class="ftitle">Who trains staff on AI, and on what?</span><span class="fsum">Mentioned in several places, defined in none.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 5</span><span class="txt">Says Integral will continue to implement training programs. No content, audience or timing.</span></li><li><span class="doc">Strategic Plan</span><span class="where">p. 13</span><span class="txt">Describes staff training through internal workshops.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§4, p. 14</span><span class="txt">The corporate QAO regularly conducts QMP training for all employees. AI is not mentioned.</span></li><li><span class="doc">QMP v.3</span><span class="where">§4.2.2</span><span class="txt">Orients new staff to the QMP within the first few months, documented on an acknowledgement form. AI is not mentioned.</span></li><li><span class="doc">NJ LSRP guidance</span><span class="where">p. 2</span><span class="txt">Says to limit AI use to areas of professional competence, supported by appropriate training.</span></li><li><span class="doc">AI QM Policy</span><span class="where">all</span><span class="txt">Silent on training.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI Council and QAO: agree who owns AI training and how completion is recorded.</p></div></div></div></details></article><article class="finding gap" id="nist" data-status="gap"><details><summary><span class="chip gap">Gap</span><span class="head"><span class="ftitle">Is the NIST framework reflected anywhere?</span><span class="fsum">Adopted per the Strategic Plan, cited nowhere else.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Strategic Plan</span><span class="where">p. 13</span><span class="txt">States that Integral has adopted the NIST AI Risk Management Framework to guide AI governance.</span></li><li><span class="doc">AUP, AI QM Policy, both disclosure policies</span><span class="where">all</span><span class="txt">None mention the framework.</span></li><li><span class="doc">Employee Handbook</span><span class="where">all</span><span class="txt">Does not mention the framework.</span></li><li><span class="doc">QMP v.3</span><span class="where">all</span><span class="txt">No AI content.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>AI Council: map the framework to the AUP and AI QM Policy.</p></div></div></div></details></article><article class="finding outdated" id="currency" data-status="outdated"><details><summary><span class="chip outdated">Outdated</span><span class="head"><span class="ftitle">Is the regulatory list current?</span><span class="fsum">A Colorado law named in the policy has been replaced.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Non-lit disclosure</span><span class="where">p. 3</span><span class="txt">Lists the Colorado Artificial Intelligence Act among laws that may apply to clients.</span></li><li><span class="doc">Public legal alerts</span><span class="where">May–July 2026</span><span class="txt">Colorado repealed and replaced that Act with SB 26-189, signed May 14, 2026 and scheduled to take effect January 1, 2027. It governs automated decision-making technology instead of high-risk AI systems. See <a href="https://www.dwt.com/blogs/privacy--security-law-blog/2026/05/colorado-ai-act-repeal-new-transparency-law" target="_blank" rel="noopener">Davis Wright Tremaine</a> and <a href="https://www.eckertseamans.com/legal-updates/colorado-repeals-and-replaces-its-landmark-ai-statute-what-businesses-need-to-know" target="_blank" rel="noopener">Eckert Seamans</a>.</span></li><li><span class="doc">Both disclosure policies</span><span class="where">Exhibit 2</span><span class="txt">Sample disclosure text names specific model versions, such as ChatGPT-4.5 and GPT-4o, which will date quickly.</span></li></ul><div class="resolve one"><div><h4>Suggested next step</h4><p>Refresh the legal list and use generic model names in samples. Confirm the Colorado change with the contracts and risk group.</p></div></div></div></details></article>
+ </div>
+</section>
+
+<section class="panel" id="panel-agree" role="tabpanel" aria-labelledby="tab-agree" tabindex="0" hidden>
+ <h2>Seven points of agreement</h2>
+ <div class="barrow"><button type="button" class="expand">Expand all</button></div>
+ <div class="list">
+  <article class="finding aligned" id="a-verify" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">People verify AI output and stay accountable</span><span class="fsum">Both main policies say so.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">pp. 2, 5</span><span class="txt">Users must evaluate and verify results, keep human oversight, and are responsible for how output enters work products.</span></li><li><span class="doc">AI QM Policy</span><span class="where">pp. 1–2</span><span class="txt">Sets out QA/QC approaches for reviewing AI-supported work.</span></li><li><span class="doc">NJ LSRP guidance</span><span class="where">pp. 1–2</span><span class="txt">LSRPs must verify AI results and keep independent professional judgment.</span></li></ul></div></details></article><article class="finding aligned" id="a-conf" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">Confidential information stays out of non-protected tools</span><span class="fsum">The rule is consistent wherever it appears.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">pp. 3, 5</span><span class="txt">Do not upload confidential information into non-protected tools.</span></li><li><span class="doc">Employee Handbook</span><span class="where">§3; §10.3.3</span><span class="txt">Confidential information is protected, and generative AI must comply with the AUP.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">AI tools must meet Integral’s confidentiality and data-security requirements.</span></li><li><span class="doc">NJ LSRP guidance</span><span class="where">p. 2</span><span class="txt">Protect confidential, proprietary and client information when using AI tools.</span></li></ul></div></details></article><article class="finding aligned" id="a-aup" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">The AUP is the baseline for AI use</span><span class="fsum">Four documents point staff to it.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Employee Handbook</span><span class="where">§10.3.3, p. 60</span><span class="txt">Staff may not use generative AI that does not comply with the AUP.</span></li><li><span class="doc">Reimbursement page</span><span class="where">Tier 2</span><span class="txt">Reimbursed tools must follow the AUP for data handling, confidentiality and compliance.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">p. 1</span><span class="txt">Staff are expected to follow the AUP if generative AI is used during project work.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">AI tools must comply with confidentiality and data-security requirements, citing the AUP.</span></li></ul></div></details></article><article class="finding aligned" id="a-contracts" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">Contracts and client direction come first</span><span class="fsum">Contract terms override convenience.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AUP</span><span class="where">p. 3</span><span class="txt">Follow legal and contractual obligations.</span></li><li><span class="doc">Non-lit disclosure</span><span class="where">p. 3</span><span class="txt">Honor contract prohibitions and obtain written client approval where the contract requires it.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 2</span><span class="txt">Review contracts at initiation and document the findings.</span></li><li><span class="doc">Retention policy</span><span class="where">pp. 1–2</span><span class="txt">Contract terms govern retention and disposition. The default guidelines apply only if the contract is silent.</span></li></ul></div></details></article><article class="finding aligned" id="a-pic" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">Written PIC approval before disclosing to a client</span><span class="fsum">Both disclosure policies agree on who approves.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Non-lit disclosure</span><span class="where">p. 1</span><span class="txt">The PIC must give written approval before staff disclose AI use to clients.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 1</span><span class="txt">No disclosure without explicit prior written permission from the PIC.</span></li></ul></div></details></article><article class="finding aligned" id="a-sources" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">Check that cited sources exist</span><span class="fsum">Fabricated content is named as a risk in three documents.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">AI QM Policy</span><span class="where">p. 2</span><span class="txt">Confirm that referenced sources exist and are represented accurately.</span></li><li><span class="doc">AUP</span><span class="where">p. 2</span><span class="txt">Warns about fabricated answers.</span></li><li><span class="doc">NJ LSRP guidance</span><span class="where">p. 2</span><span class="txt">Verify AI outputs to avoid hallucinations and outdated information.</span></li></ul></div></details></article><article class="finding aligned" id="a-material" data-status="aligned"><details><summary><span class="chip aligned">Aligned</span><span class="head"><span class="ftitle">Wording of the materiality test</span><span class="fsum">The definition matches across three documents. See “What counts as material AI use?” for how outcomes differ.</span></span></summary><div class="fbody"><h4>What each document says</h4><ul class="says"><li><span class="doc">Non-lit disclosure</span><span class="where">p. 4</span><span class="txt">Material when AI output substantively shapes conclusions, recommendations or opinions.</span></li><li><span class="doc">Litigation disclosure</span><span class="where">p. 1</span><span class="txt">Same wording, extended to expert opinions.</span></li><li><span class="doc">AI QM Policy</span><span class="where">pp. 2–3</span><span class="txt">Same wording, used to set documentation level.</span></li></ul></div></details></article>
+ </div>
+</section>
+
+<section class="panel" id="panel-basis" role="tabpanel" aria-labelledby="tab-basis" tabindex="0" hidden>
+ <h2>What this is based on</h2>
+ <p class="plain">Prepared with AI assistance (Claude) from the documents listed. Draft changes to the QMP are not included. The Hive pages were not reviewed, the reimbursement page is from the text provided, and the Colorado update comes from published legal alerts.</p>
+ <p class="plain">Verify against the current Hive versions before presenting. Internal: share only with the review group.</p>
+</section>
+</main>
+<noscript><style>.panel[hidden]{display:block !important}.tabs{display:none}</style></noscript>
+<script>(function(){
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  var panels=[].slice.call(document.querySelectorAll('[role=tabpanel]'));
+  var bar=document.querySelector('.tabs');
+  var current='panel-docs';
+  function setH(){document.documentElement.style.setProperty('--tabs-h',bar.offsetHeight+'px')}
+  setH();window.addEventListener('resize',setH);
+  function show(id,push){
+    current=id;
+    tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&t.scrollIntoView){try{t.scrollIntoView({block:'nearest',inline:'nearest'})}catch(e){}}});
+    panels.forEach(function(p){p.hidden=(p.id!==id)});
+    if(push){try{history.replaceState(null,'','#'+id.replace('panel-',''))}catch(e){}}
+    var top=bar.getBoundingClientRect().top+window.pageYOffset;
+    if(window.pageYOffset>top){window.scrollTo(0,top)}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true)});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight')n=(i+1)%tabs.length;
+      else if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;
+      else if(e.key==='Home')n=0;
+      else if(e.key==='End')n=tabs.length-1;
+      if(n!==null){e.preventDefault();tabs[n].focus();show(tabs[n].getAttribute('aria-controls'),true)}
+    });
+  });
+  /* per-panel list behaviour: filters and expand all */
+  panels.forEach(function(p){
+    var items=[].slice.call(p.querySelectorAll('.finding'));
+    if(!items.length)return;
+    var chips=[].slice.call(p.querySelectorAll('.chipbtn'));
+    var exp=p.querySelector('.expand');
+    function vis(){return items.filter(function(i){return !i.hidden})}
+    function label(){
+      if(!exp)return;
+      var all=vis().length&&vis().every(function(i){return i.querySelector('details').open});
+      exp.textContent=all?'Collapse all':'Expand all';
+    }
+    chips.forEach(function(c){
+      var f=c.getAttribute('data-filter');
+      var n=f==='all'?items.length:items.filter(function(i){return i.getAttribute('data-status')===f}).length;
+      c.querySelector('b').textContent=n;
+      c.addEventListener('click',function(){
+        items.forEach(function(i){i.hidden=!(f==='all'||i.getAttribute('data-status')===f)});
+        chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===c))});
+        label();
+      });
+    });
+    if(exp){exp.addEventListener('click',function(){
+      var all=vis().every(function(i){return i.querySelector('details').open});
+      vis().forEach(function(i){i.querySelector('details').open=!all});label();
+    })}
+    items.forEach(function(i){i.querySelector('details').addEventListener('toggle',label)});
+  });
+  window.addEventListener('beforeprint',function(){
+    panels.forEach(function(p){p.hidden=false});
+    [].slice.call(document.querySelectorAll('.finding')).forEach(function(i){i.hidden=false;i.querySelector('details').open=true});
+  });
+  window.addEventListener('afterprint',function(){show(current,false)});
+  /* deep links: #findings, #agree, or the id of a single row or trail */
+  var h=location.hash.replace('#','');
+  if(h){
+    var tabId='panel-'+h;
+    if(document.getElementById(tabId)){show(tabId,false)}
+    else{
+      var el=document.getElementById(h);
+      if(el){
+        var pn=el.closest('[role=tabpanel]');
+        if(pn){show(pn.id,false)}
+        var d=el.querySelector('details');if(d){d.open=true}
+        el.scrollIntoView();
+      }
+    }
+  }
+})();
+</script>
+</body>
+</html>
